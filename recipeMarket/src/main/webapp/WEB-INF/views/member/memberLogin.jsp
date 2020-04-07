@@ -23,10 +23,6 @@
     .forgot{color: #263238; padding-top: 20px;}    
     a{color: #263238; text-decoration: none;}
     
-/*     @media (max-width: 600px) {
-        .main {
-            border-radius: 0px;
-        } */
 </style>
 </head>
 <body>
@@ -35,10 +31,10 @@
 		<div class="cotainer">
 			  <div class="content">
 			    <p class="title" align="center">로그인</p>
-				<form action="<%= request.getContextPath() %>/content.au" method="post" id="content" name="usercontent">
-					<input class="id" type="text" placeholder="아이디">
-					<input class="pwd" type="password" placeholder="비밀번호">
-					<a href="#" id="submit">로그인</a>
+				<form action="login.me" method="post" id="content" name="usercontent">
+					<input class="id" type="text" name="id" placeholder="아이디">
+					<input class="pwd" type="password" name="pwd" placeholder="비밀번호">
+					<a href="login.me" id="submit">로그인</a>
 					<p class="forgot" align="center"><a href="#">아이디 찾기</a>&nbsp;&nbsp;<a href="#">비밀번호 찾기</a></p>		      
 			      </form>                    
     			</div>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper>
+  <cache-ref namespace="memberMapper"></cache-ref>
+  	<select id="selectOne" parameterType="Member" resultMap="memberRS">
+		select * 
+		from member
+		where id = #{id}
+			  and pwd = #{pwd}	
+			  and deleted = 'N'			  
+	</select>
+
+	<resultMap type="Member" id="memberRS">
+		<id property = "id" column="ID"/>
+		<result property = "memberNo" column="MEMBER_NO"/>		
+		<result property = "pwd" column ="PWD"/>
+		<result property = "name" column ="NAME"/>
+		<result property = "nickName" column ="NICKNAME"/>		
+		<result property = "email" column ="EMAIL"/>
+		<result property = "gender" column ="GENDER"/>
+		<result property = "age" column ="AGE"/>
+		<result property = "phone" column ="PHONE"/>
+		<result property = "zip" column ="ZIP"/>		
+		<result property = "address" column ="ADDRESS"/>
+		<result property = "address2" column ="ADDRESS2"/>		
+		<result property = "grade" column ="GRADE"/>
+		<result property = "deleted" column ="DELETED"/>
+	</resultMap>	
+	
+</mapper>
