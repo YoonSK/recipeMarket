@@ -68,7 +68,7 @@
 
 	<div class="menubar">
 		<div class="nav">
-			<div class="menu"><a href="home.do">HOME</a></div>
+			<div class="menu"><a href="home">HOME</a></div>
 			<div class="menu"><a href="${ nlist }">공지사항</a></div>
 			<div class="menu" id="board"><a href="${ blist }">게시판</a></div>
 			<div class="menu">etc</div>

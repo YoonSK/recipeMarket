@@ -1,5 +1,11 @@
 package com.kh.recipeMarket.member.model.service;
 
-public class MemberService {
+import com.kh.recipeMarket.member.model.vo.Member;
+
+public interface MemberService {
+
+	Member memberLogin(Member m);
+
+
 
 }
