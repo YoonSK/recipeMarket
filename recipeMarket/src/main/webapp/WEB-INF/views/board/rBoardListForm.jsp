@@ -28,7 +28,7 @@
 </style>
 </head>
 <body>
-   <%@ include file="header.jsp" %>
+   <%@ include file="../common/header.jsp" %>
    <form>
       <div class="AllArea" style="background: lightgray;height: 1000px;">
          <div class="title"  style="background: white;">
