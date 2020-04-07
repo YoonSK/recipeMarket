@@ -170,6 +170,7 @@ $(document).ready(function(){
 		  slidesToScroll: 5
 		}); 
 	
+	
 /* 	var apiURI = "http://api.openweathermap.org/data/2.5/weather?q="+seoul+"&appid="+"ae4959dc548a8eabf9e9a03f8ff2866e";
     $.ajax({
         url: apiURI,
