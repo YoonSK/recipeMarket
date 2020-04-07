@@ -27,7 +27,7 @@
 </style>
 </head>
 <body>
-	<%@ include file="header.jsp" %>
+	<%@ include file="../common/header.jsp" %>
 	<form>
 		<div class="wrapper">
 			<br>
