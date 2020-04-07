@@ -42,7 +42,7 @@
 		<div class="nav_top">
 		<form id="topSearch">
 			<h1>
-				<a href="#"><img src="../images/logo.png" width="150" style="position: absolute; left: 1%;"></a>
+				<a href="#"><img src="resources/images/logo.png" width="150" style="position: absolute; left: 1%;"></a>
 			</h1>
 			<input type="search" placeholder="검색" id="search_con">
 			<ul class="nav_mem">
