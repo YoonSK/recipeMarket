@@ -32,7 +32,8 @@
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <!-- Add the slick-theme.css if you want default styling -->
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<%-- <script type="text/javascript" src="${contextPath}/resources/js/jquery-3.4.1.min.js"></script> --%>
+<script src="http://code.jquery.com/jquery-3.4.1.min.js"></script> 
 </head>
 <body>
 	<c:import url="common/header.jsp"/>
@@ -79,7 +80,7 @@
 	    	}
 	    	getLocation();
 	</script> -->
-	<script>
+	<!-- <script>
 	 function askForCoords(){
     navigator.geolocation.getCurrentPosition(handleGeoSucces, handleGeoError);
   }
@@ -117,7 +118,7 @@
 		  }
 
 	 </script>
-	
+	 -->
 	</div>
 	</div>	
 	
@@ -127,8 +128,7 @@
 
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-<script type="text/javascript" src="${ contextPath }/js/slick/slick.min.js"></script>
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script> 
+<script type="text/javascript" src="resources/js/slick/slick.min.js"></script>
 <script>
 $(document).ready(function(){
  $('#slick').slick({
@@ -164,26 +164,12 @@ $(document).ready(function(){
 	  ]
 	});
 });
-/*  	$(document).ready(function(){
-	    $('#slick').slick({
-	    	infinite: true, 	        
-	    	slidesToShow: 1, 	     
-	    	slidesToScroll: 1,       
-	    	autoplay: true, 	        
-	    	arrows: false, 		        
-	    	dots:true, 			     
-	    	autoplaySpeed: 1900,         
-	    	speed: 700, 		        
-	    	pauseOnHover:true, 	
-	    	//vertical:true,	  
-	    });
-	});  */
-	
 	$('#slick').slick({
 		  infinite: true,
 		  slidesToShow: 5,
 		  slidesToScroll: 5
-		});
+		}); 
+	
 	
 /* 	var apiURI = "http://api.openweathermap.org/data/2.5/weather?q="+seoul+"&appid="+"ae4959dc548a8eabf9e9a03f8ff2866e";
     $.ajax({
