@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,15 +42,21 @@
 	<div class="nav">
 		<div class="nav_top">
 		<form id="topSearch">
+		<c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application"/>
+			
 			<h1>
 				<a href="#"><img src="resources/images/logo.png" width="150" style="position: absolute; left: 1%;"></a>
 			</h1>
 			<input type="search" placeholder="검색" id="search_con">
-			<ul class="nav_mem">
-				<li><a href="#">로그인</a></li>
-				<li><a href="#">회원가입</a></li>
-			</ul>
+<%-- 			<ul class="nav_mem">
+				<li><a href="${ memberLogin }">로그인</a></li>
+				<li><a href="${ memberJoin }">회원가입</a></li>
+			</ul> --%>
 		</form>
+		<ul class="nav_mem">
+			<li><a href="goLogin.me">로그인</a></li>
+			<li><a href="goJoin.me">회원가입</a></li>
+		</ul>		
 		</div>
 		<div class="menubar">
 			<ul class="menubar_name">
