@@ -46,8 +46,8 @@
 			</h1>
 			<input type="search" placeholder="검색" id="search_con">
 			<ul class="nav_mem">
-				<li><a href="#">로그인</a></li>
-				<li><a href="#">회원가입</a></li>
+				<li><a href="goLogin.me">로그인</a></li>
+				<li><a href="goJoin.me">회원가입</a></li>
 			</ul>
 		</form>
 		</div>
