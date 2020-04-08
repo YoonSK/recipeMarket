@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <style>
-	/* 가운데 정렬 */
+	/* 가운데 정렬 */ 
 	div.container{width: 100%; height: 100%;}
 	div.content{width: 400px; margin: auto; padding-bottom: 10px;}
 	/*  입력 창 */

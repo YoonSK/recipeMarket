@@ -9,7 +9,7 @@ public class Photo {
 	private String changeName;
 	private String filePath;
 	private String deleted;
-	
+	 
 	public Photo() {}
 
 	public Photo(int photoNo, int boardNo, int targetNo, int fileLevel, String originName, String changeName,

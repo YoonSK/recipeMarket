@@ -60,7 +60,7 @@ public class MemberController {
 		// 복호화
 		String encPwd = bcrypt.encode(m.getPwd());	
 		m.setPwd(encPwd);
-		
+		 
 		// 사진 첨부
 		
 		int result = ms.joinMember(m);
