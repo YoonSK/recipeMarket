@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.recipeMarket.member.model.exception.MemberException;
@@ -38,6 +39,7 @@ public class MemberController {
 	@RequestMapping(value="login.me", method= {RequestMethod.POST,  RequestMethod.GET})
 	public String memberLogin(Member m, Model model) {			
 		Member loginUser = ms.memberLogin(m);
+
 		if(bcrypt.matches(m.getPwd(), loginUser.getPwd())) {
 			model.addAttribute("loginUser", loginUser);
 		} else {
@@ -71,5 +73,13 @@ public class MemberController {
 			throw new MemberException("회원가입에 실패하였습니다.");
 		}
 	}
+	
+	// 로그아웃
+	@RequestMapping("logout.me")
+	public String logout(SessionStatus status) {
+		status.setComplete();
+		
+		return "../home";
+	}		
 	
 }
