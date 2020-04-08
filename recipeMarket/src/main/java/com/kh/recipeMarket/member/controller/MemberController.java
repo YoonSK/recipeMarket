@@ -25,12 +25,16 @@ public class MemberController {
 
 	@RequestMapping(value="login.me", method= {RequestMethod.POST,  RequestMethod.GET})
 	public String memberLogin(Member m, Model model) {			
-		
+		System.out.println(m);	
+		System.out.println(m.getId());
 		Member loginUser = ms.memberLogin(m);
+		System.out.println("여기");
+		System.out.println(loginUser);
+
 		
 		if(loginUser != null) {
 			model.addAttribute("loginUser", loginUser);
-			return "redirect:home";		
+			return "../home";		
 		} else {
 			model.addAttribute("message", "로그인에 실패하였습니다.");
 			return "../common/errorPage";
