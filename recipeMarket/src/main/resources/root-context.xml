@@ -32,7 +32,7 @@
 	<!-- sqlSession 빈 등록 -->
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="configLocation" value="classpath:mybatis-config.xml"/>
-		<property name="dataSource" ref="dataSource"/>
+		<property name="dataSource" ref="realDataSource"/>
 	</bean>
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSession"/>

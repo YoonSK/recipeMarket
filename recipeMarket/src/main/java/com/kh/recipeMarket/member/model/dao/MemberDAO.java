@@ -10,7 +10,7 @@ public class MemberDAO {
 
 	public Member selectMember(SqlSessionTemplate sqlSession, Member m) {
 
-		return (Member)sqlSession.selectOne("memberMapper.selectOne", m);
+		return (Member)sqlSession.selectOne("memberMapper.memberLogin", m);
 	}
 
 }

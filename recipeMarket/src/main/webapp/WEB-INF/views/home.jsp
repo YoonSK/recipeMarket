@@ -34,6 +34,8 @@
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 <%-- <script type="text/javascript" src="${contextPath}/resources/js/jquery-3.4.1.min.js"></script> --%>
 <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script> 
+<!-- 사용자 위치 js -->
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
 	<c:import url="common/header.jsp"/>
@@ -60,65 +62,62 @@
 			
 		</div>
 	</div>
-	
 		<div class="currentLocation">
-	<!-- 		<script type="text/javascript">
-	    function getLocation() {
-	    	  if (navigator.geolocation) { // GPS를 지원하면
-	    	    navigator.geolocation.getCurrentPosition(function(position) {
-	    	      console.log(position.coords.latitude + ' ' + position.coords.longitude);
-	    	    }, function(error) {
-	    	      console.error(error);
-	    	    }, {
-	    	      enableHighAccuracy: false,
-	    	      maximumAge: 0,
-	    	      timeout: Infinity
-	    	    });
-	    	  } else {
-	    	    alert('GPS를 지원하지 않습니다');
-	    	  }
-	    	}
-	    	getLocation();
-	</script> -->
-	<!-- <script>
-	 function askForCoords(){
-    navigator.geolocation.getCurrentPosition(handleGeoSucces, handleGeoError);
-  }
-	 
-	 function handleGeoSucces(position){
-		    const latitude =  position.coords.latitude;
-		    const longitude = position.coords.longitude;
-		    const coordsObj = {
-		      latitude,
-		      longitude
-		    };
-		    saveCoords(coordsObj);
-		    getWeather(latitude, longitude);
-		  }
+			<h1>위도 : <span id="latitude"></span></h1>
+			<h1>경도 : <span id="longitude"></span></h1>
+			
+			
+		<div id="weather">
+			<h2>- 오늘의 날씨 정보</h2>
+			<div class="ctemp">현재 온도 : </div>
+			<div class="clowtemp">최저 온도 : </div>
+			<div class="chightemp">최고 온도 : </div>
+			<div class="cicon">아이콘 : </div>
+		</div>
+	<script>
+	navigator.geolocation.getCurrentPosition(function(pos) {
+	    var $lat =pos.coords.latitude;
+	    var $lon =pos.coords.longitude;
+	    
+	  /*   alert($lat);
+	    alert($lon);
+	    alert("http://api.openweathermap.org/data/2.5/weather?lat="+$lat+"+&lon="+$lon+"&appid=ae4959dc548a8eabf9e9a03f8ff2866e&units=metric"); */
+	    $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat="+$lat+"&lon="+$lon+"&appid=ae4959dc548a8eabf9e9a03f8ff2866e&units=metric",function(data){
+	    	
+	    	//data로 할일(data : 날씨 정보를 통째로 가져오는것)
+			/* alert(data.cod);
+			alert(data.city.name);
+			alert(data.list[0].main.temp_min); */
+			
+			/* 현재의 날씨 정보 */
+			var $minTemp = data.main.temp_min;
+			var $maxTemp = data.main.temp_max;
+			var $cTemp = data.main.temp;
+			var $now = new Date($.now());
+			var $cDate = $now.getFullYear() + '년' +$now.getMonth() + '월' + $now.getDate()+'일'+ +$now.getHours() + ':' + $now.getMinutes()
+			var $wIcon = data.weather[0].icon;
+			
+			
+			//A.appne(B) A요소의 내용의 뒤에 B를 추가
+			//A.prepend(B)  A요소의 내용의 앞에 B를 추가
+			$('.clowtemp').append($minTemp);
+			$('.ctemp').append($cTemp);
+			$('.chightemp').append($maxTemp);
+			$('h2').prepend($cDate);
+			$('.cicon').append('<img src="http://openweathermap.org/img/wn/'+ $wIcon +'@2x.png"/>');
+			// <img src="http://openweathermap.org/img/wn/10d@2x.png"/>
+			
+			
+			
+		});
+	});
+		
 
-		  function handleGeoError(position){
-		    console.log('Cant get your position.');
-		  }
+		
+	
+	</script> 
 		  
-
-		  function getWeather(lat, lon){
-		    fetch(
-		      `https:api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${ae4959dc548a8eabf9e9a03f8ff2866e}&units=metric`
-		    )
-		      .then(function(response){
-		      return response.json();
-		    })
-		      .then(function(json){
-		        console.log(json);
-		        const temparature = json.main.temp;  //온도
-		        const place = json.name;   // 사용자 위치
-		        weather.innerText = `${temparature} @${place}`;
-
-		      });
-		  }
-
-	 </script>
-	 -->
+	
 	</div>
 	</div>	
 	
@@ -170,26 +169,6 @@ $(document).ready(function(){
 		  slidesToScroll: 5
 		}); 
 	
-	
-/* 	var apiURI = "http://api.openweathermap.org/data/2.5/weather?q="+seoul+"&appid="+"ae4959dc548a8eabf9e9a03f8ff2866e";
-    $.ajax({
-        url: apiURI,
-        dataType: "json",
-        type: "GET",
-        async: "false",
-        success: function(resp) {
-            console.log(resp);
-            console.log("현재온도 : "+ (resp.main.temp- 273.15) );
-            console.log("현재습도 : "+ resp.main.humidity);
-            console.log("날씨 : "+ resp.weather[0].main );
-            console.log("상세날씨설명 : "+ resp.weather[0].description );
-            console.log("날씨 이미지 : "+ resp.weather[0].icon );
-            console.log("바람   : "+ resp.wind.speed );
-            console.log("나라   : "+ resp.sys.country );
-            console.log("도시이름  : "+ resp.name );
-            console.log("구름  : "+ (resp.clouds.all) +"%" );                 
-        }
-    });
- */
+
 	</script>
 </html>

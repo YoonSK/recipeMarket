@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,7 +74,7 @@
 	         	<hr>
 	         	<table>
 	         		<tr>
-						<td rowspan=3><img width="100" height="100" src="../images/user.PNG"/></td>
+						<td rowspan=3><img width="100" height="100" src="../images/user.png"/></td>
 						<td style="width:150px; font-size:20px">닉네임2</td>
 						<td style="font-size:15px">2020-04-01</td>		         		
 	         		</tr>

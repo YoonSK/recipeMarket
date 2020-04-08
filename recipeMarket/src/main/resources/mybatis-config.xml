@@ -5,11 +5,14 @@
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL"/>
 	</settings>
-<!-- 	<typeAliases>
+	
+	<typeAliases>
 		<typeAlias type="com.kh.recipeMarket.member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.kh.recipeMarket.board.model.vo.Board" alias="Board"/>
 	</typeAliases>
 	
 	<mappers>
-		<mapper resource="mapper/member-mapper.xml"/>	
-	</mappers> -->
+		<mapper resource="mapper/member-mapper.xml"/>
+		<mapper resource="mapper/board-mapper.xml"/>	
+	</mappers>
 </configuration>
