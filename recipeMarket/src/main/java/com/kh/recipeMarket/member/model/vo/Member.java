@@ -11,7 +11,7 @@ public class Member {
 	private String nickName;
 	private String email;
 	private String phone;
-	private Date bitrh;
+	private Date birth;
 	private int zip;
 	private String address;
 	private String address2;
@@ -35,7 +35,7 @@ public class Member {
 		this.nickName = nickName;
 		this.email = email;
 		this.phone = phone;
-		this.bitrh = bitrh;
+		this.birth = bitrh;
 		this.zip = zip;
 		this.address = address;
 		this.address2 = address2;
@@ -99,12 +99,12 @@ public class Member {
 		this.phone = phone;
 	}
 
-	public Date getBitrh() {
-		return bitrh;
+	public Date getBirth() {
+		return birth;
 	}
 
-	public void setBitrh(Date bitrh) {
-		this.bitrh = bitrh;
+	public void setBirth(Date birth) {
+		this.birth = birth;
 	}
 
 	public int getZip() {
@@ -150,7 +150,7 @@ public class Member {
 	@Override
 	public String toString() {
 		return "Member [memberNo=" + memberNo + ", id=" + id + ", pwd=" + pwd + ", name=" + name + ", nickName="
-				+ nickName + ", email=" + email + ", phone=" + phone + ", bitrh=" + bitrh + ", zip=" + zip
+				+ nickName + ", email=" + email + ", phone=" + phone + ", bitrh=" + birth + ", zip=" + zip
 				+ ", address=" + address + ", address2=" + address2 + ", grade=" + grade + ", deleted=" + deleted + "]";
 	}
 	
