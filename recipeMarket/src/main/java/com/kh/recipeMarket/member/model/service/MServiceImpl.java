@@ -21,4 +21,9 @@ public class MServiceImpl implements MemberService {
 		return mDAO.selectMember(sqlSession, m);
 	}
 
+	@Override
+	public int joinMember(Member m) {
+		return mDAO.memberJoin(sqlSession, m);
+	}
+
 }
