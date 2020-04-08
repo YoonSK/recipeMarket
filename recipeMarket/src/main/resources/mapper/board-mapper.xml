@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="boardMapper">
+	<select id="getListCount" resultType="_int">
+		select count(*)
+		from f_board
+		where deleted='N'
+	</select>
+	
+	<select id="selectList" resultMap="boardResultSet">
+		select *
+		from f_board
+		where deleted='N'
+		order by post_no
+	</select>
+	
+	<resultMap id="boardResultSet" type="Board">
+		<id property="postNo" column="POST_NO"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="content" column="CONTENT"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="modifyDate" column="MODIFY_DATE"/>
+		<result property="hit" column="HIT"/>
+		<result property="deleted" column="DELETED"/>
+		<result property="category" column="CATEGORY"/>
+	</resultMap>
+</mapper>
