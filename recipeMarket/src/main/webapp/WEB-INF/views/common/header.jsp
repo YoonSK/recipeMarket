@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,6 +39,7 @@
 </head>
 <body>
 	<header>
+	<c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application"/>	
 	<div class="nav">
 		<div class="nav_top">
 		<form id="topSearch">
@@ -46,8 +48,15 @@
 			</h1>
 			<input type="search" placeholder="검색" id="search_con">
 			<ul class="nav_mem">
+		<c:if test="${ empty sessionScope.loginUser }">			
 				<li><a href="goLogin.me">로그인</a></li>
 				<li><a href="goJoin.me">회원가입</a></li>
+		</c:if>	
+		<c:if test="${ !empty sessionScope.loginUser }">
+				<c:out value="${ loginUser.nickName }님 환영합니다."/>					
+				<li><a href="mypage.mp">마이페이지</a></li>
+				<li><a href="logout.me">로그아웃</a></li>
+		</c:if>							
 			</ul>
 		</form>
 		</div>
@@ -63,7 +72,7 @@
 					<a href="#">스토어</a>
 				</li>
 				<li>
-					<a href="#">자유게시판</a>
+					<a href="blist.bo">자유게시판</a>
 				</li>
 				<li>
 					<a href="#">쉐프 소개</a>
