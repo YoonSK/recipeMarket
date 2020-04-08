@@ -16,18 +16,18 @@
 </style>
 </head>
 <body>
-	<%@ include file=" ../common/header.jsp" %>
+	<%@ include file="../common/header.jsp" %>
 	<form>
 		<div class="wrapper">
 			<br>
-			<div class="title"  style="background: white; height:70px">
+			<div class="title"  style="background: white; height:70px; width:1500px; margin:0 auto;">
 	            <span style=" vertical-align: middle; font-size:30px; font-align:center; font-weight:bold; padding:15px;">
 	               	소소한 일상 등 여러 이야기를 편하게 올려요.
 	            </span>
 	            
 	         </div>
 	         <br>
-	         <div style="background: white; ">
+	         <div style="background: white; width:1500px; margin:0 auto;">
 	         	<table>
 	         		<tr>
 	         			<th style="width:200px; height:30px; font-size:25px;">카테고리</th>

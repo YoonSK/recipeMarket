@@ -21,11 +21,11 @@
          <div class="content" style="background:skyblue;">
          <table >
             <tr id="userChatting">
-               <td colspan="2" style="text-align:right;">본인</td>
+               <td colspan="2" style="text-align:right;" align="right">본인</td>
             </tr>
             <tr>
-               <td>오후 5:26</td>
-               <td style="font-size:20px; background:lightgray; color:balck; border-radius:10px;">안녕하세요.만나서 반갑습니다~~~~~~~</td>
+               <td align="right">오후 5:26</td>
+               <td style="font-size:20px; background:lightgray; color:balck; border-radius:10px;" align="right">안녕하세요.만나서 반갑습니다~~~~~~~</td>
             </tr>
          </table>
          <br>
@@ -47,11 +47,11 @@
          
          <table>
             <tr>
-               <td colspan="2" style="text-align:right;">본인</td>
+               <td colspan="2" style="text-align:right;" align="right">본인</td>
             </tr>
             <tr>
                <td>오후 5:26</td>
-               <td style="font-size:20px; background:lightgray; color:balck; border-radius:10px;">혹시 등급에 따른 보상을 알수 있을까요?</td>
+               <td style="font-size:20px; background:lightgray; color:balck; border-radius:10px;" align="right">혹시 등급에 따른 보상을 알수 있을까요?</td>
             </tr>
          </table>
          
