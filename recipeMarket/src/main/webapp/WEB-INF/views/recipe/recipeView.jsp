@@ -160,7 +160,10 @@
                 </div>
             </div>
         </div>
+        <form>
+        
         <div class="flex" style="min-height: 150px;">
+        
             <div  style="width: 150px;">
                 <div style="padding-left: 30px">
                     <p>후기</p>
@@ -205,6 +208,7 @@
                 <button style="min-height: 100px">작성 완료</button>
             </div>
         </div>
+        </form>
     </div>
     </div>
 </div>
