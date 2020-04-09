@@ -48,13 +48,13 @@
 				<a href="#"><img src="resources/images/logo.png" width="200px" height="70px" style="position: absolute; left: 1%; top: 2%"></a>
 			</h1>
 			<input type="search" placeholder="검색" id="search_con">
-			<c:if test="${ loginUser.nickName == null }">					
+			<c:if test="${ empty sessionScope.loginUser }">				
 			<ul class="nav_mem">						
 				<li><a href="goLogin.me">로그인</a></li>
 				<li><a href="goJoin.me">회원가입</a></li>						
 			</ul>
 			</c:if>	
-			<c:if test="${ loginUser.nickName != null }">
+			<c:if test="${ !empty sessionScope.loginUser }">	
 				<p id="welcome"><c:out value="안녕하세요 ${ loginUser.nickName }님!"/></p>
 				<ul class="nav_mem">
 					<li><a href="mypage.mp">마이페이지</a></li>

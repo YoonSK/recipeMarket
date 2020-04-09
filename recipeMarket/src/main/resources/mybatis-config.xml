@@ -9,6 +9,7 @@
 	<typeAliases>
 		<typeAlias type="com.kh.recipeMarket.member.model.vo.Member" alias="Member"/>
 		<typeAlias type="com.kh.recipeMarket.board.model.vo.Board" alias="Board"/>
+		<typeAlias type="com.kh.recipeMarket.common.Photo" alias="Photo"/>		
 	</typeAliases>
 	
 	<mappers>
