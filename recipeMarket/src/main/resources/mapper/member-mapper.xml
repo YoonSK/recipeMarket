@@ -65,4 +65,10 @@
 			  and deleted = 'N'			  
 	</select>
 	
+	<update id="mDelete" parameterType="Member">
+		update member
+		set deleted='Y'
+		where member_no = ${no}
+	</update>	
+	
 </mapper>

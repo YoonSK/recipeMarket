@@ -138,7 +138,6 @@ public class MemberController {
 	@RequestMapping("logout.me")
 	public String logout(SessionStatus status) {
 		status.setComplete();
-		
 		return "../home";
 	}	
 	
@@ -155,5 +154,19 @@ public class MemberController {
 		boolean isUsable = ms.checkNickDup(nickName) == 0 ? true : false;
 		response.getWriter().print(isUsable);			
 	}		
+	
+	// 회원 탈퇴
+	@RequestMapping("mdelete.me")
+	public String mDelete(@RequestParam("no") int no) {
+		
+		int result = ms.mDelete(no);
+		
+		if(result > 0) {
+			return "redirect:home";
+		}else {
+			throw new MemberException("탈퇴에 실패하였습니다.");
+		}
+
+	}
 	
 }

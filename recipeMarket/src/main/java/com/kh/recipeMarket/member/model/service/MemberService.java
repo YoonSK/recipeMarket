@@ -17,5 +17,7 @@ public interface MemberService {
 
 	String getPhoto(int memberNo);
 
+	int mDelete(int no);
+
 
 }

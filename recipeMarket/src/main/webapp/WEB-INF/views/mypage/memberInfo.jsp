@@ -27,7 +27,6 @@
 		<div class="container">
 	    	<div class="content">
 				<h2>회원 정보 조회</h2>
-	    		<form action="<%= request.getContextPath() %>/views/user/profileUpdate.jsp" id="userProfile" method="post" id="userProfile" name="userProfile">
 		    		<div class="profile-icon">
 			    		<c:if test="${ loginUser.pName != null }">	
 							<img name="profile" width=100px; height=100px; style="border-radius: 40px;" id="profile" src="resources/upload/${ loginUser.pName }">
@@ -53,9 +52,11 @@
 							<span class="input-text">${ loginUser.zip }<br>${ loginUser.address }<br>${ loginUser.address2 }</span>
 			    			</c:if>	
 		    			</p>
-			    		<input type="submit" id="updateBtn" value="회원정보 수정">
-			    		<input type="button" onclick="location.href='<%= request.getContextPath() %>/views/user/pwdUpdate.jsp'" value="돌아가기">
-		    	</form>
+			    		<input type="button" id="updateBtn" onclick="location.href='${ mupdate.mp }'" value="회원정보 수정">
+						<c:url var="mdelete" value="mdelete.me">
+							<c:param name="no" value="${ loginUser.memberNo }"/>
+						</c:url>			    		
+			    		<input type="button" onclick="location.href='${ mdelete }'" value="회원탈퇴">
 	    	</div>
     	</div>
 	</div>

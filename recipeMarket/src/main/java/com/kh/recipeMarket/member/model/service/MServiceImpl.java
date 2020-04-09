@@ -47,5 +47,10 @@ public class MServiceImpl implements MemberService {
 		return mDAO.checkNickDup(sqlSession, nickName);
 	}
 
+	@Override
+	public int mDelete(int no) {
+		return mDAO.mDelete(sqlSession, no);
+	}
+
 
 }
