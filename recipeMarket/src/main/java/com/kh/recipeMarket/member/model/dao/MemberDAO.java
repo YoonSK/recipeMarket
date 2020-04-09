@@ -33,6 +33,10 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.checkNickDup", nickName);
 	}
 
+	public int mDelete(SqlSessionTemplate sqlSession, int no) {
+		return sqlSession.update("memberMapper.mDelete", no);
+	}
+
 
 
 }
