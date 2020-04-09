@@ -101,7 +101,7 @@ public class MemberController {
 				throw new MemberException("회원가입에 실패하였습니다.");
 		}
 
-	}
+	} 
 	
 	// 이미지 업로드
 	public String saveImage(MultipartFile file, HttpServletRequest request) {
