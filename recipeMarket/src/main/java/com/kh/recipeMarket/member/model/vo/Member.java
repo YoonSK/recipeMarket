@@ -17,7 +17,8 @@ public class Member {
 	private String address2;
 	private int grade;
 	private String deleted;
-	
+	private String pName;
+
 	public Member() {}
 	
 	public Member(String id, String pwd) {
@@ -147,12 +148,20 @@ public class Member {
 		this.deleted = deleted;
 	}
 
+	public String getpName() {
+		return pName;
+	}
+
+	public void setpName(String pName) {
+		this.pName = pName;
+	}
+
 	@Override
 	public String toString() {
 		return "Member [memberNo=" + memberNo + ", id=" + id + ", pwd=" + pwd + ", name=" + name + ", nickName="
-				+ nickName + ", email=" + email + ", phone=" + phone + ", bitrh=" + birth + ", zip=" + zip
-				+ ", address=" + address + ", address2=" + address2 + ", grade=" + grade + ", deleted=" + deleted + "]";
-	}
-	
-	
+				+ nickName + ", email=" + email + ", phone=" + phone + ", birth=" + birth + ", zip=" + zip
+				+ ", address=" + address + ", address2=" + address2 + ", grade=" + grade + ", deleted=" + deleted
+				+ ", pName=" + pName + "]";
+	}	
+
 }

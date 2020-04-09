@@ -23,6 +23,11 @@ public class MServiceImpl implements MemberService {
 	}
 
 	@Override
+	public String getPhoto(int memberNo) {
+		return mDAO.getPhoto(sqlSession, memberNo);
+	}	
+	
+	@Override
 	public int joinMember(Member m) {
 		return mDAO.memberJoin(sqlSession, m);
 	}
@@ -31,5 +36,16 @@ public class MServiceImpl implements MemberService {
 	public int uploadImage(Photo p) {
 		return mDAO.uploadImage(sqlSession, p);
 	}
+
+	@Override
+	public int checkIdDup(String id) {
+		return mDAO.checkIdDup(sqlSession, id);
+	}
+
+	@Override
+	public int checkNickDup(String nickName) {
+		return mDAO.checkNickDup(sqlSession, nickName);
+	}
+
 
 }

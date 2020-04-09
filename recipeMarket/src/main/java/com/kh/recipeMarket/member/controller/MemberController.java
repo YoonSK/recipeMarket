@@ -1,11 +1,13 @@
 package com.kh.recipeMarket.member.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -44,9 +46,15 @@ public class MemberController {
 	@RequestMapping(value="login.me", method= {RequestMethod.POST,  RequestMethod.GET})
 	public String memberLogin(Member m, Model model) {			
 		Member loginUser = ms.memberLogin(m);
+		if(loginUser != null) {
+			int memberNo = loginUser.getMemberNo();
+			String mPhoto = ms.getPhoto(memberNo);
+			if(mPhoto != null) {
+				loginUser.setpName(mPhoto);
+			}
+		}
 		if(bcrypt.matches(m.getPwd(), loginUser.getPwd())) {
 			model.addAttribute("loginUser", loginUser);
-			System.out.println(model.getAttribute("loginUser"));
 		} else {
 			throw new MemberException("로그인에 실패하였습니다.");
 		}
@@ -58,6 +66,7 @@ public class MemberController {
 		return "/memberJoin";
 	}	
 	
+	//회원 가입
 	@RequestMapping("join.me")
 	public String join(@ModelAttribute Member m, @ModelAttribute Photo p, @RequestParam("year") int year, @RequestParam("month") int month, @RequestParam("day") int day,
 												@RequestParam("mImage") MultipartFile mImage, HttpServletRequest request) {
@@ -68,38 +77,37 @@ public class MemberController {
 		String encPwd = bcrypt.encode(m.getPwd());	
 		m.setPwd(encPwd);
 		 
-		// 사진 첨부
-		if(mImage != null && !mImage.isEmpty()) {
-			String renameImage = saveImage(mImage, request);
-		
-			if(renameImage != null) {
-				p.setOriginName(mImage.getOriginalFilename());
-				p.setChangeName(renameImage);
-			}
-			int result1 = ms.uploadImage(p);
-			if(result1 > 0) {
-				int result2 = ms.joinMember(m);
+		int result = ms.joinMember(m);
+		if(result > 0) {
+			// 사진 첨부
+			if(mImage != null && !mImage.isEmpty()) {
+				String pName = saveImage(mImage, request);
+			
+				if(pName != null) {
+					p.setOriginName(mImage.getOriginalFilename());
+					p.setChangeName(pName);
+				}
+				int result2 = ms.uploadImage(p);
 				if(result2 > 0) {
-					return "../home";
-				}else {
-					throw new MemberException("회원가입에 실패하였습니다.");
-				}				
+					return "../home";					
+				} else {
+					throw new MemberException("회원가입에 실패하였습니다.");					
+				}
+				
+			} else {
+				return "../home";
 			}
+		} else {
+				throw new MemberException("회원가입에 실패하였습니다.");
 		}
 
-		int result = ms.joinMember(m);
-		
-		if(result > 0) {
-			return "../home";
-		}else {
-			throw new MemberException("회원가입에 실패하였습니다.");
-		}
 	}
 	
-	public String saveImage(MultipartFile mImage, HttpServletRequest request) {
+	// 이미지 업로드
+	public String saveImage(MultipartFile file, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		
-		String savePath = root + "\\images";
+		String savePath = root + "\\upload";
 		
 		File folder = new File(savePath);
 		
@@ -108,7 +116,7 @@ public class MemberController {
 		}
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		String originFileName = mImage.getOriginalFilename();
+		String originFileName = file.getOriginalFilename();
 		String renameFileName
 		= sdf.format(new Date(System.currentTimeMillis())) + "." 
 		+ originFileName.substring(originFileName.lastIndexOf(".") + 1);
@@ -116,7 +124,7 @@ public class MemberController {
 		String renamePath = folder + "\\" + renameFileName;
 		
 		try {
-			mImage.transferTo(new File(renamePath));
+			file.transferTo(new File(renamePath));
 		} catch (Exception e) {
 			System.out.println("파일 전송 에러 : " + e.getMessage());
 			e.printStackTrace();
@@ -132,6 +140,20 @@ public class MemberController {
 		status.setComplete();
 		
 		return "../home";
+	}	
+	
+	// 아이디 중복 검사
+	@RequestMapping("dupid.me")
+	public void idDuplicateCheck(HttpServletResponse response, @RequestParam("id") String id) throws IOException {		
+		boolean isUsable = ms.checkIdDup(id) == 0 ? true : false;
+		response.getWriter().print(isUsable);			
+	}
+	
+	// 닉네임 중복 검사
+	@RequestMapping("dupnick.me")
+	public void nickDuplicateCheck(HttpServletResponse response, @RequestParam("nickName") String nickName) throws IOException {		
+		boolean isUsable = ms.checkNickDup(nickName) == 0 ? true : false;
+		response.getWriter().print(isUsable);			
 	}		
 	
 }
