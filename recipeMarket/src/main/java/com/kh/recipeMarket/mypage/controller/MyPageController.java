@@ -11,6 +11,9 @@ public class MyPageController {
 		return "/mypage";
 	}
 	
-	
+	@RequestMapping("goInfo.mp")
+	public String goInfo() {
+		return "/memberInfo";
+	}
 	
 }

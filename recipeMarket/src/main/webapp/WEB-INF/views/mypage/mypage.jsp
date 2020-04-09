@@ -27,7 +27,7 @@
 				<div class="menu_box">
 					<div class="icon_con">
 						<figure>
-							<img src="resources/images/user.png" width=100px; height=100px;>
+							<a href="goInfo.mp"><img src="resources/images/user.png" width=100px; height=100px;></a>
 							<figcaption>회원 정보</figcaption>
 						</figure>	
 					</div>	

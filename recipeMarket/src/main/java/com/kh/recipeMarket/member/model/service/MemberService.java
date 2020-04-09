@@ -11,4 +11,11 @@ public interface MemberService {
 
 	int uploadImage(Photo p);
 
+	int checkIdDup(String id);
+
+	int checkNickDup(String nickName);
+
+	String getPhoto(int memberNo);
+
+
 }

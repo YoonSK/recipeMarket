@@ -13,6 +13,10 @@ public class MemberDAO {
 		return (Member)sqlSession.selectOne("memberMapper.memberLogin", m);
 	}
 
+	public String getPhoto(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.selectOne("memberMapper.getPhoto", memberNo);
+	}
+	
 	public int memberJoin(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.insert("memberMapper.memberJoin", m);
 	}
@@ -20,5 +24,15 @@ public class MemberDAO {
 	public int uploadImage(SqlSessionTemplate sqlSession, Photo p) {
 		return sqlSession.insert("memberMapper.uploadImage", p);
 	}
+
+	public int checkIdDup(SqlSessionTemplate sqlSession, String id) {
+		return sqlSession.selectOne("memberMapper.checkIdDup", id);
+	}
+
+	public int checkNickDup(SqlSessionTemplate sqlSession, String nickName) {
+		return sqlSession.selectOne("memberMapper.checkNickDup", nickName);
+	}
+
+
 
 }

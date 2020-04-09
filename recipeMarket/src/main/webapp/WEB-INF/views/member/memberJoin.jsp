@@ -32,7 +32,13 @@
 	figure {margin: 0; line-height: 0; position: relative;} 	
 	#imageArea{margin-left: 140px;}
 	#imageArea:hover{cursor: pointer;}
-
+	/* 유효성 검사 */
+	p.ava{display: none; font-size: 12px; margin-left: 80px;}
+	p.ok{color: green; font-weight: bold;}
+	p.error{color: red; font-weight: bold;}	
+	p.ava{display: none; font-size: 12px; margin-left: 80px;}
+	p.ok2{color: green; font-weight: bold;}
+	p.error2{color: red; font-weight: bold;}	
 </style>
 </head>
 <body>
@@ -71,15 +77,18 @@
 						</script>				
 						<p class="info-label">*필수 입력란</p>	
 						<p class="input_con">*아이디 &nbsp; <input type="text" class="input_text" name="id" id="userId" autocomplete="off" required></p>
-<!-- 						<span class="ava ok">이 아이디는 사용 가능합니다.</span>
-						<span class="ava no">이 아이디는 사용 불가능합니다.</span>
-						<input type="hidden" name="idDuplicateCheck" id="idDuplicateCheck" value="0"> -->								
+						<p class="ava ok">이 아이디는 사용 가능합니다.</p>
+						<p class="ava error">이 아이디는 사용 불가능합니다.</p>
+						<input type="hidden" name="idDupCheck" id="idDupCheck" value="0"> 													
 						<p class="input-label">영문 소문자/숫자 포함 5~16자</p>
 						<p class="input_con">*비밀번호 &nbsp; <input type="password" class="input_text" name="pwd" id="userPwd" required></p>
 						<p class="input-label">영문/숫자/특수문자 포함 8~16자</p>
 						<p class="input_con">*비밀번호 확인 &nbsp; <input type="password" class="input_text" name="pwd2" id="userPwdChk" required></p>
 						<p class="input_con">*이름 &nbsp; <input type="text" class="input_text" name="name" id="userName" autocomplete="off" required></p>
-						<p class="input_con">*닉네임 &nbsp; <input type="text" class="input_text" name="nickName" id="nickName" maxlength="6" autocomplete="off" required></p>			
+						<p class="input_con">*닉네임 &nbsp; <input type="text" class="input_text" name="nickName" id="nickName" maxlength="6" autocomplete="off" required></p>	
+						<p class="ava ok2">이 닉네임은 사용 가능합니다.</p>
+						<p class="ava error2">이 닉네임은 사용 불가능합니다.</p>
+						<input type="hidden" name="nickDupCheck" id="nickDupCheck" value="0"> 									
 						<p class="input_con">*연락처 &nbsp; <input type="text" class="input_text" name="phone" id="phone" maxlength="11" autocomplete="off" onkeyup="inputNumber(this);" required></p>
 						<p class="input-label">- 제외한 번호만 입력해주세요. </p>
 						<p class="input_con">*이메일 &nbsp; <input type="email" class="input_text" name="email" id="email" autocomplete="off" required></p>
@@ -102,6 +111,68 @@
 							$(function(){
 								$("#postcodify_search_button").postcodifyPopUp();
 							});
+							
+							// 아이디 중복 검사
+							$('#userId').on('keyup', function(){
+								var userId = $(this).val().trim();
+								
+								if(userId.length < 4){
+									$('.ava').hide();
+									$('#idDupCheck').val(0);
+									
+									return;
+								}
+/* 								var idCheck = /[a-z0-9]{5,15}/g;
+								if(userId == '' || !idCheck.test(userId)){
+									$(this).focus();
+									$('#userId').val("");
+									console.log('여기');
+								}else{ */
+									$.ajax({
+										url: 'dupid.me',
+										data: {id:userId},
+										success: function(data){
+											if(data == 'true'){
+												$('p.ava.error').hide();
+												$('p.ava.ok').show();
+												$('#idDupCheck').val(1);
+											}else{
+												$('p.ava.error').show();
+												$('p.ava.ok').hide();
+												$('#idDupCheck').val(0);												
+												}
+											}
+										});
+							/* 		} */	
+								});
+							
+							// 닉네임 중복 검사
+							$('#nickName').on('keyup', function(){
+								var nickName = $(this).val().trim();
+								
+								if(nickName.length < 1){
+									$('.ava').hide();
+									$('#nickDupCheck').val(0);
+									
+									return;
+								}
+
+								$.ajax({
+									url: 'dupnick.me',
+									data: {nickName:nickName},
+									success: function(data){
+										if(data == 'true'){
+											$('p.ava.error2').hide();
+											$('p.ava.ok2').show();
+											$('#nickDupCheck').val(1);
+										}else{
+											$('p.ava.error2').show();
+											$('p.ava.ok2').hide();
+											$('#nickDupCheck').val(0);												
+											}
+										}
+									});
+								});
 						</script>	
 						<br>			
 						<div class="input-submit">
