@@ -41,7 +41,7 @@
 		<div class="container">	
 			<h1 align="center" class="title">회원가입</h1>
 				<div class="content">
-					<form method="post" action="join.me" id="joinUser" name="joinUser">			
+					<form method="post" action="join.me" id="joinUser" name="joinUser" enctype="Multipart/form-data">			
 			    		<div id="imageArea">
 			    			<figure>
 								<img name="mImageArea" width=100px; height=100px; id="mImageArea" src="resources/images/user.png">
