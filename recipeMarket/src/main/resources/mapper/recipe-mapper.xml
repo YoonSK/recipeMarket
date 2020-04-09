@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="recipeMapper">
+	<resultMap id="recipeResultSet" type="Recipe">
+		<id property="postNo" column="POST_NO"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="modifyDate" column="MODIFY_DATE"/>
+		<result property="circumstnce" column="CIRCUMSTANCE"/>
+		<result property="serving" column="SERVING"/>
+		<result property="difficulty" column="Diffyculty"/>
+		<result property="hit" column="HIT"/>
+		<result property="deleted" column="DELETED"/>
+	</resultMap>
+	
+	<resultMap id="recipeStepResultSet" type="RecipeStep">
+		<id property="postNo" column="POST_NO"/>
+		<result property="step" column="STEP"/>
+		<result property="content" column="CONTENT"/>
+		<result property="timer" column="TIMER"/>
+	</resultMap>
+	
+	<resultMap id="recipeTagResultSet" type="RecipeTag">
+		<id property="postNo" column="POST_NO"/>
+		<result property="tag" column="TAG"/>
+	</resultMap>
+	
+	<resultMap id="recipeTagResultSet" type="RecipeTag">
+		<id property="postNo" column="POST_NO"/>
+		<result property="ingredient" column="INGREDIENT"/>
+		<result property="amount" column="AMOUNT"/>
+	</resultMap>
+	
+	
+</mapper>
