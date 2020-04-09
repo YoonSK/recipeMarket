@@ -9,8 +9,11 @@ import com.kh.recipeMarket.member.model.vo.Member;
 public class MemberDAO {
 
 	public Member selectMember(SqlSessionTemplate sqlSession, Member m) {
-
 		return (Member)sqlSession.selectOne("memberMapper.memberLogin", m);
+	}
+
+	public int memberJoin(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.insert("memberMapper.memberJoin", m);
 	}
 
 }
