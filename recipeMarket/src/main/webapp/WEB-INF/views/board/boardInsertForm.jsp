@@ -17,7 +17,6 @@
 </head>
 <body>
 	<%@ include file="../common/header.jsp" %>
-	<form>
 		<div class="wrapper">
 			<br>
 			<div class="title"  style="background: white; height:70px; width:1500px; margin:0 auto;">
@@ -27,38 +26,41 @@
 	            
 	         </div>
 	         <br>
-	         <div style="background: white; width:1500px; margin:0 auto;">
-	         	<table>
-	         		<tr>
-	         			<th style="width:200px; height:30px; font-size:25px;">카테고리</th>
-	         			<td colspan=4 style="font-size:25px">
-	         				<select style="font-size:20px">
-	         					<option>자유톡</option>
-	         					<option>요리톡</option>
-	         				</select>
-	         			</td>
-	         		</tr>
-	         		
-	         		<tr>
-	         			<th colspan=5>
-	         				<textarea placeholder="내용" style="width:1000px; height:300px; font-size:25px;"></textarea>
-	         			</th>
-	         		</tr>
-	         		
-	         		<tr>
-	         			<!-- <td colspan=2><input type="file" style="font-size:25px;" value="+"></td> -->
-	         			<td colspan=2> <button style="font-size:50px;">+</button></td>
-	         			<td colspan=3>사진을 넣으시려면 +를 눌러주세요.</td>
-	         		</tr>
-	         		
-	         	
-	       
-	         		
-	         	</table>
-	         </div>
-
-	         
+		     <div style="background: white; width:1500px; margin:0 auto;">
+				<form action="insert.bo" method="post" enctype="Multipart/form-data">
+		         	<table ID="boardInsertTable">
+		         		<tr>
+		         			<th style="width:200px; height:30px; font-size:25px;">카테고리</th>
+		         			<td colspan=4 style="font-size:25px">
+		         				<select style="font-size:20px" name="category">
+		         					<option value="자유톡">자유톡</option>
+		         					<option value="요리톡">요리톡</option>
+		         				</select>
+		         			</td>
+		         		</tr>
+		         		
+		         		<tr>
+		         			<th colspan=5>
+		         				<textarea placeholder="내용" style="width:1300px; height:300px; font-size:25px;" name="content"></textarea>
+		         			</th>
+		         		</tr>
+		         		
+		         		<tr>
+		         			<!-- <td colspan=2><input type="file" style="font-size:25px;" value="+"></td> -->
+		         			<td colspan=2> <button style="font-size:50px;">+</button></td>
+		         			<td colspan=3>사진을 넣으시려면 +를 눌러주세요.</td>
+		         		</tr>
+		         		
+		         		<tr>
+		         			<td rowspan="2"colspan="5" align="center">
+		         				<input type="submit" value="등록하기" style="font-size:25px;"> &nbsp; &nbsp;
+		         				<button onclick="location.href='blist.bo'" style="font-size:25px;">목록으로</button>
+		         			</td>
+		         			
+		         		</tr>
+		         	</table>
+				</form>
+			</div>
 		</div>			
-	</form>
 </body>
 </html>
