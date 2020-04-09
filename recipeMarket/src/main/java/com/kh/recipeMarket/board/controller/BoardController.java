@@ -2,8 +2,11 @@ package com.kh.recipeMarket.board.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +16,7 @@ import com.kh.recipeMarket.board.model.service.BoardService;
 import com.kh.recipeMarket.board.model.vo.Board;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.common.Pagination;
+import com.kh.recipeMarket.member.model.vo.Member;
 
 @Controller
 public class BoardController {
@@ -54,6 +58,23 @@ public class BoardController {
 	@RequestMapping("insertView.bo")
 	public String boardInsertView() {
 		return "boardInsertForm";
+	}
+	
+	@RequestMapping("insert.bo")
+	public String boardInsert(@ModelAttribute Board b, HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int memberNo = loginUser.getMemberNo();
+		
+		b.setMemberNo(memberNo);
+		
+		int result = bService.insertBoard(b);
+		
+		if( result > 0) {
+			return "redirect:blist.bo";
+		} else {
+			throw new BoardException("게시글 등록에 실패하였습니다.");
+		}
 	}
 
 }

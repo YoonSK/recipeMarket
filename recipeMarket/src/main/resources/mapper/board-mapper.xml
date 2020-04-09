@@ -11,7 +11,7 @@
 		select *
 		from f_board
 		where deleted='N'
-		order by post_no
+		order by post_no desc
 	</select>
 	
 	<resultMap id="boardResultSet" type="Board">
@@ -24,4 +24,9 @@
 		<result property="deleted" column="DELETED"/>
 		<result property="category" column="CATEGORY"/>
 	</resultMap>
+	
+	<insert id="inserBoard" parameterType="Board">
+		insert into f_board
+		values(seq_bno.nextval,#{memberNo}, #{content}, sysdate, sysdate, default, default, #{category})
+	</insert>
 </mapper>
