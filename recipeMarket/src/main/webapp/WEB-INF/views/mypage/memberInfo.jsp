@@ -52,11 +52,26 @@
 							<span class="input-text">${ loginUser.zip }<br>${ loginUser.address }<br>${ loginUser.address2 }</span>
 			    			</c:if>	
 		    			</p>
+		    			<p class="input-label">회원등급
+		    				<c:choose>
+		    					<c:when test="${ loginUser.grade eq 1 }"><span class="input-text">일반 회원</span></c:when>
+		    					<c:when test="${ loginUser.grade eq 2 }"><span class="input-text">우수 회원</span></c:when>	
+		    					<c:when test="${ loginUser.grade eq 3 }"><span class="input-text">VIP</span></c:when>		    						    					
+		    				</c:choose>
+		    			</p>		    					    			
 			    		<input type="button" id="updateBtn" onclick="location.href='${ mupdate.mp }'" value="회원정보 수정">
 						<c:url var="mdelete" value="mdelete.me">
 							<c:param name="no" value="${ loginUser.memberNo }"/>
-						</c:url>			    		
-			    		<input type="button" onclick="location.href='${ mdelete }'" value="회원탈퇴">
+						</c:url>			 		
+			    		<input id="deleteBtn" type="button" onclick="mDelete();" value="회원탈퇴">
+			    		<script>
+				    		function mDelete(){
+				    			var answer = confirm("정말로 탈퇴하시겠습니까?");
+				    			if(answer){
+				    				location.replace('${ mdelete }');
+				    			}
+				    		}
+			    		</script>
 	    	</div>
     	</div>
 	</div>

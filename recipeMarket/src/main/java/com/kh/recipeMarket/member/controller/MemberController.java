@@ -58,7 +58,7 @@ public class MemberController {
 		} else {
 			throw new MemberException("로그인에 실패하였습니다.");
 		}
-		return "../home";	
+		return "redirect:/";	
 	}	
 	
 	@RequestMapping("goJoin.me")
@@ -89,13 +89,13 @@ public class MemberController {
 				}
 				int result2 = ms.uploadImage(p);
 				if(result2 > 0) {
-					return "../home";					
+					return "redirect:/";						
 				} else {
 					throw new MemberException("회원가입에 실패하였습니다.");					
 				}
 				
 			} else {
-				return "../home";
+				return "redirect:/";		
 			}
 		} else {
 				throw new MemberException("회원가입에 실패하였습니다.");
@@ -138,7 +138,7 @@ public class MemberController {
 	@RequestMapping("logout.me")
 	public String logout(SessionStatus status) {
 		status.setComplete();
-		return "../home";
+		return "redirect:/";		
 	}	
 	
 	// 아이디 중복 검사
@@ -157,12 +157,13 @@ public class MemberController {
 	
 	// 회원 탈퇴
 	@RequestMapping("mdelete.me")
-	public String mDelete(@RequestParam("no") int no) {
+	public String mDelete(@RequestParam("no") int no, SessionStatus status) {
 		
 		int result = ms.mDelete(no);
 		
 		if(result > 0) {
-			return "redirect:home";
+			status.setComplete();					
+			return "redirect:/";		
 		}else {
 			throw new MemberException("탈퇴에 실패하였습니다.");
 		}
