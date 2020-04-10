@@ -21,5 +21,10 @@ public class RecipeServiceImpl implements RecipeService {
 	public int insertRecipe(Recipe r) {
 		return rDAO.insertRecipe(sqlSession, r);
 	}
+
+	@Override
+	public Recipe selectRecipe(int postNo) {
+		return rDAO.selectRecipe(sqlSession, postNo);
+	}
 	
 }

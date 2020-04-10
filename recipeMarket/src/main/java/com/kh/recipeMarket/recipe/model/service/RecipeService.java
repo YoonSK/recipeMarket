@@ -6,4 +6,6 @@ public interface RecipeService {
 
 	int insertRecipe(Recipe r);
 	
+	Recipe selectRecipe(int postNo);
+	
 }

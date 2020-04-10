@@ -12,4 +12,11 @@ public class RecipeDAO {
 		return sqlSession.insert("recipeMapper.insertRecipe",r);
 	}
 	
+	public Recipe selectRecipe(SqlSessionTemplate sqlSession, int postNo) {
+		return sqlSession.selectOne("recipeMapper.selectRecipe", postNo);
+	}
+	
+	
+	
+	
 }

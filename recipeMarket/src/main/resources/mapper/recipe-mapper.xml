@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="recipeMapper">
+
 	<resultMap id="recipeResultSet" type="Recipe">
 		<id property="postNo" column="POST_NO"/>
 		<result property="memberNo" column="MEMBER_NO"/>
@@ -30,6 +31,13 @@
 		<result property="ingredient" column="INGREDIENT"/>
 		<result property="amount" column="AMOUNT"/>
 	</resultMap>
+	
+	<select id="selectRecipe" parameterType="Recipe" resultMap="Recipe">
+		SELECT * 
+		FROM RECIPE
+		WHERE POST_NO = #{postNo}
+		AND DELETED = 'N'	  
+	</select>
 	
 	
 </mapper>
