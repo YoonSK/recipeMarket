@@ -59,7 +59,7 @@
 		    					<c:when test="${ loginUser.grade eq 3 }"><span class="input-text">VIP</span></c:when>		    						    					
 		    				</c:choose>
 		    			</p>		    					    			
-			    		<input type="button" id="updateBtn" onclick="location.href='${ mupdate.mp }'" value="회원정보 수정">
+			    		<input type="button" id="updateBtn" onclick="location.href='gomupdate.mp'" value="회원정보 수정">
 						<c:url var="mdelete" value="mdelete.me">
 							<c:param name="no" value="${ loginUser.memberNo }"/>
 						</c:url>			 		
