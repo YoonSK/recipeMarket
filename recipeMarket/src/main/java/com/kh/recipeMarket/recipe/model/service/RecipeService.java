@@ -1,7 +1,9 @@
 package com.kh.recipeMarket.recipe.model.service;
 
+import com.kh.recipeMarket.recipe.model.vo.Recipe;
 
-public class RecipeService {
+public interface RecipeService {
 
+	int insertRecipe(Recipe r);
 	
 }

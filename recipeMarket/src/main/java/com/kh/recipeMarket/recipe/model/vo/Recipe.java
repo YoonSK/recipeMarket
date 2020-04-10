@@ -2,7 +2,6 @@ package com.kh.recipeMarket.recipe.model.vo;
 
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 
