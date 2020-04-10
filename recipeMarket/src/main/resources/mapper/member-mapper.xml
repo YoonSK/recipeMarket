@@ -70,5 +70,19 @@
 		set deleted='Y'
 		where member_no = ${no}
 	</update>	
+
+	<update id="mUpdate" parameterType="Member">
+		update member
+		set name=#{name}, nickName=#{nickName}, email=#{email}, phone=#{phone},
+			zip=#{zip}, address=#{address}, address2=#{address2}
+		where member_no=#{memberNo}
+	</update>
+
+	<update id="updateImage" parameterType="Photo">
+		update photo
+		set origin_name = #{originName}, change_name = #{changeName}
+		where target_no=#{targetNo}
+	</update>
+
 	
 </mapper>
