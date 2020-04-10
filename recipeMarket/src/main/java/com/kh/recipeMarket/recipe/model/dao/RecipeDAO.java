@@ -9,7 +9,7 @@ import com.kh.recipeMarket.recipe.model.vo.Recipe;
 public class RecipeDAO {
 
 	public int insertRecipe(SqlSessionTemplate sqlSession, Recipe r) {
-		return sqlSession.insert("recipeMapper.inserRecipe",r);
+		return sqlSession.insert("recipeMapper.insertRecipe",r);
 	}
 	
 }
