@@ -2,6 +2,10 @@ package com.kh.recipeMarket.recipe.model.vo;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+
+
 public class Recipe {
 	int postNo;
 	int memberNo;
@@ -13,7 +17,8 @@ public class Recipe {
 	
 	ArrayList<Ingredient> ingredientList;
 	ArrayList<String> tagList;
-	ArrayList<RecipeStep> stepList;
+	
+	ArrayList<String> stepList;
 	
 	double rating;
 	int hit;
