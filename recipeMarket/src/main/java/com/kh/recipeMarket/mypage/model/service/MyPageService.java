@@ -9,5 +9,7 @@ public interface MyPageService {
 
 	int uploadImage(Photo p);
 
+	int pwdUpdate(Member loginUser);
+
 
 }

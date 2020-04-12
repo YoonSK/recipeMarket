@@ -2,7 +2,6 @@ package com.kh.recipeMarket.member.model.vo;
 
 import java.sql.Date;
 
-import org.mybatis.spring.SqlSessionTemplate;
 
 public class Member {
 

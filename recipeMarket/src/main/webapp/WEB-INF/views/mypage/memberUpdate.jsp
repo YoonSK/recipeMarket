@@ -13,6 +13,7 @@
 	/*  입력 창 */
 	p.input_con {font-size: 16px; color: #000; margin-top: 10px; margin-bottom: 10px; margin-left: 80px;}
 	p.input-label {font-size: 14px; color: gray; margin-left: 80px;}
+	p.input-mlabel {font-size: 14px; color: gray;}	
 	p.info-label {font-size: 14px; color: red; margin-left: 80px;}
 	input.input_text{border-top: none; border-left: none; border-right: none;}
 	input.input_birth{width: 35px; border-top: none; border-left: none; border-right: none;}
@@ -34,18 +35,18 @@
 	figure {margin: 0; line-height: 0; position: relative;} 	
 	#ImageArea{margin-left: 140px;}
 	#ImageArea:hover{cursor: pointer;}
-
+	
 	/*  닉네임 중복 검사 */
-	p.ava{display: none; font-size: 12px; margin-left: 80px;}
-	p.ok{color: green; font-weight: bold;}
-	p.error{color: red; font-weight: bold;}	
+	#mUpdate > p.ava{display: none; font-size: 12px; margin-left: 80px;}
+	p.ok{color: green; font-weight: bold; font-size: 12px;}
+	p.error{color: red; font-weight: bold; display: none; font-size: 12px;}	
 	
 	/* 비밀번호 변경 */	    	
     .modal {display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
     .modal-content {background-color: #fefefe; margin: 20% auto; padding: 20px; border: 1px solid #888; width: 40%; height: 380px;}
     .close {color: #aaa; float: right; font-size: 28px; font-weight: bold;}
     .close:hover, .close:focus {color: black; text-decoration: none; cursor: pointer;}	
-    
+
 </style>
 </head>
 <body>
@@ -57,8 +58,13 @@
 					<form method="post" action="mUpdate.mp" id="mUpdate" name="mUpdate" enctype="Multipart/form-data">			
 			    		<div id="imageArea">
 			    			<figure>
-									<img name="mImageArea" width=100px; height=100px; id="mImageArea" src="">
-									<input type="hidden" name="pName" value="${ loginUser.pName }">
+				    		<c:if test="${ loginUser.pName != null }">	
+								<img name="profile" width=100px; height=100px; class="profile" src="resources/upload/${ loginUser.pName }">
+							</c:if>
+							<c:if test="${ loginUser.pName == null }">
+								<img name="profile" width=100px; height=100px; class="profile" src="resources/images/user.png">
+							</c:if>
+								<img id="mImageArea" width=100px; height=100px; style="display: none;" src="">
 								<figcaption>사진 수정</figcaption>
 							</figure>	
 						</div>						
@@ -78,6 +84,8 @@
 										var reader = new FileReader();
 										reader.onload = function(e){								
 											$("#mImageArea").attr("src", e.target.result);
+											$('.profile').css("display", "none");	
+											$('#mImageArea').css("display", "block");													
 										}
 										reader.readAsDataURL(value.files[0]);
 									}
@@ -99,7 +107,8 @@
 							<input type="text" name="address2" class="postcodify_extra_info" value="${ loginUser.address2 }" >
 						</div>
 					<!-- 보낼 값  -->	
-					<input type="hidden" name="memberNo" value="${ loginUser.memberNo }">					
+					<input type="hidden" name="memberNo" value="${ loginUser.memberNo }">		
+					<input type="hidden" name="memberNo" value="${ loginUser.pwd }">									
 					<input type="hidden" name="id" value="${ loginUser.id }">	
 					<input type="hidden" name="birth" value="${ loginUser.birth }">	
 					<input type="hidden" name="grade" value="${ loginUser.grade }">	
@@ -122,22 +131,23 @@
 		    <!-- The Modal -->
 		    <div id="cmodal" class="modal">	 
 		      <!-- Modal content -->
-		      <form action="<%= request.getContextPath() %>/coupon.pt" id="cForm" method="post">
+		      <form action="pwdUpdate.mp" id="pForm" method="post">
 			      <div class="modal-content">
 			        <span class="close">&times;</span>                                                               
 			        <p><font style="font-size:25px; font-weight:500;">비밀번호 변경</font></p>
 			        <br>
 					<div class="input-box">
-						<p class="input-label">기존 비밀번호</p><input type="password" name="userPwd" id="userPwd" required>
+						<p class="input-mlabel">기존 비밀번호</p><input type="password" name="pwd" id="pwd" required>
 					</div>		        
 					<div class="input-box">
-						<p class="input-label">변경할 비밀번호</p><input type="password" name="userPwd" id="userPwd" required>
+						<p class="input-mlabel">변경할 비밀번호</p><input type="password" name="newPwd" id="newPwd" required>
 					</div>
 					<div class="input-box">
-						<p class="input-label">비밀번호 확인</p><input type="password" name="userPwdChk" id="userPwdChk" required>
+						<p class="input-mlabel">비밀번호 확인</p><input type="password" name="newPwd2" id="newPwd2" required>
+						<p class="ava error 2">비밀번호가 다릅니다.</p>									
 					</div>
 					<br>
-					<span><input type="button" id="pwdUp" value="변경 하기"></span>
+					<span><input type="submit" id="pwdUp" value="변경 하기"></span>
 			      </div>
 		      </form>	 
 		    </div>
@@ -177,6 +187,15 @@
 							}
 						});
 					});				
+				
+				// 비밀번호 확인
+				$('#newPwd2').focusout(function(){
+					if($('#newPwd').val() != $('#newPwd2').val()){
+						$('p.ava.error.2').show();
+					}else{
+						$('p.ava.error.2').hide();									
+					}
+				});
 				
 			</script>			
 			</div>

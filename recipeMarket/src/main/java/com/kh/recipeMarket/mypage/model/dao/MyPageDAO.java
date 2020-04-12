@@ -17,4 +17,8 @@ public class MyPageDAO {
 		return sqlSession.update("memberMapper.updateImage", p);
 	}
 
+	public int pwdUpdate(SqlSessionTemplate sqlSession, Member loginUser) {
+		return sqlSession.update("memberMapper.pwdUpdate", loginUser);
+	}
+
 }
