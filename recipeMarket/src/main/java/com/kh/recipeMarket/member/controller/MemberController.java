@@ -43,6 +43,7 @@ public class MemberController {
 		
 	}
 
+	// 로그인
 	@RequestMapping(value="login.me", method= {RequestMethod.POST,  RequestMethod.GET})
 	public String memberLogin(Member m, Model model) {			
 		Member loginUser = ms.memberLogin(m);

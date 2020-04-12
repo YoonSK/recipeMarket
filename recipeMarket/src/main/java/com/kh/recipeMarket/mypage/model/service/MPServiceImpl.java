@@ -28,5 +28,10 @@ public class MPServiceImpl implements MyPageService{
 		return mpDAO.uploadImage(sqlSession, p);
 	}
 
+	@Override
+	public int pwdUpdate(Member loginUser) {
+		return mpDAO.pwdUpdate(sqlSession, loginUser);
+	}
+
 
 }

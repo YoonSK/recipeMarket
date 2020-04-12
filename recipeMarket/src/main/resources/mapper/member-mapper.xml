@@ -83,6 +83,11 @@
 		set origin_name = #{originName}, change_name = #{changeName}
 		where target_no=#{targetNo}
 	</update>
-
+	
+	<update id="pwdUpdate" parameterType="Member">
+		update member
+		set pwd=#{pwd}
+		where member_no=#{memberNo}
+	</update>
 	
 </mapper>
