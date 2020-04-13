@@ -47,79 +47,70 @@
 	<div class="imageBar"></div>
 		<div class="boxOuter">
 			<div class="firstBox" id="slick"  style="margin: 5%;">
-			    <div><img class="icon" src="resources/images/all.png"/></div>
-			    <div><img class="icon" src="resources/images/mainmenu.png"/></div>
-			    <div><img class="icon" src="resources/images/soup.png"/></div>
-			    <div><img class="icon" src="resources/images/diet.png"/></div>
-			    <div><img class="icon" src="resources/images/sidemenu.png"/></div>
-			    <div><img class="icon" src="resources/images/rice.png"/></div>
-			    <div><img class="icon" src="resources/images/drink.png"/></div>
-			    <div><img class="icon" src="resources/images/sauce.png"/></div>
-			    <div><img class="icon" src="resources/images/dessert.png"/></div>
-			    <div><img class="icon" src="resources/images/speed.png"/></div>
-			    <div><img class="icon" src="resources/images/etc.png"/></div>
+			    <div><a href="#"><img class="icon" src="resources/images/all.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/mainmenu.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/soup.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/diet.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/sidemenu.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/rice.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/drink.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/sauce.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/dessert.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/speed.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/etc.png"/></a></div>
 			</div>
 			
 		</div>
 	</div>
-		<div class="currentLocation">
-			<h1>위도 : <span id="latitude"></span></h1>
-			<h1>경도 : <span id="longitude"></span></h1>
-			
-			
 		<div id="weather">
 			<h2>- 오늘의 날씨 정보</h2>
 			<div class="ctemp">현재 온도 : </div>
 			<div class="clowtemp">최저 온도 : </div>
 			<div class="chightemp">최고 온도 : </div>
+			<div class="sky">하늘 상태 : </div>
 			<div class="cicon">아이콘 : </div>
 		</div>
-	<script>
-	navigator.geolocation.getCurrentPosition(function(pos) {
-	    var $lat =pos.coords.latitude;
-	    var $lon =pos.coords.longitude;
-	    
-	  /*   alert($lat);
-	    alert($lon);
-	    alert("http://api.openweathermap.org/data/2.5/weather?lat="+$lat+"+&lon="+$lon+"&appid=ae4959dc548a8eabf9e9a03f8ff2866e&units=metric"); */
-	    $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat="+$lat+"&lon="+$lon+"&appid=ae4959dc548a8eabf9e9a03f8ff2866e&units=metric",function(data){
-	    	
-	    	//data로 할일(data : 날씨 정보를 통째로 가져오는것)
-			/* alert(data.cod);
-			alert(data.city.name);
-			alert(data.list[0].main.temp_min); */
-			
-			/* 현재의 날씨 정보 */
-			var $minTemp = data.main.temp_min;
-			var $maxTemp = data.main.temp_max;
-			var $cTemp = data.main.temp;
-			var $now = new Date($.now());
-			var $cDate = $now.getFullYear() + '년' +$now.getMonth() + '월' + $now.getDate()+'일'+ +$now.getHours() + ':' + $now.getMinutes()
-			var $wIcon = data.weather[0].icon;
-			
-			
-			//A.appne(B) A요소의 내용의 뒤에 B를 추가
-			//A.prepend(B)  A요소의 내용의 앞에 B를 추가
-			$('.clowtemp').append($minTemp);
-			$('.ctemp').append($cTemp);
-			$('.chightemp').append($maxTemp);
-			$('h2').prepend($cDate);
-			$('.cicon').append('<img src="http://openweathermap.org/img/wn/'+ $wIcon +'@2x.png"/>');
-			// <img src="http://openweathermap.org/img/wn/10d@2x.png"/>
-			
-			
-			
+		<script>
+		navigator.geolocation.getCurrentPosition(function(pos) {
+		    var $lat =pos.coords.latitude;
+		    var $lon =pos.coords.longitude;
+		    
+		  /*   alert($lat);
+		    alert($lon);
+		    alert("http://api.openweathermap.org/data/2.5/weather?lat="+$lat+"+&lon="+$lon+"&appid=ae4959dc548a8eabf9e9a03f8ff2866e&units=metric"); */
+		    $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat="+$lat+"&lon="+$lon+"&appid=ae4959dc548a8eabf9e9a03f8ff2866e&units=metric",function(data){
+		    	
+		    	//data로 할일(data : 날씨 정보를 통째로 가져오는것)
+				/* alert(data.cod);
+				alert(data.city.name);
+				alert(data.list[0].main.temp_min); */
+				
+				/* 현재의 날씨 정보 */
+				var $minTemp = data.main.temp_min;
+				var $maxTemp = data.main.temp_max;
+				var $cTemp = data.main.temp;
+				var $now = new Date($.now());
+				var $cDate = $now.getFullYear() + '년' +$now.getMonth() + '월' + $now.getDate()+'일'+ +$now.getHours() + ':' + $now.getMinutes()
+				var $wIcon = data.weather[0].icon;
+				var $sky = data.weather[0].description;
+				
+				//A.appne(B) A요소의 내용의 뒤에 B를 추가
+				//A.prepend(B)  A요소의 내용의 앞에 B를 추가
+				$('.clowtemp').append($minTemp);
+				$('.ctemp').append($cTemp);
+				$('.chightemp').append($maxTemp);
+				$('h2').prepend($cDate);
+				$('.cicon').append('<img src="http://openweathermap.org/img/wn/'+ $wIcon +'@2x.png"/>');
+				// <img src="http://openweathermap.org/img/wn/10d@2x.png"/>
+				$('.sky').append($sky);
+			});
 		});
-	});
-		
-
-		
+			
 	
-	</script> 
-		  
-	
+			
+		
+		</script> 
 	</div>
-	</div>	
 	
 	
 	<c:import url="common/footer.jsp"/>
