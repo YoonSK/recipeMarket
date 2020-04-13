@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.recipeMarket.board.model.vo.PageInfo;
-import com.kh.recipeMarket.buy.model.vo.OrderDetail;
+import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Pagination;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.member.model.exception.MemberException;
@@ -131,10 +131,11 @@ public class MyPageController {
 	      } else {
 		    	  model.addAttribute("msg", "원래 비밀번호와 일치하지 않습니다.");
 		    	  model.addAttribute("url", "memberUpdate.jsp");
-		    	  return "../common/errorPage";
+		    	  return "../common/pwdError.jsp";
 		      }
 	} 
 	
+	// 주문 조회
 	@RequestMapping("mOrder.mp")
 	public ModelAndView mOrder(@RequestParam(value="page", required=false) Integer page, ModelAndView mv, Model model){
 		Member loginUser = (Member)model.getAttribute("loginUser");		
@@ -146,11 +147,13 @@ public class MyPageController {
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
-		ArrayList<OrderDetail> list = mps.orderList(pi);
-		
+		ArrayList<Order> list = mps.orderList(pi);
+
+		String listNames = mps.getListNames(loginUser.getMemberNo());
 		if(list != null) {
 			mv.addObject("list", list);
 			mv.addObject("pi", pi);
+			mv.addObject("listNames", listNames);
 			mv.setViewName("memberorder");
 		}else {
 			throw new MyPageException("주문 조회에 실패하였습니다.");

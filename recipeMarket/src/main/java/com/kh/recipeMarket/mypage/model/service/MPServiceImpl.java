@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.recipeMarket.board.model.vo.PageInfo;
-import com.kh.recipeMarket.buy.model.vo.OrderDetail;
+import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.mypage.model.dao.MyPageDAO;
@@ -43,8 +43,13 @@ public class MPServiceImpl implements MyPageService{
 	}
 
 	@Override
-	public ArrayList<OrderDetail> orderList(PageInfo pi) {
+	public ArrayList<Order> orderList(PageInfo pi) {
 		return mpDAO.orderList(sqlSession, pi);
+	}
+
+	@Override
+	public String getListNames(int memberNo) {
+		return mpDAO.getListNames(sqlSession, memberNo);
 	}
 
 

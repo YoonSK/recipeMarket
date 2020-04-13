@@ -100,27 +100,39 @@
 
 	
 
-	<resultMap type="OrderDetail" id="orderDetailRS">
-		<id property = "detailNo" column="DETAIL_NO"/>
-		<result property = "orderNo" column="ORDER_NO"/>	
-		<result property = "productNo" column ="PRODUCT_NO"/>
-		<result property = "prCount" column ="PR_COUNT"/>
-		<result property = "price" column ="PRICE"/>		
-		<result property = "reviewed" column ="REVIEWED"/>	
+	<resultMap type="Order" id="orderRS">
+		<id property = "orderNo" column="ORDER_NO"/>
+		<result property = "memNo" column="MEM_NO"/>	
+		<result property = "date" column ="DATE"/>
+		<result property = "zip" column ="ZIP"/>
+		<result property = "address" column ="ADDRESS"/>		
+		<result property = "address2" column ="ADDRESS2"/>	
+		<result property = "note" column ="NOTE"/>	
+		<result property = "phone" column ="PHONE"/>	
+		<result property = "coupon" column ="COUPON"/>	
+		<result property = "status" column ="STATUS"/>
+		<result property = "total" column ="TOTAL"/>												
 	</resultMap>  
 	
 	<select id="mOrderCount" resultType="_int">
 		select count(*)
-		from order
+		from "ORDER"
 		where mem_no=#{memberNo}
 	</select>
 	
-	<select id="orderList" resultMap="orderDetailRS">
-		select * 
-		from ORDER_DETAIL
-		where order_no = (select order_no
-		                    from "ORDER"
-		                    where mem_no = #{memberNo})
+	<select id="orderList" resultMap="orderRS">
+		select *
+		from ODLIST
+		where mem_no=#{memberNo}
+	</select>
+
+	<select id="getListNames" resultType="String">
+		SELECT 
+			LISTAGG(NAME, ', ') WITHIN GROUP (ORDER BY ORDER_NO) AS "목록"
+		FROM
+		ODLIST
+		WHERE MEM_NO = #{memberNo}
+		GROUP BY ORDER_NO	
 	</select>
 
 </mapper>

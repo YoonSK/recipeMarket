@@ -28,7 +28,8 @@
     span#orderInfo_head{font-weight: 800; font-size: 17px;}
 	table#tableD > thead th{border-bottom: 2px solid #e8e5da; background-color: #e8e5da; height: 20px; font-weight: 600; text-align: center;}    
 	table#tableD {width: 100%;}
-	table#tableD > th, td{word-spacing: 5px; padding: 5px; height: 20px;}    
+	table#tableD > th, td{word-spacing: 5px; padding: 5px; height: 20px;}   
+	#buttonTab{border-left: hidden; border-right: hidden;}	 
 </style>
 </head>
 <body>
@@ -47,44 +48,61 @@
 							<th width="15%">주문 상태</th>
 						</tr>
 						</thead>
-						<tbody>
+						<tbody>				
+						<c:forEach var="order" items="${ list }">	
 						<tr>
-							<td>2020-03-30</td>
-							<td class="order_D">가지, 양파 외</td>
+							<td>${ order.date }</td>
+							<td class="order_D">${ listNames }</td>
 							<td>32,000원</td>
-							<td>
+							<td>${ order.status }
 								배송중<br>
 								<input type="submit" id="updateBtn" value="수취 확인">
 							</td>
-						</tr>	
-						<tr>
-							<td>2020-03-30</td>
-							<td>가지, 양파 외</td>
-							<td>32,000원</td>
-							<td>
-								배송중<br>
-								<input type="submit" id="updateBtn" value="수취 확인">
-							</td>
-						</tr>			
-						<tr>
-							<td>2020-03-30</td>
-							<td>가지, 양파 외</td>
-							<td>32,000원</td>
-							<td>
-								배송중<br>
-								<input type="submit" id="updateBtn" value="수취 확인">
-							</td>
-						</tr>
-						<tr>
-							<td>2020-03-30</td>
-							<td>가지, 양파 외</td>
-							<td>32,000원</td>
-							<td>
-								배송완료<br>
-								<input type="submit" id="updateBtn" value="후기 작성">
-							</td>
-						</tr>																		
+						</tr>		
+						</c:forEach>																						
 						</tbody>
+						
+						<!-- 페이징 처리 -->
+						<tr align="center" height="20" id="buttonTab">
+							<td colspan="6">
+							
+								<!-- [이전] -->
+								<c:if test="${ pi.currentPage <= 1 }">
+									[이전] &nbsp;
+								</c:if>
+								<c:if test="${ pi.currentPage > 1 }">
+									<c:url var="before" value="blist.bo">
+										<c:param name="page" value="${ pi.currentPage - 1 }"/>
+									</c:url>
+									<a href="${ before }">[이전]</a> &nbsp;
+								</c:if>
+								
+								<!-- 페이지 -->
+								<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+									<c:if test="${ p eq pi.currentPage }">
+										<font color="red" size="4"><b>[${ p }]</b></font>
+									</c:if>
+									
+									<c:if test="${ p ne pi.currentPage }">
+										<c:url var="pagination" value="blist.bo">
+											<c:param name="page" value="${ p }"/>
+										</c:url>
+										<a href="${ pagination }">${ p }</a> &nbsp;
+									</c:if>
+								</c:forEach>
+								
+								<!-- [다음] -->
+								<c:if test="${ pi.currentPage >= pi.maxPage }">
+									[다음]
+								</c:if>
+								<c:if test="${ pi.currentPage < pi.maxPage }">
+									<c:url var="after" value="blist.bo">
+										<c:param name="page" value="${ pi.currentPage + 1 }"/>
+									</c:url> 
+									<a href="${ after }">[다음]</a>
+								</c:if>
+							</td>
+						</tr>						
 					</table>
 				</div>
 				
