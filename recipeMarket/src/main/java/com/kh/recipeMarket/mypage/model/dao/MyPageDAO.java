@@ -7,7 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.recipeMarket.board.model.vo.PageInfo;
-import com.kh.recipeMarket.buy.model.vo.OrderDetail;
+import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.member.model.vo.Member;
 
@@ -30,10 +30,14 @@ public class MyPageDAO {
 		return sqlSession.selectOne("memberMapper.mOrderCount", memberNo);
 	}
 
-	public ArrayList<OrderDetail> orderList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<Order> orderList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.orderList", null, rowBounds);
+	}
+
+	public String getListNames(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.selectOne("memberMapper.getListNames", memberNo);
 	}
 
 }

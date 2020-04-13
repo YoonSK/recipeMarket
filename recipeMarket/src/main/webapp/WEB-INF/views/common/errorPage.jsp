@@ -14,12 +14,5 @@
 		<h2 style="color:red;">${ message }</h2>
 		<h2 style="color:red;">${ requestScope['javax.servlet.error.message'] }</h2>
 	</div>
-	<script type="text/javascript">
-		var msg = '${msg}';
-		var url = '${url}';
-		alert(msg);
-		document.location.href="gomupdate.mp";
-
-	</script>
 </body>
 </html>
