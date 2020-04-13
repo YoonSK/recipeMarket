@@ -16,6 +16,7 @@ import com.kh.recipeMarket.board.model.service.BoardService;
 import com.kh.recipeMarket.board.model.vo.Board;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.common.Pagination;
+import com.kh.recipeMarket.member.model.service.MemberService;
 import com.kh.recipeMarket.member.model.vo.Member;
 
 @Controller
@@ -23,6 +24,8 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService bService;
+	
+	private MemberService ms;
 	
 //	@RequestMapping("insertView.bo")
 //	public String boardInsertView() {
@@ -43,6 +46,7 @@ public class BoardController {
 		
 		ArrayList<Board> list = bService.selectList(pi);
 		
+		
 		if(list != null) {
 			mv.addObject("list",list);
 			mv.addObject("pi",pi);
@@ -60,13 +64,16 @@ public class BoardController {
 		return "boardInsertForm";
 	}
 	
+	
 	@RequestMapping("insert.bo")
 	public String boardInsert(@ModelAttribute Board b, HttpSession session) {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int memberNo = loginUser.getMemberNo();
+		//String nickName = loginUser.getNickName();
 		
 		b.setMemberNo(memberNo);
+		//b.setNickName(nickName);
 		
 		int result = bService.insertBoard(b);
 		

@@ -13,4 +13,7 @@ public interface BoardService {
 
 	int insertBoard(Board b);
 
+//	int insertBoard(String nickName);
+
+
 }
