@@ -1,5 +1,9 @@
 package com.kh.recipeMarket.mypage.model.service;
 
+import java.util.ArrayList;
+
+import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.buy.model.vo.OrderDetail;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.member.model.vo.Member;
 
@@ -10,6 +14,10 @@ public interface MyPageService {
 	int uploadImage(Photo p);
 
 	int pwdUpdate(Member loginUser);
+
+	int mOrderCount(int memberNo);
+
+	ArrayList<OrderDetail> orderList(PageInfo pi);
 
 
 }

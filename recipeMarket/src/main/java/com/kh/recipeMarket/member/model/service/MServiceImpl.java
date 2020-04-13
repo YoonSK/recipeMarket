@@ -52,5 +52,13 @@ public class MServiceImpl implements MemberService {
 		return mDAO.mDelete(sqlSession, no);
 	}
 
+	@Override
+	public String findId(Member m) {
+		return mDAO.findId(sqlSession, m);
+	}
 
+	@Override
+	public int updatePwd(Member m) {
+		return mDAO.updatePwd(sqlSession, m);
+	}
 }

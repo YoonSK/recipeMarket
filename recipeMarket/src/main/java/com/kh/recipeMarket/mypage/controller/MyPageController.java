@@ -3,6 +3,7 @@ package com.kh.recipeMarket.mypage.controller;
 import java.io.File;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.buy.model.vo.OrderDetail;
+import com.kh.recipeMarket.common.Pagination;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.member.model.exception.MemberException;
 import com.kh.recipeMarket.member.model.vo.Member;
@@ -46,7 +51,7 @@ public class MyPageController {
 	public String gomUpdate(){
 		return "/memberUpdate";
 	}
-	
+
 	@RequestMapping("mUpdate.mp")
 	public String mUpadate(@ModelAttribute Member m, @ModelAttribute Photo p, 
 							@RequestParam("mImage") MultipartFile mImage, HttpServletRequest request, Model model) {
@@ -130,5 +135,28 @@ public class MyPageController {
 		      }
 	} 
 	
+	@RequestMapping("mOrder.mp")
+	public ModelAndView mOrder(@RequestParam(value="page", required=false) Integer page, ModelAndView mv, Model model){
+		Member loginUser = (Member)model.getAttribute("loginUser");		
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page; }
+		
+		int listCount = mps.mOrderCount(loginUser.getMemberNo());
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		ArrayList<OrderDetail> list = mps.orderList(pi);
+		
+		if(list != null) {
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.setViewName("memberorder");
+		}else {
+			throw new MyPageException("주문 조회에 실패하였습니다.");
+		}
+	return mv;
+	}	
+		
 	
 }

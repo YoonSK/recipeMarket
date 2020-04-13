@@ -90,4 +90,36 @@
 		where member_no=#{memberNo}
 	</update>
 	
+	<select id="findId" parameterType="Member" resultType="string">
+		select id from member where name=#{name} and email=#{email}
+	</select>
+	
+	<update id="updatePwd" parameterType="Member">
+		update member set pwd=#{pwd} where id=#{id}
+	</update>
+	
+
+	<resultMap type="OrderDetail" id="orderDetailRS">
+		<id property = "detailNo" column="DETAIL_NO"/>
+		<result property = "orderNo" column="ORDER_NO"/>	
+		<result property = "productNo" column ="PRODUCT_NO"/>
+		<result property = "prCount" column ="PR_COUNT"/>
+		<result property = "price" column ="PRICE"/>		
+		<result property = "reviewed" column ="REVIEWED"/>	
+	</resultMap>  
+	
+	<select id="mOrderCount" resultType="_int">
+		select count(*)
+		from order
+		where mem_no=#{memberNo}
+	</select>
+	
+	<select id="orderList" resultMap="orderDetailRS">
+		select * 
+		from ORDER_DETAIL
+		where order_no = (select order_no
+		                    from "ORDER"
+		                    where mem_no = #{memberNo})
+	</select>
+	
 </mapper>

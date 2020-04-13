@@ -47,27 +47,27 @@
 	<div class="imageBar"></div>
 		<div class="boxOuter">
 			<div class="firstBox" id="slick"  style="margin: 5%;">
-				<div><a href="#"><img class="icon" src="resources/images/all.png"/></a></div>
-				<div><a href="#"><img class="icon" src="resources/images/mainmenu.png"/></a></div>
-				<div><a href="#"><img class="icon" src="resources/images/soup.png"/></a></div>
-				<div><a href="#"><img class="icon" src="resources/images/diet.png"/></a></div>
-				<div><a href="#"><img class="icon" src="resources/images/sidemenu.png"/></a></div>
-				<div><a href="#"><img class="icon" src="resources/images/rice.png"/></a></div>
-				<div><a href="#"><img class="icon" src="resources/images/drink.png"/></a></div>
-				<div><a href="#"><img class="icon" src="resources/images/sauce.png"/></a></div>
-				<div><a href="#"><img class="icon" src="resources/images/dessert.png"/></a></div>
-				<div><a href="#"><img class="icon" src="resources/images/speed.png"/></a></div>
-				<div><a href="#"><img class="icon" src="resources/images/etc.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/all.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/mainmenu.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/soup.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/diet.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/sidemenu.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/rice.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/drink.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/sauce.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/dessert.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/speed.png"/></a></div>
+			    <div><a href="#"><img class="icon" src="resources/images/etc.png"/></a></div>
 			</div>
 			
 		</div>
-	</div>	
+	</div>
 		<div id="weather">
 			<h2>- 오늘의 날씨 정보</h2>
 			<div class="ctemp">현재 온도 : </div>
 			<div class="clowtemp">최저 온도 : </div>
 			<div class="chightemp">최고 온도 : </div>
-			<div class="sky">하늘 상태 : </div>			
+			<div class="sky">하늘 상태 : </div>
 			<div class="cicon">아이콘 : </div>
 		</div>
 		<script>
@@ -104,12 +104,12 @@
 				// <img src="http://openweathermap.org/img/wn/10d@2x.png"/>
 				$('.sky').append($sky);
 			});
-		});			
-		
-
-		
+		});
+			
 	
-	</script> 	
+			
+		
+		</script> 
 	</div>
 	
 	
