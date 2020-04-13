@@ -15,7 +15,7 @@
 	</resultMap>
 	
 	<resultMap id="recipeStepResultSet" type="RecipeStep">
-		<id property="postNo" column="POST_NO"/>
+		<id property="step" column="POST_NO"/>
 		<result property="step" column="STEP"/>
 		<result property="content" column="CONTENT"/>
 		<result property="timer" column="TIMER"/>
@@ -38,6 +38,6 @@
 		WHERE POST_NO = #{postNo}
 		AND DELETED = 'N'	  
 	</select>
-	
+
 	
 </mapper>

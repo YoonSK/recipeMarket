@@ -9,7 +9,8 @@
 	<typeAliases>
 		<typeAlias type="com.kh.recipeMarket.member.model.vo.Member" alias="Member"/>
 		<typeAlias type="com.kh.recipeMarket.board.model.vo.Board" alias="Board"/>
-		<typeAlias type="com.kh.recipeMarket.common.Photo" alias="Photo"/>		
+		<typeAlias type="com.kh.recipeMarket.common.Photo" alias="Photo"/>
+		<typeAlias type="com.kh.recipeMarket.common.Reply" alias="Reply"/>
 		<typeAlias type="com.kh.recipeMarket.recipe.model.vo.Recipe" alias="Recipe"/>
 		<typeAlias type="com.kh.recipeMarket.recipe.model.vo.RecipeStep" alias="RecipeStep"/>
 		<typeAlias type="com.kh.recipeMarket.recipe.model.vo.Ingredient" alias="Ingredient"/>
