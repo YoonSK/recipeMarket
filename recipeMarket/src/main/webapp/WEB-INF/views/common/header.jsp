@@ -11,9 +11,9 @@
 	div.nav h1{margin: 0 30px 0 0; display: inline-block; vertical-align: top; margin-left: 150px; }
 	/* 네비 상단 */
 	div.menubar_top {margin: 0 auto; padding: 16px 0 0 176px; height: 60px;}
-	p#welcome {position: absolute; right: 3.4%;}
+	p#welcome {position: absolute; right: 60px; top: -10px;}
 	ul.nav_mem {display:inline; padding:0 10px; display: inline; padding: 0 10px; position: absolute; right: 1%; top: 50px;}
-	ul.nav_mem li{list-style: none; padding: 0 3px; display: inline-block;}
+	ul.nav_mem li{list-style: none; padding: 0 3px; display: inline-block; font-size: 13px;}
 	ul.nav_mem li a:link {text-decoration: none; color: grey;}
 	#search_con{position: absolute; left: 30%; top: 2%;}
 	#topSearch{height: 70px;}
@@ -55,7 +55,14 @@
 			</ul>
 			</c:if>	
 			<c:if test="${ !empty sessionScope.loginUser }">	
-				<p id="welcome"><c:out value="안녕하세요 ${ loginUser.nickName }님!"/></p>
+				<p id="welcome">
+		    		<c:if test="${ loginUser.pName != null }">	
+						<img name="profile" width=60px; height=60px; style="border-radius: 40px;" id="profile" src="resources/upload/${ loginUser.pName }">
+					</c:if>
+					<c:if test="${ loginUser.pName == null }">
+						<img name="profile" width=60px; height=60px; style="border-radius: 40px;" id="profile" src="resources/images/user.png">
+					</c:if>							
+				</p>
 				<ul class="nav_mem">
 					<li><a href="mypage.mp">마이페이지</a></li>
 					<li><a href="logout.me">로그아웃</a></li>

@@ -141,6 +141,7 @@
 					</div>		        
 					<div class="input-box">
 						<p class="input-mlabel">변경할 비밀번호</p><input type="password" name="newPwd" id="newPwd" required>
+						<p class="ava error 3">이 비밀번호는 사용 불가능합니다.</p>	
 					</div>
 					<div class="input-box">
 						<p class="input-mlabel">비밀번호 확인</p><input type="password" name="newPwd2" id="newPwd2" required>
@@ -187,6 +188,19 @@
 							}
 						});
 					});				
+
+				// 비밀번호 유효성 검사
+				$('#newPwd').on('keyup', function(){
+					var userPwd = $(this).val().trim();
+					var pwdCheck = /^(?=.*[a-zA-Z!@#\$%\^&*?])(?=.*[0-9]).{6,16}$/;								
+					if(userPwd == '' || !pwdCheck.test(userPwd)){
+						$(this).focus();
+						$('p.ava.error.3').show();	
+					}else{
+						$('p.ava.error.3').hide();										
+					}
+				});		
+									
 				
 				// 비밀번호 확인
 				$('#newPwd2').focusout(function(){
