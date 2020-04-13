@@ -52,11 +52,22 @@
 						<c:forEach var="order" items="${ list }">	
 						<tr>
 							<td>${ order.date }</td>
-							<td class="order_D">${ listNames }</td>
-							<td>32,000원</td>
-							<td>${ order.status }
-								배송중<br>
-								<input type="submit" id="updateBtn" value="수취 확인">
+							<td class="order_D">${ order.oList }</td>
+							<td>${ order.total }</td>
+							<td>
+								<c:if test="${ order.status == 0}">
+									결제완료
+								</c:if>	
+								<c:if test="${ order.status == 1}">
+									배송중
+								<br>
+								<input type="submit" id="updateBtn" value="수취 확인">									
+								</c:if>	
+								<c:if test="${ order.status == 2}">
+									배송완료
+								<br>
+								<input type="submit" id="updateBtn" value="후기 작성">									
+								</c:if>																	
 							</td>
 						</tr>		
 						</c:forEach>																						
