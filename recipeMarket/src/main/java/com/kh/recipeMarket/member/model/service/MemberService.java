@@ -19,5 +19,8 @@ public interface MemberService {
 
 	int mDelete(int no);
 
+	String findId(Member m);
+
+	int updatePwd(Member m);
 
 }

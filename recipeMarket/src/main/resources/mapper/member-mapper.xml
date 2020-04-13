@@ -90,4 +90,11 @@
 		where member_no=#{memberNo}
 	</update>
 	
+	<select id="findId" parameterType="Member" resultType="string">
+		select id from member where name=#{name} and email=#{email}
+	</select>
+	
+	<update id="updatePwd" parameterType="Member">
+		update member set pwd=#{pwd} where id=#{id}
+	</update>
 </mapper>

@@ -35,7 +35,7 @@
 					<input class="id" type="text" name="id" placeholder="아이디">
 					<input class="pwd" type="password" name="pwd" placeholder="비밀번호">
 					<input type="submit" id="submit" value="로그인">
-					<p class="forgot" align="center"><a href="#">아이디 찾기</a>&nbsp;&nbsp;<a href="#">비밀번호 찾기</a></p>		      
+					<p class="forgot" align="center"><a href="findIdView.me">아이디 찾기</a>&nbsp;&nbsp;<a href="findPwdView.me">비밀번호 찾기</a></p>		      
 			      </form>                    
     			</div>
     		</div>	
