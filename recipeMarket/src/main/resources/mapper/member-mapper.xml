@@ -97,6 +97,7 @@
 	<update id="updatePwd" parameterType="Member">
 		update member set pwd=#{pwd} where id=#{id}
 	</update>
+
 	
 
 	<resultMap type="OrderDetail" id="orderDetailRS">
@@ -121,5 +122,5 @@
 		                    from "ORDER"
 		                    where mem_no = #{memberNo})
 	</select>
-	
+
 </mapper>
