@@ -45,7 +45,7 @@
 		<div class="nav_top">
 		<form id="topSearch">
 			<h1>
-				<a href="#"><img src="resources/images/logo.png" width="200px" height="70px" style="position: absolute; left: 1%; top: 2%"></a>
+				<a href="${ contextPath }"><img src="resources/images/logo.png" width="200px" height="70px" style="position: absolute; left: 1%; top: 2%"></a>
 			</h1>
 			<input type="search" placeholder="검색" id="search_con">
 			<c:if test="${ empty sessionScope.loginUser }">				

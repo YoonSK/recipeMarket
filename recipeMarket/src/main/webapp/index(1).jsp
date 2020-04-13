@@ -8,5 +8,6 @@
 <meta charset="UTF-8">
 <title></title>
 <body>
+<c:import url="home.do"/>
 </body>
 </html>
