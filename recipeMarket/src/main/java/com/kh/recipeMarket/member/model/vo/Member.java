@@ -2,6 +2,7 @@ package com.kh.recipeMarket.member.model.vo;
 
 import java.sql.Date;
 
+
 public class Member {
 
 	private int memberNo;
@@ -162,6 +163,6 @@ public class Member {
 				+ nickName + ", email=" + email + ", phone=" + phone + ", birth=" + birth + ", zip=" + zip
 				+ ", address=" + address + ", address2=" + address2 + ", grade=" + grade + ", deleted=" + deleted
 				+ ", pName=" + pName + "]";
-	}	
+	}
 
 }
