@@ -120,9 +120,12 @@
 								var userId = $(this).val().trim();
  								var idCheck = /[a-z0-9]{5,15}/g;
 								if(userId == '' || !idCheck.test(userId)){
-									$(this).focus();
+									$('#id').focus();
 									$('p.ava.error.5').show();		
-								} else{
+								} else if(userId == ''){
+									$('#id').focus();
+									$('p.ava.error.5').show();
+								} else {
 									$('p.ava.error.5').hide();										
 									if(userId.length < 4 && userId.val() == ""){
 										$('.ava').hide();
