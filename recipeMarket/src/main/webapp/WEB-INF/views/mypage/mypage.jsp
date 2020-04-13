@@ -35,7 +35,7 @@
 				<div class="menu_box">
 					<div class="icon_con">
 						<figure>
-							<img src="resources/images/cart.png" width=100px; height=100px;>
+							<a href="mOrder.mp"><img src="resources/images/cart.png" width=100px; height=100px;></a>
 							<figcaption>주문 내역</figcaption>
 						</figure>					
 					</div>

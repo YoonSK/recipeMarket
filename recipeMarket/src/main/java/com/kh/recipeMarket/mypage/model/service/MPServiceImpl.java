@@ -1,9 +1,13 @@
 package com.kh.recipeMarket.mypage.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.buy.model.vo.OrderDetail;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.mypage.model.dao.MyPageDAO;
@@ -31,6 +35,16 @@ public class MPServiceImpl implements MyPageService{
 	@Override
 	public int pwdUpdate(Member loginUser) {
 		return mpDAO.pwdUpdate(sqlSession, loginUser);
+	}
+
+	@Override
+	public int mOrderCount(int memberNo) {
+		return mpDAO.mOrderCount(sqlSession, memberNo);
+	}
+
+	@Override
+	public ArrayList<OrderDetail> orderList(PageInfo pi) {
+		return mpDAO.orderList(sqlSession, pi);
 	}
 
 

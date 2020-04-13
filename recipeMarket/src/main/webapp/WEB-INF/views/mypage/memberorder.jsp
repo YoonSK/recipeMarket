@@ -8,8 +8,8 @@
 <title>주문 내역 조회</title>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script> 
 <style>
-	div.container{left: 18%; position: absolute; width: 900px; top: 30%;}
 	div.content{height: 600px;}
+	h2{margin-left: 135px;}
 	.tableArea{width: 80%; height: 650px; margin: 0 auto; margin-top: 80px;}
 	table {width: 100%;}
 	table > class{margin-left: 100px; margin-top: 30px; width: 680px;}
