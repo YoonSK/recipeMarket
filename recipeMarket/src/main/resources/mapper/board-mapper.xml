@@ -37,5 +37,11 @@
 		values(seq_bno.nextval,#{memberNo}, #{content}, sysdate, sysdate, default, default, #{category})
 	</insert>
 	
-
+	<select id="selectBoard" resultMap="boardResultSet">
+		select POST_NO, NICKNAME, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, F.DELETED, CATEGORY
+		FROM F_BOARD F
+    		JOIN MEMBER M USING(MEMBER_NO)
+		WHERE F.deleted='N' and post_no = #{postNo}
+		order by post_no desc 
+	</select>
 </mapper>

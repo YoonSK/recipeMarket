@@ -37,22 +37,19 @@
 	         		<tr>
 	         		
 						<td rowspan=6><img width="150" height="150" src="../images/user.PNG"/></td>
-						<td width="80%" style="font-size:30px">닉네임2</td>
+						<td width="80%" style="font-size:30px">${ board.nickName }</td>
 						<td style="font-size:20px">♡</td>
 						<td width="30px" style="font-size:20px">0</td>
 						<td style="font-size:20px">댓글수</td>
 						<td style="font-size:20px">0</td>			         		
 	         		</tr>
 	         		<tr>
-	         			<td width="80%" colspan=5 style="color:gray; font-size:20px">요리톡</td>
+	         			<td width="80%" colspan=5 style="color:gray; font-size:20px">${board.category }</td>
 	         		</tr>
 	         		
 	         		<tr>
 	         			<td width="80%" colspan=5 style="font-size:20px">
-	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
+	         				${board.content }
 	         			</td>
 	         		</tr>
 	         		
@@ -88,20 +85,6 @@
 	         	</table>
 	         	<hr>
 	         	
-	         	<table>
-	         		<tr>
-						<td rowspan=3><img width="100" height="100" src="../images/user.PNG"/></td>
-						<td style="width:150px; font-size:20px">닉네임2</td>
-						<td style="font-size:15px">2020-04-01</td>		         		
-	         		</tr>
-	         		
-	         		<tr>
-	         			<td  colspan=5 style="font-size:13px">
-	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-	         			</td>
-	         		</tr>
-	         	</table>
 	         	
 	         	<br>
 	         	<div class="btnArea">

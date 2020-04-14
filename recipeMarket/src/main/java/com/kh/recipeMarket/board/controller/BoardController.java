@@ -83,5 +83,20 @@ public class BoardController {
 			throw new BoardException("게시글 등록에 실패하였습니다.");
 		}
 	}
-
+	
+	@RequestMapping("bdetail.bo")
+	public ModelAndView boardDetail(@RequestParam("postNo") int postNo, @RequestParam("page") int page, ModelAndView mv) {
+		
+		Board board = bService.selectBoard(postNo);
+		
+		if(board != null) {
+			mv.addObject("board", board);
+			mv.addObject("page",page);
+			mv.setViewName("boardDetailView");
+			
+			return mv;
+		}else {
+			throw new BoardException("게시글 상세 조회에 실패하였습니다.");
+		}
+	}
 }
