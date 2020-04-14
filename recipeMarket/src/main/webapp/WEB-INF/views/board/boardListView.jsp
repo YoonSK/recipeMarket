@@ -18,6 +18,7 @@
     	width: 120px;
     	height: 50px; 
     	font-align:center; 
+    	cursor:pointer;
 	}
 	.wrapper{
 		height:100%;
@@ -49,7 +50,7 @@
 	<%@ include file="../common/header.jsp" %>
 		<div class="wrapper">
 			<br>
-			<div class="title"  style="background: white; height:70px; width:1500px; margin:0 auto;">
+			<div class="title"  style="background: white; height:70px; width:1450px; margin:0 auto;">
 	            <span style=" vertical-align: middle; font-size:30px; font-align:center; font-weight:bold; padding:15px;">
 	               	토크 전체의 글을 볼수 있습니다.
 	            </span>
@@ -67,14 +68,16 @@
 	         </c:if>
 	         
 	         
-	         <table style="background: white; width:1500px; margin:0 auto;">
+	         <table style="background: white; width:1450px; margin:0 auto;">
 	         	<c:forEach var="b" items="${ list }">
 		        	<!-- <div > -->
 		        	<tr>
 						<td rowspan=4 width="150" height="150">
 							<img id="profileImg" src="resources/images/user.png"/>
 						</td>
-						<td width="80%" style="font-size:30px">${ b.nickName }</td>
+						<td width="75%" style="font-size:30px">${ b.nickName }
+							
+						</td>
 						<td style="font-size:20px; width:30px;">♡</td>
 						<td width="30px" style="font-size:20px">0</td>
 						<td style="font-size:20px; width:70px;">댓글수</td>
@@ -82,16 +85,20 @@
 		        	</tr>
 		         		
 		        	<tr>
-		        		<td width="80%" colspan=5 style="color:gray; font-size:20px">${ b.category }  (작성일:${b.createDate})</td>
+		        		<td width="75%" colspan=5 style="color:gray; font-size:20px">${ b.category }  (작성일:${b.createDate})</td>
 		        	</tr>
 		         		
-		        	<tr>
-		        		<td width="80%" colspan=5 style="font-size:20px">${ b.content }</td>
+		        	<tr class="contentTR">
+		        		<td width="75%" colspan=5 style="font-size:20px">
+			        		${ b.content }
+			        		
+		        		</td>
 		        	</tr>
 		        		
-		        	<tr>
+		        	<tr class="contentTR">
 		        		<td colspan=5 id="thumImgTd">
 		        			<img  src="resources/images/food.PNG" id="thumImg"/>
+		        			<input type="hidden" value="${ b.postNo }" name="postNo" id="postNo">
 		        		</td>
 	         		</tr>
 	         		
@@ -143,8 +150,37 @@
 		         </td>
 		      </tr>
 			</table>
-	         
-	         
+			
+			
+			<!-- <script>
+				$(function(){
+					$('.contentTR').mouseover(function(){
+						$(this).css({'background-color':'gray', 'cursor':'pointer'});
+					}).mouseout(function(){
+						$(this).css({'background-color':'white'});
+					}).click(function(){
+						var postNo= $(this).children('td').children('input').val();
+						
+						location.href="bdetail.bo?postNo="postNo+"&page="+${pi.currentPage};
+					});
+					
+					
+				});
+			</script> -->
+			
+	    <script>
+	    	$(function(){
+	    		$('.contentTR').mouseenter(function(){
+	    			$(this).css('cursor','pointer');
+	    		}).mouseleave(function(){
+	    			$(this).css('background-color','white');
+	    		}).click(function(){
+	    			 var postNo= $(this).children('td').children('input').val();
+	    			 console.log(postNo);
+		    			location.href="bdetail.bo?postNo="+postNo+"&page="+${pi.currentPage};
+		    	});
+	    	}); 
+	    </script>     
 	         
 	         
 	         

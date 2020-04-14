@@ -13,6 +13,8 @@ public interface BoardService {
 
 	int insertBoard(Board b);
 
+	Board selectBoard(int postNo);
+
 //	int insertBoard(String nickName);
 
 

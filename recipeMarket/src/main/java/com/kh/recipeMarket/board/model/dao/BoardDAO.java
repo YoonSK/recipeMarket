@@ -26,6 +26,10 @@ public class BoardDAO {
 	public int insertList(SqlSessionTemplate sqlSession, Board b) {
 		return sqlSession.insert("boardMapper.inserBoard",b);
 	}
+
+	public Board selectBoard(SqlSessionTemplate sqlSession, int postNo) {
+		return sqlSession.selectOne("boardMapper.selectBoard",postNo);
+	}
 	
 	
 	
