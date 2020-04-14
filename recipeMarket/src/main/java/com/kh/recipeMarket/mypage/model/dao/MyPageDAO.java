@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.member.model.vo.Member;
+import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
 @Repository("mpDAO")
@@ -34,5 +35,9 @@ public class MyPageDAO {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.orderList", memberNo, rowBounds);
+	}
+
+	public ArrayList<mOrderDetail> orderDetail(SqlSessionTemplate sqlSession, int no) {
+		return (ArrayList)sqlSession.selectList("memberMapper.orderDetail", no);
 	}
 }

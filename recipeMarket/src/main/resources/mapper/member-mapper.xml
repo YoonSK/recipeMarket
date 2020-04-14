@@ -101,6 +101,7 @@
 	
 
 	<resultMap type="OrderInfo" id="oiRS">
+		<result property = "orderNo" column="ORDER_NO"/>
 		<result property = "date" column="DATE"/>	
 		<result property = "total" column ="TOTAL"/>
 		<result property = "oList" column ="oList"/>	
@@ -114,13 +115,45 @@
 	</select>
 	
 	<select id="orderList" resultMap="oiRS">
-		SELECT  
+		SELECT 
+				ORDER_NO, 
 		        "DATE",
 		        TOTAL,
 		        LISTAGG(NAME, ', ') WITHIN GROUP (ORDER BY ORDER_NO) AS "oList", STATUS
 		FROM ODLIST
 		where mem_no = #{memberNo}
-		group by "DATE", TOTAL, STATUS
+		group by "DATE", TOTAL, STATUS, ORDER_NO 
+		order by ORDER_NO
+	</select>
+	
+	<resultMap type="mOrderDetail" id="odRS">
+		<result property = "orderNo" column="ORDER_NO"/>
+		<result property = "date" column="DATE"/>	
+		<result property = "total" column ="TOTAL"/>
+		<result property = "oList" column ="oList"/>	
+		<result property = "pName" column ="PNAME"/>		
+		<result property = "mName" column ="MNAME"/>
+		<result property = "detailNo" column ="DETAIL_NO"/>
+		<result property = "prCount" column ="PR_COUNT"/>
+		<result property = "price" column ="PRICE"/>
+		<result property = "memNo" column ="MEM_NO"/>
+		<result property = "status" column ="STATUS"/>
+		<result property = "zip" column ="ZIP"/>
+		<result property = "address" column ="ADDRESS"/>
+		<result property = "address2" column ="ADDRESS2"/>
+		<result property = "note" column ="NOTE"/>
+		<result property = "phone" column ="PHONE"/>
+		<result property = "coupon" column ="COUPON"/>											
+	</resultMap> 
+		
+	<select id="orderDetail" resultMap="odRS">
+		SELECT P.NAME AS "PNAME", M.NAME AS "MNAME", "DATE", DETAIL_NO, O.ORDER_NO, PR_COUNT, P.PRICE, MEM_NO, STATUS, O.ZIP, O.ADDRESS, O.ADDRESS2, 
+		        O.NOTE, O.PHONE, O.TOTAL, O.COUPON
+		FROM ORDER_DETAIL OD
+		            JOIN "ORDER" O ON(OD.ORDER_NO = O.ORDER_NO)
+		            JOIN "MEMBER" M ON(MEM_NO = MEMBER_NO)
+		            JOIN PRODUCT P ON(P.PRODUCT_NO = OD.PRODUCT_NO)
+		WHERE O.ORDER_NO = #{no}   	
 	</select>
 
 </mapper>

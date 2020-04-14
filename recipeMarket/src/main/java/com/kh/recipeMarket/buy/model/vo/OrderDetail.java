@@ -6,18 +6,16 @@ public class OrderDetail {
 	private int productNo;
 	private int prCount;
 	private int price;
-	private String reviewed;
 	
 	public OrderDetail() {}
 
-	public OrderDetail(int detailNo, int orderNo, int productNo, int prCount, int price, String reviewed) {
+	public OrderDetail(int detailNo, int orderNo, int productNo, int prCount, int price) {
 		super();
 		this.detailNo = detailNo;
 		this.orderNo = orderNo;
 		this.productNo = productNo;
 		this.prCount = prCount;
 		this.price = price;
-		this.reviewed = reviewed;
 	}
 
 	public int getDetailNo() {
@@ -60,18 +58,10 @@ public class OrderDetail {
 		this.price = price;
 	}
 
-	public String getReviewed() {
-		return reviewed;
-	}
-
-	public void setReviewed(String reviewed) {
-		this.reviewed = reviewed;
-	}
-
 	@Override
 	public String toString() {
 		return "OrderDetail [detailNo=" + detailNo + ", orderNo=" + orderNo + ", productNo=" + productNo + ", prCount="
-				+ prCount + ", price=" + price + ", reviewed=" + reviewed + "]";
+				+ prCount + ", price=" + price + "]";
 	}
 	
 }
