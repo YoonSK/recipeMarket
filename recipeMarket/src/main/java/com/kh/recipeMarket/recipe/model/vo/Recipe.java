@@ -10,9 +10,9 @@ public class Recipe {
 	int modifyDate;
 	int category;
 	int serving;
-	int diffyculty;
+	int difficulty;
 	ArrayList<Ingredient> ingredientList;
-	ArrayList<String> tagList;
+	ArrayList<Tag> tagList;
 	ArrayList<RecipeStep> stepList;
 	double rating;
 	int hit;
@@ -22,8 +22,8 @@ public class Recipe {
 		super();
 	}
 
-	public Recipe(int postNo, int memberNo, int createDate, int modifyDate, int category, int serving, int diffyculty,
-			ArrayList<Ingredient> ingredientList, ArrayList<String> tagList, ArrayList<RecipeStep> stepList,
+	public Recipe(int postNo, int memberNo, int createDate, int modifyDate, int category, int serving, int difficulty,
+			ArrayList<Ingredient> ingredientList, ArrayList<Tag> tagList, ArrayList<RecipeStep> stepList,
 			double rating, int hit, char deleted) {
 		super();
 		this.postNo = postNo;
@@ -32,7 +32,7 @@ public class Recipe {
 		this.modifyDate = modifyDate;
 		this.category = category;
 		this.serving = serving;
-		this.diffyculty = diffyculty;
+		this.difficulty = difficulty;
 		this.ingredientList = ingredientList;
 		this.tagList = tagList;
 		this.stepList = stepList;
@@ -89,12 +89,12 @@ public class Recipe {
 		this.serving = serving;
 	}
 
-	public int getDiffyculty() {
-		return diffyculty;
+	public int getDifficulty() {
+		return difficulty;
 	}
 
-	public void setDiffyculty(int diffyculty) {
-		this.diffyculty = diffyculty;
+	public void setDifficulty(int difficulty) {
+		this.difficulty = difficulty;
 	}
 
 	public ArrayList<Ingredient> getIngredientList() {
@@ -105,11 +105,11 @@ public class Recipe {
 		this.ingredientList = ingredientList;
 	}
 
-	public ArrayList<String> getTagList() {
+	public ArrayList<Tag> getTagList() {
 		return tagList;
 	}
 
-	public void setTagList(ArrayList<String> tagList) {
+	public void setTagList(ArrayList<Tag> tagList) {
 		this.tagList = tagList;
 	}
 

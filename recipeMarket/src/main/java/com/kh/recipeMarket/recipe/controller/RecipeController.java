@@ -25,7 +25,6 @@ public class RecipeController {
 	@RequestMapping("detail.rc")
 	public ModelAndView recipeDetail(int postNo, ModelAndView mv){
 	
-		
 		Recipe r = rService.selectRecipe(postNo);
 		r.setIngredientList(rService.selectIngredients(postNo));
 		r.setTagList(rService.selectTags(postNo));

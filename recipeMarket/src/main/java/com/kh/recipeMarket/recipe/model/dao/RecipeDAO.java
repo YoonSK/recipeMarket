@@ -15,6 +15,19 @@ public class RecipeDAO {
 		return sqlSession.insert("recipeMapper.insertRecipe",r);
 	}
 	
+	public int insertIngredients(SqlSessionTemplate sqlSession, ArrayList<Ingredient> ingredients) {
+
+		return sqlSession.insert("recipeMapper.insertIngredients",ingredients);
+	}
+	
+	public int insertTags(SqlSessionTemplate sqlSession, ArrayList<Tag> tags){
+		return sqlSession.insert("recipeMapper.insertTags",tags);
+	}
+
+	public int insertSteps(SqlSessionTemplate sqlSession, ArrayList<RecipeStep> steps){
+		return sqlSession.insert("recipeMapper.insertSteps",steps);
+	}
+	
 	public Recipe selectRecipe(SqlSessionTemplate sqlSession, int postNo) {
 		return sqlSession.selectOne("recipeMapper.selectRecipe", postNo);
 	}
@@ -23,13 +36,12 @@ public class RecipeDAO {
 		return (ArrayList)sqlSession.selectList("recipeMapper.selectIngredientList", postNo);
 	}
 	
-	public ArrayList<String> selectTags(SqlSessionTemplate sqlSession, int postNo){
+	public ArrayList<Tag> selectTags(SqlSessionTemplate sqlSession, int postNo){
 		return (ArrayList)sqlSession.selectList("recipeMapper.selectIngredientList", postNo);
 	}
 	
 	public ArrayList<RecipeStep> selectRecipeSteps(SqlSessionTemplate sqlSession, int postNo){
 		return (ArrayList)sqlSession.selectList("recipeMapper.selectRecipeStepList", postNo);
 	}
-	
 	
 }
