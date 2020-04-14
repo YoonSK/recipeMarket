@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 찾기</title>
-<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
 <style>
 .inputBox{
 	width: 300px;
@@ -61,7 +60,6 @@
 </style>
 </head>
 <body>
-	<form action="<%= request.getContextPath() %>/findPwd.me" method="post" ></form>
 	<c:import url="../common/header.jsp"/>
 		<div class="outer">
 			<div class="wrapper">
@@ -70,18 +68,49 @@
 		</div>	
 		<div class ="findArea">
 			<p style="text-align: center;">비밀번호 재설정  안내를 가입시 입력했던 이메일로 발송합니다.</p>
-			<img src="../images/user.png" id="userImg"/>
-			 <h5 style="text-align: center; margin: 0; padding:0;">이름</h5>
-			 <input type="text"  class="inputBox" name="id" placeholder="아이디를 입력해주세요" >
+			<img src="${ contextPath }/resources/images/user.png" id="userImg"/>
+			 <h5 style="text-align: center; margin: 0; padding:0;">아이디</h5>
+			 <input type="text"  class="inputBox" id="id" name="id" placeholder="아이디를 입력해주세요" >
 			 <h5 style="text-align: center; margin: 0; padding:0;">이메일</h5>
-			 <input type="email" class="inputBox" name="email" placeholder="이메일을 입력해주세요" >
+			 <input type="email" class="inputBox" id="email" name="email" placeholder="이메일을 입력해주세요" >
 		</div>
 		<div class="btnBox">
-			<button type="submit" class="defaultBtn">확인</button> 
+			<button type="submit" id="searchBtn" class="defaultBtn">확인</button> 
 		</div>
 			</div>
 		</div>
-	</form>											 							
+		<script>
+		$('#searchBtn').click(function(){
+			var charArr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+			var temPwd = "";
+			for(var i = 0; i < 6; i++) {
+				var idx = parseInt(charArr.length * Math.random());
+				temPwd += charArr[idx];
+			}
+			
+			$.ajax({
+				url: 'sendEmail.me',
+				type: 'post',
+				data: {id: $('#id').val(),
+						email: $('#email').val(),
+						temPwd: temPwd,
+						newPwd: temPwd},
+				success: function(data){
+					if(data == 'success'){
+						alert('임시 비밀번호가 발급 되었습니다.\n 메일을 확인해주세요~');
+						location.href="goLogin.me";
+					} else{
+						alert('임시 비밀번호 발급에 실패하였습니다.');
+						console.log(data);
+					}
+				},
+				error: function(data){
+					alert('존재하지 않는 회원입니다. 다시 확인해주세요~');
+					console.log(data);
+				}
+			});
+		});
+	</script>								 							
 </body>
 <c:import url="../common/footer.jsp"/>
 </html>

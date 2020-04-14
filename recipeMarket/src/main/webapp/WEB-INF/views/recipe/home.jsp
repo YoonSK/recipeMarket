@@ -59,6 +59,7 @@
 			    <div><a href="#"><img class="icon" src="resources/images/speed.png"/></a></div>
 			    <div><a href="#"><img class="icon" src="resources/images/etc.png"/></a></div>
 			</div>
+			
 		</div>
 	</div>
 		<div id="weather">

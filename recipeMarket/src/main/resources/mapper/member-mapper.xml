@@ -70,5 +70,57 @@
 		set deleted='Y'
 		where member_no = ${no}
 	</update>	
+
+	<update id="mUpdate" parameterType="Member">
+		update member
+		set name=#{name}, nickName=#{nickName}, email=#{email}, phone=#{phone},
+			zip=#{zip}, address=#{address}, address2=#{address2}
+		where member_no=#{memberNo}
+	</update>
+
+	<update id="updateImage" parameterType="Photo">
+		update photo
+		set origin_name = #{originName}, change_name = #{changeName}
+		where target_no=#{targetNo}
+	</update>
 	
+	<update id="pwdUpdate" parameterType="Member">
+		update member
+		set pwd=#{pwd}
+		where member_no=#{memberNo}
+	</update>
+	
+	<select id="findId" parameterType="Member" resultType="string">
+		select id from member where name=#{name} and email=#{email}
+	</select>
+	
+	<update id="updatePwd" parameterType="Member">
+		update member set pwd=#{pwd} where id=#{id}
+	</update>
+
+	
+
+	<resultMap type="OrderInfo" id="oiRS">
+		<result property = "date" column="DATE"/>	
+		<result property = "total" column ="TOTAL"/>
+		<result property = "oList" column ="oList"/>	
+		<result property = "status" column ="STATUS"/>												
+	</resultMap>  
+	
+	<select id="mOrderCount" resultType="_int">
+		select count(*)
+		from "ORDER"
+		where mem_no=#{memberNo}
+	</select>
+	
+	<select id="orderList" resultMap="oiRS">
+		SELECT  
+		        "DATE",
+		        TOTAL,
+		        LISTAGG(NAME, ', ') WITHIN GROUP (ORDER BY ORDER_NO) AS "oList", STATUS
+		FROM ODLIST
+		where mem_no = #{memberNo}
+		group by "DATE", TOTAL, STATUS
+	</select>
+
 </mapper>

@@ -16,11 +16,11 @@
 	p.info-label {font-size: 14px; color: red; margin-left: 80px;}
 	input.input_text{border-top: none; border-left: none; border-right: none;}
 	input.input_birth{width: 35px; border-top: none; border-left: none; border-right: none;}
-	/* 우편번호 */
+	/* 주소 */
 	form#joinUser > div.location > input {width: 200px; border-top: none; border-left: none; border-right: none; margin-left: 80px;}
 	form#joinUser > div.location > input {margin: 5px 0; border-top: none; border-left: none; border-right: none; margin-left: 80px;}
-	form#joinUser > div.location > .postcodify_searchBtn {width: 39%; border: 1px solid #000; font-size: 13px; padding: 10px; cursor: pointer;}
-	form#joinUser > div.location > .postcodify_searchBtn:hover {border-color: #aedefc; background: #aedefc; color: #fff;}		
+	form#joinUser > div.location > button#postcodify_searchBtn {width: 80px; height: 30px; font-size: 14px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
+	form#joinUser > div.location > button#postcodify_searchBtn:hover {cursor: pointer; background: #fee0a1; color: white;}		
  	/* 버튼 */
 	input[type="submit"]{width: 80px; height: 30px; font-size: 14px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
 	input[type="submit"]:hover{cursor: pointer; background: #fee0a1; color: white;}
@@ -36,7 +36,6 @@
 	p.ava{display: none; font-size: 12px; margin-left: 80px;}
 	p.ok{color: green; font-weight: bold;}
 	p.error{color: red; font-weight: bold;}	
-	p.ava{display: none; font-size: 12px; margin-left: 80px;}
 	p.ok2{color: green; font-weight: bold;}
 	p.error2{color: red; font-weight: bold;}	
 </style>
@@ -104,7 +103,7 @@
 						<div class="input-box location">
 							<p class="input_con">주소</p>
 							<input type="text" name="zip" class="postcodify_postcode5" value="" size="6">
-							<button type="button" id="postcodify_search_button">주소 검색</button><br>
+							<button type="button" id="postcodify_searchBtn">주소 검색</button><br>
 							<input type="text" name="address" class="postcodify_address" value=""><br>
 							<input type="text" name="address2" class="postcodify_extra_info" value="">
 						</div>				
@@ -112,7 +111,7 @@
 						<script>
 							// 검색 단추를 누르면 팝업 레이어가 열리도록 설정한다.
 							$(function(){
-								$("#postcodify_search_button").postcodifyPopUp();
+								$("#postcodify_searchBtn").postcodifyPopUp();
 							});
 							
 							// 아이디 유효성 검사
@@ -121,9 +120,12 @@
 								var userId = $(this).val().trim();
  								var idCheck = /[a-z0-9]{5,15}/g;
 								if(userId == '' || !idCheck.test(userId)){
-									$(this).focus();
+									$('#id').focus();
 									$('p.ava.error.5').show();		
-								} else{
+								} else if(userId == ''){
+									$('#id').focus();
+									$('p.ava.error.5').show();
+								} else {
 									$('p.ava.error.5').hide();										
 									if(userId.length < 4 && userId.val() == ""){
 										$('.ava').hide();

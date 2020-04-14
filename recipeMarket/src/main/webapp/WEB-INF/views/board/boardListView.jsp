@@ -20,7 +20,7 @@
     	font-align:center; 
 	}
 	.wrapper{
-		height:1500px;
+		height:100%;
 		background:#EAEAEA;
 	}
 	
@@ -29,6 +29,19 @@
 		height:100px;
 		vertical-align: middle;  
 		margin-left: 15%;
+		border-radius: 50%;
+	}
+	
+	#thumImgTd{
+		/* text-align:center; */
+	}
+	
+	#thumImg{
+		 margin:15px; 
+		 width:90%;
+		 height:100%;
+		 border-radius: 20px;
+		
 	}
 </style>
 </head>
@@ -53,105 +66,86 @@
 	         	<h2 align="center">게시글이 존재하지 않습니다.</h2>
 	         </c:if>
 	         
-	         <c:forEach var="b" items="${ list }">
-		         <div style="background: white; width:1500px; margin:0 auto;">
-		         	<table>
-		         		<tr>
-							<td rowspan=6 width="150" height="150"><img id="profileImg" src="resources/images/user.png"/></td>
-							<td width="80%" style="font-size:30px">${ b.memberNo }</td>
-							<td style="font-size:20px">♡</td>
-							<td width="30px" style="font-size:20px">0</td>
-							<td style="font-size:20px">댓글수</td>
-							<td style="font-size:20px">0</td>			         		
-		         		</tr>
-		         		
-		         		<tr>
-		         			<td width="80%" colspan=5 style="color:gray; font-size:20px">${ b.category }  (작성일:${b.createDate})</td>
-		         		</tr>
-		         		
-		         		<tr>
-		         			<td width="80%" colspan=5 style="font-size:20px">${ b.content }</td>
-		         		</tr>
-		         		
-		         		<tr>
-		         			<td width="80%" colspan=5 >
-		         				<img width="500" height="300" src="resources/images/food.PNG"/>
-		         			</td>
-	         			</tr>
-		         		
-		       
-		         		
-		         	</table>
-		         </div>
-		         <br>
 	         
-	         </c:forEach>
-	         
-	         
-	         
-	         
-	         <!-- <div style="background: white; width:1500px; margin:0 auto;">
-	         	<table>
-	         		<tr>
-	         		
-						<td rowspan=6><img width="150" height="150" src="resources/images/user.png"/></td>
-						<td width="80%" style="font-size:30px">닉네임2</td>
-						<td style="font-size:20px">♡</td>
+	         <table style="background: white; width:1500px; margin:0 auto;">
+	         	<c:forEach var="b" items="${ list }">
+		        	<!-- <div > -->
+		        	<tr>
+						<td rowspan=4 width="150" height="150">
+							<img id="profileImg" src="resources/images/user.png"/>
+						</td>
+						<td width="80%" style="font-size:30px">${ b.nickName }</td>
+						<td style="font-size:20px; width:30px;">♡</td>
 						<td width="30px" style="font-size:20px">0</td>
-						<td style="font-size:20px">댓글수</td>
-						<td style="font-size:20px">0</td>			         		
-	         		</tr>
-	         		<tr>
-	         			<td width="80%" colspan=5 style="color:gray; font-size:20px">요리톡</td>
+						<td style="font-size:20px; width:70px;">댓글수</td>
+						<td style="font-size:20px; width:30px">0</td>			         		
+		        	</tr>
+		         		
+		        	<tr>
+		        		<td width="80%" colspan=5 style="color:gray; font-size:20px">${ b.category }  (작성일:${b.createDate})</td>
+		        	</tr>
+		         		
+		        	<tr>
+		        		<td width="80%" colspan=5 style="font-size:20px">${ b.content }</td>
+		        	</tr>
+		        		
+		        	<tr>
+		        		<td colspan=5 id="thumImgTd">
+		        			<img  src="resources/images/food.PNG" id="thumImg"/>
+		        		</td>
 	         		</tr>
 	         		
 	         		<tr>
-	         			<td width="80%" colspan=5 style="font-size:20px">
-	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-	         			</td>
+	         			<td colspan=6><hr></td>
 	         		</tr>
-	         		
-	         		<tr>
-	         			<td width="80%" colspan=5 style="font-size:20px">
-	         				<img width="500" height="300" src="resources/images/food.PNG"/>
-	         			</td>
-	         		</tr>
+		         		
+	        	</c:forEach>
+	        	
+	        	<!-- 페이징 처리 -->
+		      	<tr align="center" height="20" id="buttonTab">
+		        	<td colspan="6">
+		         
+		        	<!-- [이전] -->
+		        	<c:if test="${ pi.currentPage <= 1 }">
+		            	   [이전] &nbsp;
+		            </c:if>
+		            <c:if test="${ pi.currentPage > 1 }">
+		               <c:url var="before" value="blist.bo">
+		                  <c:param name="page" value="${ pi.currentPage - 1 }"/>
+		               </c:url>
+		               <a href="${ before }">[이전]</a> &nbsp;
+		            </c:if>
+		            
+		            <!-- 페이지 -->
+		            <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+		               <c:if test="${ p eq pi.currentPage }">
+		                  <font color="red" size="4"><b>[${ p }]</b></font>
+		               </c:if>
+		               
+		               <c:if test="${ p ne pi.currentPage }">
+		                  <c:url var="pagination" value="blist.bo">
+		                     <c:param name="page" value="${ p }"/>
+		                  </c:url>
+		                  <a href="${ pagination }">${ p }</a> &nbsp;
+		               </c:if>
+		            </c:forEach>
+		            
+		            <!-- [다음] -->
+		            <c:if test="${ pi.currentPage >= pi.maxPage }">
+		               [다음]
+		            </c:if>
+		            <c:if test="${ pi.currentPage < pi.maxPage }">
+		               <c:url var="after" value="blist.bo">
+		                  <c:param name="page" value="${ pi.currentPage + 1 }"/>
+		               </c:url> 
+		               <a href="${ after }">[다음]</a>
+		            </c:if>
+		         </td>
+		      </tr>
+			</table>
 	         
-	         		
-	         	</table>
-	         </div>
 	         
-	         <br>
 	         
-	         <div style="background: white; width:1500px; margin:0 auto;">
-	         	<table>
-	         		<tr>
-	         		
-						<td rowspan=6><img width="150" height="150" src="resources/images/user.png"/></td>
-						<td width="80%" style="font-size:30px">닉네임3</td>
-						<td style="font-size:20px">♡</td>
-						<td width="30px" style="font-size:20px">0</td>
-						<td style="font-size:20px">댓글수</td>
-						<td style="font-size:20px">0</td>			         		
-	         		</tr>
-	         		<tr>
-	         			<td width="80%" colspan=5 style="color:gray; font-size:20px">자유톡</td>
-	         		</tr>
-	         		
-	         		<tr>
-	         			<td width="80%" colspan=5 style="font-size:20px">
-	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-	         			</td>
-	         		</tr>
-
-	         	</table>
-	         </div> -->
 	         
 	         
 	</div>	         

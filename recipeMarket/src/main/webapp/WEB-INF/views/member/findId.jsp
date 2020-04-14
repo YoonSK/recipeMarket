@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>아이디 찾기</title>
-<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common.css">
 <style>
 .inputBox{
 	width: 300px;
@@ -60,25 +59,32 @@
 </style>
 </head>
 <body>
-	<form action="<%= request.getContextPath() %>/findId.me" method="post" ></form>
 	<c:import url="../common/header.jsp"/>
+	<form action="findId.me" method="post" id="findForm">
 		<div class="outer">
 		<div class ="pageTitle">
 			<h1 style="text-align: center;  margin-top:100px;">아이디 찾기</h1>
 		</div>	
-		
 			<div class ="findArea">
-				<img src="../images/user.png" id="userImg"/>
+				<img src="${ contextPath }/resources/images/user.png" id="userImg"/>
 				 <h5 style="text-align: center; margin: 0; padding:0;">이름</h5>
-				 <input type="text"  class="inputBox" name="userName" placeholder="고객님의 이름을 입력해주세요" >
+				 <input type="text"  class="inputBox" id="name1" name="name"  placeholder="고객님의 이름을 입력해주세요" >
 				 <h5 style="text-align: center; margin: 0; padding:0;">이메일</h5>
-				 <input type="email" class="inputBox" name="email" placeholder="가입 시 등록하신 이메일을 입력해주세요" >
+				 <input type="email" class="inputBox" id="email1" name="email" placeholder="가입 시 등록하신 이메일을 입력해주세요">
 			</div>
 			<div class="btnBox">
-				<button type="submit" class="defaultBtn">확인</button> 
+				<button onclick="findId();" class="defaultBtn">확인</button>
 			</div>
 		</div>
-	</form>											 							
+	
+	<script>
+	function findId(){
+		$('#findForm').submit();
+	}
+	
+</script>	
+</form>								 							
 </body>
+
 <c:import url="../common/footer.jsp"/>
 </html>
