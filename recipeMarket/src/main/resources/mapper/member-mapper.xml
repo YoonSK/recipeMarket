@@ -100,18 +100,11 @@
 
 	
 
-	<resultMap type="Order" id="orderRS">
-		<id property = "orderNo" column="ORDER_NO"/>
-		<result property = "memNo" column="MEM_NO"/>	
-		<result property = "date" column ="DATE"/>
-		<result property = "zip" column ="ZIP"/>
-		<result property = "address" column ="ADDRESS"/>		
-		<result property = "address2" column ="ADDRESS2"/>	
-		<result property = "note" column ="NOTE"/>	
-		<result property = "phone" column ="PHONE"/>	
-		<result property = "coupon" column ="COUPON"/>	
-		<result property = "status" column ="STATUS"/>
-		<result property = "total" column ="TOTAL"/>												
+	<resultMap type="OrderInfo" id="oiRS">
+		<result property = "date" column="DATE"/>	
+		<result property = "total" column ="TOTAL"/>
+		<result property = "oList" column ="oList"/>	
+		<result property = "status" column ="STATUS"/>												
 	</resultMap>  
 	
 	<select id="mOrderCount" resultType="_int">
@@ -120,19 +113,14 @@
 		where mem_no=#{memberNo}
 	</select>
 	
-	<select id="orderList" resultMap="orderRS">
-		select *
-		from ODLIST
-		where mem_no=#{memberNo}
-	</select>
-
-	<select id="getListNames" resultType="String">
-		SELECT 
-			LISTAGG(NAME, ', ') WITHIN GROUP (ORDER BY ORDER_NO) AS "목록"
-		FROM
-		ODLIST
-		WHERE MEM_NO = #{memberNo}
-		GROUP BY ORDER_NO	
+	<select id="orderList" resultMap="oiRS">
+		SELECT  
+		        "DATE",
+		        TOTAL,
+		        LISTAGG(NAME, ', ') WITHIN GROUP (ORDER BY ORDER_NO) AS "oList", STATUS
+		FROM ODLIST
+		where mem_no = #{memberNo}
+		group by "DATE", TOTAL, STATUS
 	</select>
 
 </mapper>

@@ -19,13 +19,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.recipeMarket.board.model.vo.PageInfo;
-import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Pagination;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.member.model.exception.MemberException;
 import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.mypage.model.exception.MyPageException;
 import com.kh.recipeMarket.mypage.model.service.MyPageService;
+import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -144,16 +144,14 @@ public class MyPageController {
 			currentPage = page; }
 		
 		int listCount = mps.mOrderCount(loginUser.getMemberNo());
-		
+		int memberNo = loginUser.getMemberNo();
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
-		ArrayList<Order> list = mps.orderList(pi);
+		ArrayList<mOrderInfo> list = mps.orderList(pi, memberNo);
 
-		String listNames = mps.getListNames(loginUser.getMemberNo());
 		if(list != null) {
 			mv.addObject("list", list);
 			mv.addObject("pi", pi);
-			mv.addObject("listNames", listNames);
 			mv.setViewName("memberorder");
 		}else {
 			throw new MyPageException("주문 조회에 실패하였습니다.");
