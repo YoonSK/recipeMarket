@@ -3,6 +3,7 @@ package com.kh.recipeMarket.recipe.model.vo;
 
 
 public class Ingredient {
+	int postNo;
 	String name;
 	String amount;
 	
@@ -10,10 +11,19 @@ public class Ingredient {
 		super();
 	}
 
-	public Ingredient(String name, String amount) {
+	public Ingredient(int postNo, String name, String amount) {
 		super();
+		this.postNo = postNo;
 		this.name = name;
 		this.amount = amount;
+	}
+
+	public int getPostNo() {
+		return postNo;
+	}
+
+	public void setPostNo(int postNo) {
+		this.postNo = postNo;
 	}
 
 	public String getName() {
@@ -31,7 +41,8 @@ public class Ingredient {
 	public void setAmount(String amount) {
 		this.amount = amount;
 	}
-	
+
+
 	
 	
 	

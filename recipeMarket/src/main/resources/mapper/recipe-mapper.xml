@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="recipeMapper">
+
 	<resultMap id="recipeResultSet" type="Recipe">
 		<id property="postNo" column="POST_NO"/>
 		<result property="memberNo" column="MEMBER_NO"/>
@@ -14,7 +15,7 @@
 	</resultMap>
 	
 	<resultMap id="recipeStepResultSet" type="RecipeStep">
-		<id property="postNo" column="POST_NO"/>
+		<id property="step" column="POST_NO"/>
 		<result property="step" column="STEP"/>
 		<result property="content" column="CONTENT"/>
 		<result property="timer" column="TIMER"/>
@@ -30,6 +31,58 @@
 		<result property="ingredient" column="INGREDIENT"/>
 		<result property="amount" column="AMOUNT"/>
 	</resultMap>
+
+
+	<insert id="insertRecipe" parameterType="java.util.Map">
+		insert into R_BOARD
+		values (seq_rpcno.nextVal, #{memberNo}, sysdate, sysdate, #{circumstance}, #{serving}, #{difficulty}, 0, default)
+	</insert>
+
+	<insert id="insertIngredient" parameterType="java.util.Map">
+        <foreach collection="list" item="item" index="index"  open="INSERT ALL " separator=" " close="SELECT * FROM DUAL" > 
+        	into R_Ingredient()
+        	values(#{ingredient}, #{postNo}, #{amount})
+        </foreach>
+    </insert>
+    
+    <insert id="insertTag" parameterType="java.util.Map">
+        <foreach collection="list" item="item" index="index"  open="INSERT ALL " separator=" " close="SELECT * FROM DUAL" > 
+        	into R_Tag()
+        	values(#{Tag}, #{postNo})
+        </foreach>
+    </insert>
+
+	<insert id="insertStep" parameterType="java.util.Map">
+        <foreach collection="list" item="item" index="index"  open="INSERT ALL " separator=" " close="SELECT * FROM DUAL" > 
+        	into R_Step()
+        	values(#{Step}, #{postNo}, #{amount})
+        </foreach>
+    </insert>
+
+	<select id="selectRecipe" parameterType="Recipe" resultMap="Recipe">
+		SELECT *
+		FROM R_BOARD
+		WHERE POST_NO = #{postNo}
+		  AND DELETED = 'N'
+	</select>
+
+	<select id="selectTags" parameterType="" resultMap="">
+		SELECT *
+		FROM R_TAG
+		WHERE POST_NO = #{postNo}
+	</select>
+	
+	<select id="selectIngredients" parameterType="" resultMap="">
+		SELECT *
+		FROM R_INGREDIENT
+		WHERE POST_NO = #{postNo}
+	</select>
+	
+	<select id="selectSteps" parameterType="" resultMap="">
+		SELECT *
+		FROM R_STEPS
+		WHERE POST_NO = #{postNo}
+	</select>
 	
 	
 </mapper>
