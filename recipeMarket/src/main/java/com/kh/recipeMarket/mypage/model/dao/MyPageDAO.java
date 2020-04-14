@@ -19,8 +19,12 @@ public class MyPageDAO {
 		return sqlSession.update("memberMapper.mUpdate", m);
 	}
 
-	public int uploadImage(SqlSessionTemplate sqlSession, Photo p) {
+	public int updateImage(SqlSessionTemplate sqlSession, Photo p) {
 		return sqlSession.update("memberMapper.updateImage", p);
+	}	
+	
+	public int uploadImage(SqlSessionTemplate sqlSession, Photo p) {
+		return sqlSession.update("memberMapper.mUploadImage", p);
 	}
 
 	public int pwdUpdate(SqlSessionTemplate sqlSession, Member loginUser) {
@@ -40,4 +44,5 @@ public class MyPageDAO {
 	public ArrayList<mOrderDetail> orderDetail(SqlSessionTemplate sqlSession, int no) {
 		return (ArrayList)sqlSession.selectList("memberMapper.orderDetail", no);
 	}
+
 }

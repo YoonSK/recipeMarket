@@ -28,6 +28,12 @@ public class MPServiceImpl implements MyPageService{
 		return mpDAO.mUpdate(sqlSession, m);
 	}
 
+
+	@Override
+	public int updateImage(Photo p) {
+		return mpDAO.updateImage(sqlSession, p);
+	}	
+	
 	@Override
 	public int uploadImage(Photo p) {
 		return mpDAO.uploadImage(sqlSession, p);
@@ -52,6 +58,7 @@ public class MPServiceImpl implements MyPageService{
 	public ArrayList<mOrderDetail> orderDetail(int no) {
 		return mpDAO.orderDetail(sqlSession, no);
 	}
+
 
 
 }

@@ -12,6 +12,8 @@ public interface MyPageService {
 
 	int mUpdate(Member m);
 
+	int updateImage(Photo p);	
+	
 	int uploadImage(Photo p);
 
 	int pwdUpdate(Member loginUser);
@@ -21,6 +23,5 @@ public interface MyPageService {
 	ArrayList<mOrderInfo> orderList(PageInfo pi, int memberNo);
 
 	ArrayList<mOrderDetail> orderDetail(int no);
-
 
 }

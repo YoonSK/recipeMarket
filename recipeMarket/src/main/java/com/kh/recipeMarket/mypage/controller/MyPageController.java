@@ -65,25 +65,41 @@ public class MyPageController {
 		int result = mps.mUpdate(m);
 		if(result > 0) {
 			// 사진 첨부
-			if(mImage != null && !mImage.isEmpty()) {
+			if(mImage != null && !mImage.isEmpty() && m.getpName() != null) {
 				String pName = saveImage(mImage, request);		
 				if(pName != null) {
 					p.setOriginName(mImage.getOriginalFilename());
 					p.setChangeName(pName);
 					p.setTargetNo(m.getMemberNo());
 				}
-				int result2 = mps.uploadImage(p);
+				int result2 = mps.updateImage(p);
 				if(result2 > 0) {
 					m.setpName(pName);
 					model.addAttribute("loginUser", m);	
-					return "redirect:memberInfo";						
+					return "/memberInfo";						
 				} else {
 					throw new MemberException("정보 수정에 실패하였습니다.");					
 				}
 				
+			} else if(mImage != null && !mImage.isEmpty() && m.getpName() == null) {
+				String pName = saveImage(mImage, request);		
+				if(pName != null) {
+					p.setOriginName(mImage.getOriginalFilename());
+					p.setChangeName(pName);
+					p.setTargetNo(m.getMemberNo());
+				}
+				int result3 = mps.uploadImage(p);	
+				if(result3 > 0) {
+					m.setpName(pName);
+					model.addAttribute("loginUser", m);	
+					return "/memberInfo";						
+				} else {
+					throw new MemberException("정보 수정에 실패하였습니다.");					
+				}				
+				
 			} else {
 				model.addAttribute("loginUser", m);				
-				return "redirect:memberInfo";		
+				return "/memberInfo";	
 			}
 		} else {
 				throw new MemberException("정보 수정에 실패하였습니다.");
