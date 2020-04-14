@@ -1,30 +1,45 @@
 package com.kh.recipeMarket.recipe.model.vo;
 
 public class RecipeStep {
-	int Content;
+	int postNo;
+	int content;
 	int timer;
 	
 	public RecipeStep() {
 		super();
 	}
 	
-	public RecipeStep(int content, int timer) {
+	public RecipeStep(int postNo, int content, int timer) {
 		super();
-		Content = content;
+		this.postNo = postNo;
+		this.content = content;
 		this.timer = timer;
 	}
-	
+
+	public int getPostNo() {
+		return postNo;
+	}
+
+	public void setPostNo(int postNo) {
+		this.postNo = postNo;
+	}
+
 	public int getContent() {
-		return Content;
+		return content;
 	}
+
 	public void setContent(int content) {
-		Content = content;
+		this.content = content;
 	}
+
 	public int getTimer() {
 		return timer;
 	}
+
 	public void setTimer(int timer) {
 		this.timer = timer;
 	}
+	
+
 
 }

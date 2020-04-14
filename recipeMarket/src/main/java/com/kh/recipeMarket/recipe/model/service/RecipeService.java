@@ -9,11 +9,17 @@ public interface RecipeService {
 
 	int insertRecipe(Recipe r);
 	
+	int insertIngredients(ArrayList<Ingredient> ingredients);
+	
+	int insertTags(ArrayList<Tag> tags);
+
+	int insertSteps(ArrayList<RecipeStep> steps);
+
 	Recipe selectRecipe(int postNo);
 	
 	ArrayList<Ingredient> selectIngredients(int postNo);
 	
-	ArrayList<String> selectTags(int postNo);
+	ArrayList<Tag> selectTags(int postNo);
 	
 	ArrayList<RecipeStep> selectRecipeSteps(int postNo);
 	
