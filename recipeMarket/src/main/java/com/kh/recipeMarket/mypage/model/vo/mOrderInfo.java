@@ -3,6 +3,7 @@ package com.kh.recipeMarket.mypage.model.vo;
 import java.sql.Date;
 
 public class mOrderInfo {
+	private int orderNo;
 	private Date date;
 	private int total;
 	private String oList;
@@ -10,12 +11,21 @@ public class mOrderInfo {
 	
 	public mOrderInfo() {}
 
-	public mOrderInfo(Date date, int total, String oList, int status) {
+	public mOrderInfo(int orderNo, Date date, int total, String oList, int status) {
 		super();
+		this.orderNo = orderNo;
 		this.date = date;
 		this.total = total;
 		this.oList = oList;
 		this.status = status;
+	}
+
+	public int getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(int orderNo) {
+		this.orderNo = orderNo;
 	}
 
 	public Date getDate() {
@@ -52,7 +62,8 @@ public class mOrderInfo {
 
 	@Override
 	public String toString() {
-		return "mOrderInfo [date=" + date + ", total=" + total + ", oList=" + oList + ", status=" + status + "]";
+		return "mOrderInfo [orderNo=" + orderNo + ", date=" + date + ", total=" + total + ", oList=" + oList
+				+ ", status=" + status + "]";
 	}
 
 

@@ -1,11 +1,14 @@
 package com.kh.recipeMarket.mypage.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +21,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.common.Pagination;
 import com.kh.recipeMarket.common.Photo;
@@ -25,6 +31,7 @@ import com.kh.recipeMarket.member.model.exception.MemberException;
 import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.mypage.model.exception.MyPageException;
 import com.kh.recipeMarket.mypage.model.service.MyPageService;
+import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
 @SessionAttributes("loginUser")
@@ -158,6 +165,24 @@ public class MyPageController {
 		}
 	return mv;
 	}	
+	
+	// 주문 상세 조회
+	@RequestMapping(value="orderDetail.mp", produces="text/plain;charset=UTF-8")
+	public void orderDetail(HttpServletResponse response, @RequestParam("no") int no) throws JsonIOException, IOException {
+		
+		ArrayList<mOrderDetail> od = mps.orderDetail(no);
+		
+		for(mOrderDetail mrd : od) {
+			mrd.setpName(URLEncoder.encode(mrd.getpName(), "UTF-8"));
+			mrd.setmName(URLEncoder.encode(mrd.getmName(), "UTF-8"));
+			mrd.setAddress(URLEncoder.encode(mrd.getAddress(), "UTF-8"));
+			mrd.setAddress2(URLEncoder.encode(mrd.getAddress2(), "UTF-8"));
+			mrd.setNote(URLEncoder.encode(mrd.getNote(), "UTF-8"));
+		}
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(od, response.getWriter());
+	}
 		
 	
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>         
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>       
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,18 +43,20 @@
 					<table id="table">
 						<thead> <!-- 게시판 라벨 부분 -->
 						<tr>
-							<th width="15%">날짜</th>
-							<th width="55%" class="title">주문 정보</th>
+							<th width="10%">주문번호</th>
+							<th width="10%">날짜</th>
+							<th width="50%" class="title">주문 정보</th>
 							<th width="15%">결제금액</th>
-							<th width="15%">주문 상태</th>
+							<th width="20%">주문 상태</th>
 						</tr>
 						</thead>
 						<tbody>				
 						<c:forEach var="order" items="${ list }">	
-						<tr>
+						<tr class="orderT">
+							<td>${ order.orderNo }</td>
 							<td>${ order.date }</td>
 							<td class="order_D">${ order.oList }</td>
-							<td>${ order.total }</td>
+							<td><fmt:formatNumber maxFractionDigits="3" value="${ order.total }"/> 원</td>
 							<td>
 								<c:if test="${ order.status == 0}">
 									결제완료
@@ -67,7 +70,12 @@
 									배송완료
 								<br>
 								<input type="submit" id="updateBtn" value="후기 작성">									
-								</c:if>																	
+								</c:if>	
+								<c:if test="${ order.status == 3}">
+									배송완료
+								<br>
+								<input type="submit" id="updateBtn" value="후기 작성 완료" disabled>									
+								</c:if>																									
 							</td>
 						</tr>		
 						</c:forEach>																						
@@ -79,19 +87,19 @@
 							
 								<!-- [이전] -->
 								<c:if test="${ pi.currentPage <= 1 }">
-									[이전] &nbsp;
+									&laquo;
 								</c:if>
 								<c:if test="${ pi.currentPage > 1 }">
 									<c:url var="before" value="blist.bo">
 										<c:param name="page" value="${ pi.currentPage - 1 }"/>
 									</c:url>
-									<a href="${ before }">[이전]</a> &nbsp;
+									<a href="${ before }">&laquo;</a> 
 								</c:if>
 								
 								<!-- 페이지 -->
 								<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
 									<c:if test="${ p eq pi.currentPage }">
-										<font color="red" size="4"><b>[${ p }]</b></font>
+										<font size="4"><b>[${ p }]</b></font>
 									</c:if>
 									
 									<c:if test="${ p ne pi.currentPage }">
@@ -104,75 +112,94 @@
 								
 								<!-- [다음] -->
 								<c:if test="${ pi.currentPage >= pi.maxPage }">
-									[다음]
+									&raquo;
 								</c:if>
 								<c:if test="${ pi.currentPage < pi.maxPage }">
 									<c:url var="after" value="blist.bo">
 										<c:param name="page" value="${ pi.currentPage + 1 }"/>
 									</c:url> 
-									<a href="${ after }">[다음]</a>
+									<a href="${ after }">&raquo;</a>
 								</c:if>
 							</td>
 						</tr>						
 					</table>
-				</div>
+				</div>	
+				<script>
+					$('td.order_D').click(function(){
+						$('#cmodal').attr('style', 'display:block');
+						var orderNo = $('.orderT').children('td').eq(0).text();
+						$.ajax({
+							url: 'orderDetail.mp',
+							data: {no:orderNo},
+							dataType: 'json',
+							success: function(data){
+				               $tableBody = $("#table_D tbody");
+				               $tableBody.html("");	
+				               
+								for(var i in data){
+				                    var $tr = $('<tr>');
+									var $pName = $('<td>').text(decodeURIComponent(data[i].pName));
+									var $prCount = $("<td>").text(data[i].prCount);
+									var $price = $("<td>").text(data[i].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+									
+									$tr.append($pName);
+				                    $tr.append($prCount);
+				                    $tr.append($price);
+				                    $tableBody.append($tr);																		
+								}
+								
+								$('#totalP').text(data[0].total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+								$('#mName').text(decodeURIComponent(data[0].mName));
+								$('#phone').text(data[0].phone);
+								$('#zip').text(data[0].zip);
+								$('#address').text(decodeURIComponent(data[0].address));
+								$('#address2').text(decodeURIComponent(data[0].address2));
+								$('#note').text(decodeURIComponent(data[0].note.replace(/\+/g,' ')));
+							}
+						});
+					});
 				
-		    <!-- The Modal -->
-		    <div id="cmodal" class="modal">	 
-		      <!-- Modal content -->
-		      <form action="<%= request.getContextPath() %>/coupon.pt" id="cForm" method="post">
-			      <div class="modal-content">
-			        <span class="close">&times;</span>                                                               
-			        <p><font style="font-size:25px; font-weight:500;">주문 상세</font></p>
-			        <br>
-					<table id="table_D">
-						<thead> <!-- 게시판 라벨 부분 -->
-						<tr>
-							<th width="15%">No.</th>
-							<th width="55%" class="title">상품명</th>
-							<th width="15%">수량</th>
-							<th width="15%">가격</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr>
-							<td>1</td>
-							<td>D 참치</td>
-							<td>2</td>
-							<td>4,000원</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>CC 냉동 새우</td>
-							<td>2</td>
-							<td>12,000원</td>
-						</tr>							
-						</tbody>
-					</table> 
-					<br>
-					<span class="tHead">총 금액</span>
-					<p id="total">16,000원</p>
-					<hr>
-					<span id="orderInfo_head">주문자 정보</span><br>
-					<p class="orderInfo">
-						이름 : 홍길동<br>
-						연락처 : 010-1234-5678<br>
-						주소 : 서울특별시 강남구 테헤란로<br>
-						메모 : 부재시 경비실에 맡겨주세요<br>
-						결제 수단 : 신용카드<br>
-					<p>
-			      </div>
-		      </form>	 
-		    </div>
-			<script type="text/javascript">	  
-				$('td.order_D').click(function(){
-					$('#cmodal').attr('style', 'display:block');
-				});
-				$('span.close').click(function(){
-					$('#cmodal').attr('style', 'display:none');
-				});		
-			
-			</script>
+				</script>							
+			    <!-- The Modal -->
+			    <div id="cmodal" class="modal">	 
+			      <!-- Modal content -->
+			      <form action="<%= request.getContextPath() %>/coupon.pt" id="cForm" method="post">
+				      <div class="modal-content">
+				        <span class="close">&times;</span>                                                               
+				        <p><font style="font-size:25px; font-weight:500;">주문 상세</font></p>
+				        <br>
+						<table id="table_D">
+							<thead> <!-- 게시판 라벨 부분 -->
+							<tr>
+<!-- 								<th width="15%">No.</th> -->
+								<th width="55%" class="title">상품명</th>
+								<th width="15%">수량</th>
+								<th width="15%">가격</th>
+							</tr>
+							</thead>
+							<tbody>				
+							</tbody>
+						</table> 
+						<br>
+						<span class="tHead">총 금액</span>
+						<p id="total"><span id="totalP"></span>원</p>
+						<hr>
+						<span id="orderInfo_head">주문자 정보</span><br>
+						<p class="orderInfo">
+							이름 : <span id="mName"></span><br>
+							연락처 : <span id="phone"></span><br>
+							주소 : <span id="zip"></span><br><span id="address" style="margin-left: 45px;"></span><br><span id="address2" style="margin-left: 45px;"></span><br>
+							메모 : <span id="note"></span><br>
+						<p>
+				      </div>
+			      </form>	 
+			    </div>
+				<script>	  
+					$('span.close').click(function(){
+						$('#cmodal').attr('style', 'display:none');
+					});		
+				
+				</script>			    
 			</div>
 		</div>
 	</div>	

@@ -10,6 +10,7 @@ import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.mypage.model.dao.MyPageDAO;
+import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
 
@@ -45,6 +46,11 @@ public class MPServiceImpl implements MyPageService{
 	@Override
 	public ArrayList<mOrderInfo> orderList(PageInfo pi, int memberNo) {
 		return mpDAO.orderList(sqlSession, pi, memberNo);
+	}
+
+	@Override
+	public ArrayList<mOrderDetail> orderDetail(int no) {
+		return mpDAO.orderDetail(sqlSession, no);
 	}
 
 
