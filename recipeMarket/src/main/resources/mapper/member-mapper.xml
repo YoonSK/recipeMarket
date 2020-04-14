@@ -84,6 +84,11 @@
 		where target_no=#{targetNo}
 	</update>
 	
+	<insert id="mUploadImage" parameterType="Photo">
+		insert into photo
+		values(seq_phn.nextval, 0, #{targetNo}, 0, #{originName}, #{changeName}, default)
+	</insert>	
+	
 	<update id="pwdUpdate" parameterType="Member">
 		update member
 		set pwd=#{pwd}
