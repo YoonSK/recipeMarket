@@ -52,7 +52,7 @@
 			<c:if test="${ empty sessionScope.loginUser }">				
 			<ul class="nav_mem">						
 				<li><a href="goLogin.me">로그인</a></li>
-				<li><a href="goJoin.me">회원가입</a></li>						
+				<li><a href="goTerm.me">회원가입</a></li>						
 			</ul>
 			</c:if>	
 			<c:if test="${ !empty sessionScope.loginUser }">	

@@ -67,7 +67,7 @@ public class MyPageController {
 			// 사진 첨부
 			if(mImage != null && !mImage.isEmpty() && m.getpName() != null) {
 				String pName = saveImage(mImage, request);		
-
+				System.out.println(m.getpName());
 				if(pName != null) {
 					p.setOriginName(mImage.getOriginalFilename());
 					p.setChangeName(pName);
@@ -83,7 +83,7 @@ public class MyPageController {
 				}
 				
 			} else if(mImage != null && !mImage.isEmpty() && m.getpName() == null) {
-				String pName = saveImage(mImage, request);		
+				String pName = saveImage(mImage, request);				
 				if(pName != null) {
 					p.setOriginName(mImage.getOriginalFilename());
 					p.setChangeName(pName);

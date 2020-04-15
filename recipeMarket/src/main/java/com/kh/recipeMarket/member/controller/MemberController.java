@@ -78,6 +78,11 @@ public class MemberController {
 		return "redirect:/";	
 	}	
 	
+	@RequestMapping("goTerm.me")
+	public String goTerm() {
+		return "/registerTerm";
+	}	
+	
 	@RequestMapping("goJoin.me")
 	public String goJoin() {
 		return "/memberJoin";

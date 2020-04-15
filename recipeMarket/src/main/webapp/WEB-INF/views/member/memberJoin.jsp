@@ -101,11 +101,11 @@
 							<input type="text" class="input_birth" name="day" id="day" maxlength="2"> 일
 						</p>									
 						<div class="input-box location">
-							<p class="input_con">주소</p>
-							<input type="text" name="zip" class="postcodify_postcode5" value="" size="6">
+							<p class="input_con">*주소</p>
+							<input type="text" name="zip" class="postcodify_postcode5" value="" size="6" required>
 							<button type="button" id="postcodify_searchBtn">주소 검색</button><br>
-							<input type="text" name="address" class="postcodify_address" value=""><br>
-							<input type="text" name="address2" class="postcodify_extra_info" value="">
+							<input type="text" name="address" class="postcodify_address" value="" required><br>
+							<input type="text" name="address2" class="postcodify_extra_info" value="" required>
 						</div>				
 						<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 						<script>
@@ -114,24 +114,30 @@
 								$("#postcodify_searchBtn").postcodifyPopUp();
 							});
 							
+							var isId, isPwd, isPwd2, isNick = false;
+							
+							$('input').focus(function(){
+								$(this).css("box-shadow", "rgb(254, 224, 161) 1px 1px 1px 1px");
+							});
+							$('input').blur(function(){
+								$(this).css("box-shadow", "none");
+							});							
 							// 아이디 유효성 검사
 							$('#id').on('keyup', function(){
 								
 								var userId = $(this).val().trim();
- 								var idCheck = /[a-z0-9]{5,15}/g;
-								if(userId == '' || !idCheck.test(userId)){
-									$('#id').focus();
-									$('p.ava.error.5').show();		
-								} else if(userId == ''){
-									$('#id').focus();
+ 								var idCheck = /^[a-zA-Z][a-zA-Z0-9]{5,15}$/;
+								if(!idCheck.test(userId)){
+									$('#id').focus().css("background", "red");
 									$('p.ava.error.5').show();
+									isId = false;								
 								} else {
+									$('#id').css("background", "none");									
 									$('p.ava.error.5').hide();										
 									if(userId.length < 4 && userId.val() == ""){
 										$('.ava').hide();
 										$('#idDupCheck').val(0);
-										
-										return;
+										isId = true;
 									}							
 									$.ajax({
 										url: 'dupid.me',
@@ -141,10 +147,12 @@
 												$('p.ava.error.1').hide();
 												$('p.ava.ok.1').show();
 												$('#idDupCheck').val(1);
+												isId = true;												
 											}else{
 												$('p.ava.error.1').show();
 												$('p.ava.ok.1').hide();
-												$('#idDupCheck').val(0);												
+												$('#idDupCheck').val(0);	
+												isId = false;												
 											}
 										}
 									});								
@@ -152,14 +160,17 @@
 							});
 							
 							// 비밀번호 유효성 검사
-							$('#pwd').on('keyup', function(){
-								var userPwd = $(this).val().trim();
-								var pwdCheck = /^(?=.*[a-zA-Z!@#\$%\^&*?])(?=.*[0-9]).{6,16}$/;								
+							$('#pwd').change(function(){
+								var userPwd = $(this).val();
+								var pwdCheck = /(?=.*[a-zA-Z])(?=.*[!@#\$%\^&*?])(?=.*[0-9]).{6,16}$/;								
 								if(userPwd == '' || !pwdCheck.test(userPwd)){
-									$(this).focus();
+									$(this).focus().css("background","red");
 									$('p.ava.error.4').show();	
+									isPwd = false;
 								}else{
-									$('p.ava.error.4').hide();										
+									$(this).css("background","none");									
+									$('p.ava.error.4').hide();		
+									isPwd = true;
 								}
 							});		
 								
@@ -167,9 +178,13 @@
 							// 비밀번호 확인
 							$('#pwd2').focusout(function(){
 								if($('#pwd').val() != $('#pwd2').val()){
+									$(this).focus().css("background","red");									
 									$('p.ava.error.3').show();
+									isPwd2 = false;
 								}else{
-									$('p.ava.error.3').hide();									
+									$(this).css("background","none");										
+									$('p.ava.error.3').hide();		
+									isPwd2 = true;
 								}
 							});							
 							
@@ -192,15 +207,35 @@
 											$('p.ava.error.2').hide();
 											$('p.ava.ok.2').show();
 											$('#nickDupCheck').val(1);
+											isNick = true;
 										}else{
 											$('p.ava.error.2').show();
 											$('p.ava.ok.2').hide();
-											$('#nickDupCheck').val(0);												
+											$('#nickDupCheck').val(0);	
+											isNick = false;
 											}
 										}
 									});
 								});
 
+							$('form').submit(function(){
+								if(isId && isPwd && isPwd2 && isNick){
+									if(confirm('회원가입 하시겠습니까?')){
+										return true;
+									} else{
+										return false;
+									}
+								} else{
+									alert('회원가입 양식에 맞춰주세요.');
+									if(!isNick) $('#nickName').focus();
+									else if(!isId) $('#id').focus();
+									else if(!isPwd) $('#pwd').focus();
+									else if(!isPwd2) $('#pwd2').focus();
+
+									return false;
+								}
+							});							
+							
 						</script>	
 						<br>			
 						<div class="input-submit">
