@@ -50,8 +50,7 @@ public class MemberController {
 	@RequestMapping("goLogin.me")
 	public String goLogin(){
 	
-		return "/memberLogin";
-		
+		return "/memberLogin";		
 	}
 
 	// 로그인
@@ -64,13 +63,24 @@ public class MemberController {
 			if(mPhoto != null) {
 				loginUser.setpName(mPhoto);
 			}
+		}else {
+	    	  model.addAttribute("msg", "아이디가 존재하지 않습니다.");
+	    	  model.addAttribute("url", "memberLogin.jsp");
+	    	  return "loginError";			
 		}
 		if(bcrypt.matches(m.getPwd(), loginUser.getPwd())) {
 			model.addAttribute("loginUser", loginUser);
 		} else {
-			throw new MemberException("로그인에 실패하였습니다.");
+	    	  model.addAttribute("msg", "비밀번호가 다릅니다.");
+	    	  model.addAttribute("url", "memberLogin.jsp");
+	    	  return "loginError";			
 		}
 		return "redirect:/";	
+	}	
+	
+	@RequestMapping("goTerm.me")
+	public String goTerm() {
+		return "/registerTerm";
 	}	
 	
 	@RequestMapping("goJoin.me")

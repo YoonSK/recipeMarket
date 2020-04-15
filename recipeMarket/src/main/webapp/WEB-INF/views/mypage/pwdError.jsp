@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>레시피 마켓</title>
 </head>
 <body>
 	<script type="text/javascript">
