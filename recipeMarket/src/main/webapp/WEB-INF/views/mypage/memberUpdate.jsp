@@ -113,7 +113,8 @@
 					<input type="hidden" name="birth" value="${ loginUser.birth }">	
 					<input type="hidden" name="grade" value="${ loginUser.grade }">	
 					<input type="hidden" name="deleted" value="${ loginUser.deleted }">	
-																											
+					<input type="hidden" name="pName" value="${ loginUser.pName }">	
+																																
 					<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 					<script>
 						// 검색 단추를 누르면 팝업 레이어가 열리도록 설정한다.

@@ -67,6 +67,7 @@ public class MyPageController {
 			// 사진 첨부
 			if(mImage != null && !mImage.isEmpty() && m.getpName() != null) {
 				String pName = saveImage(mImage, request);		
+
 				if(pName != null) {
 					p.setOriginName(mImage.getOriginalFilename());
 					p.setChangeName(pName);
@@ -154,7 +155,7 @@ public class MyPageController {
 	      } else {
 		    	  model.addAttribute("msg", "원래 비밀번호와 일치하지 않습니다.");
 		    	  model.addAttribute("url", "memberUpdate.jsp");
-		    	  return "../common/pwdError.jsp";
+		    	  return "pwdError";
 		      }
 	} 
 	
