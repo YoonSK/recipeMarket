@@ -22,21 +22,21 @@
 	<c:import url="../common/header.jsp"/>	
 	<div class="outer">
 		<div id="container">
-			<h2>마이 페이지</h2>
+			<h2>관리자 페이지</h2>
 			<div id="content">
 				<div class="menu_box">
 					<div class="icon_con">
 						<figure>
-							<a href="goInfo.mp"><img src="resources/images/user.png" width=100px; height=100px;></a>
-							<figcaption>회원 정보</figcaption>
+							<a href="pManage.ma"><img src="resources/images/goods.png" width=100px; height=100px;></a>
+							<figcaption>상품 관리</figcaption>
 						</figure>	
 					</div>	
 				</div>
 				<div class="menu_box">
 					<div class="icon_con">
 						<figure>
-							<a href="mOrder.mp"><img src="resources/images/cart.png" width=100px; height=100px;></a>
-							<figcaption>주문 내역</figcaption>
+							<a href="oManage.ma"><img src="resources/images/transport.png" width=100px; height=100px;></a>
+							<figcaption>주문 관리</figcaption>
 						</figure>					
 					</div>
 				</div>
