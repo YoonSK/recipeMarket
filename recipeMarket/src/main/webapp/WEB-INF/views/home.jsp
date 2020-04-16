@@ -103,11 +103,7 @@
 				// <img src="http://openweathermap.org/img/wn/10d@2x.png"/>
 				$('.sky').append($sky);
 			});
-		});
-			
-	
-			
-		
+		});	
 		</script> 
 	</div>
 	

@@ -161,4 +161,7 @@
 		WHERE O.ORDER_NO = #{no}   	
 	</select>
 
+	<select id="selectPwd" resultMap="memberRS">
+		select * from member where id=#{id} and email=#{email}
+	</select>
 </mapper>
