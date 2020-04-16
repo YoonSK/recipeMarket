@@ -43,10 +43,10 @@
 					<table id="table">
 						<thead> <!-- 게시판 라벨 부분 -->
 						<tr>
-							<th width="10%">주문번호</th>
+							<th width="10%">주문 번호</th>
 							<th width="10%">날짜</th>
 							<th width="50%" class="title">주문 정보</th>
-							<th width="15%">결제금액</th>
+							<th width="15%">결제 금액</th>
 							<th width="20%">주문 상태</th>
 						</tr>
 						</thead>
