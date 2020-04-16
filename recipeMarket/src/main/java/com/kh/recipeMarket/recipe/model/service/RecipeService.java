@@ -25,4 +25,5 @@ public interface RecipeService {
 	
 	ArrayList<Reply> selectReplies(int postNo);
 	
+	
 }

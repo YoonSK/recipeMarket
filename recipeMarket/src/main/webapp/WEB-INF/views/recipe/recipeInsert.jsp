@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <!DOCTYPE html>
@@ -75,7 +76,7 @@
 <div class="outer" style="display:flex; justify-content: center;">
     <div class="container" style="width: 1000px; margin: 0 auto; display: flex; flex-direction: column; ">
         <h1>레시피 등록</h1>
-        <form>
+        <form action="insert.rc" method="post" enctype="Multipart/form-data">
         <div class="content" style="display: flex; margin: 30px 10px 30px 10px">
             <div id = "mainImage" style="display: flex; flex-direction: column;">
                 <div>
