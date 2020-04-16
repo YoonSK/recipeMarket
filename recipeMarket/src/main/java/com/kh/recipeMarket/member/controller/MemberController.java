@@ -18,6 +18,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -191,72 +192,70 @@ public class MemberController {
 		}
 
 	}
+	
 	// 아이디 찾기 페이지 이동
-		@RequestMapping("findIdView.me")
-		public String findIdView() {
-			return "findId";
+	@RequestMapping("findIdView.me")
+	public String findIdView() {
+		return "findId";
+	}
+	
+	//아이디 찾기
+	@RequestMapping(value="findId.me",method=RequestMethod.POST)
+	public ModelAndView findId(Member m, Model model,@RequestParam("name") String name, @RequestParam("email") String email,  ModelAndView mv) {
+		m.setName(name);
+		m.setEmail(email);
+		System.out.println("email : "+ email + " name : " + name);
+		String id = ms.findId(m);
+		if(id != null) {
+			mv.addObject("id", id);
+			mv.setViewName("idView");
+		} else {
+			throw new MemberException("아이디 찾기에 실패하였습니다.");
 		}
+		return mv;
+	}
+	
+	// 비밀번호 찾기 페이지 이동
+	@RequestMapping("findPwdView.me")
+	public String findPwdView() {
+		return "findPwd";
+	}
+	
+	// 이메일 전송
+	@RequestMapping("sendEmail.me")
+	public String findPwd(HttpSession hSession, @RequestParam("id") String id, @RequestParam("email") String email, HttpServletResponse response, Member m) throws IOException{
+		System.out.println(id);
+		System.out.println(email);
+		m.setId(id);
+		m.setEmail(email);
+		Member check = ms.CheckPwd(m); // 아이디와 이메일이 존재하는지
+		System.out.println(check);
 		
-		//아이디 찾기
-		@RequestMapping(value="findId.me",method=RequestMethod.POST)
-		public ModelAndView findId(Member m, Model model,@RequestParam("name") String name, @RequestParam("email") String email,  ModelAndView mv) {
-			m.setName(name);
-			m.setEmail(email);
-			System.out.println("email : "+ email + " name : " + name);
-			String id = ms.findId(m);
-			if(id != null) {
-				mv.addObject("id", id);
-				mv.setViewName("idView");
-			} else {
-				throw new MemberException("아이디 찾기에 실패하였습니다.");
-			}
-			return mv;
-		}
+		PrintWriter out = response.getWriter();
 		
-		// 비밀번호 찾기 페이지 이동
-		@RequestMapping("findPwdView.me")
-		public String findPwdView() {
-			return "findPwd";
-		}
-		
-		// 이메일 전송
-		@RequestMapping("sendEmail.me")
-		public String findPwd(@RequestParam("id") String id, @RequestParam("email") String email, @RequestParam("temPwd") String temPwd,HttpServletResponse response,
-									@RequestParam("newPwd") String newPwd, Member m) throws IOException{
-			System.out.println(id);
-			System.out.println(email);
-			m.setId(id);
-			m.setPwd(newPwd);
-			
-			// 복호화
-		      String encPwd = bcrypt.encode(m.getPwd());   
-		      m.setPwd(encPwd);
-			int result = ms.updatePwd(m);
-			
+		if(check != null) {
+
 			String host = "smtp.naver.com"; // 사용하는 메일
 			final String sender = "recipe_market@naver.com"; // 보내는 사람 ID (Ex: @naver.com 까지..)
-			final String password = "fptlvlakzpt1!"; // 보내는 사람 Password
+			final String password = "fptlvlakzpt1"; // 보내는 사람 Password
 
-
-			 int port = 465;
-		      Properties props = new Properties();
-		      props.put("mail.smtp.host", host);
-		      props.put("mail.smtp.port", port);
-		      props.put("mail.smtp.auth", "true");
-		      props.put("mail.smtp.ssl.enable", "true");
-		      props.put("mail.smtp.ssl.trust", host);
+			int port = 465;
+		    Properties props = new Properties();
+		    props.put("mail.smtp.host", host);
+		    props.put("mail.smtp.port", port);
+		    props.put("mail.smtp.auth", "true");
+		    props.put("mail.smtp.ssl.enable", "true");
+		    props.put("mail.smtp.ssl.trust", host);
 		      
-		      PrintWriter out = response.getWriter();
-		      if(result > 0) {
-	        	  System.out.println(newPwd);
-	             System.out.println("임시비밀번호로 변경");
-		      
-			      Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-			         protected PasswordAuthentication getPasswordAuthentication() {
-			            return new PasswordAuthentication(sender,password);
-			         }
-			      });
+	        System.out.println("임시비밀번호로 변경");
+			Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+			     		return new PasswordAuthentication(sender,password);
+	         	}
+			});
 			      try {
+			    	  
+			    	  
 			         // 이메일 내용 구성
 			    	  MimeMessage message = new MimeMessage(session);
 			          message.setFrom(new InternetAddress(sender));
@@ -266,27 +265,69 @@ public class MemberController {
 			          message.setSubject("[Recipe_Market]비밀번호 찾기 결과 이메일입니다.");
 			          //내용
 		
-//			             out.print("success");
-			         
-			          message.setText("임시비밀번호는 " + newPwd + "입니다.\n 임시비밀번호로 로그인하고 비밀번호를 변경해주세요.");
+			          // 처음 문자는 영어로
+			          char pwSet1[] = new char[] {
+			                       'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+			                       'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'
+			          };
 			          
+			          char pwSet2[] = new char[] {
+			                '1','2','3','4','5','6','7','8','9','0',
+			                     'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+			                     'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'
+			          };
 			          
+			          int firstRan = (int)(Math.random()*(pwSet1.length));
+			          char firstPw = pwSet1[firstRan];
+			          String ranPw = "";
+			          for(int i = 0; i < 10; i++) {
+			             int ranIndex = (int)(Math.random()*(pwSet2.length));
+			             ranPw += pwSet2[ranIndex];
+			          }
+			          
+			          String lastPw = firstPw + ranPw + "!";
+			          m.setPwd(lastPw);
+					  String encPwd = bcrypt.encode(m.getPwd());   //복호화
+				      m.setPwd(encPwd);
+					int result = ms.updatePwd(m);
+			          
+					
+					
+			          
+					  if(result > 0) {
+				            System.out.println("임시비밀번호로 변경");
+//				            mv.addObject("message", "success");
+//				            hSession.setAttribute("message", "success");
+				            out.append("success");
+				            out.flush();
+				         } else {
+				            System.out.println("임시비밀번호로 변경실패");
+				         }
+				         message.setText("임시비밀번호는 " + lastPw + "입니다.\n 임시비밀번호로 로그인하고 비밀번호를 변경해주세요.");
+				          
 			          //이메일 보내기
 			          Transport.send(message);
 			          System.out.println("성공적으로 메일을 보냈습니다.");
-			          out.print("success");
 			       } catch (AddressException e) {
 			          e.printStackTrace();
 			       } catch (MessagingException e) {
 			          e.printStackTrace();
 			       }  
-			      
-			      out.flush();
-				out.close();
-		      } else {
-		             System.out.println("임시비밀번호로 변경실패");
-		          }
-			return "redirect:/";
-			
-		}
+	      } else {
+	             System.out.println("임시비밀번호로 변경실패");
+//	             mv.addObject("message", "fail");
+//	             hSession.setAttribute("message", "fail");
+	             out.append("fail");
+	             out.flush();
+	      }
+		
+		out.close();
+		return "memberLogin";
+	
+		
+	}
 }
+
+
+
+

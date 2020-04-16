@@ -45,4 +45,8 @@ public class MemberDAO {
 		return sqlSession.update("memberMapper.updatePwd", m);
 	}
 
+	public Member checkPwd(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.selectOne("memberMapper.selectPwd", m);
+	}
+
 }
