@@ -75,7 +75,11 @@
 									배송완료
 								<br>
 								<input type="submit" id="updateBtn" value="후기 작성 완료" disabled>									
-								</c:if>																									
+								</c:if>		
+								<c:if test="${ order.status == 4}">
+									주문취소
+								<br>								
+								</c:if>																																
 							</td>
 						</tr>		
 						</c:forEach>																						
@@ -103,7 +107,7 @@
 									</c:if>
 									
 									<c:if test="${ p ne pi.currentPage }">
-										<c:url var="pagination" value="blist.bo">
+										<c:url var="pagination" value="mOrder.mp">
 											<c:param name="page" value="${ p }"/>
 										</c:url>
 										<a href="${ pagination }">${ p }</a> &nbsp;
@@ -115,7 +119,7 @@
 									&raquo;
 								</c:if>
 								<c:if test="${ pi.currentPage < pi.maxPage }">
-									<c:url var="after" value="blist.bo">
+									<c:url var="after" value="mOrder.mp">
 										<c:param name="page" value="${ pi.currentPage + 1 }"/>
 									</c:url> 
 									<a href="${ after }">&raquo;</a>

@@ -22,4 +22,10 @@ public class ManagerDAO {
 		return (ArrayList)sqlSession.selectList("managerMapper.orderList", rowBounds);
 	}
 
+	public ArrayList<mOrderInfo> orderSortList(SqlSessionTemplate sqlSession, PageInfo pi, int status) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("managerMapper.orderSortList", status, rowBounds);
+	}
+
 }
