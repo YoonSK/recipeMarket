@@ -61,4 +61,9 @@ public class MServiceImpl implements MemberService {
 	public int updatePwd(Member m) {
 		return mDAO.updatePwd(sqlSession, m);
 	}
+
+	@Override
+	public Member CheckPwd(Member m) {
+		return mDAO.checkPwd(sqlSession, m);
+	}
 }
