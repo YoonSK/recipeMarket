@@ -55,7 +55,7 @@
 				<li><a href="goTerm.me">회원가입</a></li>						
 			</ul>
 			</c:if>	
-			<c:if test="${ !empty sessionScope.loginUser }">	
+			<c:if test="${ !empty sessionScope.loginUser && loginUser.id != 'ADMIN' }">	
 				<p id="welcome">
 		    		<c:if test="${ loginUser.pName != null }">	
 						<img name="profile" width=60px; height=60px; style="border-radius: 40px;" id="profile" src="resources/upload/${ loginUser.pName }">
@@ -63,7 +63,7 @@
 					<c:if test="${ loginUser.pName == null }">
 						<img name="profile" width=60px; height=60px; style="border-radius: 40px;" id="profile" src="resources/images/user.png">
 					</c:if>							
-				</p>
+				</p>				
 				<div id="nick">
 					${ loginUser.nickName }
 				</div>
@@ -71,7 +71,19 @@
 					<li><a href="mypage.mp">마이페이지</a></li>
 					<li><a href="logout.me">로그아웃</a></li>
 				</ul>
-			</c:if>										
+			</c:if>	
+			<c:if test="${ loginUser.id == 'ADMIN' }">	
+				<p id="welcome">
+					<img name="profile" width=60px; height=60px; style="border-radius: 40px;" id="profile" src="resources/images/user.png">						
+				</p>				
+				<div id="nick">
+					${ loginUser.nickName }
+				</div>
+				<ul class="nav_mem">
+					<li><a href="manager.ma">관리자 페이지</a></li>
+					<li><a href="logout.me">로그아웃</a></li>
+				</ul>
+			</c:if>													
 		</form>
 		</div>
 		<div class="menubar">

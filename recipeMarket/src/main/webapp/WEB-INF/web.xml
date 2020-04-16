@@ -89,6 +89,20 @@
 		<servlet-name>recipeServlet</servlet-name>
 		<url-pattern>*.rc</url-pattern>
 	</servlet-mapping>
+
+	<!-- 관리자 관련 -->
+	<servlet>
+		<servlet-name>managerServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/manager-context.xml</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>managerServlet</servlet-name>
+		<url-pattern>*.ma</url-pattern>
+	</servlet-mapping>	
 	
 	<!-- 공용 에러페이지 등록 -->
 	<error-page>
