@@ -45,4 +45,33 @@ public class ManagerController {
 		
 		return mv;
 	}	
+	
+	@RequestMapping("orderSort.ma")
+	public ModelAndView orderSort(@RequestParam(value="page", required=false) Integer page, String sortCate, ModelAndView mv) {
+		String cate = sortCate;
+		int status = 0;
+		switch(cate) {
+		case "결제완료": status = 0; break;
+		case "배송중" : status = 1; break;
+		case "배송완료": status = 2; break;
+		case "주문취소" : status = 4; break;
+		}
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page; }
+				
+		int listCount = mas.orderCount();
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		ArrayList<mOrderInfo> list = mas.orderSortList(pi, status);				
+		if(list != null) {
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.setViewName("orderManage");
+		}else {
+			throw new ManagerException("주문 조회에 실패하였습니다.");
+		}		
+		
+		return mv;		
+		
+	}
 }

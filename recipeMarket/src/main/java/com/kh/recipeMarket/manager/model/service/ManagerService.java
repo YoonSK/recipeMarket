@@ -11,4 +11,6 @@ public interface ManagerService {
 
 	ArrayList<mOrderInfo> orderList(PageInfo pi);
 
+	ArrayList<mOrderInfo> orderSortList(PageInfo pi, int status);
+
 }

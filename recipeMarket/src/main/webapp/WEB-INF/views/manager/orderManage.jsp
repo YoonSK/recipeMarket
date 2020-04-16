@@ -7,9 +7,11 @@
 <head>
 <meta charset="UTF-8">
 <title>주문 관리</title>
+<script src="https://code.jquery.com/jquery-3.4.1.js"integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
 <style>
 	div.content{height: 600px;}
-	h2{margin-left: 135px;}
+	h2{margin-left: 10%;}
 	.tableArea{width: 80%; height: 650px; margin: 0 auto; margin-top: 80px;}
 	table {width: 100%;}
 	table > class{margin-left: 100px; margin-top: 30px; width: 680px;}
@@ -17,9 +19,14 @@
 	table thead th{border-bottom: 2px solid #add1c3; background-color: #add1c3; height: 30px; font-weight: 600; text-align: center;}
 	table tbody th{font-weight: 600; border-bottom: 1px solid #add1c3; text-align: center;}
 	table tbody td{border-bottom: 2px solid #add1c3; font-family: inherit; text-align: center; font-size: 11pt;}
-	input[type="submit"]{width: 60px; height: 20px; font-size: 10px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
+	input[type="submit"]{width: 65px; height: 20px; font-size: 12px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
 	input[type="submit"]:hover{cursor: pointer; background: #fee0a1; color: white;}
- 
+	/* 카테고리 */
+	th ul{display: none; position: absolute; width: 70px; background:white; cursor: pointer;}
+	th ul > li{border: 1px solid #add1c3; list-style: none;}
+	#listBtn{font-size: small;}
+	#listBtn:hover{cursor: pointer;}
+
 </style>
 </head>
 <body>
@@ -27,7 +34,7 @@
 	<div class="outer">
 		<div class="container">
 			<div class="content">	
-				<h2>주문 내역 조회</h2>			
+				<h2>회원 주문 조회</h2>			
 				<div class="tableArea">
 					<table id="table">
 						<thead> <!-- 게시판 라벨 부분 -->
@@ -36,7 +43,14 @@
 							<th width="10%">날짜</th>							
 							<th width="30%" class="title">주문 정보</th>
 							<th width="10%">결제 금액</th>
-							<th width="10%">주문 상태</th>
+							<th width="15%"><p style="display: inline;">주문 상태</p><span id="listBtn">&nbsp;▼</span>
+								<ul id="list">
+									<li onclick=sortCate(this);>결제완료</li>
+									<li onclick=sortCate(this);>배송중</li>
+									<li onclick=sortCate(this);>배송완료</li>
+									<li onclick=sortCate(this);>주문취소</li>									
+								</ul>				
+							</th>
 						</tr>
 						</thead>
 						<tbody>				
@@ -61,8 +75,8 @@
 									배송완료
 								<br>							
 								</c:if>	
-								<c:if test="${ order.status == 3}">
-									배송완료
+								<c:if test="${ order.status == 4}">
+									주문취소
 								<br>								
 								</c:if>																									
 							</td>
@@ -92,7 +106,7 @@
 									</c:if>
 									
 									<c:if test="${ p ne pi.currentPage }">
-										<c:url var="pagination" value="blist.bo">
+										<c:url var="pagination" value="mOrder.mp">
 											<c:param name="page" value="${ p }"/>
 										</c:url>
 										<a href="${ pagination }">${ p }</a> &nbsp;
@@ -104,18 +118,35 @@
 									&raquo;
 								</c:if>
 								<c:if test="${ pi.currentPage < pi.maxPage }">
-									<c:url var="after" value="blist.bo">
+									<c:url var="after" value="mOrder.mp">
 										<c:param name="page" value="${ pi.currentPage + 1 }"/>
 									</c:url> 
 									<a href="${ after }">&raquo;</a>
 								</c:if>
 							</td>
-						</tr>						
+						</tr>					
 					</table>
 				</div>			    
 			</div>
 		</div>
-	</div>	
+	</div>
+	<script>
+		$("#listBtn").click(function(){
+			if($("#list").is(":visible")){
+				$("#list").slideUp();
+			} else {
+				$("#list").slideDown();
+			}
+		});
+	
+		function sortCate(data){
+			var sortCate = data.innerText;
+			location.href = "orderSort.ma?sortCate="+sortCate+"&page=1";
+		}	
+		
+		console.log(${ pi.startPage });
+		console.log(${ p });
+	</script>	
 	<c:import url="../common/footer.jsp"/>				
 </body>
 </body>
