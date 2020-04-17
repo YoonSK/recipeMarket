@@ -1,14 +1,21 @@
 package com.kh.recipeMarket.manager.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.manager.model.exception.ManagerException;
 import com.kh.recipeMarket.manager.model.service.ManagerService;
 import com.kh.recipeMarket.manager.model.vo.Pagination;
@@ -74,4 +81,13 @@ public class ManagerController {
 		return mv;		
 		
 	}
+	
+	// 배송 처리
+	@RequestMapping(value="oStatus.ma")
+	public void orderStatus(HttpServletResponse response, @ModelAttribute Order o) throws JsonIOException, IOException {
+		int result = mas.orderStatus(o);
+		Gson gson = new Gson();
+		gson.toJson(result, response.getWriter());		
+	
+	}	
 }

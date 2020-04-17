@@ -18,8 +18,8 @@
 	table thead th{border-bottom: 2px solid #e8e5da; background-color: #e8e5da; height: 30px; font-weight: 600; text-align: center;}
 	table tbody th{font-weight: 600; border-bottom: 1px solid #5d5d5d; text-align: center;}
 	table tbody td{border-bottom: 2px solid #e8e5da; font-family: inherit; text-align: center; font-size: 11pt;}
-	input[type="submit"]{width: 60px; height: 20px; font-size: 10px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
-	input[type="submit"]:hover{cursor: pointer; background: #fee0a1; color: white;}
+	input[type="button"]{width: 60px; height: 20px; font-size: 10px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
+	input[type="button"]:hover{cursor: pointer; background: #fee0a1; color: white;}
     
     .modal {display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
     .modal-content {background-color: #fefefe; margin: 20% auto; padding: 20px; border: 1px solid #888; width: 50%; height: 500px;}
@@ -60,24 +60,29 @@
 							<td>
 								<c:if test="${ order.status == 0}">
 									결제완료
+								<input type="button" id="btn" class="statBtn" value="주문 취소">	
+								<input type="hidden" class="oStatus" value="${ order.status }">										
 								</c:if>	
 								<c:if test="${ order.status == 1}">
 									배송중
 								<br>
-								<input type="submit" id="updateBtn" value="수취 확인">									
+								<input type="button" id="btn" class="statBtn" value="수취 확인" value="${ order.status }">	
+								<input type="hidden" class="oStatus" value="${ order.status }">										
 								</c:if>	
 								<c:if test="${ order.status == 2}">
 									배송완료
 								<br>
-								<input type="submit" id="updateBtn" value="후기 작성">									
+								<input type="button" id="btn" class="statBtn" value="후기 작성" value="${ order.status }">	
+								<input type="hidden" class="oStatus" value="${ order.status }">																		
 								</c:if>	
 								<c:if test="${ order.status == 3}">
 									배송완료
 								<br>
-								<input type="submit" id="updateBtn" value="후기 작성 완료" disabled>									
+								<input type="submit" id="btn" class="statBtn" value="후기 작성 완료" value="${ order.status }" disabled>	
+								<input type="hidden" class="oStatus" value="${ order.status }">																		
 								</c:if>		
 								<c:if test="${ order.status == 4}">
-									주문취소
+									주문취소									
 								<br>								
 								</c:if>																																
 							</td>
@@ -162,6 +167,19 @@
 							}
 						});
 					});
+					
+					$('.statBtn').click(function(){
+						var orderNo = $('.orderT').children('td').eq(0).text();
+						var status = $('.oStatus').val();						
+						$.ajax({
+							url: 'oStatus.mp',
+							data: {orderNo:orderNo, status:status},
+							dataType: 'json',
+							success: function(data){
+								location.reload();				
+							}							
+						});
+					})
 				
 				</script>							
 			    <!-- The Modal -->

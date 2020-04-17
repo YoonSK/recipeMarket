@@ -19,8 +19,8 @@
 	table thead th{border-bottom: 2px solid #add1c3; background-color: #add1c3; height: 30px; font-weight: 600; text-align: center;}
 	table tbody th{font-weight: 600; border-bottom: 1px solid #add1c3; text-align: center;}
 	table tbody td{border-bottom: 2px solid #add1c3; font-family: inherit; text-align: center; font-size: 11pt;}
-	input[type="submit"]{width: 65px; height: 20px; font-size: 12px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
-	input[type="submit"]:hover{cursor: pointer; background: #fee0a1; color: white;}
+	input[type="button"]{width: 65px; height: 20px; font-size: 12px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
+	input[type="button"]:hover{cursor: pointer; background: #fee0a1; color: white;}
 	/* 카테고리 */
 	th ul{display: none; position: absolute; width: 70px; background:white; cursor: pointer;}
 	th ul > li{border: 1px solid #add1c3; list-style: none;}
@@ -65,7 +65,8 @@
 								<c:if test="${ order.status == 0}">
 									결제완료
 									<br>
-								<input type="submit" id="updateBtn" value="배송 처리">									
+								<input type="button" id="btn" class="statBtn" value="배송 처리">		
+								<input type="hidden" class="oStatus" value="${ order.status }">																
 								</c:if>	
 								<c:if test="${ order.status == 1}">
 									배송중
@@ -139,13 +140,26 @@
 			}
 		});
 	
+		// 카테 정렬
 		function sortCate(data){
 			var sortCate = data.innerText;
 			location.href = "orderSort.ma?sortCate="+sortCate+"&page=1";
 		}	
 		
-		console.log(${ pi.startPage });
-		console.log(${ p });
+		
+		$('.statBtn').click(function(){
+			var orderNo = $('.orderT').children('td').eq(0).text();
+			var status = $('.oStatus').val();						
+			$.ajax({
+				url: 'oStatus.ma',
+				data: {orderNo:orderNo, status:status},
+				dataType: 'json',
+				success: function(data){
+					location.reload();				
+				}							
+			});
+		});
+		
 	</script>	
 	<c:import url="../common/footer.jsp"/>				
 </body>
