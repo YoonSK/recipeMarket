@@ -17,7 +17,7 @@
 	ul.nav_mem li a:link {text-decoration: none; color: grey;}
 	#search_con{position: absolute; left: 30%; top: 40px;}
 	#topSearch{height: 100px;}
-	div#nick{position: absolute; right: 60px; top: 75px; font-size: 15px; font-weight: bold;}
+	div#nick{position: absolute; right:5%; top: 17%; font-size: 15px; font-weight: bold;}
 	/* 메뉴바*/
 	div.menubar{margin-top: 10px; margin-bottom: 10px; height: 50px; background-color: #fee0a1;}
 	div.menubar ul{margin: 0 auto; padding: 9px 30px 0; text-align: center;}

@@ -29,4 +29,9 @@ public class MaServiceImpl implements ManagerService {
 		return maDAO.orderList(sqlSession, pi);
 	}
 
+	@Override
+	public ArrayList<mOrderInfo> orderSortList(PageInfo pi, int status) {
+		return maDAO.orderSortList(sqlSession, pi, status);
+	}
+
 }

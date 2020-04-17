@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.recipeMarket.board.model.dao.BoardDAO;
 import com.kh.recipeMarket.board.model.vo.Board;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.common.Photo;
 
 @Service("bService")
 public class BoardServiceImpl implements BoardService{
@@ -42,6 +43,12 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public Board selectBoard(int postNo) {
 		return bDAO.selectBoard(sqlSession, postNo);
+	}
+
+
+	@Override
+	public int uploadImage(Photo p) {
+		return bDAO.uploadImage(sqlSession, p);
 	}
 	
 	
