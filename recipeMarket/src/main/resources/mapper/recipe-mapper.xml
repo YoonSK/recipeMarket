@@ -35,7 +35,7 @@
 
 	<insert id="insertRecipe" parameterType="java.util.Map">
 		insert into R_BOARD
-		values (seq_rpcno.nextVal, #{memberNo}, sysdate, sysdate, #{circumstance}, #{serving}, #{difficulty}, 0, default)
+		values (seq_recipe_no.nextVal, #{memberNo}, sysdate, sysdate, #{circumstance}, #{serving}, #{difficulty}, 0, default)
 	</insert>
 
 	<insert id="insertIngredient" parameterType="java.util.Map">
@@ -59,30 +59,45 @@
         </foreach>
     </insert>
 
-	<select id="selectRecipe" parameterType="Recipe" resultMap="Recipe">
-		SELECT *
+	<select id="selectRecipeList" parameterType="Recipe" resultMap="Recipe">
+		SELECT POST_NO, NICKNAME, TITLE, RATING, HIT, DELETED;
 		FROM R_BOARD
+		JOIN MEMBER USING MEMBER_NO
+		WHERE MEMBER_NO = #{memberNo}
+		AND DELETED = 'N'
+	</select>
+	
+	<select id="searchRecipeList" parameterType="Recipe" resultMap="Recipe">
+		SELECT POST_NO, NICKNAME, CREATE_DATE, MODIFY_DATE, CATEGORY, SERVING, DIFFIYCULTY, RATING, HIT, DELETED;
+		FROM R_BOARD
+		JOIN MEMBER USING MEMBER_NO
+		WHERE DELETED = 'N'
+	</select>
+	
+	<select id="selectRecipe" parameterType="Recipe" resultMap="Recipe">
+		SELECT POST_NO, NICKNAME, CREATE_DATE, MODIFY_DATE, CATEGORY, SERVING, DIFFIYCULTY, RATING, HIT, DELETED;
+		FROM R_BOARD
+		JOIN MEMBER USING MEMBER USING MEMBER_NO
 		WHERE POST_NO = #{postNo}
 		  AND DELETED = 'N'
 	</select>
 
 	<select id="selectTags" parameterType="" resultMap="">
-		SELECT *
+		SELECT POST_NO, TAG
 		FROM R_TAG
 		WHERE POST_NO = #{postNo}
 	</select>
 	
 	<select id="selectIngredients" parameterType="" resultMap="">
-		SELECT *
+		SELECT POST_NO, INGREDIENT, AMOUNT
 		FROM R_INGREDIENT
 		WHERE POST_NO = #{postNo}
 	</select>
 	
 	<select id="selectSteps" parameterType="" resultMap="">
-		SELECT *
+		SELECT POST_NO, STEP, CONTENT, TIMER
 		FROM R_STEPS
 		WHERE POST_NO = #{postNo}
 	</select>
-	
 	
 </mapper>

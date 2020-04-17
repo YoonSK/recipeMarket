@@ -1,33 +1,36 @@
 package com.kh.recipeMarket.recipe.model.vo;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 
 public class Recipe {
-	int postNo;
-	int memberNo;
-	int createDate;
-	int modifyDate;
-	int category;
-	int serving;
-	int difficulty;
-	ArrayList<Ingredient> ingredientList;
-	ArrayList<Tag> tagList;
-	ArrayList<RecipeStep> stepList;
-	double rating;
-	int hit;
-	char deleted;
+	private int postNo;
+	private int memberNo;
+	private String nickName;
+	private Date createDate;
+	private Date modifyDate;
+	private String category;
+	private int serving;
+	private int difficulty;
+	private ArrayList<Ingredient> ingredientList;
+	private ArrayList<Tag> tagList;
+	private ArrayList<RecipeStep> stepList;
+	private double rating;
+	private int hit;
+	private char deleted;
 	
 	public Recipe() {
 		super();
 	}
 
-	public Recipe(int postNo, int memberNo, int createDate, int modifyDate, int category, int serving, int difficulty,
-			ArrayList<Ingredient> ingredientList, ArrayList<Tag> tagList, ArrayList<RecipeStep> stepList,
-			double rating, int hit, char deleted) {
+	public Recipe(int postNo, int memberNo, String nickName, Date createDate, Date modifyDate, String category, int serving, int difficulty,
+				  ArrayList<Ingredient> ingredientList, ArrayList<Tag> tagList, ArrayList<RecipeStep> stepList,
+				  double rating, int hit, char deleted) {
 		super();
 		this.postNo = postNo;
 		this.memberNo = memberNo;
+		this.nickName = nickName;
 		this.createDate = createDate;
 		this.modifyDate = modifyDate;
 		this.category = category;
@@ -57,27 +60,27 @@ public class Recipe {
 		this.memberNo = memberNo;
 	}
 
-	public int getCreateDate() {
+	public Date getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(int createDate) {
+	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
 
-	public int getModifyDate() {
+	public Date getModifyDate() {
 		return modifyDate;
 	}
 
-	public void setModifyDate(int modifyDate) {
+	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}
 
-	public int getCategory() {
+	public String getCategory() {
 		return category;
 	}
 
-	public void setCategory(int category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
 
@@ -143,6 +146,14 @@ public class Recipe {
 
 	public void setDeleted(char deleted) {
 		this.deleted = deleted;
+	}
+
+	public String getNickname() {
+		return nickName;
+	}
+
+	public void setNickname(String nickName) {
+		this.nickName = nickName;
 	}
 	
 	

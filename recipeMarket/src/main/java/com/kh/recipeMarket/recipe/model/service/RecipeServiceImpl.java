@@ -39,6 +39,19 @@ public class RecipeServiceImpl implements RecipeService {
 	public int insertSteps(ArrayList<RecipeStep> steps) {
 		return rDAO.insertSteps(sqlSession, steps);
 	}
+	
+	@Override
+	public ArrayList<Recipe> searchRecipeList(SearchCon sc) {
+		ArrayList<Recipe> list = new ArrayList<Recipe>();
+		return list;
+	}
+	
+	@Override
+	public ArrayList<Recipe> selectRecipeList(int memberNo) {
+		ArrayList<Recipe> list = new ArrayList<Recipe>();
+		
+		return list;
+	}
 
 	@Override
 	public Recipe selectRecipe(int postNo) {
@@ -64,5 +77,7 @@ public class RecipeServiceImpl implements RecipeService {
 	public ArrayList<Reply> selectReplies(int postNo) {
 		return null;
 	}
+
+
 	
 }

@@ -30,21 +30,24 @@ public class RecipeController {
 		r.setMemberNo(memberNo);
 		int result = rService.insertRecipe(r);
 		
-		return null;
+		return "recipeDetailcj";
 	}
 
 	@RequestMapping("list.rc")
-	public ModelAndView recipeList(int postNo, ModelAndView mv){
+	public ModelAndView recipeList(Recipe r, ModelAndView mv){
+		ArrayList<Recipe> rlist = new ArrayList<Recipe>();
+		
+		
+		mv.setViewName("recipeList");
+		return mv;
+	}
 	
-		Recipe r = rService.selectRecipe(postNo);
-		r.setIngredientList(rService.selectIngredients(postNo));
-		r.setTagList(rService.selectTags(postNo));
-		r.setStepList(rService.selectRecipeSteps(postNo));
-		mv.addObject("r", r);
+	@RequestMapping("search.rc")
+	public ModelAndView recipeSearch(Recipe r, ModelAndView mv){
+		ArrayList<Recipe> rlist = new ArrayList<Recipe>();
 		
 		
-		
-		mv.setViewName("recipeListView");
+		mv.setViewName("recipeList");
 		return mv;
 	}
 	
@@ -60,14 +63,8 @@ public class RecipeController {
 		ArrayList<Reply> replies = rService.selectReplies(postNo);
 		mv.addObject("replies", replies);
 		
-		mv.setViewName("recipeDetailView");
+		mv.setViewName("recipeDetail");
 		return mv;
-	}
-	
-	@RequestMapping("list.rc")
-	public String recipeList() {
-		
-		return "recipeDetail";
 	}
 	
 	

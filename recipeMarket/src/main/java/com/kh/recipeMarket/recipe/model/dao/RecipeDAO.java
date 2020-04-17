@@ -11,6 +11,8 @@ import com.kh.recipeMarket.recipe.model.vo.*;
 @Repository("rDAO")
 public class RecipeDAO {
 
+	private static final Object SearchCon = null;
+
 	public int insertRecipe(SqlSessionTemplate sqlSession, Recipe r) {
 		return sqlSession.insert("recipeMapper.insertRecipe",r);
 	}
@@ -30,6 +32,14 @@ public class RecipeDAO {
 	
 	public Recipe selectRecipe(SqlSessionTemplate sqlSession, int postNo) {
 		return sqlSession.selectOne("recipeMapper.selectRecipe", postNo);
+	}
+	
+	public ArrayList<Recipe> searchRecipeList(SqlSessionTemplate sqlSession, SearchCon sc){
+		return (ArrayList)sqlSession.selectList("recipeMapper.searchRecipeList", sc);
+	}
+	
+	public ArrayList<Recipe> selectRecipeList(SqlSessionTemplate sqlSession, int memberNo){
+		return (ArrayList)sqlSession.selectList("recipeMapper.selectRecipeList", memberNo);
 	}
 	
 	public ArrayList<Ingredient> selectIngredients(SqlSessionTemplate sqlSession, int postNo){

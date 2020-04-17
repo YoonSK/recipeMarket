@@ -16,6 +16,10 @@ public interface RecipeService {
 	int insertSteps(ArrayList<RecipeStep> steps);
 
 	Recipe selectRecipe(int postNo);
+
+	ArrayList<Recipe> searchRecipeList(SearchCon sc);
+	
+	ArrayList<Recipe> selectRecipeList(int memberNo);
 	
 	ArrayList<Ingredient> selectIngredients(int postNo);
 	
