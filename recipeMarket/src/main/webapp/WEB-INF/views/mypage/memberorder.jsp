@@ -99,7 +99,7 @@
 									&laquo;
 								</c:if>
 								<c:if test="${ pi.currentPage > 1 }">
-									<c:url var="before" value="blist.bo">
+									<c:url var="before" value="mOrder.mp">
 										<c:param name="page" value="${ pi.currentPage - 1 }"/>
 									</c:url>
 									<a href="${ before }">&laquo;</a> 
