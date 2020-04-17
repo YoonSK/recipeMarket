@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
 @Repository("maDAO")
@@ -26,6 +27,10 @@ public class ManagerDAO {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("managerMapper.orderSortList", status, rowBounds);
+	}
+
+	public int orderStatus(SqlSessionTemplate sqlSession, Order o) {
+		return sqlSession.update("managerMapper.orderStatus", o);
 	}
 
 }
