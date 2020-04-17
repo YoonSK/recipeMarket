@@ -59,7 +59,16 @@
 	select::-ms-expand {
     	display: none;
 	}
-
+	
+	#imageArea{
+		margin: 17px;
+	}
+	
+	#bImageArea{
+		border: 1px solid black;
+	}
+	
+	
 </style>
 </head>
 <body>
@@ -92,7 +101,7 @@
 		         			</th>
 		         		</tr>
 		         		
-		         		<tr height="300px">
+		         		<%-- <tr height="300px">
 		         			<!-- <td colspan=2> <button id="picBtn">+</button></td> -->
 		         			<td colspan=2 style="padding:50px;">
 		         				<!-- <img src="https://recipe1.ezmember.co.kr/img/pic_none3.gif"> -->
@@ -113,23 +122,57 @@
 							</c:if>
 		         			
 		       
-		         		</tr>
+		         		</tr> --%>
 		         		
-		         		<tr>
+		         		
+		         		<!-- <tr>
 		         			<td rowspan="2" colspan="5" align="center">
 		         				<input type="submit" value="등록하기"  id="insertBtn"> &nbsp; &nbsp;
 		         				<button onclick="location.href='blist.bo'" id="backBtn">목록으로</button>
 		         			</td>
-		         		</tr>
+		         		</tr> -->
+		         		
 		         	</table>
 		         	
-		         	<!-- <script>
-		         		$(function(){
-		         			$("#ex_file").click(function(){
-		         				$("#")
-		         			})
-		         		})
-		         	</script> -->
+		         	<div id="imageArea">
+		         		<h2>사진 첨부</h2>
+			    		<figure>
+							<img name="bImageArea" width=140px; height=140px; id="bImageArea" src="https://recipe1.ezmember.co.kr/img/pic_none3.gif">
+						</figure>	
+					</div>	
+										
+					<div id="uArea">
+						<input type="file" name= "bImage" id="bImage" multiple="multiple" onchange="LoadImg(this)">
+					</div>
+					
+					<br>
+					<script>
+						$(function(){
+							$("#uArea").hide();
+							$("#imageArea").click(function(){
+								$("#bImage").click();
+							});
+						});
+							function LoadImg(value){
+								if(value.files && value.files[0]){
+									var reader = new FileReader();
+									reader.onload = function(e){								
+									$("#bImageArea").attr("src", e.target.result);
+									}
+									reader.readAsDataURL(value.files[0]);
+								}
+							}
+					</script>	
+					
+					
+		         	
+		         	
+		         	<div class="input-submit" align="center">
+		         	    <input type="submit" value="등록하기"  id="insertBtn"> &nbsp; &nbsp;
+		         		<button onclick="location.href='blist.bo'" id="backBtn">목록으로</button>
+		         	</div>
+		         	
+
 				</form>
 			</div>
 		</div>			
