@@ -36,13 +36,16 @@
 	         	<table>
 	         		<tr>
 	         		
-						<td rowspan=6><img width="150" height="150" src="../images/user.PNG"/></td>
-						<td width="80%" style="font-size:30px">${ board.nickName }</td>
-						<td style="font-size:20px">♡</td>
+						<td rowspan=5>
+							<img width="150" height="150" src="resources/images/user.png"/>
+						</td>
+						<td width="75%" style="font-size:30px">${ board.nickName }</td>
+						<td style="font-size:20px; width:30px;">♡</td>
 						<td width="30px" style="font-size:20px">0</td>
-						<td style="font-size:20px">댓글수</td>
-						<td style="font-size:20px">0</td>			         		
+						<td style="font-size:20px; width:70px;">댓글수</td>
+						<td style="font-size:20px; width:30px">0</td>			         		
 	         		</tr>
+	         		
 	         		<tr>
 	         			<td width="80%" colspan=5 style="color:gray; font-size:20px">${board.category }</td>
 	         		</tr>
@@ -55,7 +58,7 @@
 	         		
 	         		<tr>
 	         			<td width="80%" colspan=5 style="font-size:20px">
-	         				<img width="500" height="300" src="../images/food.PNG"/>
+	         				<img width="500" height="300" src="resources/images/food.PNG"/>
 	         			</td>
 	         		</tr>
 	         		<tr>
@@ -71,7 +74,7 @@
 	         	<hr>
 	         	<table>
 	         		<tr>
-						<td rowspan=3><img width="100" height="100" src="../images/user.png"/></td>
+						<td rowspan=3><img width="100" height="100" src="resources/images/user.png"/></td>
 						<td style="width:150px; font-size:20px">닉네임2</td>
 						<td style="font-size:15px">2020-04-01</td>		         		
 	         		</tr>

@@ -13,6 +13,8 @@ public class Board {
 	private String deleted; 
 	private String category;
 	
+	private String pName;
+	
 	public Board() {}
 
 	public Board(int postNo, int memberNo, String content, Date createDate, Date modifyDate, int hit, String deleted,
@@ -41,6 +43,57 @@ public class Board {
 		this.hit = hit;
 		this.deleted = deleted;
 		this.category = category;
+	}
+	
+	
+
+	
+
+	public Board(int postNo, String nickName, String content, Date createDate, Date modifyDate, int hit,
+			String deleted, String category, String pName) {
+		super();
+		this.postNo = postNo;
+		this.nickName = nickName;
+		this.content = content;
+		this.createDate = createDate;
+		this.modifyDate = modifyDate;
+		this.hit = hit;
+		this.deleted = deleted;
+		this.category = category;
+		this.pName = pName;
+	}
+	
+	
+
+	public Board(int postNo, int memberNo, String nickName, String content, Date createDate, Date modifyDate, int hit,
+			String deleted, String category, String pName) {
+		super();
+		this.postNo = postNo;
+		this.memberNo = memberNo;
+		this.nickName = nickName;
+		this.content = content;
+		this.createDate = createDate;
+		this.modifyDate = modifyDate;
+		this.hit = hit;
+		this.deleted = deleted;
+		this.category = category;
+		this.pName = pName;
+	}
+
+	
+	public Board(int postNo, int memberNo, String content, Date createDate, Date modifyDate, int hit, String deleted,
+			String category, String nickName, String pName) {
+		super();
+		this.postNo = postNo;
+		this.memberNo = memberNo;
+		this.content = content;
+		this.createDate = createDate;
+		this.modifyDate = modifyDate;
+		this.hit = hit;
+		this.deleted = deleted;
+		this.category = category;
+		this.nickName = nickName;
+		this.pName = pName;
 	}
 
 	public int getPostNo() {
@@ -116,20 +169,34 @@ public class Board {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+	
+	
+
+	public String getpName() {
+		return pName;
+	}
+
+	public void setpName(String pName) {
+		this.pName = pName;
+	}
 
 	@Override
 	public String toString() {
-		return "Board [postNo=" + postNo + ", nickName=" + nickName + ", content=" + content + ", createDate="
-				+ createDate + ", modifyDate=" + modifyDate + ", hit=" + hit + ", deleted=" + deleted + ", category="
-				+ category + "]";
+		return "Board [postNo=" + postNo + ", nickName=" + nickName + ", content=" + content
+				+ ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", hit=" + hit + ", deleted=" + deleted
+				+ ", category=" + category + ", pName=" + pName + "]";
 	}
 
 //	@Override
 //	public String toString() {
-//		return "Board [postNo=" + postNo + ", memberNo=" + memberNo + ", content=" + content + ", createDate="
+//		return "Board [postNo=" + postNo + ", nickName=" + nickName + ", content=" + content + ", createDate="
 //				+ createDate + ", modifyDate=" + modifyDate + ", hit=" + hit + ", deleted=" + deleted + ", category="
 //				+ category + "]";
 //	}
+	
+	
+
+
 	
 	
 

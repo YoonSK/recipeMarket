@@ -26,4 +26,16 @@
 		order by ORDER_NO	
 	</select>
 	
+	<select id="orderSortList" resultMap="oiRS">
+		SELECT 
+				ORDER_NO, 
+		        "DATE",
+		        TOTAL,
+		        LISTAGG(NAME, ', ') WITHIN GROUP (ORDER BY ORDER_NO) AS "oList", STATUS
+		FROM ODLIST
+                where status = #{status}
+		group by "DATE", TOTAL, STATUS, ORDER_NO 
+		order by ORDER_NO desc	
+	</select>
+	
 </mapper>

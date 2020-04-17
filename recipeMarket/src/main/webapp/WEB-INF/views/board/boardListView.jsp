@@ -72,12 +72,22 @@
 	         	<c:forEach var="b" items="${ list }">
 		        	<!-- <div > -->
 		        	<tr>
+		        	
+		        	
+		        		<c:if test="${ b.pName == null }">
 						<td rowspan=4 width="150" height="150">
 							<img id="profileImg" src="resources/images/user.png"/>
 						</td>
-						<td width="75%" style="font-size:30px">${ b.nickName }
-							
+						</c:if>
+						<c:if test="${ b.pName != null }">
+						<td rowspan=4 width="150" height="150">
+							<img id="profileImg" src="resources/upload/${ b.pName }"/>
 						</td>
+						</c:if>
+						
+						<td width="75%" style="font-size:30px">${ b.nickName }
+						</td>
+							
 						<td style="font-size:20px; width:30px;">♡</td>
 						<td width="30px" style="font-size:20px">0</td>
 						<td style="font-size:20px; width:70px;">댓글수</td>
@@ -97,7 +107,15 @@
 		        		
 		        	<tr class="contentTR">
 		        		<td colspan=5 id="thumImgTd">
+		        			<c:if test="${ b.pName != null }">
+		        			<img  src="resources/upload/${ b.pName }" id="thumImg"/>
+		        			</c:if>
+		        			
+		        			<c:if test="${ b.pName == null }">
 		        			<img  src="resources/images/food.PNG" id="thumImg"/>
+		        			</c:if>
+		        			
+		        			
 		        			<input type="hidden" value="${ b.postNo }" name="postNo" id="postNo">
 		        		</td>
 	         		</tr>
