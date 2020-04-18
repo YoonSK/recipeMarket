@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.buy.model.vo.Order;
+import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
 @Repository("maDAO")

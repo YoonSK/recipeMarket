@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.manager.model.dao.ManagerDAO;
+import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
 @Service("mas")
