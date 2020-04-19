@@ -75,79 +75,87 @@
             <div class="option">
                 <div class="mini_option">
                     <span class="option_name">분량</span>
-                    <select>
-                        <option selected="selected">1인</option>
-                        <option>2인</option>
-                        <option>2~3인</option>
-                        <option>3~4인</option>
+                    <select name="serving">
+                        <option selected="selected">무관</option>
+                        <option value="1">1인</option>
+                        <option value="2">2인</option>
+                        <option value="3">3인</option>
+                        <option value="4">4인</option>
                     </select>
                 </div>
                 <div class="mini_option">
                     <span class="option_name">분류</span>
-                    <select>
-                        <option>반찬</option>
-                        <option>메인 요리</option>
-                        <option>국물류</option>
-                        <option selected="selected">식사</option>
-                        <option>간식/디저트</option>
-                        <option>샐러드</option>
-                        <option>음료</option>
-                        <option>양념</option>
-                        <option>기타</option>
+                    <select name="category">
+                        <option value="sub">반찬</option>
+                        <option value="main">메인 요리</option>
+                        <option value="soup">국물류</option>
+                        <option value="none" selected="selected">무관</option>
+                        <option value="meal">식사</option>
+                        <option value="dessert">간식/디저트</option>
+                        <option value="salad">샐러드</option>
+                        <option value="drink">음료</option>
+                        <option value="sauce">양념</option>
+                        <option value="etc">기타</option>
                     </select>
                 </div>
                 <div class="mini_option">
                     <span class="option_name">시간</span>
                     <select>
-                        <option>10분 이내</option>
-                        <option>30분 이내</option>
-                        <option>60분 이내</option>
-                        <option>90분 이내</option>
-                        <option>120분 이내</option>
+                        <option value="10">10분 이내</option>
+                        <option value="30">30분 이내</option>
+                        <option value="60">60분 이내</option>
+                        <option value="90">90분 이내</option>
+                        <option value="120">120분 이내</option>
                     </select>
                 </div>
                 <div class="mini_option">
                     <span class="option_name">난이도</span>
                     <select>
-                        <option>쉬움</option>
-                        <option>보통 이하</option>
-                        <option>어려움 이하</option>
+                        <option value="easy">쉬움</option>
+                        <option value="normal">보통 이하</option>
+                        <option value="hard">어려움 이하</option>
                     </select>
                 </div>
             </div>
             <div class="option" style="display: block">
-                <div style="display: flex">
+                <div id="ingrdientBox" style="display: flex">
                     <span class="option_name">재료</span>
-                    <span>
+                    <span id="ingrdientBox">
                         <input type="text" id="addIngredient">
                         <span style="text-align: right; margin-left: 5px">
-                            <button style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
+                            <button style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px" onclick="addIngredient()">+</button>
                         </span>
-                        <span class="example">예: </span>
+                    </span>
+                    <span>
+                        <span class="example"> 예: </span>
                         <span class="example">돼지고기,</span>
                         <span class="example">양파,</span>
                         <span class="example">토마토,</span>
                         <span class="example">...</span>
                     </span>
+                    
                 </div>
                 <div>
                     <button class="ingredient">감자</button>
                 </div>
             </div>
             <div class="option" style="display: block">
-                <div style="display: flex">
+                <div id="tagBox" style="display: flex">
                     <span class="option_name">태그</span>
                     <span>
                         <input type="text" id="addTag">
                         <span style="text-align: right; margin-left: 5px">
                             <button style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
                         </span>
-                        <span class="example">예: </span>
+                    </span>
+                    <span>
+                        <span class="example"> 예: </span>
                         <span class="example">비오는날,</span>
                         <span class="example">스트레스,</span>
                         <span class="example">매콤,</span>
                         <span class="example">...</span>
                     </span>
+                    
                 </div>
                 <div>
                     <button class="tag">단짠</button>
@@ -196,7 +204,7 @@
                     </a>
                 </div>
             </div>
-
+			
             <div style="display: flex;">
                 <div class="box">
                     <a href="">
@@ -228,4 +236,15 @@
     </div>
 </div>
 </body>
+<script>
+
+function addIngredient(){
+	var button = document.createElement('button')
+	
+	button.addEventListener('click', function(event) {
+		
+	})
+	someContainerElement.appendChild(button)
+}
+</script>
 </html>

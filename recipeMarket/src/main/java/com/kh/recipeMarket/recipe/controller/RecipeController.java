@@ -36,7 +36,8 @@ public class RecipeController {
 	@RequestMapping("list.rc")
 	public ModelAndView recipeList(Recipe r, ModelAndView mv){
 		ArrayList<Recipe> rlist = new ArrayList<Recipe>();
-		
+
+		mv.addObject("rlist", rlist);
 		
 		mv.setViewName("recipeList");
 		return mv;
@@ -46,8 +47,9 @@ public class RecipeController {
 	public ModelAndView recipeSearch(Recipe r, ModelAndView mv){
 		ArrayList<Recipe> rlist = new ArrayList<Recipe>();
 		
+		mv.addObject(rlist);
 		
-		mv.setViewName("recipeList");
+		mv.setViewName("recipeSearch");
 		return mv;
 	}
 	

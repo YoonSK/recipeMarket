@@ -95,42 +95,42 @@
                     <div class="mini_option">
                         <span class="option_name">분량</span>
                         <select>
-                            <option selected="selected">1인</option>
-                            <option>2인</option>
-                            <option>2~3인</option>
-                            <option>3~4인</option>
+                            <option value="" selected="selected">1인</option>
+                            <option value="">2인</option>
+                            <option value="">3인</option>
+                            <option value="">4인</option>
                         </select>
                     </div>
                     <div class="mini_option">
                         <span class="option_name">분류</span>
                         <select>
-                            <option>반찬</option>
-                            <option>메인 요리</option>
-                            <option>국물류</option>
-                            <option selected="selected">식사</option>
-                            <option>간식/디저트</option>
-                            <option>샐러드</option>
-                            <option>음료</option>
-                            <option>양념</option>
-                            <option>기타</option>
+                            <option value="">반찬</option>
+                            <option value="">메인 요리</option>
+                            <option value="">국물류</option>
+                            <option value="" selected="selected">식사</option>
+                            <option value="">간식/디저트</option>
+                            <option value="">샐러드</option>
+                            <option value="">음료</option>
+                            <option value="">양념</option>
+                            <option value="">기타</option>
                         </select>
                     </div>
                     <div class="mini_option">
                         <span class="option_name">시간</span>
                         <select>
-                            <option>10분</option>
-                            <option>30분</option>
-                            <option>60분</option>
-                            <option>90분</option>
-                            <option>120분</option>
+                            <option value="">10분</option>
+                            <option value="">30분</option>
+                            <option value="">60분</option>
+                            <option value="">90분</option>
+                            <option value="">120분</option>
                         </select>
                     </div>
                     <div class="mini_option">
                         <span class="option_name">난이도</span>
                         <select>
-                            <option>쉬움</option>
-                            <option>보통</option>
-                            <option>어려움</option>
+                            <option value="">쉬움</option>
+                            <option value="">보통</option>
+                            <option value="">어려움</option>
                         </select>
                     </div>
                 </div>
@@ -171,13 +171,13 @@
                 </div>
             </div>
         </div>
-        <div class="content" style="display:flex;flex-direction: column; width: 100%; margin: 5px auto;">
+        <div class="content" id="stepContainer" style="display:flex;flex-direction: column; width: 100%; margin: 5px auto;">
             <div class = "step" id = "step[1]">
                 <div style="min-width: 50px; text-align: center; font-size: 30px">
                     <label>1</label>
                 </div>
                 <div style="min-width: 75%; padding: 10px 10px 10px 10px;" >
-                    <textarea class="stepContent">돼지 고기를 믹서기에 갈아 파인애플을 곁들여 드세요</textarea>
+                    <textarea class="stepContent" id="content[]">돼지 고기를 믹서기에 갈아 파인애플을 곁들여 드세요</textarea>
                 </div>
                 <div>
                     <img width="150px" height="150px"/>
@@ -187,10 +187,15 @@
             <div style="text-align: right">
                 <button style="width: 40px; height: 40px; font-size: 24px; border-radius: 5px">+</button>
             </div>
-
+           	
         </div>
         </form>
     </div>
 </div>
 </body>
+<script>
+	function addStep(){
+			
+	}
+</script>
 </html>

@@ -92,7 +92,7 @@
 					<a href="${ contextPath }">홈</a>
 				</li>
 				<li>
-					<a href="#">레시피</a>
+					<a href="search.rc">레시피</a>
 				</li>
 				<li>
 					<a href="#">스토어</a>

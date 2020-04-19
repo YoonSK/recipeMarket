@@ -1,9 +1,9 @@
 package com.kh.recipeMarket.recipe.model.vo;
 
 public class RecipeStep {
-	int postNo;
-	int content;
-	int timer;
+	private int postNo;
+	private int content;
+	private int timer;
 	
 	public RecipeStep() {
 		super();
