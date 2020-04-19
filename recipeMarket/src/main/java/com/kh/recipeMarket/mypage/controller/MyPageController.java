@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Pagination;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.member.model.exception.MemberException;
@@ -201,5 +202,11 @@ public class MyPageController {
 		gson.toJson(od, response.getWriter());
 	}
 		
-	
+	// 주문 버튼 처리
+	@RequestMapping(value="oStatus.mp")
+	public void orderStatus(HttpServletResponse response, @ModelAttribute Order o) throws JsonIOException, IOException {
+		int result = mps.orderStatus(o);
+		Gson gson = new Gson();
+		gson.toJson(result, response.getWriter());
+	}	
 }

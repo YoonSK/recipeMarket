@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
@@ -43,6 +44,10 @@ public class MyPageDAO {
 
 	public ArrayList<mOrderDetail> orderDetail(SqlSessionTemplate sqlSession, int no) {
 		return (ArrayList)sqlSession.selectList("memberMapper.orderDetail", no);
+	}
+
+	public int orderStatus(SqlSessionTemplate sqlSession, Order o) {
+		return sqlSession.update("memberMapper.orderStatus", o);
 	}
 
 }

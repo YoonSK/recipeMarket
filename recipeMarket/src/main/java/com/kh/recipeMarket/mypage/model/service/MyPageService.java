@@ -3,6 +3,7 @@ package com.kh.recipeMarket.mypage.model.service;
 import java.util.ArrayList;
 
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
@@ -23,5 +24,7 @@ public interface MyPageService {
 	ArrayList<mOrderInfo> orderList(PageInfo pi, int memberNo);
 
 	ArrayList<mOrderDetail> orderDetail(int no);
+
+	int orderStatus(Order o);
 
 }
