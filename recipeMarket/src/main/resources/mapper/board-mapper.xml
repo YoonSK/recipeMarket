@@ -8,18 +8,31 @@
 	</select>
 	
 	<select id="selectList" resultMap="boardResultSet">
-  		select POST_NO, NICKNAME, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, F.DELETED, CATEGORY, CHANGE_NAME
+  		<!-- select POST_NO, NICKNAME, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, F.DELETED, CATEGORY, CHANGE_NAME
 		FROM F_BOARD F
     		JOIN MEMBER M USING(MEMBER_NO)
     		LEFT OUTER JOIN PHOTO ON(POST_NO = TARGET_NO)
 		WHERE F.deleted='N'
+		order by post_no desc  -->
+		
+		select POST_NO, NICKNAME, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, F.DELETED, CATEGORY, CHANGE_NAME
+		FROM F_BOARD F
+			JOIN MEMBER M USING(MEMBER_NO)
+			LEFT OUTER JOIN PHOTO ON(POST_NO = TARGET_NO AND BOARD_NO = 2)
+		WHERE F.deleted='N'
 		order by post_no desc 
 		 
-		<!-- select * 
-		from f_board
-		WHERE deleted='N'
-		order by post_no desc -->
 	</select>
+	
+	<select id="profileList" resultMap="boardResultSet">		
+		SELECT POST_NO, NICKNAME, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, F.DELETED, CATEGORY, CHANGE_NAME
+		FROM F_BOARD F
+    		JOIN MEMBER M USING(MEMBER_NO)
+    		left OUTER JOIN PHOTO P ON(MEMBER_NO = TARGET_NO AND BOARD_NO = 0)
+		WHERE F.deleted='N'
+		order by post_no desc 	 
+	</select>
+	
 	
 	<resultMap id="boardResultSet" type="Board">
 		<id property="postNo" column="POST_NO"/>
@@ -43,7 +56,17 @@
 		select POST_NO, NICKNAME, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, F.DELETED, CATEGORY, CHANGE_NAME
 		FROM F_BOARD F
     		JOIN MEMBER M USING(MEMBER_NO)
-    		LEFT OUTER JOIN PHOTO ON(POST_NO = TARGET_NO)
+    		LEFT OUTER JOIN PHOTO ON(POST_NO = TARGET_NO AND BOARD_NO = 2)
+		WHERE F.deleted='N' and post_no = #{postNo}
+		order by post_no desc 
+	</select>
+	
+	
+	<select id="selectProfile" resultMap="boardResultSet">
+		SELECT POST_NO, NICKNAME, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, F.DELETED, CATEGORY, CHANGE_NAME
+		FROM F_BOARD F
+    		JOIN MEMBER M USING(MEMBER_NO)
+    		left OUTER JOIN PHOTO P ON(MEMBER_NO = TARGET_NO AND BOARD_NO = 0)
 		WHERE F.deleted='N' and post_no = #{postNo}
 		order by post_no desc 
 	</select>

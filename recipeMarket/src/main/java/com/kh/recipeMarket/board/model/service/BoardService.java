@@ -18,6 +18,10 @@ public interface BoardService {
 
 	int uploadImage(Photo p);
 
+	ArrayList<Board> profileList(PageInfo pi);
+
+	Board selectProfile(int postNo);
+
 //	int insertBoard(String nickName);
 
 

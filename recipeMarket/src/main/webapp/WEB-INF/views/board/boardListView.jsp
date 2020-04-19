@@ -67,21 +67,18 @@
 	         	<h2 align="center">게시글이 존재하지 않습니다.</h2>
 	         </c:if>
 	         
-	         
 	         <table style="background: white; width:1450px; margin:0 auto;">
-	         	<c:forEach var="b" items="${ list }">
+	         	<c:forEach var="b" items="${ list }" varStatus="status">
 		        	<!-- <div > -->
 		        	<tr>
-		        	
-		        	
-		        		<c:if test="${ b.pName == null }">
+		        		<c:if test="${ plist[status.index].pName == null}">
 						<td rowspan=4 width="150" height="150">
 							<img id="profileImg" src="resources/images/user.png"/>
 						</td>
 						</c:if>
-						<c:if test="${ b.pName != null }">
+						<c:if test="${ plist[status.index].pName != null}">
 						<td rowspan=4 width="150" height="150">
-							<img id="profileImg" src="resources/upload/${ b.pName }"/>
+							<img id="profileImg" src="resources/upload/${ plist[status.index].pName }"/>
 						</td>
 						</c:if>
 						
@@ -101,7 +98,7 @@
 		        	<tr class="contentTR">
 		        		<td width="75%" colspan=5 style="font-size:20px">
 			        		${ b.content }
-			        		
+			        		<input type="hidden" value="${ b.postNo }" name="postNo" id="postNo">
 		        		</td>
 		        	</tr>
 		        		
@@ -111,9 +108,9 @@
 		        			<img  src="resources/upload/${ b.pName }" id="thumImg"/>
 		        			</c:if>
 		        			
-		        			<c:if test="${ b.pName == null }">
+		        			<%-- <c:if test="${ b.pName == null }">
 		        			<img  src="resources/images/food.PNG" id="thumImg"/>
-		        			</c:if>
+		        			</c:if> --%>
 		        			
 		        			
 		        			<input type="hidden" value="${ b.postNo }" name="postNo" id="postNo">

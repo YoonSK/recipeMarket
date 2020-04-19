@@ -53,14 +53,16 @@ public class BoardController {
 		PageInfo pi = Pagination.getPageInfo(currentPage,listCount);
 		
 		ArrayList<Board> list = bService.selectList(pi);
-		
+		ArrayList<Board> plist = bService.profileList(pi);
 		
 		
 		if(list != null) {
 			mv.addObject("list",list);
+			mv.addObject("plist", plist);
 			mv.addObject("pi",pi);
 			mv.setViewName("boardListView");
 			System.out.println(list);
+			System.out.println(plist);
 		} else {
 			throw new BoardException("게시글 전체 조회에 실패하였습니다.");
 		}
@@ -99,13 +101,13 @@ public class BoardController {
 					}
 					int result2 = bService.uploadImage(p);
 					if(result2 > 0) {
-						return "redirect:/";						
+						return "boardListView";						
 					} else {
 						throw new MemberException("게시글 등록에 실패하였습니다.");					
 					}
 					
 				} else {
-					return "redirect:/";		
+					return "boardListView";		
 			}
 		} else {
 			throw new BoardException("게시글 등록에 실패하였습니다.");
@@ -146,9 +148,11 @@ public class BoardController {
 	public ModelAndView boardDetail(@RequestParam("postNo") int postNo, @RequestParam("page") int page, ModelAndView mv) {
 		
 		Board board = bService.selectBoard(postNo);
+		Board profile = bService.selectProfile(postNo);
 		
 		if(board != null) {
 			mv.addObject("board", board);
+			mv.addObject("profile", profile);
 			mv.addObject("page",page);
 			mv.setViewName("boardDetailView");
 			
