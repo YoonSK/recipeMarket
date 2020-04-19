@@ -38,4 +38,10 @@
 		order by ORDER_NO desc	
 	</select>
 	
+	<update id="orderStatus" parameterType="Order">
+		update "ORDER"
+		set status = 1
+		where order_no = #{orderNo}
+	</update>	
+
 </mapper>

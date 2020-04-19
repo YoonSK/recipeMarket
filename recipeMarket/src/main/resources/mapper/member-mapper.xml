@@ -164,4 +164,21 @@
 	<select id="selectPwd" resultMap="memberRS">
 		select * from member where id=#{id} and email=#{email}
 	</select>
+		
+	<update id="orderStatus" parameterType="Order">
+		update "ORDER"
+		<choose>
+			<when test="status == 0">
+				set status = 4
+			</when>			
+			<when test="status == 1">
+				set status = 2
+			</when>	
+			<when test="status == 2">
+				set status = 3
+			</when>							
+		</choose>	
+		where order_no = #{orderNo}
+	</update>	
+	
 </mapper>
