@@ -33,7 +33,9 @@
 		        TOTAL,
 		        LISTAGG(NAME, ', ') WITHIN GROUP (ORDER BY ORDER_NO) AS "oList", STATUS
 		FROM ODLIST
+		<if test= "status != 9">
                 where status = #{status}
+        </if>        
 		group by "DATE", TOTAL, STATUS, ORDER_NO 
 		order by ORDER_NO desc	
 	</select>

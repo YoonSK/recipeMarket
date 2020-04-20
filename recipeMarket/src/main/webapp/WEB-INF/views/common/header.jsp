@@ -107,7 +107,13 @@
 		</div>
 	</div>
 	</header>
-	
-
+	<script>
+		$(document).ready(function() {
+			$("#search_con").keydown(function(e){
+				if(e.keyCode == 13)
+					alert("검색");
+			});
+		});
+	</script>
 </body>
 </html>
