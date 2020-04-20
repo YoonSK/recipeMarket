@@ -36,7 +36,7 @@
             width: 100%;
             background-color: #add1c3;
         }
-        .stepContent{
+        .stepContentArea{
             background-color: #add1c3;
             border: none;
             resize: none;
@@ -65,12 +65,15 @@
         button{
             border: none;
         }
-        #addIngredient, #addmeasure, #addTag,#recipeTitle{
+        #addIngredient, #addAmount, #addTag,#recipeTitle{
             width: 150px;
             background-color: whitesmoke;
         }
+        
+        .stepNo{min-width: 50px; text-align: center; font-size: 30px}
+        .stepContent{min-width: 75%; padding: 10px 10px 10px 10px; }
+        
     </style>
-
 </head>
 <body>
 <div class="outer" style="display:flex; justify-content: center;">
@@ -80,10 +83,10 @@
         <div class="content" style="display: flex; margin: 30px 10px 30px 10px">
             <div id = "mainImage" style="display: flex; flex-direction: column;">
                 <div>
-                    <img width="200px" height="200px"/>
+                    <img id="output" width="200px" height="200px"/>
                 </div>
                 <div>
-                    <input type="file">
+                    <input type='file' accept='image/*' onchange='openFile(event)' id="imgInput" name="profileImg">
                 </div>
             </div>
             <div id="optionBox" style="padding-top: 30px">
@@ -140,14 +143,14 @@
                         <span>
                             <input type="text" id="addIngredient">
                             <span>양</span>
-                            <input type="text" id="addmeasure">
+                            <input type="text" id="addAmount">
                         </span>
                         <span style="text-align: right; margin-left: 5px">
-                            <button style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
+                            <button type="button" id="addIngBtn" onclick="addIgBtn();" style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
                         </span>
                     </div>
-                    <div>
-                        <button class="ingredient">돼지고기 100g</button>
+                    <div id="ingredientBox">
+                    
                     </div>
                 </div>
                 <div class="option" style="display: block">
@@ -156,7 +159,7 @@
                         <div>
                             <input type="text" id="addTag">
                             <span style="text-align: right; margin-left: 5px">
-                                <button style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
+                                <button type="button" id="addTagBtn" onclick="addTgBtn();" style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
                             </span>
                             <span class="example">예: </span>
                             <span class="example">비오는날,</span>
@@ -165,37 +168,111 @@
                             <span class="example">...</span>
                         </div>
                     </div>
-                    <div>
-                        <button class="tag">단짠</button>
+                    <div id="tagBox">
                     </div>
                 </div>
             </div>
         </div>
         <div class="content" id="stepContainer" style="display:flex;flex-direction: column; width: 100%; margin: 5px auto;">
-            <div class = "step" id = "step[1]">
-                <div style="min-width: 50px; text-align: center; font-size: 30px">
-                    <label>1</label>
+            <div class = "step" id = "step1">
+                <div class = "stepNo">
+                    1
                 </div>
-                <div style="min-width: 75%; padding: 10px 10px 10px 10px;" >
-                    <textarea class="stepContent" id="content[]">돼지 고기를 믹서기에 갈아 파인애플을 곁들여 드세요</textarea>
+                <div class = "stepContent" >
+                    <textarea class="stepContentArea" id="content[]">돼지 고기를 믹서기에 갈아 파인애플을 곁들여 드세요</textarea>
                 </div>
-                <div>
-                    <img width="150px" height="150px"/>
-                    <input type="file">
+                <div class = "stepImage">
+                    <img id="step_output" width="150px" height="150px"/>
+                    <input type='file' accept='image/*' onchange='step_openFile(event)' id="step_imgInput" name="profileImg">
                 </div>
             </div>
             <div style="text-align: right">
-                <button style="width: 40px; height: 40px; font-size: 24px; border-radius: 5px">+</button>
+                <button type="button" id= "addStepBtn" onclick="testBtnn();" style="width: 40px; height: 40px; font-size: 24px; border-radius: 5px">+</button>
             </div>
-           	
         </div>
         </form>
     </div>
+
 </div>
 </body>
-<script>
-	function addStep(){
-			
+<script type="text/javascript">
+
+
+    function addIgBtn(){
+    	var Name = document.getElementById( 'addIngredient' ).value;
+    	var Amount = document.getElementById( 'addAmount' ).value;
+    	
+    	if (Name && Amount){
+        	document.getElementById( 'addIngredient' ).value = '';
+        	document.getElementById( 'addAmount' ).value = '';
+    		
+    		var Btn = document.createElement( 'button' );
+        	Btn.setAttribute('class', 'ingredient');
+        	Btn.setAttribute('type', 'button');
+        	Btn.addEventListener('click', function(event) {this.remove();})
+            var BtnText = document.createTextNode( Name + ' ' + Amount);
+            Btn.appendChild( BtnText );
+            document.getElementById('ingredientBox').appendChild( Btn );
+    	}
+    	
 	}
+    
+    function addTgBtn(){
+    	var Name = document.getElementById( 'addTag' ).value;
+   
+    	if (Name){
+        	document.getElementById( 'addTag' ).value = '';
+        	var Btn = document.createElement( 'button' );
+        	Btn.setAttribute('class', 'tag');
+        	Btn.setAttribute('type', 'button');
+        	Btn.addEventListener('click', function(event) {this.remove();})
+            var BtnText = document.createTextNode( Name );
+            Btn.appendChild( BtnText );
+            document.getElementById('tagBox').appendChild( Btn );
+    	}
+    	
+	}
+    
+	function addStBtn(){
+		var count = 2;
+   		var Step = document.createElement( 'div' );
+   			Step.setAttribute('class', 'step');
+   			Step.setAttribute('id', 'step' + count);
+   			var StepNo = document.createElement( 'div' );
+   				StepNo.innerHTML = '' + count;
+   	   			StepNo.setAttribute('class', 'stepNo');
+   	   			StepNo.setAttribute('id', 'stepNo' + count);
+   		 		Step.appendChild(StepNo);
+   		 	var StepContent = document.createElement( 'div' );
+   	   			StepNo.setAttribute('class', 'stepContent');
+   	   			StepNo.setAttribute('id', 'stepContent' + count);
+   		 		Step.appendChild(StepContent);
+   			
+	    document.getElementById('stepContainer').appendChild(Step);
+		alert('aa');
+	}
+	
+	var openFile = function(event) {
+    	var input = event.target;
+   		var reader = new FileReader();
+    	reader.onload = function(){
+    		var dataURL = reader.result;
+    		var output = document.getElementById('output');
+    		output.src = dataURL;
+    		};
+	reader.readAsDataURL(input.files[0]);
+  	};
+  	
+	var step_openFile = function(event) {
+    	var input = event.target;
+   		var reader = new FileReader();
+    	reader.onload = function(){
+    		var dataURL = reader.result;
+    		var step_output = document.getElementById('step_output');
+    		step_output.src = dataURL;
+    		};
+	reader.readAsDataURL(input.files[0]);
+  	};
+
 </script>
 </html>

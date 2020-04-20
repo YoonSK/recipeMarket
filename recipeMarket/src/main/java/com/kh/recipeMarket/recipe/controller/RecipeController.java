@@ -30,7 +30,12 @@ public class RecipeController {
 		r.setMemberNo(memberNo);
 		int result = rService.insertRecipe(r);
 		
-		return "recipeDetailcj";
+		return "recipeDetail";
+	}
+	
+	@RequestMapping("insertForm.rc")
+	public String recipeInsertForm(HttpSession session) {
+		return "recipeInsert";
 	}
 
 	@RequestMapping("list.rc")

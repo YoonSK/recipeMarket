@@ -180,7 +180,7 @@
         <div class="content" style="display: flex; flex-direction: column">
             <div style="display: flex;">
                 <div class="box">
-                    <a href="">
+                    <a href="insertForm.rc">
                         <img width="200px" height="200px">
                         <label class="recipeName">레시피</label>
                     </a>
