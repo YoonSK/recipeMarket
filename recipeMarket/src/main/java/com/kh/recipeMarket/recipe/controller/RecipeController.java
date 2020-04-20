@@ -28,7 +28,7 @@ public class RecipeController {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int memberNo = loginUser.getMemberNo();
 		r.setMemberNo(memberNo);
-		int result = rService.insertRecipe(r);
+		rService.insertRecipe(r);
 		
 		return "recipeDetail";
 	}

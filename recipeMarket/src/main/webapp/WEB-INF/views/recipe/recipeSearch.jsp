@@ -251,9 +251,7 @@ function addIgBtn(){
         
         document.getElementById('ingredientBox').appendChild( Btn );
 	}
-	
 }
-
 
 function addTgBtn(){
 	var Name = document.getElementById( 'addTag' ).value;
@@ -271,7 +269,6 @@ function addTgBtn(){
         
         document.getElementById('tagBox').appendChild( Btn );
 	}
-	
 }
 
 function randomColor(){
