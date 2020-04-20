@@ -83,12 +83,12 @@
     
     .defaultBtn{
     	width: 70px;
-    height: 30px;
-    background: #fee0a1;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    margin-left: 40%;
+	    height: 30px;
+	    background: #fee0a1;
+	    color: white;
+	    border: none;
+	    border-radius: 5px;
+	    margin-left: 40%;
     }
     
     #cancel{
@@ -99,6 +99,7 @@
 	    width: 70px;
 	    height: 30px;
     }
+    input, select{outline: none;}
 </style>
 </head>
 <body>
@@ -111,14 +112,18 @@
 					<table id="selectT" style="border: 1px solid #dee6c3">
 						<tr>
 							<th class="head">상품분류</th>
-							<td><select name="big">
+							<td><select name="searchCategory">
 							    <option value="">대분류</option>
-							    <option value="학생">학생</option>
-							    <option value="회사원">회사원</option>
+							    <option value="곡류">곡류</option>
+								<option value="과일류">과일류</option>
+								<option value="채소류">채소류</option>
+								<option value="어류">어류</option>
+								<option value="육류">육류</option>
+							    <option value="음료">음료</option>
 							    <option value="기타">기타</option>
 								</select>
 								
-								<select name="mid">
+								<!-- <select name="mid">
 							    <option value="">중분류</option>
 							    <option value="학생">학생</option>
 							    <option value="회사원">회사원</option>
@@ -130,7 +135,7 @@
 							    <option value="학생">학생</option>
 							    <option value="회사원">회사원</option>
 							    <option value="기타">기타</option>
-								</select>
+								</select> -->
 							</td>
 						</tr>
 						<tr>
@@ -170,9 +175,9 @@
 						<button style="float: right; margin-right: 10px;" class="insertBtn" onclick="insertProduct();">상품등록</button>
 						<button style="float: right;  margin-right: 10px;"class="exChangeBtn">엑셀파일로 만들기</button>
 					</div>
-					<table id="productT">
+					<table id="productT" style="text-align:center;">
 						<tr>
-							<th>상품코드</th>
+							<th colspan=2>상품코드</th>
 							<th>상품명</th>
 							<th>판매가</th>
 							<th>입고</th>
@@ -180,18 +185,75 @@
 							<th>재고</th>
 							<th>기능</th>
 						</tr>
+						<c:if test="${ empty list }">
 						<tr>
-							<td>상품코드</td>
-							<td>상품명</td>
-							<td>판매가</td>
-							<td>20</td>
-							<td>20</td>
-							<td>0</td>
-							<td>
-								<button id="update">수정</button>
-								<button id="update1">수정</button>
+							<td colspan="7">
+								<h2 align="center">상품이 존재하지 않습니다.</h2>
 							</td>
 						</tr>
+						</c:if>
+						<c:forEach var="product" items="${ list }" varStatus="status">
+							<tr>
+								<td>${ product.productNo }</td>
+								<c:if test="${ plist[status.index].pName != null}">
+									<td>
+										<img id="profileImg" style="width:70px; float:right" src="resources/upload/${ plist[status.index].pName }"/>
+									</td>
+								</c:if>
+								
+								
+								<td>${ product.name }</td>
+								<td>${ product.price }</td>
+								<td></td>
+								<td></td>
+								<td>${ product.stock }</td>
+								<td>
+									<button id="update">수정</button>
+									<button id="update1">수정</button>
+								</td>
+							</tr>
+						</c:forEach>
+						 	<!-- 페이징 처리 -->
+					      	<tr align="center" height="20" id="buttonTab">
+					        	<td colspan="6">
+					         
+					        	<!-- [이전] -->
+					        	<c:if test="${ pi.currentPage <= 1 }">
+					            	   [이전] &nbsp;
+					            </c:if>
+					            <c:if test="${ pi.currentPage > 1 }">
+					               <c:url var="before" value="pManage.ma">
+					                  <c:param name="page" value="${ pi.currentPage - 1 }"/>
+					               </c:url>
+					               <a href="${ before }">[이전]</a> &nbsp;
+					            </c:if>
+					            
+					            <!-- 페이지 -->
+					            <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+					               <c:if test="${ p eq pi.currentPage }">
+					                  <font color="red" size="4"><b>[${ p }]</b></font>
+					               </c:if>
+					               
+					               <c:if test="${ p ne pi.currentPage }">
+					                  <c:url var="pagination" value="pManage.ma">
+					                     <c:param name="page" value="${ p }"/>
+					                  </c:url>
+					                  <a href="${ pagination }">${ p }</a> &nbsp;
+					               </c:if>
+					            </c:forEach>
+					            
+					            <!-- [다음] -->
+					            <c:if test="${ pi.currentPage >= pi.maxPage }">
+					               [다음]
+					            </c:if>
+					            <c:if test="${ pi.currentPage < pi.maxPage }">
+					               <c:url var="after" value="pManage.ma">
+					                  <c:param name="page" value="${ pi.currentPage + 1 }"/>
+					               </c:url> 
+					               <a href="${ after }">[다음]</a>
+					            </c:if>
+					         </td>
+					      </tr>	
 					</table>
 				</div>
 				
@@ -206,7 +268,7 @@
 		 <!-- The Modal -->
 			    <div id="cmodal" class="modal">	 
 			      <!-- Modal content -->
-			      <form action="<%= request.getContextPath() %>/insertProduct.pa" id="cForm" method="post">
+			      <form action="<%= request.getContextPath() %>/insertProduct.ma" id="cForm" method="post" enctype="Multipart/form-data">
 				      <div class="modal-content">
 				        <span class="close">&times;</span>                                                               
 				        <p><font style="font-size:25px; font-weight:500;">상품 등록</font></p>
@@ -214,12 +276,12 @@
 						<div id="slectBox">
 						  	<div id="imageArea">
 					    		<figure>
-									<img name="bImageArea" width=140px; height=140px; id="bImageArea" src="https://recipe1.ezmember.co.kr/img/pic_none3.gif">
+									<img name="pImageArea" width=140px; height=140px; id="pImageArea" src="https://recipe1.ezmember.co.kr/img/pic_none3.gif">
 								</figure>	
 							</div>	
 										
 						<div id="uArea">
-							<input type="file" name= "bImage" id="bImage" multiple="multiple" onchange="LoadImg(this)">
+							<input type="file" name= "pImage" id="pImage" multiple="multiple" onchange="LoadImg(this)">
 						</div>
 					
 						<br>
@@ -227,14 +289,14 @@
 								$(function(){
 									$("#uArea").hide();
 									$("#imageArea").click(function(){
-										$("#bImage").click();
+										$("#pImage").click();
 									});
 								});
 									function LoadImg(value){
 										if(value.files && value.files[0]){
 											var reader = new FileReader();
 											reader.onload = function(e){								
-											$("#bImageArea").attr("src", e.target.result);
+											$("#pImageArea").attr("src", e.target.result);
 											}
 											reader.readAsDataURL(value.files[0]);
 										}
@@ -244,21 +306,14 @@
 							<tr>
 								<th class="head">상품분류</th>
 								<td>
-									<select name="big">
+									<select name="category">
 									    <option value="">대분류</option>
-									    <option value="회사원">회사원</option>
-									    <option value="기타">기타</option>
-									</select>
-									
-									<select name="mid">
-									    <option value="">중분류</option>
-									    <option value="회사원">회사원</option>
-									    <option value="기타">기타</option>
-									</select>
-									
-									<select name="small">
-									    <option value="">소분류</option>
-									    <option value="회사원">회사원</option>
+									    <option value="곡류">곡류</option>
+									    <option value="과일류">과일류</option>
+									    <option value="채소류">채소류</option>
+									    <option value="어류">어류</option>
+									    <option value="육류">육류</option>
+									    <option value="음료">음료</option>
 									    <option value="기타">기타</option>
 									</select>
 								</td>
@@ -266,7 +321,7 @@
 							<tr>
 								<th class="head">상품명</th>
 								<td>
-									<input type="text" name="productName" placeholder="상품명을 입력해주세요." class="insertDate" style="width: 200px;">
+									<input type="text" name="name" placeholder="상품명을 입력해주세요." class="insertDate" style="width: 200px;">
 								</td>
 							</tr>
 						
@@ -280,7 +335,7 @@
 						
 							<tr>
 								<th  class="head">상품수량</th>
-								<td><input type="number" min="1" max="999999" class="insertDate" style="width:70px;">개</td>
+								<td><input type="number" name="stock" min="1" max="999999" class="insertDate" style="width:70px;">개</td>
 							</tr>
 						</table>
 							<button type="submit" class="defaultBtn">등록</button>

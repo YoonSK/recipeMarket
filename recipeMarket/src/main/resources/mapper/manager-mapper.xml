@@ -46,4 +46,56 @@
 		where order_no = #{orderNo}
 	</update>	
 
+	<insert id="insertProduct" parameterType="Product">
+		insert into product
+		values(seq_prn.nextval, #{name},#{price},#{stock},#{category},sysdate,default)
+	</insert>
+	
+	<resultMap type="Photo" id="photoRS">
+		<id property = "photoNo" column="PHOTO_NO"/>
+		<result property = "boardNo" column="BOARD_NO"/>	
+		<result property = "targetNo" column ="TARGET_NO"/>
+		<result property = "fileLevel" column ="FILE_LEVEL"/>
+		<result property = "originName" column ="ORIGIN_NAME"/>		
+		<result property = "changeName" column ="CHANGE_NAME"/>	
+		<result property = "deleted" column ="DELETED"/>
+	</resultMap>
+	
+	<resultMap type="Product" id="productResultSet">
+		<id property = "productNo" column="PRODUCT_NO"/>
+		<result property = "name" column="NAME"/>	
+		<result property = "price" column ="PRICE"/>
+		<result property = "stock" column ="STOCK"/>
+		<result property = "category" column ="CATEGORY"/>		
+		<result property = "createDate" column ="CREATE_DATE"/>	
+		<result property = "deleted" column ="DELETED"/>
+		<result property = "pName" column ="CHANGE_NAME"/>
+	</resultMap>
+	
+	<insert id="uploadImage" parameterType="Photo">
+		insert into photo
+		values(seq_phn.nextval, 3, seq_prn.currval, 0, #{originName}, #{changeName}, default)
+	</insert>
+	
+	<select id="getListCount" resultType="_int">
+		select count(*)
+		from product
+		where deleted='N'
+	</select>
+	
+	<select id="selectList" resultMap="productResultSet">
+		select product_no,name, price, stock, create_date, change_name
+		from product p
+			LEFT OUTER JOIN PHOTO ON(product_no = TARGET_NO AND BOARD_NO = 3)
+		WHERE p.deleted='N'
+		order by product_no desc
+	</select>
+	
+	<select id="productList" resultMap="productResultSet">
+		select product_no,name, price, stock, create_date, change_name
+		from product p
+			LEFT OUTER JOIN PHOTO ON(product_no = TARGET_NO AND BOARD_NO = 3)
+		WHERE p.deleted='N'
+		order by product_no desc
+	</select>
 </mapper>

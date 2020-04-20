@@ -16,7 +16,8 @@
 		<typeAlias type="com.kh.recipeMarket.buy.model.vo.Order" alias="Order"/>
 		<typeAlias type="com.kh.recipeMarket.buy.model.vo.OrderDetail" alias="OrderDetail"/>		
 		<typeAlias type="com.kh.recipeMarket.mypage.model.vo.mOrderInfo" alias="OrderInfo"/>
-		<typeAlias type="com.kh.recipeMarket.mypage.model.vo.mOrderDetail" alias="mOrderDetail"/>		
+		<typeAlias type="com.kh.recipeMarket.mypage.model.vo.mOrderDetail" alias="mOrderDetail"/>
+		<typeAlias type="com.kh.recipeMarket.manager.model.vo.Product" alias="Product"/>			
 	</typeAliases>
 	
 	<mappers>
