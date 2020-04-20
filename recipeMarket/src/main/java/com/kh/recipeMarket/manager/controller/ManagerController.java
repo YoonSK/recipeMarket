@@ -107,5 +107,6 @@ public class ManagerController {
 	@RequestMapping("insertProduct.pa")
 	public ModelAndView insertProduct(ModelAndView mv,@RequestParam("productName") String productName) {
 		return mv;
+		
 	}
 }
