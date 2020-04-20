@@ -35,6 +35,7 @@
             display: flex;
             width: 100%;
             background-color: #add1c3;
+            margin-top: 7px;
         }
         .stepContentArea{
             background-color: #add1c3;
@@ -72,7 +73,7 @@
         
         .stepNo{min-width: 50px; text-align: center; font-size: 30px}
         .stepContent{min-width: 75%; padding: 10px 10px 10px 10px; }
-        
+        .stepThumb{width:150px; height:150px;}
     </style>
 </head>
 <body>
@@ -179,22 +180,25 @@
                     1
                 </div>
                 <div class = "stepContent" >
-                    <textarea class="stepContentArea" id="content[]">돼지 고기를 믹서기에 갈아 파인애플을 곁들여 드세요</textarea>
+                    <textarea class="stepContentArea" id="content1"></textarea>
                 </div>
                 <div class = "stepImage">
-                    <img id="step_output" width="150px" height="150px"/>
-                    <input type='file' accept='image/*' onchange='step_openFile(event)' id="step_imgInput" name="profileImg">
+                    <img class="stepThumb" id="step_output1" width="150px" height="150px"/>
+                    <input type='file' accept='image/*' onchange="imagepreview(this);" id="step_imgInput1" name="stepImg">
                 </div>
             </div>
-            <div style="text-align: right">
-                <button type="button" id= "addStepBtn" onclick="testBtnn();" style="width: 40px; height: 40px; font-size: 24px; border-radius: 5px">+</button>
-            </div>
+        </div>
+        <div style="text-align: right">
+        	<input type="text" id="stepCount" hidden="hidden" value = "2">	
+        	<button type="button" id= "addStepBtn" onclick="addStBtn();" style="width: 40px; height: 40px; font-size: 24px; border-radius: 5px">+</button>
+            <button type="button" id= "cutStepBtn" onclick="cutStBtn();" style="width: 40px; height: 40px; font-size: 24px; border-radius: 5px">-</button>
         </div>
         </form>
     </div>
 
 </div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript">
 
 
@@ -232,9 +236,10 @@
     	}
     	
 	}
+    var count = 1;
     
 	function addStBtn(){
-		var count = 2;
+		count += 1;
    		var Step = document.createElement( 'div' );
    			Step.setAttribute('class', 'step');
    			Step.setAttribute('id', 'step' + count);
@@ -244,12 +249,34 @@
    	   			StepNo.setAttribute('id', 'stepNo' + count);
    		 		Step.appendChild(StepNo);
    		 	var StepContent = document.createElement( 'div' );
-   	   			StepNo.setAttribute('class', 'stepContent');
-   	   			StepNo.setAttribute('id', 'stepContent' + count);
+   	   			StepContent.setAttribute('class', 'stepContent');
+   	   		 	var StepContentArea = document.createElement( 'textarea' );
+   	   			StepContentArea.setAttribute('class', 'stepContentArea');
+   	   			StepContentArea.setAttribute('id', 'content' + count);
+   		 		StepContent.appendChild(StepContentArea);
    		 		Step.appendChild(StepContent);
-   			
-	    document.getElementById('stepContainer').appendChild(Step);
-		alert('aa');
+   	   		var StepImage = document.createElement( 'div' );
+	   			StepImage.setAttribute('class', 'stepImage');
+	   			StepImage.setAttribute('id', 'stepImage' + count);
+	   			var StepImageThumb = document.createElement( 'img' );
+	   				StepImageThumb.setAttribute('class', 'stepThumb');
+	   				StepImageThumb.setAttribute('id', 'step_output' + count);
+	   		 		StepImage.appendChild(StepImageThumb);
+		   		var StepImageInput = document.createElement( 'input' );
+   					StepImageInput.setAttribute('id', 'step_imgInput' + count);
+   					StepImageInput.setAttribute('type', 'file');
+   					StepImageInput.setAttribute('accept', 'image/*');
+   					StepImageInput.setAttribute('onchange', 'imagepreview(this)');
+	   		 		StepImage.appendChild(StepImageInput);
+	   		 	Step.appendChild(StepImage);
+   	   		document.getElementById('stepContainer').appendChild(Step);
+   			document.getElementById('addStepBtn').blur()
+	}
+	
+	function cutStBtn(){
+		document.getElementById('step' + count).remove();
+		count -= 1;
+		document.getElementById('cutStepBtn').blur()
 	}
 	
 	var openFile = function(event) {
@@ -263,16 +290,26 @@
 	reader.readAsDataURL(input.files[0]);
   	};
   	
-	var step_openFile = function(event) {
+	var step_openFile = function(event, count) {
     	var input = event.target;
    		var reader = new FileReader();
     	reader.onload = function(){
     		var dataURL = reader.result;
-    		var step_output = document.getElementById('step_output');
+    		var step_output = document.getElementById('step_output' + count);
     		step_output.src = dataURL;
     		};
-	reader.readAsDataURL(input.files[0]);
+		reader.readAsDataURL(input.files[0]);
   	};
+  	
+  	function imagepreview(input){
+  	    if(input.files && input.files[0]){
+  	        var filerd = new FileReader();
+  	        filerd.onload=function(e){
+  	            $('#step_output' + $(input).attr('id').slice(-1)).attr('src', e.target.result);
+  	        };
+  	        filerd.readAsDataURL(input.files[0]);
+  	    }
+  	  }
 
 </script>
 </html>
