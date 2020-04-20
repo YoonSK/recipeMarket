@@ -108,7 +108,7 @@
 								<!-- 페이지 -->
 								<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
 									<c:if test="${ p eq pi.currentPage }">
-										<font size="4"><b>[${ p }]</b></font>
+										<font size="4"><b>${ p }</b></font>
 									</c:if>
 									
 									<c:if test="${ p ne pi.currentPage }">

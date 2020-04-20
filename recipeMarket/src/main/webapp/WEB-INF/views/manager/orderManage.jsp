@@ -19,8 +19,8 @@
 	table thead th{border-bottom: 2px solid #add1c3; background-color: #add1c3; height: 30px; font-weight: 600; text-align: center;}
 	table tbody th{font-weight: 600; border-bottom: 1px solid #add1c3; text-align: center;}
 	table tbody td{border-bottom: 2px solid #add1c3; font-family: inherit; text-align: center; font-size: 11pt;}
-	input[type="button"]{width: 65px; height: 20px; font-size: 12px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
-	input[type="button"]:hover{cursor: pointer; background: #fee0a1; color: white;}
+	input[type="button"]{width: 65px; height: 20px; font-size: 12px; font-weight: 600; text-align: center; border:1px solid #add1c3; border-radius: 4px; background: white;}
+	input[type="button"]:hover{cursor: pointer; background: #add1c3; color: white;}
 	
 	/* 카테고리 */
 	th ul{display: none; position: absolute; width: 70px; background:white; cursor: pointer;}
@@ -58,6 +58,7 @@
 							<th width="10%">결제 금액</th>
 							<th width="15%"><p style="display: inline;">주문 상태</p><span id="listBtn">&nbsp;▼</span>
 								<ul id="list">
+									<li onclick=sortCate(this);>전체</li>								
 									<li onclick=sortCate(this);>결제완료</li>
 									<li onclick=sortCate(this);>배송중</li>
 									<li onclick=sortCate(this);>배송완료</li>
@@ -67,7 +68,7 @@
 						</tr>
 						</thead>					
 						<tbody>				
-						<c:forEach var="order" items="${ list }">	
+						<c:forEach var="order" items="${ list }">
 						<tr class="orderT">
 							<td class="orderN">${ order.orderNo }</td>
 							<td>${ order.date }</td>						
@@ -115,7 +116,7 @@
 								<!-- 페이지 -->
 								<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
 									<c:if test="${ p eq pi.currentPage }">
-										<font size="4"><b>[${ p }]</b></font>
+										<font size="4"><b>${ p }</b></font>
 									</c:if>
 									
 									<c:if test="${ p ne pi.currentPage }">

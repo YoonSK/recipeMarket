@@ -124,11 +124,10 @@
 				ORDER_NO, 
 		        "DATE",
 		        TOTAL,
-		        LISTAGG(NAME, ', ') WITHIN GROUP (ORDER BY ORDER_NO) AS "oList", STATUS
+		        LISTAGG(NAME, ', ') WITHIN GROUP (ORDER BY NAME) AS "oList", STATUS
 		FROM ODLIST
 		where mem_no = #{memberNo}
 		group by "DATE", TOTAL, STATUS, ORDER_NO 
-		order by ORDER_NO
 	</select>
 	
 	<resultMap type="mOrderDetail" id="odRS">
@@ -158,7 +157,8 @@
 		            JOIN "ORDER" O ON(OD.ORDER_NO = O.ORDER_NO)
 		            JOIN "MEMBER" M ON(MEM_NO = MEMBER_NO)
 		            JOIN PRODUCT P ON(P.PRODUCT_NO = OD.PRODUCT_NO)
-		WHERE O.ORDER_NO = #{no}   	
+		WHERE O.ORDER_NO = #{no} 
+		order by P.NAME 	
 	</select>
 
 	<select id="selectPwd" resultMap="memberRS">
