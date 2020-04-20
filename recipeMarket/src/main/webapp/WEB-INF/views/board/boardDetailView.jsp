@@ -78,13 +78,13 @@
 	         	<table id ="contentTable" style="padding-bottom: 50px">
 	         		<tr>
 	         			<c:if test="${ profile.pName != null}">
-						<td rowspan=5 width="150px" height="150px">
+						<td rowspan=5 width="12%" height="150px">
 							<img id="profileImg"  src="resources/upload/${ profile.pName }"/>
 						</td>
 						</c:if>
 						
 						<c:if test="${ profile.pName == null}">
-						<td rowspan=5 width="150px" height="150px">
+						<td rowspan=5 width="12%" height="150px">
 							<img id="profileImg"  src="resources/images/user.png"/>
 						</td>
 						</c:if>
@@ -122,6 +122,7 @@
 	         
 	         		
 	         	</table>
+	         	
 				<div class="input-submit" align="center" style="padding-bottom: 30px">
 		            <input type="submit" value="수정하기"  id="insertBtn"> &nbsp; &nbsp;
 		         	<button onclick="location.href='blist.bo'" id="removeBtn">삭제하기</button> &nbsp; &nbsp;

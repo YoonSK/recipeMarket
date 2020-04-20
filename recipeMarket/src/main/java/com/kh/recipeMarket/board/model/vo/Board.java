@@ -28,6 +28,7 @@ public class Board {
 		this.hit = hit;
 		this.deleted = deleted;
 		this.category = category;
+		
 	}
 	
 	
@@ -43,6 +44,7 @@ public class Board {
 		this.hit = hit;
 		this.deleted = deleted;
 		this.category = category;
+		
 	}
 	
 	
