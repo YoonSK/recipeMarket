@@ -216,6 +216,8 @@
         	Btn.addEventListener('click', function(event) {this.remove();})
             var BtnText = document.createTextNode( Name + ' ' + Amount);
             Btn.appendChild( BtnText );
+
+            Btn.style.background = randomColor();
             document.getElementById('ingredientBox').appendChild( Btn );
     	}
     	
@@ -232,10 +234,21 @@
         	Btn.addEventListener('click', function(event) {this.remove();})
             var BtnText = document.createTextNode( Name );
             Btn.appendChild( BtnText );
+
+            Btn.style.background = randomColor();
             document.getElementById('tagBox').appendChild( Btn );
     	}
     	
 	}
+    
+    function randomColor(){
+        var x = Math.floor(Math.random() * 192 + 64);
+        var y = Math.floor(Math.random() * 192 + 64);
+        var z = Math.floor(Math.random() * 192 + 64);
+        var bgColor = "rgb(" + x + "," + y + "," + z + ")";
+    	return bgColor;
+    }
+    
     var count = 1;
     
 	function addStBtn(){

@@ -118,48 +118,36 @@
                 </div>
             </div>
             <div class="option" style="display: block">
-                <div id="ingrdientBox" style="display: flex">
-                    <span class="option_name">재료</span>
-                    <span id="ingrdientBox">
-                        <input type="text" id="addIngredient">
-                        <span style="text-align: right; margin-left: 5px">
-                            <button style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px" onclick="addIngredient()">+</button>
+                <div style="display: flex">
+                        <span class="option_name">재료</span>
+                        <span>
+                            <input type="text" id="addIngredient">
                         </span>
-                    </span>
-                    <span>
-                        <span class="example"> 예: </span>
-                        <span class="example">돼지고기,</span>
-                        <span class="example">양파,</span>
-                        <span class="example">토마토,</span>
-                        <span class="example">...</span>
-                    </span>
+                        <span style="text-align: right; margin-left: 5px">
+                            <button type="button" id="addIngBtn" onclick="addIgBtn();" style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
+                        </span>
+                    </div>
+                    <div id="ingredientBox">
                     
-                </div>
-                <div>
-                    <button class="ingredient">감자</button>
-                </div>
+                    </div>
             </div>
             <div class="option" style="display: block">
-                <div id="tagBox" style="display: flex">
-                    <span class="option_name">태그</span>
-                    <span>
-                        <input type="text" id="addTag">
-                        <span style="text-align: right; margin-left: 5px">
-                            <button style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
-                        </span>
-                    </span>
-                    <span>
-                        <span class="example"> 예: </span>
-                        <span class="example">비오는날,</span>
-                        <span class="example">스트레스,</span>
-                        <span class="example">매콤,</span>
-                        <span class="example">...</span>
-                    </span>
-                    
-                </div>
-                <div>
-                    <button class="tag">단짠</button>
-                </div>
+                <div style="display: flex">
+                        <span class="option_name">태그</span>
+                        <div>
+                            <input type="text" id="addTag">
+                            <span style="text-align: right; margin-left: 5px">
+                                <button type="button" id="addTagBtn" onclick="addTgBtn();" style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
+                            </span>
+                            <span class="example">예: </span>
+                            <span class="example">비오는날,</span>
+                            <span class="example">스트레스,</span>
+                            <span class="example">매콤,</span>
+                            <span class="example">...</span>
+                        </div>
+                    </div>
+                    <div id="tagBox">
+                    </div>
             </div>
             <div class="option">
                 <span class="option_name">검색</span>
@@ -238,13 +226,52 @@
 </body>
 <script>
 
-function addIngredient(){
-	var button = document.createElement('button')
+function addIgBtn(){
+	var Name = document.getElementById( 'addIngredient' ).value;
 	
-	button.addEventListener('click', function(event) {
+	if (Name){
+    	document.getElementById( 'addIngredient' ).value = '';
 		
-	})
-	someContainerElement.appendChild(button)
+		var Btn = document.createElement( 'button' );
+    	Btn.setAttribute('class', 'ingredient');
+    	Btn.setAttribute('type', 'button');
+    	Btn.addEventListener('click', function(event) {this.remove();})
+        var BtnText = document.createTextNode( Name );
+        Btn.appendChild( BtnText );
+        
+        Btn.style.background = randomColor();
+        
+        document.getElementById('ingredientBox').appendChild( Btn );
+	}
+	
+}
+
+
+function addTgBtn(){
+	var Name = document.getElementById( 'addTag' ).value;
+
+	if (Name){
+    	document.getElementById( 'addTag' ).value = '';
+    	var Btn = document.createElement( 'button' );
+    	Btn.setAttribute('class', 'tag');
+    	Btn.setAttribute('type', 'button');
+    	Btn.addEventListener('click', function(event) {this.remove();})
+        var BtnText = document.createTextNode( Name );
+        Btn.appendChild( BtnText );
+        
+        Btn.style.background = randomColor();
+        
+        document.getElementById('tagBox').appendChild( Btn );
+	}
+	
+}
+
+function randomColor(){
+    var x = Math.floor(Math.random() * 192 + 64);
+    var y = Math.floor(Math.random() * 192 + 64);
+    var z = Math.floor(Math.random() * 192 + 64);
+    var bgColor = "rgb(" + x + "," + y + "," + z + ")";
+	return bgColor;
 }
 </script>
 </html>
