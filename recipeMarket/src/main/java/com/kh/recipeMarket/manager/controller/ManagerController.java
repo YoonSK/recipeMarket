@@ -97,4 +97,16 @@ public class ManagerController {
 	
 	}	
 	
+	// 재고관리 페이지 이동
+	@RequestMapping("pManage.ma")
+	public String goProduct() {
+		return "productManager";
+	}
+	
+	// 상품 등록
+	@RequestMapping("insertProduct.pa")
+	public ModelAndView insertProduct(ModelAndView mv,@RequestParam("productName") String productName) {
+		return mv;
+		
+	}
 }
