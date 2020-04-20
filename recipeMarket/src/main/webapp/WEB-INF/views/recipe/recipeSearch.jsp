@@ -86,10 +86,10 @@
                 <div class="mini_option">
                     <span class="option_name">분류</span>
                     <select name="category">
+                        <option value="none" selected="selected">무관</option>
                         <option value="sub">반찬</option>
                         <option value="main">메인 요리</option>
                         <option value="soup">국물류</option>
-                        <option value="none" selected="selected">무관</option>
                         <option value="meal">식사</option>
                         <option value="dessert">간식/디저트</option>
                         <option value="salad">샐러드</option>
@@ -101,6 +101,7 @@
                 <div class="mini_option">
                     <span class="option_name">시간</span>
                     <select>
+                        <option value="none" selected="selected">무관</option>
                         <option value="10">10분 이내</option>
                         <option value="30">30분 이내</option>
                         <option value="60">60분 이내</option>
@@ -120,12 +121,19 @@
             <div class="option" style="display: block">
                 <div style="display: flex">
                         <span class="option_name">재료</span>
-                        <span>
-                            <input type="text" id="addIngredient">
-                        </span>
-                        <span style="text-align: right; margin-left: 5px">
-                            <button type="button" id="addIngBtn" onclick="addIgBtn();" style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
-                        </span>
+                        <div>
+	                        <span>
+	                        	<input type="text" id="addIngredient">
+	                        </span>
+	                        <span style="text-align: right; margin-left: 5px">
+	                            <button type="button" id="addIngBtn" onclick="addIgBtn();" style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
+	                        </span>
+	                        <span class="example">예: </span>
+	                        <span class="example">돼지고기,</span>
+	                        <span class="example">두부,</span>
+	                        <span class="example">김치,</span>
+	                        <span class="example">...</span>
+                        </div>
                     </div>
                     <div id="ingredientBox">
                     

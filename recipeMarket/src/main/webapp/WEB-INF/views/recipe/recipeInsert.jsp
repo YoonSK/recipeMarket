@@ -67,13 +67,14 @@
             border: none;
         }
         #addIngredient, #addAmount, #addTag,#recipeTitle{
-            width: 150px;
+            width: 125px;
             background-color: whitesmoke;
         }
         
         .stepNo{min-width: 50px; text-align: center; font-size: 30px}
         .stepContent{min-width: 75%; padding: 10px 10px 10px 10px; }
         .stepThumb{width:150px; height:150px;}
+        
     </style>
 </head>
 <body>
@@ -188,11 +189,21 @@
                 </div>
             </div>
         </div>
-        <div style="text-align: right">
-        	<input type="text" id="stepCount" hidden="hidden" value = "2">	
-        	<button type="button" id= "addStepBtn" onclick="addStBtn();" style="width: 40px; height: 40px; font-size: 24px; border-radius: 5px">+</button>
-            <button type="button" id= "cutStepBtn" onclick="cutStBtn();" style="width: 40px; height: 40px; font-size: 24px; border-radius: 5px">-</button>
+        <div style="display: flex; justify-content: space-between">
+        	<div>
+        	</div>
+	        <div>
+	        	<button type="submit" id= "submitBtn" style="width: 100px; height: 40px; font-size: 18px; border-radius: 15px;
+	        	background-color:lightgreen;">작성 완료</button>
+	        </div>
+	        <div style="text-align: right">
+	        	
+	        	<input type="text" id="stepCount" hidden="hidden" value = "2">	
+	        	<button type="button" id= "addStepBtn" onclick="addStBtn();" style="width: 40px; height: 40px; font-size: 24px; border-radius: 5px">+</button>
+	            <button type="button" id= "cutStepBtn" onclick="cutStBtn();" style="width: 40px; height: 40px; font-size: 24px; border-radius: 5px">-</button>
+	        </div>
         </div>
+        
         </form>
     </div>
 
@@ -214,7 +225,7 @@
         	Btn.setAttribute('class', 'ingredient');
         	Btn.setAttribute('type', 'button');
         	Btn.addEventListener('click', function(event) {this.remove();})
-            var BtnText = document.createTextNode( Name + ' ' + Amount);
+            var BtnText = document.createTextNode( Name + ' - ' + Amount);
             Btn.appendChild( BtnText );
 
             Btn.style.background = randomColor();
@@ -284,6 +295,7 @@
 	   		 	Step.appendChild(StepImage);
    	   		document.getElementById('stepContainer').appendChild(Step);
    			document.getElementById('addStepBtn').blur()
+   			document.getElementById("content" + count).focus()
 	}
 	
 	function cutStBtn(){
