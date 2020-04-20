@@ -22,7 +22,7 @@
 	input[type="button"]:hover{cursor: pointer; background: #fee0a1; color: white;}
     
     .modal {display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
-    .modal-content {background-color: #fefefe; margin: 20% auto; padding: 20px; border: 1px solid #888; width: 50%; height: 500px;}
+    .modal-content {background-color: #fefefe; margin: 20% auto; padding: 20px; border: 1px solid #888; width: 50%; height: auto;}
     .close {color: #aaa; float: right; font-size: 28px; font-weight: bold;}
     .close:hover, .close:focus {color: black; text-decoration: none; cursor: pointer;}	
     p#total{font-weight: 900; font-size: 18px; text-align: right;}
@@ -134,9 +134,11 @@
 					</table>
 				</div>	
 				<script>
-					$('td.order_D').click(function(){
+					$('tr.orderT').mouseenter(function(){
+						$(this).css({'cursor':'pointer'});	
+					}).click(function(){
 						$('#cmodal').attr('style', 'display:block');
-						var orderNo = $('.orderT').children('td').eq(0).text();
+						var orderNo = $(this).children('td').eq(0).text();
 						$.ajax({
 							url: 'orderDetail.mp',
 							data: {no:orderNo},
@@ -193,7 +195,6 @@
 						<table id="table_D">
 							<thead> <!-- 게시판 라벨 부분 -->
 							<tr>
-<!-- 								<th width="15%">No.</th> -->
 								<th width="55%" class="title">상품명</th>
 								<th width="15%">수량</th>
 								<th width="15%">가격</th>
