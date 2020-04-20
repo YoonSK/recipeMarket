@@ -67,6 +67,7 @@ public class ManagerController {
 		case "배송중" : status = 1; break;
 		case "배송완료": status = 2; break;
 		case "주문취소" : status = 4; break;
+		default : status = 9; break;
 		}
 		int currentPage = 1;
 		if(page != null) {
