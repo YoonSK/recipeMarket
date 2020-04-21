@@ -68,4 +68,9 @@ public class MaServiceImpl implements ManagerService {
 		return maDAO.productList(sqlSession, pi);
 	}
 
+	@Override
+	public int updateProduct(Product p) {
+		return maDAO.updateProduct(sqlSession,p);
+	}
+
 }

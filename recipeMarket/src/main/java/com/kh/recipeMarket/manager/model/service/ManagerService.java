@@ -29,4 +29,6 @@ public interface ManagerService {
 
 	ArrayList<Product> productList(PageInfo pi);
 
+	int updateProduct(Product p);
+
 }
