@@ -181,8 +181,41 @@ public class MyPageController {
 		}else {
 			throw new MyPageException("주문 조회에 실패하였습니다.");
 		}
-	return mv;
+		return mv;
 	}	
+	
+	// 주문 기간 조회
+	@RequestMapping("dateSort.mp")
+	public ModelAndView dateSort(@RequestParam(value="page", required=false) Integer page, String sortDate, ModelAndView mv, Model model) {
+		Member loginUser = (Member)model.getAttribute("loginUser");		
+		String date = sortDate;
+		int ds = 0;
+		switch(date) {
+		case "전체": ds = 0; break;
+		case "1개월" : ds = 31; break;
+		case "3개월": ds = 91; break;
+		case "6개월" : ds = 181; break;
+		case "1년" : ds = 366; break;
+		}
+		int oGrade = loginUser.getGrade();
+		loginUser.setGrade(ds);
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page; }		
+		int listCount = mps.oderSortCount(loginUser);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		ArrayList<mOrderInfo> list = mps.orderSortList(pi, loginUser);
+		loginUser.setGrade(oGrade);
+		if(list != null) {
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.addObject("sortDate", date);
+			mv.setViewName("memberorder");
+		}else {
+			throw new MyPageException("주문 조회에 실패하였습니다.");
+		}
+		return mv;
+	}
 	
 	// 주문 상세 조회
 	@RequestMapping(value="orderDetail.mp", produces="text/plain;charset=UTF-8")

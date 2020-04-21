@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>       
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<% response.setContentType("text/html"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,6 +22,11 @@
 	table tbody td{border-bottom: 2px solid #e8e5da; font-family: inherit; text-align: center; font-size: 11pt;}
 	input[type="button"]{width: 60px; height: 20px; font-size: 10px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
 	input[type="button"]:hover{cursor: pointer; background: #fee0a1; color: white;}
+    
+    /* 기간별 조회 */
+    ul.dateS{height: 29px; float: left; list-style: none; padding-left: 0px; margin-left: 1%;}
+    ul.dateS li{width: 100px; text-align: center; float: left; font-weight: bold; border: 3px solid #e8e5da;}
+    ul.dateS li:hover{background-color: #e8e5da; color: white; cursor: pointer;}
     
     .modal {display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
     .modal-content {background-color: #fefefe; margin: 20% auto; padding: 20px; border: 1px solid #888; width: 50%; height: auto;}
@@ -40,6 +47,15 @@
 			<div class="content">	
 				<h2>주문 내역 조회</h2>			
 				<div class="tableArea">
+					<!-- 기간별 조회  -->
+					<ul class="dateS">
+						<li onclick=sortDate(this);>전체</li>
+						<li onclick=sortDate(this);>1개월</li>
+						<li onclick=sortDate(this);>3개월</li>
+						<li onclick=sortDate(this);>6개월</li>
+						<li onclick=sortDate(this);>1년</li>																														
+					</ul>
+					<br>
 					<table id="table">
 						<thead> <!-- 게시판 라벨 부분 -->
 						<tr>
@@ -60,6 +76,7 @@
 							<td>
 								<c:if test="${ order.status == 0}">
 									결제완료
+								<br>									
 								<input type="button" id="btn" class="statBtn" value="주문 취소">	
 								<input type="hidden" class="oStatus" value="${ order.status }">										
 								</c:if>	
@@ -93,15 +110,37 @@
 						<!-- 페이징 처리 -->
 						<tr align="center" height="20" id="buttonTab">
 							<td colspan="6">
-							
+							<c:set var="urlA" value="${requestScope['javax.servlet.forward.query_string']}"/>
+									<script>
+								var i = '${urlA}';
+								var d = '${requestScope['javax.servlet.forward.servlet_path']}';
+								var e = '${requestScope['javax.servlet.forward.query_string']}';
+									console.log(i);
+									console.log(d);
+									console.log(e);
+								</script>
+
+								<c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/dateSort.mp'}">			
+									<c:url var="page" value="dateSort.mp?page=${p}&sortDate=${date}"/>				
+								</c:if>
 								<!-- [이전] -->
 								<c:if test="${ pi.currentPage <= 1 }">
 									&laquo;
 								</c:if>
 								<c:if test="${ pi.currentPage > 1 }">
-									<c:url var="before" value="mOrder.mp">
-										<c:param name="page" value="${ pi.currentPage - 1 }"/>
-									</c:url>
+									<c:choose>
+										<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/dateSort.mp'}">	
+											<c:url var="before" value="dateSort.mp">
+												<c:param name="page" value="<c:url value='http://localhost:9780/recipeMarket/dateSort.mp?page=1&sortDate=3%EA%B0%9C%EC%9B%94'/>"/>
+
+											</c:url>	
+										</c:when>
+										<c:otherwise>																	
+											<c:url var="before" value="mOrder.mp">
+												<c:param name="page" value="${ pi.currentPage - 1 }"/>
+											</c:url>
+										</c:otherwise>
+									</c:choose>
 									<a href="${ before }">&laquo;</a> 
 								</c:if>
 								
@@ -110,13 +149,21 @@
 									<c:if test="${ p eq pi.currentPage }">
 										<font size="4"><b>${ p }</b></font>
 									</c:if>
-									
 									<c:if test="${ p ne pi.currentPage }">
+										<c:choose>
+										<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/dateSort.mp'}">																												
+											<c:url var="pagination" value="dateSort.mp">
+											<c:param name="page" value="${ p }"/>
+											</c:url>
+										</c:when>
+										<c:otherwise>											
 										<c:url var="pagination" value="mOrder.mp">
 											<c:param name="page" value="${ p }"/>
 										</c:url>
+										</c:otherwise>
+										</c:choose>
 										<a href="${ pagination }">${ p }</a> &nbsp;
-									</c:if>
+									</c:if>							
 								</c:forEach>
 								
 								<!-- [다음] -->
@@ -124,10 +171,19 @@
 									&raquo;
 								</c:if>
 								<c:if test="${ pi.currentPage < pi.maxPage }">
-									<c:url var="after" value="mOrder.mp">
-										<c:param name="page" value="${ pi.currentPage + 1 }"/>
-									</c:url> 
-									<a href="${ after }">&raquo;</a>
+								<c:choose>
+									<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/dateSort.mp'}">																												
+										<c:url var="after" value="dateSort.mp">	
+											<c:param name="page" value="${ pi.currentPage + 1 }"/>										
+										</c:url>					
+									</c:when>	
+									<c:otherwise>
+										<c:url var="after" value="mOrder.mp">
+											<c:param name="page" value="${ pi.currentPage + 1 }"/>
+										</c:url> 
+									</c:otherwise>		
+								</c:choose>	
+									<a href="${ after }">&raquo;</a>									
 								</c:if>
 							</td>
 						</tr>						
@@ -183,7 +239,13 @@
 								location.reload();				
 							}							
 						});
-					})
+					});
+				
+				/* 기간별 조회  */	
+				function sortDate(data){
+					var sortDate = data.innerText;
+					location.href = "dateSort.mp?page=1&sortDate="+sortDate;
+				}	
 				
 				</script>							
 			    <!-- The Modal -->

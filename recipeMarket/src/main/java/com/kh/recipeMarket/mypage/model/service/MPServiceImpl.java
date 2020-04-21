@@ -65,6 +65,17 @@ public class MPServiceImpl implements MyPageService{
 		return mpDAO.orderStatus(sqlSession, o);
 	}
 
+	@Override
+	public ArrayList<mOrderInfo> orderSortList(PageInfo pi, Member loginUser) {
+		return mpDAO.orderSortList(sqlSession, pi, loginUser);
+	}
+
+
+	@Override
+	public int oderSortCount(Member loginUser) {
+		return mpDAO.orderSortCount(sqlSession, loginUser);
+	}
+
 
 
 }

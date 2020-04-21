@@ -119,6 +119,52 @@
 		where mem_no=#{memberNo}
 	</select>
 	
+	<select id="orderSortCount" parameterType="Member" resultType="_int">
+		select count(*)
+		from "ORDER"
+		where mem_no=#{memberNo}	
+		<choose>
+			<when test="grade == 31">
+				and "DATE" BETWEEN SYSDATE - 31 AND SYSDATE
+			</when>			
+			<when test="grade == 91">
+				and "DATE" BETWEEN SYSDATE - 91 AND SYSDATE
+			</when>		
+			<when test="grade == 181">
+				and "DATE" BETWEEN SYSDATE - 181 AND SYSDATE
+			</when>		
+			<when test="grade == 366">
+				and "DATE" BETWEEN SYSDATE - 366 AND SYSDATE
+			</when>										
+		</choose> 			
+	</select>
+	
+	<select id="orderSortList" parameterType="Member" resultMap="oiRS">
+		SELECT 
+				ORDER_NO, 
+		        "DATE",
+		        TOTAL,
+		        LISTAGG(NAME, ', ') WITHIN GROUP (ORDER BY NAME) AS "oList", STATUS
+		FROM ODLIST
+		where mem_no = #{memberNo}
+		<choose>
+			<when test="grade == 31">
+				and "DATE" BETWEEN SYSDATE - 31 AND SYSDATE
+			</when>			
+			<when test="grade == 91">
+				and "DATE" BETWEEN SYSDATE - 91 AND SYSDATE
+			</when>		
+			<when test="grade == 181">
+				and "DATE" BETWEEN SYSDATE - 181 AND SYSDATE
+			</when>		
+			<when test="grade == 366">
+				and "DATE" BETWEEN SYSDATE - 366 AND SYSDATE
+			</when>										
+		</choose> 		
+		group by "DATE", TOTAL, STATUS, ORDER_NO 
+		order by "DATE" desc
+	</select>
+	
 	<select id="orderList" resultMap="oiRS">
 		SELECT 
 				ORDER_NO, 
@@ -129,7 +175,7 @@
 		where mem_no = #{memberNo}
 		group by "DATE", TOTAL, STATUS, ORDER_NO 
 		order by "DATE" desc
-	</select>
+	</select>	
 	
 	<resultMap type="mOrderDetail" id="odRS">
 		<result property = "orderNo" column="ORDER_NO"/>
