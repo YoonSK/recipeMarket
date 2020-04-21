@@ -48,7 +48,7 @@
 
 	<insert id="insertProduct" parameterType="Product">
 		insert into product
-		values(seq_prn.nextval, #{name},#{price},#{stock},#{category},sysdate,default)
+		values(seq_prn.nextval, #{name},#{price},#{stock},#{category},sysdate,default,#{stock},default)
 	</insert>
 	
 	<resultMap type="Photo" id="photoRS">
@@ -69,6 +69,8 @@
 		<result property = "category" column ="CATEGORY"/>		
 		<result property = "createDate" column ="CREATE_DATE"/>	
 		<result property = "deleted" column ="DELETED"/>
+		<result property = "income" column ="INCOME"/>
+		<result property = "export" column ="EXPORT"/>
 		<result property = "pName" column ="CHANGE_NAME"/>
 	</resultMap>
 	
@@ -84,7 +86,7 @@
 	</select>
 	
 	<select id="selectList" resultMap="productResultSet">
-		select product_no,name, price, stock, create_date, change_name
+		select product_no,name, price, stock, create_date, income, export, change_name
 		from product p
 			LEFT OUTER JOIN PHOTO ON(product_no = TARGET_NO AND BOARD_NO = 3)
 		WHERE p.deleted='N'

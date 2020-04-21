@@ -99,9 +99,12 @@
 				$('.ctemp').append($cTemp);
 				$('.chightemp').append($maxTemp);
 				$('h2').prepend($cDate);
+				$('.sky').append($sky);
 				$('.cicon').append('<img src="http://openweathermap.org/img/wn/'+ $wIcon +'@2x.png"/>');
 				// <img src="http://openweathermap.org/img/wn/10d@2x.png"/>
-				$('.sky').append($sky);
+				/* if($sky == 'clear sky'){
+					$('.sky').append('맑은 하늘');
+				} */
 			});
 		});	
 		</script> 
