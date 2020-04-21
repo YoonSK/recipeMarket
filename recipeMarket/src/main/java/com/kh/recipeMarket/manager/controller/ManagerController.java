@@ -26,6 +26,7 @@ import com.kh.recipeMarket.manager.model.exception.ManagerException;
 import com.kh.recipeMarket.manager.model.service.ManagerService;
 import com.kh.recipeMarket.manager.model.vo.Pagination;
 import com.kh.recipeMarket.manager.model.vo.Product;
+import com.kh.recipeMarket.manager.model.vo.ProductPagination;
 import com.kh.recipeMarket.member.model.exception.MemberException;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
@@ -116,7 +117,7 @@ public class ManagerController {
 		}
 		
 		int listCount = mas.getListCount();
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		PageInfo pi = ProductPagination.getPageInfo(currentPage, listCount);
 		
 		ArrayList<Product> list = mas.selectList(pi);
 		ArrayList<Product> plist = mas.productList(pi);
@@ -125,6 +126,7 @@ public class ManagerController {
 		if(list != null) {
 			mv.addObject("list",list);
 			mv.addObject("plist", plist);
+			mv.addObject("listCount", listCount);
 			mv.addObject("pi",pi);
 			mv.setViewName("productManager");
 			System.out.println(list);
@@ -168,7 +170,7 @@ public class ManagerController {
 			throw new ManagerException("상품 등록에 실패하였습니다.");
 		}
 	}
-//이미지 업로드
+	//이미지 업로드
 	public String saveImage(MultipartFile file, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		
@@ -196,5 +198,11 @@ public class ManagerController {
 		} 
 			
 		return renameFileName;
+	}
+	
+	// 상품 입고 수정
+	@RequestMapping("updateProduct.ma")
+	public String updateProduct() {
+		return "";
 	}
 }
