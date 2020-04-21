@@ -1,12 +1,14 @@
 package com.kh.recipeMarket.board.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +16,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.kh.recipeMarket.board.model.exception.BoardException;
 import com.kh.recipeMarket.board.model.service.BoardService;
 import com.kh.recipeMarket.board.model.vo.Board;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.common.Pagination;
 import com.kh.recipeMarket.common.Photo;
+import com.kh.recipeMarket.common.Reply;
 import com.kh.recipeMarket.member.model.exception.MemberException;
 import com.kh.recipeMarket.member.model.service.MemberService;
 import com.kh.recipeMarket.member.model.vo.Member;
@@ -147,6 +154,7 @@ public class BoardController {
 	@RequestMapping("bdetail.bo")
 	public ModelAndView boardDetail(@RequestParam("postNo") int postNo, @RequestParam("page") int page, ModelAndView mv) {
 		
+		
 		Board board = bService.selectBoard(postNo);
 		Board profile = bService.selectProfile(postNo);
 		
@@ -159,6 +167,42 @@ public class BoardController {
 			return mv;
 		}else {
 			throw new BoardException("게시글 상세 조회에 실패하였습니다.");
+		}
+	}
+	
+	
+	@RequestMapping("rList.bo")
+	public void getReplyList(HttpServletResponse reponse, @RequestParam("postNo") int postNo) throws JsonIOException, IOException {
+		ArrayList<Reply> rList = bService.selectReplyList(postNo);
+		
+		System.out.println("controller 의 rList : " + rList);
+		
+		for(Reply r : rList) {
+			r.setContent(URLEncoder.encode(r.getContent(),"UTF-8"));
+		}
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		System.out.println(reponse.getWriter());
+		gson.toJson(rList, reponse.getWriter());
+		
+	}
+	
+	
+	@RequestMapping("addReply.bo")
+	@ResponseBody
+	public String getAddReply(Reply r, HttpSession session) {
+		
+		Member loginUser =(Member)session.getAttribute("loginUser");
+		int memberNo = loginUser.getMemberNo();
+		
+		r.setMemberNo(memberNo);
+		
+		int result = bService.addReply(r);
+		
+		if(result > 0) {
+			return "success";
+		} else {
+			throw new BoardException("댓글 등록 실패");
 		}
 	}
 }

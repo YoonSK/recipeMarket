@@ -89,6 +89,7 @@
 						</td>
 						</c:if>
 						<td width="65%" style="font-size:30px">${ board.nickName }</td>
+						
 						<td style="font-size:20px; width:30px;">♡</td>
 						<td width="30px" style="font-size:20px">0</td>
 						<td style="font-size:20px; width:70px;">댓글수</td>
@@ -112,13 +113,6 @@
 	         			</td>
 	         			</c:if>
 	         		</tr>
-	         		<!-- <tr>
-	         			<td>
-		         			<button id="like">
-		         				<img src="https://recipe1.ezmember.co.kr/img/btn_feel.gif" alt="">
-		         			</button>
-	         			</td>
-	         		</tr> -->
 	         
 	         		
 	         	</table>
@@ -131,13 +125,13 @@
 	         	
 	         </div>
 	         <br>
-	         <div class="content" style="background: white;">
-	         	<h2>댓글</h2>
+	         <div class="content" style="background: white; padding-top: 10px;" >
+	         	<h2>&nbsp;&nbsp;댓글</h2>
 	         	<hr>
-	         	<table>
-	         		<tr>
-						<td rowspan=3><img width="100" height="100" src="resources/images/user.png"/></td>
-						<td style="width:150px; font-size:20px">닉네임2</td>
+	         	<table class="replyTable" id="rtb">
+	         		<!-- <tr>
+						<td rowspan=2><img width="100" height="100" src="resources/images/user.png"/></td>
+						<td style="width:150px; font-size:20px">닉네임2 </td>
 						<td style="font-size:15px">2020-04-01</td>		         		
 	         		</tr>
 	         		
@@ -145,8 +139,13 @@
 	         			<td  colspan=5 style="font-size:13px">
 	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
 	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
+	         				
 	         			</td>
-	         		</tr>
+	         			
+	         		</tr> -->
+	         		<tbody></tbody>
+	         		
+	         		
 	         	</table>
 	         	<hr>
 	         	
@@ -160,15 +159,89 @@
 	         	</div>
 	         	
 	         	<div style=" height:150px; float:left;">
-	         		<input type="text" placeholder="댓글을 입력해주세요." style="width:800px; height:150px; font-size:25px; float:left;">
-	         		<button style="width:200px; height:150px; font-size:30px; vertical-align: sub;  float:left;">등록</button>
+	         		<!-- <input type="text" id="rContent" placeholder="댓글을 입력해주세요." style="width:800px; height:150px; font-size:25px; float:left;"> -->
+	         		<textarea id="rContent"  style="width:799px; height:150px; font-size:25px; float:left;" placeholder="댓글을 입력해주세요."></textarea>
+	         		<button type="button" style="width:200px; height:150px; font-size:30px; vertical-align: sub;  float:left;" id="rSubmit">등록</button>
 	         	</div>
 	         </div>
 	         
 	         
-				
 		</div>
 	</form>
+	
+	<script>
+		$(function(){
+	    getReplyList();
+	    setInterval(function(){
+	    	getReplyList();
+	    	}, 1000);
+	    });
+	         
+	         
+		// 댓글 등록
+		$('#rSubmit').on('click',function(){
+			var content = $('#rContent').val();
+			var targetNo =${ board.postNo };
+		    $.ajax({
+		    	url:"addReply.bo",
+		        data:{targetNo:targetNo, content:content},
+		        type:"post",
+		        success:function(data){
+		        	if(data == "success"){
+		        		console.log(data);
+		        		//getReplyList();
+		        		$("#rContent").val("");
+		        		
+		        	}
+		         }
+		    });
+		         		
+		});
+		         	
+		// 댓글 리스트 불러오기
+		function getReplyList(){
+			var postNo = ${ board.postNo };
+		         		
+			$.ajax({
+				url:"rList.bo",
+				data:{postNo:postNo},
+				dataType:'json',
+				success:function(data){
+		        	$tableBody = $('#rtb tbody');
+		        	$tableBody.html('');
+		         				
+		         	var $tr;
+		         	var $profile;
+		         	var $rWriter;
+		         	var $rContent;
+		         	var $rCreateDate;
+		         				
+		         	if(data.length > 0){
+		         		for(var i in data){
+		         			$tr = $('<tr>');
+		         			/* $rWriter = $(''); */
+		         			$rWriter = $('<td width="100">').text(data[i].nickName);
+		         			$rContent = $('<td>').text(decodeURIComponent(data[i].content.replace(/\+/g," ")));
+		         			$rCreateDate = $('<td width ="100">').text(data[i].createDate);
+		         			
+		         			$tr.append($rWriter);
+		         			$tr.append($rContent);
+		         			$tr.append($rCreateDate);
+		         			$tableBody.append($tr);
+		         		}
+		         					
+		         	}else{
+		         					
+		         		$tr = $('<tr>');
+		         		$rContent = $('<td colspan=3>').text('등록된 댓글이 없습니다.');
+		         					
+		         		$tr.append($rContent);
+		         		$tableBody.append($tr);
+		         		}
+		         	}
+		       	});
+			}
+	</script>
 	
 </body>
 </html>
