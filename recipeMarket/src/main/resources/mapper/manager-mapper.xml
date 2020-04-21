@@ -23,7 +23,7 @@
 		        LISTAGG(NAME, ', ') WITHIN GROUP (ORDER BY ORDER_NO) AS "oList", STATUS
 		FROM ODLIST
 		group by "DATE", TOTAL, STATUS, ORDER_NO 
-		order by ORDER_NO	
+		order by "DATE" desc
 	</select>
 	
 	<select id="orderSortList" resultMap="oiRS">

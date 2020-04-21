@@ -128,6 +128,7 @@
 		FROM ODLIST
 		where mem_no = #{memberNo}
 		group by "DATE", TOTAL, STATUS, ORDER_NO 
+		order by "DATE" desc
 	</select>
 	
 	<resultMap type="mOrderDetail" id="odRS">
@@ -137,6 +138,7 @@
 		<result property = "oList" column ="oList"/>	
 		<result property = "pName" column ="PNAME"/>		
 		<result property = "mName" column ="MNAME"/>
+		<result property = "phName" column ="PHNAME"/>		
 		<result property = "detailNo" column ="DETAIL_NO"/>
 		<result property = "prCount" column ="PR_COUNT"/>
 		<result property = "price" column ="PRICE"/>
@@ -151,12 +153,13 @@
 	</resultMap> 
 		
 	<select id="orderDetail" resultMap="odRS">
-		SELECT P.NAME AS "PNAME", M.NAME AS "MNAME", "DATE", DETAIL_NO, O.ORDER_NO, PR_COUNT, P.PRICE, MEM_NO, STATUS, O.ZIP, O.ADDRESS, O.ADDRESS2, 
+		SELECT P.NAME AS "PNAME", M.NAME AS "MNAME", CHANGE_NAME AS "PHNAME", "DATE", DETAIL_NO, O.ORDER_NO, PR_COUNT, P.PRICE, MEM_NO, STATUS, O.ZIP, O.ADDRESS, O.ADDRESS2, 
 		        O.NOTE, O.PHONE, O.TOTAL, O.COUPON
 		FROM ORDER_DETAIL OD
 		            JOIN "ORDER" O ON(OD.ORDER_NO = O.ORDER_NO)
 		            JOIN "MEMBER" M ON(MEM_NO = MEMBER_NO)
 		            JOIN PRODUCT P ON(P.PRODUCT_NO = OD.PRODUCT_NO)
+		            LEFT OUTER JOIN PHOTO ON(p.product_no = TARGET_NO AND BOARD_NO = 3)
 		WHERE O.ORDER_NO = #{no} 
 		order by P.NAME 	
 	</select>
