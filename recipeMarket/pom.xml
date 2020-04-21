@@ -197,6 +197,7 @@
 			<version>2.6</version>
 		</dependency>
 		
+		<!-- gson에 대한 라이브러리 -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>

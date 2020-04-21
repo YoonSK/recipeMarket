@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.recipeMarket.board.model.vo.Board;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.common.Photo;
+import com.kh.recipeMarket.common.Reply;
 
 @Repository("bDAO")
 public class BoardDAO {
@@ -45,6 +46,14 @@ public class BoardDAO {
 
 	public int uploadImage(SqlSessionTemplate sqlSession, Photo p) {
 		return sqlSession.insert("boardMapper.uploadImage", p);
+	}
+
+	public int addReply(SqlSessionTemplate sqlSession, Reply r) {
+		return sqlSession.insert("boardMapper.addReply",r );
+	}
+
+	public ArrayList<Reply> selectReplyList(SqlSessionTemplate sqlSession, int postNo) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectReplyList", postNo);
 	}
 
 	

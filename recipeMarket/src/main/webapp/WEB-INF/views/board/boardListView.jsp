@@ -167,21 +167,6 @@
 			</table>
 			
 			
-			<!-- <script>
-				$(function(){
-					$('.contentTR').mouseover(function(){
-						$(this).css({'background-color':'gray', 'cursor':'pointer'});
-					}).mouseout(function(){
-						$(this).css({'background-color':'white'});
-					}).click(function(){
-						var postNo= $(this).children('td').children('input').val();
-						
-						location.href="bdetail.bo?postNo="postNo+"&page="+${pi.currentPage};
-					});
-					
-					
-				});
-			</script> -->
 			
 	    <script>
 	    	$(function(){
@@ -193,6 +178,7 @@
 	    			 var postNo= $(this).children('td').children('input').val();
 	    			 console.log(postNo);
 		    			location.href="bdetail.bo?postNo="+postNo+"&page="+${pi.currentPage};
+		    			
 		    	});
 	    	}); 
 	    </script>     
