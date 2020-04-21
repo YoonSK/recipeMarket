@@ -213,10 +213,9 @@
 										</td>
 									</c:if>
 									
-									
 									<td>${ product.name }</td>
 									<td>${ product.price }</td>
-									<td id="incomeVal">${ product.income }</td>
+									<td id="incomeVal${product.productNo}">${ product.income }</td>
 									<td>${ product.export }</td>
 									<td>${ product.stock }</td>
 									<td>
@@ -230,15 +229,26 @@
 											여유
 										</c:if>
 									</td>
-									<td id="btnArea">
+									<td id="btnArea${product.productNo}">
 										<button id="moneyBtn" type="button">판매수익</button>
-										<button id="updateBtn" type="button">수정</button>
+										<button id="updateBtn${product.productNo}" style="background: orangered; color: white; height: 30px; border: none; border-radius: 5px; width: 50px;" type="button">수정</button>
 									</td>
 								</tr>
+								<script>
+								$('#updateBtn${product.productNo}').click(function(){
+									$('#btnArea${product.productNo}').html('<button type="submit" id="updateProduct">확인</button>');
+									
+									var reset = "";
+									$('#incomeVal${product.productNo}').html(reset);
+									$('#incomeVal${product.productNo}').html('<input type="text" id="income" value="${product.income}" style="height: 30px;border: none; border-radius: 5px;width: 50px; background: #ddfcff; color: black;" name="income"><input type="hidden" name="productNo" value="${product.productNo }">');
+									
+								});
+								
+								</script>
 							</c:forEach>
 							 	<!-- 페이징 처리 -->
 						      	<tr align="center" height="20" id="buttonTab">
-						        	<td colspan="6">
+						        	<td colspan="9">
 						         
 						        	<!-- [이전] -->
 						        	<c:if test="${ pi.currentPage <= 1 }">
@@ -376,18 +386,6 @@
 						$('#cmodal').attr('style', 'display:none');
 					}
 
-					$('#updateBtn').click(function(){
-						var reset = "";
-						$('#incomeVal').html(reset);
-						$('#incomeVal').html('<input type="text" id="income" style="height: 30px;border: none; border-radius: 5px;width: 50px; background: white; color: black; border: 1px solid black" name="income">');
-						
-						$('#btnArea').html('<button type="submit" id="updateProduct">확인</button>');
-						/* $('#btnArea').html('<input type="button" id="income" name="income" value="${ product.income }" >'); */
-					});
-					
-					$('updateProduct').click(function(){
-						
-					});
 				</script>
 
 <%-- 	<c:import url="../common/footer.jsp"/> --%>
