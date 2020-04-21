@@ -2,12 +2,16 @@ package com.kh.recipeMarket.recipe.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.recipeMarket.board.model.exception.BoardException;
@@ -23,19 +27,30 @@ public class RecipeController {
 	@Autowired
 	RecipeService rService;
 	
-	@RequestMapping("insert.rc")
-	public String recipeInsert(Recipe r, HttpSession session) {
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		int memberNo = loginUser.getMemberNo();
-		r.setMemberNo(memberNo);
-		rService.insertRecipe(r);
-		
-		return "recipeDetail";
-	}
+	
 	
 	@RequestMapping("insertForm.rc")
-	public String recipeInsertForm(HttpSession session) {
+	public String recipeInsertForm( HttpSession session) {
+		
 		return "recipeInsert";
+		
+	}
+	
+	@RequestMapping("insert.rc")
+	public String recipeInsert(
+			
+			@RequestParam("ingredient") ArrayList<String> ingredients,
+			@RequestParam("amount") ArrayList<String> amounts,
+			@RequestParam("tag") ArrayList<String> tags, 
+			HttpSession session) {
+		
+
+		System.out.println(ingredients);
+		System.out.println(amounts);
+		System.out.println(tags);
+		
+		
+		return "recipeView";
 	}
 
 	@RequestMapping("list.rc")

@@ -212,45 +212,84 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript">
 
-
+	var ingNo = 0;
     function addIgBtn(){
     	var Name = document.getElementById( 'addIngredient' ).value;
     	var Amount = document.getElementById( 'addAmount' ).value;
     	
-    	if (Name && Amount){
+    	if (Name && Amount &&isNew('ing' + Name)){
+    		ingNo += 1;
         	document.getElementById( 'addIngredient' ).value = '';
         	document.getElementById( 'addAmount' ).value = '';
     		
     		var Btn = document.createElement( 'button' );
         	Btn.setAttribute('class', 'ingredient');
+        	Btn.setAttribute('id', 'ing' + Name);
+        	Btn.setAttribute('value', 'ing' + ingNo);
         	Btn.setAttribute('type', 'button');
-        	Btn.addEventListener('click', function(event) {this.remove();})
+        	Btn.addEventListener('click', function(event) {
+        		this.remove();
+        		document.getElementById(this.value).remove();
+        		document.getElementById(this.value + 'amt').remove();
+        	})
             var BtnText = document.createTextNode( Name + ' - ' + Amount);
             Btn.appendChild( BtnText );
+            
+            var BtnVal = document.createElement( 'input' );
+        	BtnVal.setAttribute('id', 'ing' + ingNo);
+        	BtnVal.setAttribute('type', 'hidden');
+        	BtnVal.setAttribute('name', 'ingredient');
+        	BtnVal.setAttribute('value', Name);
 
+        	var BtnVal2 = document.createElement( 'input' );
+        	BtnVal2.setAttribute('id', 'ing' + ingNo + 'amt');
+        	BtnVal2.setAttribute('type', 'hidden');
+        	BtnVal2.setAttribute('name', 'amount');
+        	BtnVal2.setAttribute('value', Amount);
+        	
             Btn.style.background = randomColor();
             document.getElementById('ingredientBox').appendChild( Btn );
+            document.getElementById('ingredientBox').appendChild( BtnVal );
+            document.getElementById('ingredientBox').appendChild( BtnVal2 );
     	}
     	
 	}
     
+    var tagNo = 0;
     function addTgBtn(){
-    	var Name = document.getElementById( 'addTag' ).value;
-   
-    	if (Name){
-        	document.getElementById( 'addTag' ).value = '';
+     	var Name = document.getElementById( 'addTag' ).value;
+    	if (Name &&isNew('tag' + Name)){
+    		tagNo += 1;
+        	document.getElementById( 'addTag' ).value = ''; //입력칸 초기화
         	var Btn = document.createElement( 'button' );
         	Btn.setAttribute('class', 'tag');
+        	Btn.setAttribute('id', 'tag' + Name);
+        	Btn.setAttribute('value', 'tag' + tagNo);
         	Btn.setAttribute('type', 'button');
-        	Btn.addEventListener('click', function(event) {this.remove();})
+        	Btn.addEventListener('click', function(event) {
+        		this.remove();
+        		document.getElementById(this.value).remove();
+        	})
             var BtnText = document.createTextNode( Name );
             Btn.appendChild( BtnText );
-
+            
+            var BtnVal = document.createElement( 'input' );
+        	BtnVal.setAttribute('id', 'tag' + tagNo);
+        	BtnVal.setAttribute('type', 'hidden');
+        	BtnVal.setAttribute('name', 'tag');
+        	BtnVal.setAttribute('value', Name);
+            
             Btn.style.background = randomColor();
             document.getElementById('tagBox').appendChild( Btn );
+            document.getElementById('tagBox').appendChild( BtnVal );
     	}
     	
-	}
+    }
+    
+    function isNew(id){
+    	if ( document.getElementById(id)){ return false;}
+    	else return true;
+    }
     
     function randomColor(){
         var x = Math.floor(Math.random() * 192 + 64);
