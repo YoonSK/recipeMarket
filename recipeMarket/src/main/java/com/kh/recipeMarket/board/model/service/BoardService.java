@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.kh.recipeMarket.board.model.vo.Board;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.common.Photo;
+import com.kh.recipeMarket.common.Reply;
 
 public interface BoardService {
 
@@ -21,6 +22,10 @@ public interface BoardService {
 	ArrayList<Board> profileList(PageInfo pi);
 
 	Board selectProfile(int postNo);
+
+	int addReply(Reply r);
+
+	ArrayList<Reply> selectReplyList(int postNo);
 
 //	int insertBoard(String nickName);
 

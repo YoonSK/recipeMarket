@@ -9,6 +9,7 @@ public class Photo {
 	private String changeName;
 	private String filePath;
 	private String deleted;
+
 	 
 	public Photo() {}
 
@@ -24,6 +25,9 @@ public class Photo {
 		this.filePath = filePath;
 		this.deleted = deleted;
 	}
+	
+	
+
 
 	public int getPhotoNo() {
 		return photoNo;

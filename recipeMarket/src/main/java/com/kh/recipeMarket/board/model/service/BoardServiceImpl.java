@@ -10,6 +10,7 @@ import com.kh.recipeMarket.board.model.dao.BoardDAO;
 import com.kh.recipeMarket.board.model.vo.Board;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.common.Photo;
+import com.kh.recipeMarket.common.Reply;
 
 @Service("bService")
 public class BoardServiceImpl implements BoardService{
@@ -57,6 +58,18 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int uploadImage(Photo p) {
 		return bDAO.uploadImage(sqlSession, p);
+	}
+
+
+	@Override
+	public int addReply(Reply r) {
+		return bDAO.addReply(sqlSession, r);
+	}
+
+
+	@Override
+	public ArrayList<Reply> selectReplyList(int postNo) {
+		return bDAO.selectReplyList(sqlSession, postNo);
 	}
 
 
