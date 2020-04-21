@@ -189,7 +189,7 @@ public class MyPageController {
 	public void orderDetail(HttpServletResponse response, @RequestParam("no") int no) throws JsonIOException, IOException {
 		
 		ArrayList<mOrderDetail> od = mps.orderDetail(no);
-		
+
 		for(mOrderDetail mrd : od) {
 			mrd.setpName(URLEncoder.encode(mrd.getpName(), "UTF-8"));
 			mrd.setmName(URLEncoder.encode(mrd.getmName(), "UTF-8"));

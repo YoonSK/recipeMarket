@@ -150,9 +150,11 @@
 								for(var i in data){
 				                    var $tr = $('<tr>');
 									var $pName = $('<td>').text(decodeURIComponent(data[i].pName));
+				                    var $phName=$('<td>').html('<img src=' + '"resources/upload/' + data[i].phName + '"' + 'width=40px; height=40px;>');									
 									var $prCount = $("<td>").text(data[i].prCount);
 									var $price = $("<td>").text(data[i].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 									
+									$tr.append($phName);									
 									$tr.append($pName);
 				                    $tr.append($prCount);
 				                    $tr.append($price);
@@ -195,6 +197,7 @@
 						<table id="table_D">
 							<thead> <!-- 게시판 라벨 부분 -->
 							<tr>
+								<th width="10%"></th>							
 								<th width="55%" class="title">상품명</th>
 								<th width="15%">수량</th>
 								<th width="15%">가격</th>
