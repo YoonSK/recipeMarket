@@ -50,4 +50,14 @@ public class MyPageDAO {
 		return sqlSession.update("memberMapper.orderStatus", o);
 	}
 
+	public ArrayList<mOrderInfo> orderSortList(SqlSessionTemplate sqlSession, PageInfo pi, Member loginUser) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.orderSortList", loginUser, rowBounds);
+	}
+
+	public int orderSortCount(SqlSessionTemplate sqlSession, Member loginUser) {
+		return sqlSession.selectOne("memberMapper.orderSortCount", loginUser);
+	}
+
 }

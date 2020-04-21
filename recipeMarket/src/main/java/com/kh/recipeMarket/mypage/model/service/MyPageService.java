@@ -27,4 +27,8 @@ public interface MyPageService {
 
 	int orderStatus(Order o);
 
+	ArrayList<mOrderInfo> orderSortList(PageInfo pi, Member loginUser);
+
+	int oderSortCount(Member loginUser);
+
 }
