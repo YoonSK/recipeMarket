@@ -9,7 +9,7 @@
 <style>
 	.wrapper{
 		
-		height:1500px;
+		height:1800;
 		background:#EAEAEA;
 		
 	}
@@ -71,7 +71,7 @@
 </head>
 <body>
 	<%@ include file="../common/header.jsp" %>
-	<form>
+	<!-- <form> -->
 		<div class="wrapper">
 			<br>
 			<div class="content" style="background: white;">
@@ -118,9 +118,13 @@
 	         	</table>
 	         	
 				<div class="input-submit" align="center" style="padding-bottom: 30px">
-		            <input type="submit" value="수정하기"  id="insertBtn"> &nbsp; &nbsp;
-		         	<button onclick="location.href='blist.bo'" id="removeBtn">삭제하기</button> &nbsp; &nbsp;
-		         	<button onclick="location.href='blist.bo'" id="backBtn">목록으로</button>
+					
+					<c:if test="${board.nickName eq loginUser.nickName}">
+			            <input type="submit" value="수정하기"  id="insertBtn"> &nbsp; &nbsp;
+			         	<button type="button" onclick="location.href='blist.bo'" id="removeBtn">삭제하기</button> &nbsp; &nbsp;
+		         	</c:if>
+		         	<button type="button" onclick="location.href='blist.bo'" id="backBtn">목록으로</button>
+		     		
 		         </div>
 	         	
 	         </div>
@@ -167,7 +171,7 @@
 	         
 	         
 		</div>
-	</form>
+	<!-- </form> -->
 	
 	<script>
 		$(function(){
@@ -188,8 +192,8 @@
 		        type:"post",
 		        success:function(data){
 		        	if(data == "success"){
-		        		console.log(data);
-		        		//getReplyList();
+		        		//console.log(data);
+		        		getReplyList();
 		        		$("#rContent").val("");
 		        		
 		        	}
@@ -207,10 +211,13 @@
 				data:{postNo:postNo},
 				dataType:'json',
 				success:function(data){
+					//console.log(data);
 		        	$tableBody = $('#rtb tbody');
 		        	$tableBody.html('');
 		         				
-		         	var $tr;
+		         	var $tr1;
+		         	var $tr2;
+		         	var $profileTd;
 		         	var $profile;
 		         	var $rWriter;
 		         	var $rContent;
@@ -218,16 +225,26 @@
 		         				
 		         	if(data.length > 0){
 		         		for(var i in data){
-		         			$tr = $('<tr>');
-		         			/* $rWriter = $(''); */
-		         			$rWriter = $('<td width="100">').text(data[i].nickName);
-		         			$rContent = $('<td>').text(decodeURIComponent(data[i].content.replace(/\+/g," ")));
-		         			$rCreateDate = $('<td width ="100">').text(data[i].createDate);
+		         			var pName = data[i].pName;
+		         			$tr1 = $('<tr>');
+		         			$tr2 = $('<tr>');
+		         			$profileTd =  $('<td rowspan="2">');
+		         			if(pName == null){
+		         				$profile = $('<img width="100" height="100"  src="resources/images/user.png">');
+		         			} else{
+		         				$profile = $('<img width="100" height="100" style="border-radius: 100%" src="resources/upload/' + data[i].pName + '">');
+		         			}
+		         			$rWriter = $('<td style="width:120px; font-size:20px">').text(decodeURIComponent(data[i].nickName));
+		         			$rCreateDate = $('<td style="font-size:17px">').text(data[i].createDate);
+		         			$rContent = $('<td colspan=5 style="font-size:20px">').text(decodeURIComponent(data[i].content.replace(/\+/g," ")));
 		         			
-		         			$tr.append($rWriter);
-		         			$tr.append($rContent);
-		         			$tr.append($rCreateDate);
-		         			$tableBody.append($tr);
+		         			$profileTd.append($profile);
+		         			$tr1.append($profileTd);
+		         			$tr1.append($rWriter);
+		         			$tr1.append($rCreateDate); 
+		         			$tr2.append($rContent);
+		         			$tableBody.append($tr1);
+		         			$tableBody.append($tr2);
 		         		}
 		         					
 		         	}else{

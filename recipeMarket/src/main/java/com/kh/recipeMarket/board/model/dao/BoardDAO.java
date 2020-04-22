@@ -31,6 +31,12 @@ public class BoardDAO {
 		
 		return (ArrayList)sqlSession.selectList("boardMapper.profileList", null, rowBounds);
 	}
+	
+	public ArrayList<Board> rCount(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset =(pi.getCurrentPage()-1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.selectrCount", null ,rowBounds);
+	}
 
 	public int insertList(SqlSessionTemplate sqlSession, Board b) {
 		return sqlSession.insert("boardMapper.inserBoard",b);
@@ -43,6 +49,8 @@ public class BoardDAO {
 	public Board selectProfile(SqlSessionTemplate sqlSession, int postNo) {
 		return sqlSession.selectOne("boardMapper.selectProfile",postNo);
 	}
+	
+
 
 	public int uploadImage(SqlSessionTemplate sqlSession, Photo p) {
 		return sqlSession.insert("boardMapper.uploadImage", p);
@@ -55,6 +63,8 @@ public class BoardDAO {
 	public ArrayList<Reply> selectReplyList(SqlSessionTemplate sqlSession, int postNo) {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectReplyList", postNo);
 	}
+
+	
 
 	
 	

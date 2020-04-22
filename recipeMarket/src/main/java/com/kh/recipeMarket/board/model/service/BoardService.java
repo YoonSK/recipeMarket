@@ -12,6 +12,8 @@ public interface BoardService {
 	int getListCount();
 
 	ArrayList<Board> selectList(PageInfo pi);
+	
+	ArrayList<Board> rCount(PageInfo pi);
 
 	int insertBoard(Board b);
 
@@ -26,6 +28,8 @@ public interface BoardService {
 	int addReply(Reply r);
 
 	ArrayList<Reply> selectReplyList(int postNo);
+
+	
 
 //	int insertBoard(String nickName);
 

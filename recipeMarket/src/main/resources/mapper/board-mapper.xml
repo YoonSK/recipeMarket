@@ -71,6 +71,14 @@
 		order by post_no desc 
 	</select>
 	
+	<select id="selectrCount" resultMap="boardResultSet">
+		select post_no, count(reply_no)as RCOUNT
+		from f_board
+    		full outer join reply r on(post_no = target_no)
+		group by post_no
+		order by post_no desc
+	</select>
+	
 	<resultMap type="Photo" id="photoRS">
 		<id property = "photoNo" column="PHOTO_NO"/>
 		<result property = "boardNo" column="BOARD_NO"/>	
@@ -102,15 +110,25 @@
 		<result property="rating" column="RATING"/>
 		<result property="deleted" column="DELETED"/>
 		<result property="pName" column="CHANGE_NAME"/>
+		<result property="rCount" column="RCOUNT"/>
 	</resultMap>
 	
 	<select id="selectReplyList" resultMap="replyResultSet">
-		select reply_no,nickname, r.board_no, target_no, r.content, r.create_date, r.modify_date, rating, r.deleted, p.change_name  
+		<!-- select reply_no,nickname, r.board_no, target_no, r.content, r.create_date, r.modify_date, rating, r.deleted, p.change_name  
 		from reply r
     		JOIN MEMBER M USING(MEMBER_NO)
     		LEFT OUTER JOIN PHOTO p using(target_no)
-		where target_no = #{postNo} and r.board_no = 2
+		where target_no = #{postNo} and r.board_no = 2 -->
+		
+		select reply_no,nickname, r.board_no, r.target_no, r.content, r.create_date, r.modify_date, rating, r.deleted, p.change_name  
+		from reply r
+			JOIN MEMBER M USING(MEMBER_NO)
+			LEFT OUTER JOIN PHOTO p on(MEMBER_NO = p .target_no)
+		where r.target_no = #{postNo}
+		order by reply_no desc
 	</select>
+	
+	
 	
 	
 </mapper>
