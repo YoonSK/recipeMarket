@@ -31,4 +31,6 @@ public interface ManagerService {
 
 	int updateProduct(Product p);
 
+	int oSortCount(int status);
+
 }

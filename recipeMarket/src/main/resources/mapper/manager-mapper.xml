@@ -46,6 +46,12 @@
 		where order_no = #{orderNo}
 	</update>	
 
+	<select id="oSortCount" resultType="_int">
+		select count(*)
+		from "ORDER"
+		where status = ${status}
+	</select>
+
 	<insert id="insertProduct" parameterType="Product">
 		insert into product
 		values(seq_prn.nextval, #{name},#{price},#{stock},#{category},sysdate,default,#{stock},default)

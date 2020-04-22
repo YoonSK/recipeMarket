@@ -49,4 +49,8 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.selectPwd", m);
 	}
 
+	public int mDeleteUp(SqlSessionTemplate sqlSession, int no) {
+		return sqlSession.update("memberMapper.mDeleteUp", no);
+	}
+
 }

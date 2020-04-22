@@ -73,4 +73,9 @@ public class MaServiceImpl implements ManagerService {
 		return maDAO.updateProduct(sqlSession,p);
 	}
 
+	@Override
+	public int oSortCount(int status) {
+		return maDAO.oSortCount(sqlSession, status);
+	}
+
 }

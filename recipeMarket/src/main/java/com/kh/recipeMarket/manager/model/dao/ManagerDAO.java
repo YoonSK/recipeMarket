@@ -22,8 +22,8 @@ public class ManagerDAO {
 
 	public ArrayList<mOrderInfo> orderList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());		
-		return (ArrayList)sqlSession.selectList("managerMapper.orderList", rowBounds);
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());	
+		return (ArrayList)sqlSession.selectList("managerMapper.orderList", pi, rowBounds);
 	}
 
 	public ArrayList<mOrderInfo> orderSortList(SqlSessionTemplate sqlSession, PageInfo pi, int status) {
@@ -65,6 +65,10 @@ public class ManagerDAO {
 
 	public int updateProduct(SqlSessionTemplate sqlSession, Product p) {
 		return sqlSession.update("managerMapper.updateProduct", p);
+	}
+
+	public int oSortCount(SqlSessionTemplate sqlSession, int status) {
+		return sqlSession.selectOne("managerMapper.oSortCount", status);
 	}
 
 }

@@ -70,6 +70,12 @@
 		set deleted='Y'
 		where member_no = ${no}
 	</update>	
+	
+	<update id="mDeleteUp" parameterType="Member">
+		update member
+		set id='delMemId_${no}', nickName='delMemNick_${no}'
+		where member_no = ${no}
+	</update>
 
 	<update id="mUpdate" parameterType="Member">
 		update member

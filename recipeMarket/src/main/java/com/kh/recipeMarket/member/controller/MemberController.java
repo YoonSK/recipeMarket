@@ -183,15 +183,18 @@ public class MemberController {
 	public String mDelete(@RequestParam("no") int no, SessionStatus status) {
 		
 		int result = ms.mDelete(no);
-		
-		if(result > 0) {
-			status.setComplete();					
-			return "redirect:/";		
-		}else {
-			throw new MemberException("탈퇴에 실패하였습니다.");
-		}
-
-	}
+			if(result > 0) {
+				int result2 = ms.mDeleteUp(no);
+				if(result2 > 0) {
+					status.setComplete();					
+					return "redirect:/";		
+				}else {
+					throw new MemberException("탈퇴에 실패하였습니다.");
+				}				
+			}else {
+				throw new MemberException("탈퇴에 실패하였습니다.");
+			}
+	}	
 	
 	// 아이디 찾기 페이지 이동
 	@RequestMapping("findIdView.me")
