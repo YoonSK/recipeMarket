@@ -202,7 +202,15 @@ public class ManagerController {
 	
 	// 상품 입고 수정
 	@RequestMapping("updateProduct.ma")
-	public String updateProduct() {
-		return "";
+	public String updateProduct(@ModelAttribute Product p,@RequestParam("productNo") int productNo) {
+		
+		p.setProductNo(productNo);
+		System.out.println(p);
+		int result = mas.updateProduct(p);
+		if(result > 0) {
+			return "redirect:/pManage.ma";
+		} else {
+			throw new ManagerException("입고 수량 수정에 실패하였습니다.");
+		}
 	}
 }

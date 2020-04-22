@@ -63,4 +63,8 @@ public class ManagerDAO {
 	
 	}
 
+	public int updateProduct(SqlSessionTemplate sqlSession, Product p) {
+		return sqlSession.update("managerMapper.updateProduct", p);
+	}
+
 }
