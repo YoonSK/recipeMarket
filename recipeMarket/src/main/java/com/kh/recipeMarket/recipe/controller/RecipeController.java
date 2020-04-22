@@ -38,17 +38,24 @@ public class RecipeController {
 	
 	@RequestMapping("insert.rc")
 	public String recipeInsert(
-			
+			@RequestParam("stepContent") ArrayList<String> steps,
 			@RequestParam("ingredient") ArrayList<String> ingredients,
 			@RequestParam("amount") ArrayList<String> amounts,
-			@RequestParam("tag") ArrayList<String> tags, 
-			HttpSession session) {
-		
+			@RequestParam("tag") ArrayList<String> tags,
+			@ModelAttribute Recipe r,
+			HttpSession session)
+	{
 
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int memberNo = loginUser.getMemberNo();
+		
+		System.out.println(r);
+		System.out.println(steps);
 		System.out.println(ingredients);
 		System.out.println(amounts);
 		System.out.println(tags);
 		
+		rService.insertRecipe(r);
 		
 		return "recipeView";
 	}
@@ -77,9 +84,6 @@ public class RecipeController {
 	public ModelAndView recipeDetail(int postNo, ModelAndView mv){
 	
 		Recipe r = rService.selectRecipe(postNo);
-		r.setIngredientList(rService.selectIngredients(postNo));
-		r.setTagList(rService.selectTags(postNo));
-		r.setStepList(rService.selectRecipeSteps(postNo));
 		mv.addObject("r", r);
 		
 		ArrayList<Reply> replies = rService.selectReplies(postNo);

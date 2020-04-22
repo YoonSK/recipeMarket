@@ -123,7 +123,7 @@
                         <span class="option_name">재료</span>
                         <div>
 	                        <span>
-	                        	<input type="text" id="addIngredient">
+	                        	<input type="text" id="addIngredient" onkeydown="enterkey(event, 'ing');">
 	                        </span>
 	                        <span style="text-align: right; margin-left: 5px">
 	                            <button type="button" id="addIngBtn" onclick="addIgBtn();" style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
@@ -143,7 +143,7 @@
                 <div style="display: flex">
                         <span class="option_name">태그</span>
                         <div>
-                            <input type="text" id="addTag">
+                            <input type="text" id="addTag" onkeydown="enterkey(event, 'tag');">
                             <span style="text-align: right; margin-left: 5px">
                                 <button type="button" id="addTagBtn" onclick="addTgBtn();" style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
                             </span>
@@ -296,6 +296,16 @@ function addTgBtn(){
         document.getElementById('tagBox').appendChild( BtnVal );
 	}
 	
+}
+
+function enterkey(event, key) {
+	if (event.keyCode == 13){
+		event.preventDefault();
+		switch (key){
+		case 'tag': addTgBtn();break;
+		case 'ing': addIgBtn();break;
+		}
+	}
 }
 
 function isNew(id){

@@ -14,21 +14,24 @@ public class RecipeDAO {
 	private static final Object SearchCon = null;
 
 	public int insertRecipe(SqlSessionTemplate sqlSession, Recipe r) {
-		return sqlSession.insert("recipeMapper.insertRecipe",r);
+		System.out.println(r);
+		sqlSession.insert("recipeMapper.insertRecipe", r);
+		return r.getPostNo();
 	}
 	
-	public int insertIngredients(SqlSessionTemplate sqlSession, ArrayList<Ingredient> ingredients) {
-
-		return sqlSession.insert("recipeMapper.insertIngredients",ingredients);
+	public int insertIngredients(SqlSessionTemplate sqlSession, int postNo, ArrayList<Ingredient> ingredients) {
+		return sqlSession.insert("recipeMapper.insertIngredients", ingredients);
 	}
 	
-	public int insertTags(SqlSessionTemplate sqlSession, ArrayList<Tag> tags){
-		return sqlSession.insert("recipeMapper.insertTags",tags);
+	public int insertTags(SqlSessionTemplate sqlSession, int postNo, ArrayList<String> tags){
+		return sqlSession.insert("recipeMapper.insertTags", tags);
 	}
 
-	public int insertSteps(SqlSessionTemplate sqlSession, ArrayList<RecipeStep> steps){
-		return sqlSession.insert("recipeMapper.insertSteps",steps);
+	public int insertSteps(SqlSessionTemplate sqlSession, int postNo, ArrayList<String> steps){
+		return sqlSession.insert("recipeMapper.insertSteps", steps);
 	}
+	
+	
 	
 	public Recipe selectRecipe(SqlSessionTemplate sqlSession, int postNo) {
 		return sqlSession.selectOne("recipeMapper.selectRecipe", postNo);

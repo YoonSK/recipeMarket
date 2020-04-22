@@ -22,23 +22,26 @@ public class RecipeServiceImpl implements RecipeService {
 	   
 	@Override
 	public int insertRecipe(Recipe r) {
-		return rDAO.insertRecipe(sqlSession, r);
+		int postNo = rDAO.insertRecipe(sqlSession, r);
+		
+		ArrayList<String> ings = r.getIngredientList();
+		ArrayList<String> amts = r.getAmountList();
+		
+		ArrayList<Ingredient> IngList = new ArrayList<Ingredient>();
+		for(int i=0; i < ings.size(); i++) {
+			Ingredient ing = new Ingredient();
+			ing.setName(ings.get(i));
+			ing.setAmount(amts.get(i));
+			IngList.add(ing);
+		}
+
+		rDAO.insertIngredients(sqlSession, postNo, IngList);
+		rDAO.insertTags(sqlSession, postNo, r.getTagList());
+		rDAO.insertSteps(sqlSession, postNo, r.getStepList());
+		
+		return 0;
 	}
 	
-	@Override
-	public int insertTags(ArrayList<Tag> tags) {
-		return rDAO.insertTags(sqlSession, tags);
-	}
-
-	@Override
-	public int insertIngredients(ArrayList<Ingredient> ingredients) {
-		return rDAO.insertIngredients(sqlSession, ingredients);
-	}
-
-	@Override
-	public int insertSteps(ArrayList<RecipeStep> steps) {
-		return rDAO.insertSteps(sqlSession, steps);
-	}
 	
 	@Override
 	public ArrayList<Recipe> searchRecipeList(SearchCon sc) {

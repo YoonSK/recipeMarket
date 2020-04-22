@@ -5,11 +5,13 @@
 	<resultMap id="recipeResultSet" type="Recipe">
 		<id property="postNo" column="POST_NO"/>
 		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="title" column="TITLE"/>
 		<result property="createDate" column="CREATE_DATE"/>
 		<result property="modifyDate" column="MODIFY_DATE"/>
-		<result property="circumstnce" column="CIRCUMSTANCE"/>
+		<result property="category" column="CATEGORY"/>
 		<result property="serving" column="SERVING"/>
 		<result property="difficulty" column="Diffyculty"/>
+		<result property="reqTime" column="REQTIME"/>
 		<result property="hit" column="HIT"/>
 		<result property="deleted" column="DELETED"/>
 	</resultMap>
@@ -33,9 +35,13 @@
 	</resultMap>
 
 
-	<insert id="insertRecipe" parameterType="java.util.Map">
-		insert into R_BOARD
-		values (seq_recipe_no.nextVal, #{memberNo}, sysdate, sysdate, #{circumstance}, #{serving}, #{difficulty}, 0, default)
+	<insert id="insertRecipe" parameterType="Recipe">
+		<selectKey keyProperty="postNo" resultType="int" order="BEFORE">  
+        	select seq_recipe_no.nextVal FROM dual
+    	</selectKey>
+		
+		insert into R_BOARD (postNo, memberNo, title, categoty, serving, difficulty, reqTime)
+		values (#{postNo}, #{memberNo}, #{title}, sysdate, sysdate, #{category}, #{serving}, #{difficulty}, #{reqTime}, DEFAULT, DEFAULT)
 	</insert>
 
 	<insert id="insertIngredient" parameterType="java.util.Map">
