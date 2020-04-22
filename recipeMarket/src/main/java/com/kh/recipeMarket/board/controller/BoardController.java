@@ -61,15 +61,15 @@ public class BoardController {
 		
 		ArrayList<Board> list = bService.selectList(pi);
 		ArrayList<Board> plist = bService.profileList(pi);
-		
+		ArrayList<Board> rlist = bService.rCount(pi);
 		
 		if(list != null) {
 			mv.addObject("list",list);
 			mv.addObject("plist", plist);
+			mv.addObject("rlist", rlist);
 			mv.addObject("pi",pi);
 			mv.setViewName("boardListView");
-			System.out.println(list);
-			System.out.println(plist);
+			System.out.println(rlist);
 		} else {
 			throw new BoardException("게시글 전체 조회에 실패하였습니다.");
 		}
@@ -179,6 +179,7 @@ public class BoardController {
 		
 		for(Reply r : rList) {
 			r.setContent(URLEncoder.encode(r.getContent(),"UTF-8"));
+			r.setNickName(URLEncoder.encode(r.getNickName(),"UTF-8"));
 		}
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();

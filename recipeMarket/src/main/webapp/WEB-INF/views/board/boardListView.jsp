@@ -88,7 +88,7 @@
 						<td style="font-size:20px; width:30px;">♡</td>
 						<td width="30px" style="font-size:20px">0</td>
 						<td style="font-size:20px; width:70px;">댓글수</td>
-						<td style="font-size:20px; width:30px">0</td>			         		
+						<td style="font-size:20px; width:30px">${ rlist[status.index].rCount }</td>			         		
 		        	</tr>
 		         		
 		        	<tr>

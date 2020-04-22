@@ -38,6 +38,11 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<Board> profileList(PageInfo pi) {
 		return bDAO.profileList(sqlSession,pi);
 	}
+	
+	@Override
+	public ArrayList<Board> rCount(PageInfo pi) {
+		return bDAO.rCount(sqlSession,pi);
+	}
 
 	@Override
 	public int insertBoard(Board b) {
@@ -54,6 +59,8 @@ public class BoardServiceImpl implements BoardService{
 	public Board selectProfile(int postNo) {
 		return bDAO.selectProfile(sqlSession, postNo);
 	}
+	
+	
 
 	@Override
 	public int uploadImage(Photo p) {
@@ -71,6 +78,9 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<Reply> selectReplyList(int postNo) {
 		return bDAO.selectReplyList(sqlSession, postNo);
 	}
+
+
+	
 
 
 

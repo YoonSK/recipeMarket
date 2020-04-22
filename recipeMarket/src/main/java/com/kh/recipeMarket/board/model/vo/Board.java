@@ -15,7 +15,19 @@ public class Board {
 	
 	private String pName;
 	
+	private int rCount; // 댓글 갯수
+	
 	public Board() {}
+	
+	
+
+	public Board(int postNo, int rCount) {
+		super();
+		this.postNo = postNo;
+		this.rCount = rCount;
+	}
+
+
 
 	public Board(int postNo, int memberNo, String content, Date createDate, Date modifyDate, int hit, String deleted,
 			String category) {
@@ -30,6 +42,8 @@ public class Board {
 		this.category = category;
 		
 	}
+	
+	
 	
 	
 
@@ -181,20 +195,32 @@ public class Board {
 	public void setpName(String pName) {
 		this.pName = pName;
 	}
+	
+	
+
+	public int getrCount() {
+		return rCount;
+	}
+
+	public void setrCount(int rCount) {
+		this.rCount = rCount;
+	}
+
+
 
 	@Override
 	public String toString() {
-		return "Board [postNo=" + postNo + ", nickName=" + nickName + ", content=" + content
-				+ ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", hit=" + hit + ", deleted=" + deleted
-				+ ", category=" + category + ", pName=" + pName + "]";
+		return "Board [postNo=" + postNo + ", rCount=" + rCount + "]";
 	}
 
 //	@Override
 //	public String toString() {
-//		return "Board [postNo=" + postNo + ", nickName=" + nickName + ", content=" + content + ", createDate="
-//				+ createDate + ", modifyDate=" + modifyDate + ", hit=" + hit + ", deleted=" + deleted + ", category="
-//				+ category + "]";
+//		return "Board [postNo=" + postNo + ", nickName=" + nickName + ", content=" + content
+//				+ ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", hit=" + hit + ", deleted=" + deleted
+//				+ ", category=" + category + ", pName=" + pName + "]";
 //	}
+
+	
 	
 	
 
