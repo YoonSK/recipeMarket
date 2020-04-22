@@ -10,9 +10,9 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
 <style>
-	div.content{height: 600px;}
+	div.content{height: 800px;}
 	h2{margin-left: 10%;}
-	.tableArea{width: 80%; height: 650px; margin: 0 auto; margin-top: 80px;}
+	.tableArea{width: 80%; height: 650px; margin: 0 auto; margin-top: 5%;}
 	table {width: 100%;}
 	table > class{margin-left: 100px; margin-top: 30px; width: 680px;}
 	table, th, td{word-spacing: 5px; padding: 5px; height: 40px;}
@@ -22,6 +22,13 @@
 	input[type="button"]{width: 65px; height: 20px; font-size: 12px; font-weight: 600; text-align: center; border:1px solid #add1c3; border-radius: 4px; background: white;}
 	input[type="button"]:hover{cursor: pointer; background: #add1c3; color: white;}
 	
+	/* 페이징 버튼 */
+	.pagingArea{border-left: hidden; border-right: hidden;}
+	.pagingArea button{background-color: white; color: black; text-decoration: none; transition: background-color .3s; border: 1px solid #add1c3; font-size: 15px; font-weight: 700;}	
+	.pagingArea button:hover{background-color: #add1c3; color: white; cursor: pointer;}
+	.pagingArea button:disabled{background-color: gray;}
+	.pagingArea button:disabled:hover{cursor: not-allowed; color: black;}
+		
 	/* 카테고리 */
 	th ul{display: none; position: absolute; width: 70px; background:white; cursor: pointer;}
 	th ul > li{border: 1px solid #add1c3; list-style: none;}
@@ -37,8 +44,7 @@
     span#orderInfo_head{font-weight: 800; font-size: 17px;}
 	table#tableD > thead th{border-bottom: 2px solid #e8e5da; background-color: #e8e5da; height: 20px; font-weight: 600; text-align: center;}    
 	table#tableD {width: 100%;}
-	table#tableD > th, td{word-spacing: 5px; padding: 5px; height: 20px;}   
-	#buttonTab{border-left: hidden; border-right: hidden;}	 	
+	table#tableD > th, td{word-spacing: 5px; padding: 5px; height: 20px;}    	
 
 </style>
 </head>
@@ -74,7 +80,7 @@
 							<td>${ order.date }</td>						
 							<td class="order_D">${ order.oList }</td>
 							<td><fmt:formatNumber maxFractionDigits="3" value="${ order.total }"/> 원</td>
-							<td>
+							<td class="orderS">
 								<c:if test="${ order.status == 0}">
 									결제완료
 									<br>
@@ -97,56 +103,85 @@
 						</tr>		
 						</c:forEach>																						
 						</tbody>
-						
+
 						<!-- 페이징 처리 -->
-						<tr align="center" height="20" id="buttonTab">
+						<tr align="center" height="20" class="pagingArea">
 							<td colspan="6">
-							
 								<!-- [이전] -->
 								<c:if test="${ pi.currentPage <= 1 }">
-									&laquo;
+									<button disabled>&laquo;</button>
 								</c:if>
 								<c:if test="${ pi.currentPage > 1 }">
-									<c:url var="before" value="oManage.ma">
-										<c:param name="page" value="${ pi.currentPage - 1 }"/>
-									</c:url>
-									<a href="${ before }">&laquo;</a> 
+									<c:choose>
+										<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/orderSort.ma'}">	
+											<c:url var="before" value="orderSort.ma">
+												<c:param name="sortCate" value="${ cate }"/>											
+												<c:param name="page" value="${ pi.currentPage - 1 }"/>
+											</c:url>	
+										</c:when>
+										<c:otherwise>																	
+											<c:url var="before" value="oManage.ma">
+												<c:param name="page" value="${ pi.currentPage - 1 }"/>
+											</c:url>
+										</c:otherwise>
+									</c:choose>
+									<button onclick="location.href='${ before }'">&laquo;</button>
 								</c:if>
 								
 								<!-- 페이지 -->
 								<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
 									<c:if test="${ p eq pi.currentPage }">
-										<font size="4"><b>${ p }</b></font>
+										<button disabled>${ p }</button>
 									</c:if>
-									
 									<c:if test="${ p ne pi.currentPage }">
-										<c:url var="pagination" value="oManage.ma">
-											<c:param name="page" value="${ p }"/>
-										</c:url>
-										<a href="${ pagination }">${ p }</a> &nbsp;
-									</c:if>
+										<c:choose>
+											<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/orderSort.ma'}">																												
+												<c:url var="pagination" value="orderSort.ma">
+													<c:param name="sortCate" value="${ cate }"/>
+													<c:param name="page" value="${ p }"/>
+												</c:url>
+											</c:when>
+											<c:otherwise>											
+												<c:url var="pagination" value="oManage.ma">
+													<c:param name="page" value="${ p }"/>
+												</c:url>
+											</c:otherwise>
+										</c:choose>
+										<button onclick="location.href='${ pagination }'">${ p }</button>
+									</c:if>							
 								</c:forEach>
 								
 								<!-- [다음] -->
 								<c:if test="${ pi.currentPage >= pi.maxPage }">
-									&raquo;
+									<button disabled>&raquo;</button>
 								</c:if>
 								<c:if test="${ pi.currentPage < pi.maxPage }">
-									<c:url var="after" value="oManage.ma">
-										<c:param name="page" value="${ pi.currentPage + 1 }"/>
-									</c:url> 
-									<a href="${ after }">&raquo;</a>
+								<c:choose>
+									<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/orderSort.ma'}">																												
+										<c:url var="after" value="orderSort.ma">	
+											<c:param name="sortCate" value="${ cate }"/>										
+											<c:param name="page" value="${ pi.currentPage + 1 }"/>										
+										</c:url>					
+									</c:when>	
+									<c:otherwise>
+										<c:url var="after" value="oManage.ma">
+											<c:param name="page" value="${ pi.currentPage + 1 }"/>
+										</c:url> 
+									</c:otherwise>		
+								</c:choose>	
+								<button onclick="location.href='${ after }'">&raquo;</button>								
 								</c:if>
 							</td>
 						</tr>						
 					</table>
 					</div>	
 					<script>
-						$('tr.orderT').mouseenter(function(){
+						$('.order_D').mouseenter(function(){
 							$(this).css({'cursor':'pointer'});	
-						}).click(function(){
+						}).click(function(){				
 							$('#cmodal').attr('style', 'display:block');
-							var orderNo = $(this).children('td').eq(0).text();
+							var orderNo = $(this).parent().children().eq(0).text();
+							console.log(orderNo);
 							$.ajax({
 								url: 'orderDetail.mp',
 								data: {no:orderNo},
@@ -241,8 +276,8 @@
 			
 			
 			$('.statBtn').click(function(){
-				var orderNo = $('.orderT').children('td').eq(0).text();
-				var status = $('.oStatus').val();						
+				var orderNo = $(this).parent().parent().children().eq(0).text();
+				var status = $('.oStatus').val();	
 				$.ajax({
 					url: 'oStatus.ma',
 					data: {orderNo:orderNo, status:status},

@@ -12,11 +12,11 @@ public class Pagination {
 		int maxPage ;
 		int startPage;
 		int endPage;
-		int boardLimit = 20;
+		int boardLimit = 10;
 		
-		maxPage= (int)((double)listCount / boardLimit + 0.95);
+		maxPage= (int)((double)listCount / boardLimit + 0.9);
 		
-		startPage=(((int)((double)currentPage / pageLimit + 0.95)) - 1) * pageLimit +1;
+		startPage=(((int)((double)currentPage / pageLimit + 0.9)) - 1) * pageLimit +1;
 		
 		endPage = startPage + pageLimit -1;
 		
@@ -28,5 +28,4 @@ public class Pagination {
 		
 		return pi;
 	}
-
 }

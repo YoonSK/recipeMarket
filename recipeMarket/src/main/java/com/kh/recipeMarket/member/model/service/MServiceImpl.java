@@ -66,4 +66,9 @@ public class MServiceImpl implements MemberService {
 	public Member CheckPwd(Member m) {
 		return mDAO.checkPwd(sqlSession, m);
 	}
+
+	@Override
+	public int mDeleteUp(int no) {
+		return mDAO.mDeleteUp(sqlSession, no);
+	}
 }

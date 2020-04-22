@@ -28,6 +28,14 @@
     ul.dateS li{width: 100px; text-align: center; float: left; font-weight: bold; border: 3px solid #e8e5da;}
     ul.dateS li:hover{background-color: #e8e5da; color: white; cursor: pointer;}
     
+ 	/* 페이징 버튼 */
+	.pagingArea{border-left: hidden; border-right: hidden;}
+	.pagingArea button{background-color: white; color: black; text-decoration: none; transition: background-color .3s; border: 1px solid #e8e5da; font-size: 15px; font-weight: 700;}	
+	.pagingArea button:hover{background-color: #e8e5da; color: white; cursor: pointer;}
+	.pagingArea button:disabled{background-color: gray;}
+	.pagingArea button:disabled:hover{cursor: not-allowed; color: black;}
+	   
+    /* 모달 */
     .modal {display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
     .modal-content {background-color: #fefefe; margin: 20% auto; padding: 20px; border: 1px solid #888; width: 50%; height: auto;}
     .close {color: #aaa; float: right; font-size: 28px; font-weight: bold;}
@@ -36,8 +44,7 @@
     span#orderInfo_head{font-weight: 800; font-size: 17px;}
 	table#tableD > thead th{border-bottom: 2px solid #e8e5da; background-color: #e8e5da; height: 20px; font-weight: 600; text-align: center;}    
 	table#tableD {width: 100%;}
-	table#tableD > th, td{word-spacing: 5px; padding: 5px; height: 20px;}   
-	#buttonTab{border-left: hidden; border-right: hidden;}	 
+	table#tableD > th, td{word-spacing: 5px; padding: 5px; height: 20px;}    
 </style>
 </head>
 <body>
@@ -108,31 +115,18 @@
 						</tbody>
 						
 						<!-- 페이징 처리 -->
-						<tr align="center" height="20" id="buttonTab">
+						<tr align="center" height="20" class="pagingArea">
 							<td colspan="6">
-							<c:set var="urlA" value="${requestScope['javax.servlet.forward.query_string']}"/>
-									<script>
-								var i = '${urlA}';
-								var d = '${requestScope['javax.servlet.forward.servlet_path']}';
-								var e = '${requestScope['javax.servlet.forward.query_string']}';
-									console.log(i);
-									console.log(d);
-									console.log(e);
-								</script>
-
-								<c:if test="${requestScope['javax.servlet.forward.servlet_path'] == '/dateSort.mp'}">			
-									<c:url var="page" value="dateSort.mp?page=${p}&sortDate=${date}"/>				
-								</c:if>
 								<!-- [이전] -->
 								<c:if test="${ pi.currentPage <= 1 }">
-									&laquo;
+									<button disabled>&laquo;</button>
 								</c:if>
 								<c:if test="${ pi.currentPage > 1 }">
 									<c:choose>
 										<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/dateSort.mp'}">	
 											<c:url var="before" value="dateSort.mp">
-												<c:param name="page" value="<c:url value='http://localhost:9780/recipeMarket/dateSort.mp?page=1&sortDate=3%EA%B0%9C%EC%9B%94'/>"/>
-
+												<c:param name="sortDate" value="${ date }"/>											
+												<c:param name="page" value="${ pi.currentPage - 1 }"/>
 											</c:url>	
 										</c:when>
 										<c:otherwise>																	
@@ -141,39 +135,41 @@
 											</c:url>
 										</c:otherwise>
 									</c:choose>
-									<a href="${ before }">&laquo;</a> 
+									<button onclick="location.href='${ before }'">&laquo;</button>
 								</c:if>
 								
 								<!-- 페이지 -->
 								<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
 									<c:if test="${ p eq pi.currentPage }">
-										<font size="4"><b>${ p }</b></font>
+										<button disabled>${ p }</button>
 									</c:if>
 									<c:if test="${ p ne pi.currentPage }">
 										<c:choose>
-										<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/dateSort.mp'}">																												
-											<c:url var="pagination" value="dateSort.mp">
-											<c:param name="page" value="${ p }"/>
-											</c:url>
-										</c:when>
-										<c:otherwise>											
-										<c:url var="pagination" value="mOrder.mp">
-											<c:param name="page" value="${ p }"/>
-										</c:url>
-										</c:otherwise>
+											<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/dateSort.mp'}">																												
+												<c:url var="pagination" value="dateSort.mp">
+													<c:param name="sortDate" value="${ date }"/>
+													<c:param name="page" value="${ p }"/>
+												</c:url>
+											</c:when>
+											<c:otherwise>											
+												<c:url var="pagination" value="mOrder.mp">
+													<c:param name="page" value="${ p }"/>
+												</c:url>
+											</c:otherwise>
 										</c:choose>
-										<a href="${ pagination }">${ p }</a> &nbsp;
+										<button onclick="location.href='${ pagination }'">${ p }</button>
 									</c:if>							
 								</c:forEach>
 								
 								<!-- [다음] -->
 								<c:if test="${ pi.currentPage >= pi.maxPage }">
-									&raquo;
+									<button disabled>&raquo;</button>
 								</c:if>
 								<c:if test="${ pi.currentPage < pi.maxPage }">
 								<c:choose>
 									<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/dateSort.mp'}">																												
 										<c:url var="after" value="dateSort.mp">	
+											<c:param name="sortDate" value="${ date }"/>										
 											<c:param name="page" value="${ pi.currentPage + 1 }"/>										
 										</c:url>					
 									</c:when>	
@@ -183,18 +179,18 @@
 										</c:url> 
 									</c:otherwise>		
 								</c:choose>	
-									<a href="${ after }">&raquo;</a>									
+								<button onclick="location.href='${ after }'">&raquo;</button>									
 								</c:if>
 							</td>
 						</tr>						
 					</table>
 				</div>	
 				<script>
-					$('tr.orderT').mouseenter(function(){
+					$('.order_D').mouseenter(function(){
 						$(this).css({'cursor':'pointer'});	
-					}).click(function(){
+					}).click(function(){				
 						$('#cmodal').attr('style', 'display:block');
-						var orderNo = $(this).children('td').eq(0).text();
+						var orderNo = $(this).parent().children().eq(0).text();
 						$.ajax({
 							url: 'orderDetail.mp',
 							data: {no:orderNo},
@@ -229,7 +225,7 @@
 					});
 					
 					$('.statBtn').click(function(){
-						var orderNo = $('.orderT').children('td').eq(0).text();
+						var orderNo = $(this).parent().parent().children().eq(0).text();
 						var status = $('.oStatus').val();						
 						$.ajax({
 							url: 'oStatus.mp',
@@ -244,7 +240,7 @@
 				/* 기간별 조회  */	
 				function sortDate(data){
 					var sortDate = data.innerText;
-					location.href = "dateSort.mp?page=1&sortDate="+sortDate;
+					location.href = "dateSort.mp?sortDate="+sortDate+"&page=1";
 				}	
 				
 				</script>							

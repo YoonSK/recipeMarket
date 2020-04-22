@@ -25,4 +25,6 @@ public interface MemberService {
 
 	Member CheckPwd(Member m);
 
+	int mDeleteUp(int no);
+
 }

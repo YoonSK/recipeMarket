@@ -48,13 +48,14 @@ public class ManagerController {
 			currentPage = page; }
 		
 		int listCount = mas.orderCount();
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		PageInfo pi = ProductPagination.getPageInfo(currentPage, listCount);
 		
 		ArrayList<mOrderInfo> list = mas.orderList(pi);
 		
 		if(list != null) {
 			mv.addObject("list", list);
 			mv.addObject("pi", pi);
+			mv.addObject("listCount", listCount);
 			mv.setViewName("orderManage");
 		}else {
 			throw new ManagerException("주문 조회에 실패하였습니다.");
@@ -79,12 +80,13 @@ public class ManagerController {
 		if(page != null) {
 			currentPage = page; }
 				
-		int listCount = mas.orderCount();
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-		ArrayList<mOrderInfo> list = mas.orderSortList(pi, status);				
+		int listCount = mas.oSortCount(status);
+		PageInfo pi = ProductPagination.getPageInfo(currentPage, listCount);
+		ArrayList<mOrderInfo> list = mas.orderSortList(pi, status);	
 		if(list != null) {
 			mv.addObject("list", list);
 			mv.addObject("pi", pi);
+			mv.addObject("cate", cate);
 			mv.setViewName("orderManage");
 		}else {
 			throw new ManagerException("주문 조회에 실패하였습니다.");
