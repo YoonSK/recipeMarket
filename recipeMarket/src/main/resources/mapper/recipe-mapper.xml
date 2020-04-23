@@ -11,16 +11,26 @@
 		<result property="category" column="CATEGORY"/>
 		<result property="serving" column="SERVING"/>
 		<result property="reqTime" column="REQTIME"/>
-		<result property="difficulty" column="DIFFYCULTY"/>
+		<result property="difficulty" column="DIFFICULTY"/>
 		<result property="hit" column="HIT"/>
 		<result property="deleted" column="DELETED"/>
 	</resultMap>
 	
 	<resultMap id="recipeStepResultSet" type="RecipeStep">
-		<id property="step" column="POST_NO"/>
+		<id property="postNo" column="POST_NO"/>
 		<result property="step" column="STEP"/>
 		<result property="content" column="CONTENT"/>
-		<result property="timer" column="TIMER"/>
+	</resultMap>
+	
+	<resultMap id="recipeTagResultSet" type="Tag">
+		<id property="postNo" column="POST_NO"/>
+		<result property="tag" column="TAG"/>
+	</resultMap>
+	
+	<resultMap id="recipeIngredientResultSet" type="Ingredient">
+		<id property="postNo" column="POST_NO"/>
+		<result property="name" column="INGREDIENT"/>
+		<result property="amount" column="AMOUNT"/>
 	</resultMap>
 
 	<insert id="insertRecipe" parameterType="Recipe">		
@@ -43,7 +53,7 @@
     <insert id="insertSteps" parameterType="RecipeStep">
         <foreach collection="list" item="item" index="index"  open="INSERT ALL " separator=" " close="SELECT * FROM DUAL" > 
         	into R_Step
-        	values(#{item.step}, #{item.postNo}, #{item.content}, 0)
+        	values(#{item.step}, #{item.postNo}, #{item.content})
         </foreach>
     </insert>
     
@@ -53,6 +63,32 @@
         	values(#{item.tag}, #{item.postNo})
         </foreach>
     </insert>
+    
+    
+    <select id="selectRecipe" parameterType="Recipe" resultMap="recipeResultSet">
+		SELECT POST_NO, MEMBER_NO, CREATE_DATE, MODIFY_DATE, CATEGORY, SERVING, DIFFICULTY, HIT, DELETED
+		FROM R_BOARD
+		WHERE POST_NO = #{postNo}
+		AND DELETED = 'N'
+	</select>
+    
+    <select id="selectTags" parameterType="Tag" resultMap="recipeTagResultSet">
+		SELECT POST_NO, TAG
+		FROM R_TAG
+		WHERE POST_NO = #{postNo}
+	</select>
+	
+	<select id="selectIngredients" parameterType="Ingredient" resultMap="recipeIngredientResultSet">
+		SELECT POST_NO, INGREDIENT, AMOUNT
+		FROM R_INGREDIENT
+		WHERE POST_NO = #{postNo}
+	</select>
+	
+	<select id="selectRecipeSteps" parameterType="RecipeStep" resultMap="recipeStepResultSet">
+		SELECT POST_NO, STEP, CONTENT
+		FROM R_STEP
+		WHERE POST_NO = #{postNo}
+	</select>
     
     
 	

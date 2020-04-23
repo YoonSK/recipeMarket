@@ -46,7 +46,7 @@
         </div>
         <div class="flex" style="justify-content: center">
             <div style="font-size: 30px">
-                <label>레시피 제목</label>
+                <label>${recipe.title}</label>
             </div>
             <div style="display: flex; align-items: center; margin: 5px 5px 5px 15px">
                 <label>by</label>
@@ -73,7 +73,7 @@
                     <img width="50px" height="50px">
                 </div>
                 <div>
-                    <label>1인분</label>
+                    <label>${recipe.serving}인분</label>
                 </div>
             </div>
             <div class="recipeInfo">
@@ -81,7 +81,7 @@
                     <img width="50px" height="50px">
                 </div>
                 <div>
-                    <label>10분</label>
+                    <label>${recipe.reqTime}분 이내</label>
                 </div>
             </div>
             <div class="recipeInfo">
@@ -89,7 +89,7 @@
                     <img width="50px" height="50px">
                 </div>
                 <div>
-                    <label>쉬움</label>
+                    <label>${recipe.difficulty}</label>
                 </div>
             </div>
         </div>
@@ -101,19 +101,19 @@
         </div>
     </div>
     <div class="flex" style="justify-content: center; flex-direction: column; width: 100%; margin: 5px auto;">
+   
         <div class="flex" class = "step" id = "step[1]" style="width: 100%; background-color: #add1c3">
             <div style="width: 50px; text-align: center; font-size: 30px">
                 <label>1</label>
             </div>
             <div style="width: 80%" >
-                <p>
-                    레시피 설명 블라블라블라
-                </p>
+                <p> ${step} </p>
             </div>
             <div>
                 <img width="300px" height="300px"/>
             </div>
         </div>
+        
         <div class="flex" class = "step" id = "step[2]" style="width: 100%; background-color: #add1c3">
             <div style="width: 50px; text-align: center; font-size: 30px">
                 <label>2</label>

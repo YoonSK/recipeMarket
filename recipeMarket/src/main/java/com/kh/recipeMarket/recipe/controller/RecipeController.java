@@ -25,20 +25,22 @@ public class RecipeController {
 	
 	
 	@RequestMapping("insertForm.rc")
-	public String recipeInsertForm( HttpSession session) {
+	public String recipeInsertForm(HttpSession session) {
 		
 		return "recipeInsert";
 		
 	}
 	
 	@RequestMapping("insert.rc")
-	public String recipeInsert(
+	public ModelAndView recipeInsert(
 			@RequestParam("stepContent") ArrayList<String> steps,
 			@RequestParam("ingredient") ArrayList<String> ingredients,
 			@RequestParam("amount") ArrayList<String> amounts,
 			@RequestParam("tag") ArrayList<String> tags,
 			@ModelAttribute Recipe r,
-			HttpSession session)
+			HttpSession session,
+			ModelAndView mv			
+			)
 	{
 
 		Member loginUser = (Member)session.getAttribute("loginUser");
@@ -51,11 +53,31 @@ public class RecipeController {
 		System.out.println(tags);
 		System.out.println(r);
 		
-		rService.insertRecipe(r, steps, ingredients, amounts, tags);
+		int postNo = rService.insertRecipe(r, steps, ingredients, amounts, tags);
 		
-		return "recipeView";
+		Recipe rb = rService.selectRecipe(postNo);
+		mv.addObject("recipe", rb);
+		mv.addObject("ingredientList", rb.getIngredientList());
+		mv.addObject("tagList", rb.getTagList());
+		mv.addObject("stepList", rb.getStepList());
+		mv.setViewName("recipeView");
+		return mv;
+	}
+	
+	@RequestMapping("detail.rc")
+	public ModelAndView recipeDetail(HttpSession session, ModelAndView mv){
+		int postNo = (int)session.getAttribute("postNo");
+		
+		Recipe rb = rService.selectRecipe(postNo);
+		mv.addObject("recipe", rb);
+		mv.addObject("ingredientList", rb.getIngredientList());
+		mv.addObject("tagList", rb.getTagList());
+		mv.addObject("stepList", rb.getStepList());
+		mv.setViewName("recipeView");
+		return mv;
 	}
 
+	
 	@RequestMapping("list.rc")
 	public ModelAndView recipeList(Recipe r, ModelAndView mv){
 		ArrayList<Recipe> rlist = new ArrayList<Recipe>();
@@ -75,21 +97,6 @@ public class RecipeController {
 		mv.setViewName("recipeSearch");
 		return mv;
 	}
-	
-	@RequestMapping("detail.rc")
-	public ModelAndView recipeDetail(int postNo, ModelAndView mv){
-	
-		Recipe r = rService.selectRecipe(postNo);
-		
-		
-		
-		mv.addObject("r", r);
-		
-		mv.setViewName("recipeDetail");
-		return mv;
-	}
-	
-	
 	
 	
 }

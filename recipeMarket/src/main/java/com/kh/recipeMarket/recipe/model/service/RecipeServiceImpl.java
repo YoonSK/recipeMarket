@@ -53,47 +53,23 @@ public class RecipeServiceImpl implements RecipeService {
 		}
 		rDAO.insertTags(sqlSession, TagList);
 		
-		return 0;
+		return postNo;
 	}
 	
-	
-	@Override
-	public ArrayList<Recipe> searchRecipeList(SearchCon sc) {
-		ArrayList<Recipe> list = new ArrayList<Recipe>();
-		return list;
-	}
-	
-	@Override
-	public ArrayList<Recipe> selectRecipeList(int memberNo) {
-		ArrayList<Recipe> list = new ArrayList<Recipe>();
-		
-		return list;
-	}
 
 	@Override
 	public Recipe selectRecipe(int postNo) {
-		return rDAO.selectRecipe(sqlSession, postNo);
+		
+		Recipe rb = rDAO.selectRecipe(sqlSession, postNo);
+		rb.setIngredientList(rDAO.selectIngredients(sqlSession, postNo));
+		rb.setStepList(rDAO.selectRecipeSteps(sqlSession, postNo));
+		rb.setTagList(rDAO.selectTags(sqlSession, postNo));
+
+		return rb;
 	}
+
 	
-	@Override
-	public ArrayList<Ingredient> selectIngredients(int postNo) {
-		return rDAO.selectIngredients(sqlSession, postNo);
-	}
-
-	@Override
-	public ArrayList<Tag> selectTags(int postNo) {
-		return rDAO.selectTags(sqlSession, postNo);
-	}
-
-	@Override
-	public ArrayList<RecipeStep> selectRecipeSteps(int postNo) {
-		return null;
-	}
-
-	@Override
-	public ArrayList<Reply> selectReplies(int postNo) {
-		return null;
-	}
+	
 
 
 	

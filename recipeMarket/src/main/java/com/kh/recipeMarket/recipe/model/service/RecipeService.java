@@ -10,18 +10,7 @@ public interface RecipeService {
 	int insertRecipe(Recipe r, ArrayList<String> steps, ArrayList<String> ings, ArrayList<String> amts, ArrayList<String> tags);
 
 	Recipe selectRecipe(int postNo);
-
-	ArrayList<Recipe> searchRecipeList(SearchCon sc);
 	
-	ArrayList<Recipe> selectRecipeList(int memberNo);
-	
-	ArrayList<Ingredient> selectIngredients(int postNo);
-	
-	ArrayList<Tag> selectTags(int postNo);
-	
-	ArrayList<RecipeStep> selectRecipeSteps(int postNo);
-	
-	ArrayList<Reply> selectReplies(int postNo);
 	
 	
 }
