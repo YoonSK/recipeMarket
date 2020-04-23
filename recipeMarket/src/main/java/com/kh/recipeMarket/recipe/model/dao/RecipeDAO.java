@@ -1,7 +1,6 @@
 package com.kh.recipeMarket.recipe.model.dao;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -11,25 +10,25 @@ import com.kh.recipeMarket.recipe.model.vo.*;
 @Repository("rDAO")
 public class RecipeDAO {
 
-	private static final Object SearchCon = null;
-
 	public int insertRecipe(SqlSessionTemplate sqlSession, Recipe r) {
 		System.out.println(r);
 		sqlSession.insert("recipeMapper.insertRecipe", r);
 		return r.getPostNo();
 	}
 	
-	public int insertIngredients(SqlSessionTemplate sqlSession, int postNo, ArrayList<Ingredient> ingredients) {
+	public int insertIngredients(SqlSessionTemplate sqlSession, ArrayList<Ingredient> ingredients) {
 		return sqlSession.insert("recipeMapper.insertIngredients", ingredients);
 	}
 	
-	public int insertTags(SqlSessionTemplate sqlSession, int postNo, ArrayList<String> tags){
+	public int insertSteps(SqlSessionTemplate sqlSession, ArrayList<RecipeStep> steps){
+		return sqlSession.insert("recipeMapper.insertSteps", steps);
+	}
+	
+	public int insertTags(SqlSessionTemplate sqlSession, ArrayList<Tag> tags){
 		return sqlSession.insert("recipeMapper.insertTags", tags);
 	}
 
-	public int insertSteps(SqlSessionTemplate sqlSession, int postNo, ArrayList<String> steps){
-		return sqlSession.insert("recipeMapper.insertSteps", steps);
-	}
+
 	
 	
 	

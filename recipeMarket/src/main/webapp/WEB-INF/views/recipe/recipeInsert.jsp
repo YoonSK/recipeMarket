@@ -326,6 +326,7 @@ function addStBtn(){
   	   		 	var StepContentArea = document.createElement( 'textarea' );
   	   			StepContentArea.setAttribute('class', 'stepContentArea');
   	   			StepContentArea.setAttribute('id', 'content' + count);
+  	   			StepContentArea.setAttribute('name', 'stepContent');
   		 		StepContent.appendChild(StepContentArea);
   		 		Step.appendChild(StepContent);
   	   		var StepImage = document.createElement( 'div' );

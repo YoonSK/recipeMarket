@@ -10,8 +10,8 @@
 		<result property="modifyDate" column="MODIFY_DATE"/>
 		<result property="category" column="CATEGORY"/>
 		<result property="serving" column="SERVING"/>
-		<result property="difficulty" column="Diffyculty"/>
 		<result property="reqTime" column="REQTIME"/>
+		<result property="difficulty" column="DIFFYCULTY"/>
 		<result property="hit" column="HIT"/>
 		<result property="deleted" column="DELETED"/>
 	</resultMap>
@@ -22,88 +22,38 @@
 		<result property="content" column="CONTENT"/>
 		<result property="timer" column="TIMER"/>
 	</resultMap>
-	
-	<resultMap id="recipeTagResultSet" type="RecipeTag">
-		<id property="postNo" column="POST_NO"/>
-		<result property="tag" column="TAG"/>
-	</resultMap>
-	
-	<resultMap id="recipeTagResultSet" type="RecipeTag">
-		<id property="postNo" column="POST_NO"/>
-		<result property="ingredient" column="INGREDIENT"/>
-		<result property="amount" column="AMOUNT"/>
-	</resultMap>
 
-
-	<insert id="insertRecipe" parameterType="Recipe">
-		<selectKey keyProperty="postNo" resultType="int" order="BEFORE">  
-        	select seq_recipe_no.nextVal FROM dual
-    	</selectKey>
+	<insert id="insertRecipe" parameterType="Recipe">		
+		<selectKey keyProperty="postNo" resultType="int" order="BEFORE" >
+			SELECT SEQ_RECIPE_NO.NEXTVAL FROM DUAL
+   		</selectKey>
+   		
+		insert into R_BOARD
+		values (#{postNo}, #{memberNo}, #{title}, SYSDATE, SYSDATE, #{category}, #{serving}, #{reqTime}, #{difficulty}, DEFAULT, DEFAULT)
 		
-		insert into R_BOARD (postNo, memberNo, title, categoty, serving, difficulty, reqTime)
-		values (#{postNo}, #{memberNo}, #{title}, sysdate, sysdate, #{category}, #{serving}, #{difficulty}, #{reqTime}, DEFAULT, DEFAULT)
 	</insert>
 
-	<insert id="insertIngredient" parameterType="java.util.Map">
+	<insert id="insertIngredients" parameterType="Ingredient">
         <foreach collection="list" item="item" index="index"  open="INSERT ALL " separator=" " close="SELECT * FROM DUAL" > 
-        	into R_Ingredient()
-        	values(#{ingredient}, #{postNo}, #{amount})
+        	into R_Ingredient
+        	values(#{item.name}, #{item.postNo}, #{item.amount})
         </foreach>
     </insert>
     
-    <insert id="insertTag" parameterType="java.util.Map">
+    <insert id="insertSteps" parameterType="RecipeStep">
         <foreach collection="list" item="item" index="index"  open="INSERT ALL " separator=" " close="SELECT * FROM DUAL" > 
-        	into R_Tag()
-        	values(#{Tag}, #{postNo})
+        	into R_Step
+        	values(#{item.step}, #{item.postNo}, #{item.content}, 0)
         </foreach>
     </insert>
-
-	<insert id="insertStep" parameterType="java.util.Map">
+    
+    <insert id="insertTags" parameterType="Tag">
         <foreach collection="list" item="item" index="index"  open="INSERT ALL " separator=" " close="SELECT * FROM DUAL" > 
-        	into R_Step()
-        	values(#{Step}, #{postNo}, #{amount})
+        	into R_Tag
+        	values(#{item.tag}, #{item.postNo})
         </foreach>
     </insert>
-
-	<select id="selectRecipeList" parameterType="Recipe" resultMap="Recipe">
-		SELECT POST_NO, NICKNAME, TITLE, RATING, HIT, DELETED
-		FROM R_BOARD
-		JOIN MEMBER USING MEMBER_NO
-		WHERE MEMBER_NO = #{memberNo}
-		AND DELETED = 'N'
-	</select>
-	
-	<select id="searchRecipeList" parameterType="Recipe" resultMap="Recipe">
-		SELECT POST_NO, NICKNAME, CREATE_DATE, MODIFY_DATE, CATEGORY, SERVING, DIFFIYCULTY, RATING, HIT, DELETED
-		FROM R_BOARD
-		JOIN MEMBER USING MEMBER_NO
-		WHERE DELETED = 'N'
-	</select>
-	
-	<select id="selectRecipe" parameterType="Recipe" resultMap="Recipe">
-		SELECT POST_NO, NICKNAME, CREATE_DATE, MODIFY_DATE, CATEGORY, SERVING, DIFFIYCULTY, RATING, HIT, DELETED
-		FROM R_BOARD
-		JOIN MEMBER USING MEMBER USING MEMBER_NO
-		WHERE POST_NO = #{postNo}
-		  AND DELETED = 'N'
-	</select>
-
-	<select id="selectTags" parameterType="" resultMap="">
-		SELECT POST_NO, TAG
-		FROM R_TAG
-		WHERE POST_NO = #{postNo}
-	</select>
-	
-	<select id="selectIngredients" parameterType="" resultMap="">
-		SELECT POST_NO, INGREDIENT, AMOUNT
-		FROM R_INGREDIENT
-		WHERE POST_NO = #{postNo}
-	</select>
-	
-	<select id="selectSteps" parameterType="" resultMap="">
-		SELECT POST_NO, STEP, CONTENT, TIMER
-		FROM R_STEPS
-		WHERE POST_NO = #{postNo}
-	</select>
+    
+    
 	
 </mapper>

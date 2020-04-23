@@ -21,23 +21,37 @@ public class RecipeServiceImpl implements RecipeService {
 	private SqlSessionTemplate sqlSession;
 	   
 	@Override
-	public int insertRecipe(Recipe r) {
+	public int insertRecipe(Recipe r, ArrayList<String> steps, ArrayList<String> ings, ArrayList<String> amts, ArrayList<String> tags) {
 		int postNo = rDAO.insertRecipe(sqlSession, r);
-		
-		ArrayList<String> ings = r.getIngredientList();
-		ArrayList<String> amts = r.getAmountList();
 		
 		ArrayList<Ingredient> IngList = new ArrayList<Ingredient>();
 		for(int i=0; i < ings.size(); i++) {
 			Ingredient ing = new Ingredient();
+			ing.setPostNo(postNo);
 			ing.setName(ings.get(i));
 			ing.setAmount(amts.get(i));
 			IngList.add(ing);
 		}
-
-		rDAO.insertIngredients(sqlSession, postNo, IngList);
-		rDAO.insertTags(sqlSession, postNo, r.getTagList());
-		rDAO.insertSteps(sqlSession, postNo, r.getStepList());
+		rDAO.insertIngredients(sqlSession, IngList);
+		
+		ArrayList<RecipeStep> StepList = new ArrayList<RecipeStep>();
+		for(int i=0; i < steps.size(); i++) {
+			RecipeStep stp = new RecipeStep();
+			stp.setStep(i);
+			stp.setPostNo(postNo);
+			stp.setContent(steps.get(i));
+			StepList.add(stp);
+		}
+		rDAO.insertSteps(sqlSession, StepList);
+		
+		ArrayList<Tag> TagList = new ArrayList<Tag>();
+		for(int i=0; i < tags.size(); i++) {
+			Tag tg = new Tag();
+			tg.setTag(tags.get(i));
+			tg.setPostNo(postNo);
+			TagList.add(tg);
+		}
+		rDAO.insertTags(sqlSession, TagList);
 		
 		return 0;
 	}

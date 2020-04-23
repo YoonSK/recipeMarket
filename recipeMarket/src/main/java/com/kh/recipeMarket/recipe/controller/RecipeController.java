@@ -2,7 +2,6 @@ package com.kh.recipeMarket.recipe.controller;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.recipeMarket.board.model.exception.BoardException;
-import com.kh.recipeMarket.board.model.vo.Board;
 import com.kh.recipeMarket.common.Reply;
 import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.recipe.model.service.RecipeService;
@@ -48,14 +43,15 @@ public class RecipeController {
 
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int memberNo = loginUser.getMemberNo();
+		r.setMemberNo(memberNo);
 		
-		System.out.println(r);
 		System.out.println(steps);
 		System.out.println(ingredients);
 		System.out.println(amounts);
 		System.out.println(tags);
+		System.out.println(r);
 		
-		rService.insertRecipe(r);
+		rService.insertRecipe(r, steps, ingredients, amounts, tags);
 		
 		return "recipeView";
 	}
@@ -84,10 +80,10 @@ public class RecipeController {
 	public ModelAndView recipeDetail(int postNo, ModelAndView mv){
 	
 		Recipe r = rService.selectRecipe(postNo);
-		mv.addObject("r", r);
 		
-		ArrayList<Reply> replies = rService.selectReplies(postNo);
-		mv.addObject("replies", replies);
+		
+		
+		mv.addObject("r", r);
 		
 		mv.setViewName("recipeDetail");
 		return mv;
