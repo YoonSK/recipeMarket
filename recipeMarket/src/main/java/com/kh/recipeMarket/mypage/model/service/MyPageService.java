@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
+import com.kh.recipeMarket.common.Reply;
 import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
@@ -30,5 +31,17 @@ public interface MyPageService {
 	ArrayList<mOrderInfo> orderSortList(PageInfo pi, Member loginUser);
 
 	int oderSortCount(Member loginUser);
+
+	ArrayList<mOrderDetail> goWriteRv(int orderNo);
+
+	int rvCount(int targetNo);
+
+	int insertRv(Reply r);
+
+	int rvResult(int targetNo);
+
+	int orderCount(int orderNo);
+
+	int updateOrderStatus(int orderNo);
 
 }

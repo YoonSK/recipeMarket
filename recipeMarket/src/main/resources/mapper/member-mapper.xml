@@ -201,7 +201,8 @@
 		<result property = "address2" column ="ADDRESS2"/>
 		<result property = "note" column ="NOTE"/>
 		<result property = "phone" column ="PHONE"/>
-		<result property = "coupon" column ="COUPON"/>											
+		<result property = "coupon" column ="COUPON"/>
+		<result property = "reviewed" column="REVIEWED"/>											
 	</resultMap> 
 		
 	<select id="orderDetail" resultMap="odRS">
@@ -216,6 +217,17 @@
 		order by P.NAME 	
 	</select>
 
+	<select id="goWriteRv" resultMap="odRS">
+		SELECT P.NAME AS "PNAME", CHANGE_NAME AS "PHNAME", "DATE", DETAIL_NO, O.ORDER_NO, PR_COUNT, P.PRICE, STATUS, REVIEWED
+		FROM ORDER_DETAIL OD
+		            JOIN "ORDER" O ON(OD.ORDER_NO = O.ORDER_NO)
+		            JOIN PRODUCT P ON(P.PRODUCT_NO = OD.PRODUCT_NO)
+		            LEFT OUTER JOIN PHOTO ON(p.product_no = TARGET_NO AND BOARD_NO = 3)
+		WHERE O.ORDER_NO = #{orderNo} and REVIEWED = 'N'
+		order by P.NAME		
+	</select>
+
+
 	<select id="selectPwd" resultMap="memberRS">
 		select * from member where id=#{id} and email=#{email}
 	</select>
@@ -228,12 +240,52 @@
 			</when>			
 			<when test="status == 1">
 				set status = 2
-			</when>	
-			<when test="status == 2">
-				set status = 3
 			</when>							
 		</choose>	
 		where order_no = #{orderNo}
 	</update>	
+
+	<resultMap type="Reply" id="replyResultSet">
+		<id property="replyNo"  column="REPLY_NO"/>
+		<result property="nickName" column="NICKNAME"/>
+		<result property="boardNo" column="BOARD_NO"/>
+		<result property="targetNo" column="TARGET_NO"/>
+		<result property="content" column="CONTENT"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="modifyDate" column="MODIFY_DATE"/>
+		<result property="rating" column="RATING"/>
+		<result property="deleted" column="DELETED"/>
+		<result property="pName" column="CHANGE_NAME"/>
+		<result property="rCount" column="RCOUNT"/>
+	</resultMap>
+
+	<select id="rvCount" resultType="_int">
+		select count(*)
+		from "REPLY"
+		where target_no=#{targetNo}				
+	</select>
+	
+	<insert id="insertRv" parameterType="Reply">
+		insert into reply
+		values(seq_reply_no.nextval, #{memberNo}, 3, #{targetNo}, #{content}, default, default, #{rating}, default)
+	</insert>
+	
+	<update id="updateRv" parameterType="orderDetail">
+		update "ORDER_DETAIL"
+		set "REVIEWED" = 'Y'
+		where "DETAIL_NO" = #{targetNo}
+	</update>
+	
+	<select id="orderCount" parameterType="orderDetail" resultType="_int">
+		select count(*)
+		from "ORDER_DETAIL"
+		where "ORDER_NO" = ${orderNo} and "REVIEWED" = 'N'
+	</select>
+	
+	<update id="upOS" parameterType="Order">
+		update "ORDER"
+		set "STATUS" = 3
+		where "ORDER_NO" = ${orderNo}
+	</update>
 	
 </mapper>
