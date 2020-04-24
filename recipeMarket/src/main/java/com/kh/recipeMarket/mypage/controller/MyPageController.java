@@ -286,7 +286,15 @@ public class MyPageController {
 							Gson gson = new Gson();
 							String result = "후기 작성이 완료되었습니다.";
 							gson.toJson(URLEncoder.encode(result, "UTF-8"), response.getWriter());	
+						}else {
+							Gson gson = new Gson();
+							String result = "후기 작성이 완료되었습니다.";
+							gson.toJson(URLEncoder.encode(result, "UTF-8"), response.getWriter());								
 						}
+					}else {
+						Gson gson = new Gson();
+						String result = "후기 작성이 완료되었습니다.";
+						gson.toJson(URLEncoder.encode(result, "UTF-8"), response.getWriter());						
 					}
 				} else {
 					Gson gson = new Gson();

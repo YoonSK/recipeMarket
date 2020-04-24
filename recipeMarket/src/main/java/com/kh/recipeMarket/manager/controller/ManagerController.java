@@ -71,8 +71,9 @@ public class ManagerController {
 		int status = 0;
 		switch(cate) {
 		case "결제완료": status = 0; break;
-		case "배송중" : status = 1; break;
+		case "배송중" : status = 1; break;		
 		case "배송완료": status = 2; break;
+		case "후기완료" : status = 3; break;		
 		case "주문취소" : status = 4; break;
 		default : status = 9; break;
 		}
@@ -81,7 +82,7 @@ public class ManagerController {
 			currentPage = page; }
 				
 		int listCount = mas.oSortCount(status);
-		PageInfo pi = ProductPagination.getPageInfo(currentPage, listCount);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		ArrayList<mOrderInfo> list = mas.orderSortList(pi, status);	
 		if(list != null) {
 			mv.addObject("list", list);
