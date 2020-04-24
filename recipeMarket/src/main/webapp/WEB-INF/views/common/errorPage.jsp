@@ -13,6 +13,8 @@
 		<h1>Error</h1>
 		<h2 style="color:red;">${ message }</h2>
 		<h2 style="color:red;">${ requestScope['javax.servlet.error.message'] }</h2>
+		
+		<a href="${ contextPath }">메인으로</a>
 	</div>
 </body>
 </html>

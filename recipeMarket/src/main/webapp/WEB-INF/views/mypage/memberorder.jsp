@@ -78,8 +78,7 @@
 						<tbody>				
 						<c:forEach var="order" items="${ list }">	
 						<tr class="orderT">
-							<td>${ order.orderNo }							
-							<input type="hidden" class="oStatus" value="${ order.status }"></td>
+							<td>${ order.orderNo }</td>
 							<td>${ order.date }</td>
 							<td class="order_D">${ order.oList }</td>
 							<td><fmt:formatNumber maxFractionDigits="3" value="${ order.total }"/> 원</td>
@@ -224,9 +223,19 @@
 					});
 					
 					$('.statBtn').click(function(){
-						var orderNo = $(this).parent().parent().children().eq(0).text();
-						var status = $('.oStatus').val();	
+						var orderNo = $(this).parent().parent().children().eq(0).text(); 
+						var stat = $.trim($(this).parent().text());
+						var status = null;
+						switch(stat){
+							case "결제완료" : status = 0; break;
+							case "배송중" : status = 1; break;
+							case "배송완료" : status = 2; break;
+							case "후기완료" : status = 3; break;
+							case "주문취소" : status = 4; break;
+						}
+						console.log(stat);
 						console.log(status);
+						console.log(orderNo);
 						$.ajax({
 							url: 'oStatus.mp',
 							data: {orderNo:orderNo, status:status},
@@ -240,9 +249,9 @@
 					/* 후기 작성 버튼 */
 					$('.rvBtn').click(function(){
 						var orderNo = $(this).parent().parent().children().eq(0).text();
-						console.log(orderNo);
-						  window.open("writeRv.mp?orderNo="+orderNo,"_blank","toolbar=yes,menubar=yes,width=800,height=500").focus();
+						  window.open("writeRv.mp?orderNo="+orderNo,"_blank","toolbar=no, menubar=no, width=1040, height=500").focus();
 					});
+					
 					
 				/* 기간별 조회  */	
 				function sortDate(data){

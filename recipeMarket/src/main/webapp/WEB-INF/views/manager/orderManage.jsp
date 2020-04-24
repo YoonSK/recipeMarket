@@ -68,6 +68,7 @@
 									<li onclick=sortCate(this);>결제완료</li>
 									<li onclick=sortCate(this);>배송중</li>
 									<li onclick=sortCate(this);>배송완료</li>
+									<li onclick=sortCate(this);>후기완료</li>									
 									<li onclick=sortCate(this);>주문취소</li>									
 								</ul>				
 							</th>
@@ -93,7 +94,11 @@
 								</c:if>	
 								<c:if test="${ order.status == 2}">
 									배송완료
-								<br>							
+								<br>
+								</c:if>
+								<c:if test="${ order.status == 3}">
+									후기완료
+								<br>																
 								</c:if>	
 								<c:if test="${ order.status == 4}">
 									주문취소
