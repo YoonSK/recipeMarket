@@ -20,12 +20,13 @@ public class mOrderDetail {
 	private String note;
 	private int phone;
 	private int coupon;
+	private String reviewed;
 	
 	public mOrderDetail() {}
 
 	public mOrderDetail(String pName, String mName, String phName, Date date, int total, int detailNo, int orderNo, int prCount,
 			int price, int memNo, int status, int zip, String address, String address2, String note, int phone,
-			int coupon) {
+			int coupon, String reviewed) {
 		super();
 		this.pName = pName;
 		this.mName = mName;
@@ -44,6 +45,7 @@ public class mOrderDetail {
 		this.note = note;
 		this.phone = phone;
 		this.coupon = coupon;
+		this.reviewed = reviewed;
 	}
 
 	public String getpName() {
@@ -182,13 +184,22 @@ public class mOrderDetail {
 		this.phName = phName;
 	}
 
+	public String getReviewed() {
+		return reviewed;
+	}
+
+	public void setReviewed(String reviewed) {
+		this.reviewed = reviewed;
+	}
+
 	@Override
 	public String toString() {
 		return "mOrderDetail [pName=" + pName + ", mName=" + mName + ", phName=" + phName + ", date=" + date
 				+ ", total=" + total + ", detailNo=" + detailNo + ", orderNo=" + orderNo + ", prCount=" + prCount
 				+ ", price=" + price + ", memNo=" + memNo + ", status=" + status + ", zip=" + zip + ", address="
 				+ address + ", address2=" + address2 + ", note=" + note + ", phone=" + phone + ", coupon=" + coupon
-				+ "]";
+				+ ", reviewed=" + reviewed + "]";
 	}
+
 
 }

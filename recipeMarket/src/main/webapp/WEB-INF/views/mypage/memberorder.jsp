@@ -22,7 +22,9 @@
 	table tbody td{border-bottom: 2px solid #e8e5da; font-family: inherit; text-align: center; font-size: 11pt;}
 	input[type="button"]{width: 60px; height: 20px; font-size: 10px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
 	input[type="button"]:hover{cursor: pointer; background: #fee0a1; color: white;}
-    
+	input[type="button"]:disabled{cursor: not-allowed; width: 60px; height: 20px; font-size: 10px; font-weight: 600; text-align: center; border: 1px solid black; border-radius: 4px; background: gray; color: black;}
+	input[type="button"]:disabled:hover{cursor: not-allowed; background: gray; color: black;}
+	    
     /* 기간별 조회 */
     ul.dateS{height: 29px; float: left; list-style: none; padding-left: 0px; margin-left: 1%;}
     ul.dateS li{width: 100px; text-align: center; float: left; font-weight: bold; border: 3px solid #e8e5da;}
@@ -76,7 +78,8 @@
 						<tbody>				
 						<c:forEach var="order" items="${ list }">	
 						<tr class="orderT">
-							<td>${ order.orderNo }</td>
+							<td>${ order.orderNo }							
+							<input type="hidden" class="oStatus" value="${ order.status }"></td>
 							<td>${ order.date }</td>
 							<td class="order_D">${ order.oList }</td>
 							<td><fmt:formatNumber maxFractionDigits="3" value="${ order.total }"/> 원</td>
@@ -84,26 +87,22 @@
 								<c:if test="${ order.status == 0}">
 									결제완료
 								<br>									
-								<input type="button" id="btn" class="statBtn" value="주문 취소">	
-								<input type="hidden" class="oStatus" value="${ order.status }">										
+								<input type="button" id="btn" class="statBtn" value="주문 취소">										
 								</c:if>	
 								<c:if test="${ order.status == 1}">
 									배송중
 								<br>
-								<input type="button" id="btn" class="statBtn" value="수취 확인" value="${ order.status }">	
-								<input type="hidden" class="oStatus" value="${ order.status }">										
+								<input type="button" id="btn" class="statBtn" value="수취 확인">										
 								</c:if>	
 								<c:if test="${ order.status == 2}">
 									배송완료
 								<br>
-								<input type="button" id="btn" class="statBtn" value="후기 작성" value="${ order.status }">	
-								<input type="hidden" class="oStatus" value="${ order.status }">																		
+								<input type="button" id="rvBtn" class="rvBtn" value="후기 작성">																		
 								</c:if>	
 								<c:if test="${ order.status == 3}">
 									배송완료
 								<br>
-								<input type="submit" id="btn" class="statBtn" value="후기 작성 완료" value="${ order.status }" disabled>	
-								<input type="hidden" class="oStatus" value="${ order.status }">																		
+								<input type="button" id="btn" class="statBtn" value="후기 작성" disabled>																	
 								</c:if>		
 								<c:if test="${ order.status == 4}">
 									주문취소									
@@ -226,7 +225,8 @@
 					
 					$('.statBtn').click(function(){
 						var orderNo = $(this).parent().parent().children().eq(0).text();
-						var status = $('.oStatus').val();						
+						var status = $('.oStatus').val();	
+						console.log(status);
 						$.ajax({
 							url: 'oStatus.mp',
 							data: {orderNo:orderNo, status:status},
@@ -237,6 +237,13 @@
 						});
 					});
 				
+					/* 후기 작성 버튼 */
+					$('.rvBtn').click(function(){
+						var orderNo = $(this).parent().parent().children().eq(0).text();
+						console.log(orderNo);
+						  window.open("writeRv.mp?orderNo="+orderNo,"_blank","toolbar=yes,menubar=yes,width=800,height=500").focus();
+					});
+					
 				/* 기간별 조회  */	
 				function sortDate(data){
 					var sortDate = data.innerText;
@@ -247,7 +254,6 @@
 			    <!-- The Modal -->
 			    <div id="cmodal" class="modal">	 
 			      <!-- Modal content -->
-			      <form action="<%= request.getContextPath() %>/coupon.pt" id="cForm" method="post">
 				      <div class="modal-content">
 				        <span class="close">&times;</span>                                                               
 				        <p><font style="font-size:25px; font-weight:500;">주문 상세</font></p>
@@ -275,8 +281,7 @@
 							주소 : <span id="zip"></span><br><span id="address" style="margin-left: 45px;"></span><br><span id="address2" style="margin-left: 45px;"></span><br>
 							메모 : <span id="note"></span><br>
 						<p>
-				      </div>
-			      </form>	 
+				      </div>>	 
 			    </div>
 				<script>	  
 					$('span.close').click(function(){
