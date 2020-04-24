@@ -39,7 +39,7 @@
    		</selectKey>
    		
 		insert into R_BOARD
-		values (#{postNo}, #{memberNo}, #{title}, SYSDATE, SYSDATE, #{category}, #{serving}, #{reqTime}, #{difficulty}, DEFAULT, DEFAULT)
+		values (#{postNo}, #{memberNo}, #{title}, SYSDATE, SYSDATE, #{category}, #{serving}, #{difficulty}, #{reqTime}, DEFAULT, DEFAULT)
 		
 	</insert>
 
@@ -66,7 +66,7 @@
     
     
     <select id="selectRecipe" parameterType="Recipe" resultMap="recipeResultSet">
-		SELECT POST_NO, MEMBER_NO, CREATE_DATE, MODIFY_DATE, CATEGORY, SERVING, DIFFICULTY, HIT, DELETED
+		SELECT POST_NO, MEMBER_NO, TITLE, CREATE_DATE, MODIFY_DATE, CATEGORY, SERVING, DIFFICULTY, REQTIME, HIT, DELETED
 		FROM R_BOARD
 		WHERE POST_NO = #{postNo}
 		AND DELETED = 'N'

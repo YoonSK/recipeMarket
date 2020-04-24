@@ -12,9 +12,6 @@
             display: flex;
             margin : 5px 5px auto;
         }
-        .ingredient{
-            margin: 5px 5px auto;
-        }
         textarea{
             resize: none;
         }
@@ -28,7 +25,8 @@
         span{
             margin: 0px -3px auto;
         }
-        .ingredient{
+        .ingredient, .rtag{
+            margin: 5px 5px auto;
             padding: 5px 5px 5px 5px;
             border: none;
             background-color: #e8e5da;
@@ -89,7 +87,17 @@
                     <img width="50px" height="50px">
                 </div>
                 <div>
-                    <label>${recipe.difficulty}</label>
+                	<c:choose>
+                		<c:when test = "${recipe.difficulty eq '0'}">
+                			<label>쉬움</label>
+                		</c:when>
+                		<c:when test = "${recipe.difficulty eq '1'}">
+                			<label>보통</label>
+                		</c:when>
+                		<c:when test = "${recipe.difficulty eq '2'}">
+                			<label>어려움</label>
+                		</c:when>
+                	</c:choose>
                 </div>
             </div>
         </div>
@@ -97,36 +105,45 @@
     <div class="flex" style="justify-content: center; ">
         <div style="width: 5%">재료</div>
         <div style="text-align: left; width: 70%; height: 100px; background-color: rgba(199,241,122,0.49); border-radius: 10px">
-            <button class="ingredient">감자</button>
+        	<c:forEach items="${ingredientList}" var="ing">
+    			<button class="ingredient">
+    				<c:out value="${ing.name}"/>
+    				-
+    				<c:out value="${ing.amount}"/>
+    			</button>
+			</c:forEach>
+        </div>
+    </div>
+    <div class="flex" style="justify-content: center; ">
+        <div style="width: 5%">태그</div>
+        <div style="text-align: left; width: 70%; height: 100px; background-color: rgba(199,241,122,0.49); border-radius: 10px">
+        	<c:forEach items="${tagList}" var="Tag">
+    			<button class="rtag">
+    				<c:out value="${Tag.tag}"/>
+    			</button>
+			</c:forEach>
+        
         </div>
     </div>
     <div class="flex" style="justify-content: center; flex-direction: column; width: 100%; margin: 5px auto;">
-   
+   		<c:forEach items="${stepList}" var="step">
+   		
         <div class="flex" class = "step" id = "step[1]" style="width: 100%; background-color: #add1c3">
             <div style="width: 50px; text-align: center; font-size: 30px">
-                <label>1</label>
+                <label>
+    				<c:out value="${step.step}"/>
+    			</label>
             </div>
             <div style="width: 80%" >
-                <p> ${step} </p>
+                <p><c:out value="${step.content}"/></p>
             </div>
             <div>
                 <img width="300px" height="300px"/>
             </div>
         </div>
         
-        <div class="flex" class = "step" id = "step[2]" style="width: 100%; background-color: #add1c3">
-            <div style="width: 50px; text-align: center; font-size: 30px">
-                <label>2</label>
-            </div>
-            <div style="width: 80%" >
-                <p>
-                    레시피 설명 블라블라블라
-                </p>
-            </div>
-            <div>
-                <img width="300px" height="300px"/>
-            </div>
-        </div>
+        </c:forEach>
+       
     </div>
 
     <div class="flex" style="height: 30px; width: 100%">
