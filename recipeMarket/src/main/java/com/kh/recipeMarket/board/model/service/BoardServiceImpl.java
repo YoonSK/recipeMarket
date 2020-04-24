@@ -80,6 +80,30 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 
+	@Override
+	public int bUpdate(Board b) {
+		return bDAO.bUpdate(sqlSession, b);
+	}
+
+
+	@Override
+	public int updateImage(Photo p) {
+		return bDAO.updateImage(sqlSession, p);
+	}
+
+
+	@Override
+	public int deleteBoard(int postNo) {
+		return bDAO.deleteBoard(sqlSession, postNo);
+	}
+
+
+	@Override
+	public int newUploadImage(Photo p) {
+		return bDAO.newUploadImage(sqlSession, p);
+	}
+
+
 	
 
 

@@ -93,7 +93,7 @@
 						<td style="font-size:20px; width:30px;">♡</td>
 						<td width="30px" style="font-size:20px">0</td>
 						<td style="font-size:20px; width:70px;">댓글수</td>
-						<td style="font-size:20px; width:30px">0</td>			         		
+						<td style="font-size:20px; width:30px"><b id="rCount"></b></td>			         		
 	         		</tr>
 	         		
 	         		<tr>
@@ -117,11 +117,22 @@
 	         		
 	         	</table>
 	         	
+	         	
+	         	<c:url var="bupView" value="bupView.bo">
+	         		<c:param name="postNo" value="${ board.postNo }"/>
+	         		<c:param name="page" value="${ page }"/>
+	         	</c:url>
+	         	
+	         	<c:url var="bdelete" value="bdelete.bo">
+	         		<c:param name="postNo" value="${ board.postNo }"/>
+	         	</c:url>
+	         	
+	         	
 				<div class="input-submit" align="center" style="padding-bottom: 30px">
 					
 					<c:if test="${board.nickName eq loginUser.nickName}">
-			            <input type="submit" value="수정하기"  id="insertBtn"> &nbsp; &nbsp;
-			         	<button type="button" onclick="location.href='blist.bo'" id="removeBtn">삭제하기</button> &nbsp; &nbsp;
+			            <input type="submit" value="수정하기"  id="insertBtn" onclick="location.href='${ bupView }'"> &nbsp; &nbsp;
+			         	<button type="button" onclick="deleteBoard();" id="removeBtn">삭제하기</button> &nbsp; &nbsp;
 		         	</c:if>
 		         	<button type="button" onclick="location.href='blist.bo'" id="backBtn">목록으로</button>
 		     		
@@ -151,6 +162,20 @@
 	         		
 	         		
 	         	</table>
+	         	
+	         	<script>
+	         		function deleteBoard(){
+	         			var bool = confirm("정말 삭제하시겠습니까?");
+	         			if(bool){
+	         				location.href='${ bdelete }';
+	         			}
+	         		}
+	         	</script>
+	         	
+	         	
+	         	
+	         	
+	         	
 	         	<hr>
 	         	
 	         	
@@ -222,6 +247,8 @@
 		         	var $rWriter;
 		         	var $rContent;
 		         	var $rCreateDate;
+		         	
+		         	$('#rCount').text(data.length);
 		         				
 		         	if(data.length > 0){
 		         		for(var i in data){

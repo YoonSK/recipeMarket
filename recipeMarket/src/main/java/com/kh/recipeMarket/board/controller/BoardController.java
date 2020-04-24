@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -157,6 +158,10 @@ public class BoardController {
 		
 		Board board = bService.selectBoard(postNo);
 		Board profile = bService.selectProfile(postNo);
+		System.out.println("==test==start");
+		System.out.println(board);
+		System.out.println(profile);
+		System.out.println("==test==end");
 		
 		if(board != null) {
 			mv.addObject("board", board);
@@ -206,4 +211,79 @@ public class BoardController {
 			throw new BoardException("댓글 등록 실패");
 		}
 	}
+	
+	
+	@RequestMapping("bupView.bo")
+	public ModelAndView boardUpdateView(@RequestParam("postNo") int postNo, @RequestParam("page") int page,ModelAndView mv) {
+		Board board = bService.selectBoard(postNo);
+	
+		
+		mv.addObject("board", board)
+		  .addObject("page",page)
+		  .setViewName("boardUpdateForm");                               
+		
+		return mv;
+	}
+	
+	@RequestMapping("bupdate.bo")
+	public String boardUpdate(@ModelAttribute Board b, @ModelAttribute Photo p, @RequestParam("bImage") MultipartFile bImage,
+									@RequestParam("page") int page,	HttpServletRequest request, Model model) {
+		System.out.println("업데이트 :" + b.getpName());
+		System.out.println("이미지:" + bImage);
+		
+		
+		int result = bService.bUpdate(b);
+		
+		
+		
+		if(result > 0) {
+			// 사진 첨부
+			if(bImage != null && !bImage.isEmpty() && b.getpName() != null) {
+				String pName = saveImage(bImage, request);		
+				System.out.println(b.getpName());
+				if(pName != null) {
+					p.setOriginName(bImage.getOriginalFilename());
+					p.setChangeName(pName);
+					p.setTargetNo(b.getPostNo());
+				}
+				int result2 = bService.updateImage(p);
+				if(result2 > 0) {
+					b.setpName(pName);
+					model.addAttribute("page", page);	
+					return "redirect:bdetail.bo?postNo=" +b.getPostNo();						
+				} else {
+					throw new BoardException("게시글 수정에 실패하였습니다.");					
+				}
+				
+			} else if(bImage != null && !bImage.isEmpty() && b.getpName() == null) {
+				String pName = saveImage(bImage, request);				
+				if(pName != null) {
+					p.setOriginName(bImage.getOriginalFilename());
+					p.setChangeName(pName);
+					p.setTargetNo(b.getPostNo());
+				}
+				int result3 = bService.newUploadImage(p);	
+				if(result3 > 0) {
+					b.setpName(pName);
+					model.addAttribute("page", page);	
+					return "redirect:bdetail.bo?postNo=" +b.getPostNo();						
+				} else {
+					throw new BoardException("게시글 수정에 실패하였습니다.");
+				}				
+				
+			} else {
+				model.addAttribute("page", page);				
+				return "redirect:bdetail.bo?postNo=" + b.getPostNo();	
+			}
+		} else {
+				throw new BoardException("게시글 수정에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("bdelete.bo")
+	public String boardDelete(@RequestParam("postNo") int postNo) {
+		int result = bService.deleteBoard(postNo);
+		return "redirect:blist.bo";
+	}
+	
 }

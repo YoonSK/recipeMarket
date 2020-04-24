@@ -29,6 +29,14 @@ public interface BoardService {
 
 	ArrayList<Reply> selectReplyList(int postNo);
 
+	int bUpdate(Board b);
+
+	int updateImage(Photo p);
+
+	int deleteBoard(int postNo);
+
+	int newUploadImage(Photo p);
+
 	
 
 //	int insertBoard(String nickName);
