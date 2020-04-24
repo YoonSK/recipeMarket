@@ -94,6 +94,19 @@
 		values(seq_phn.nextval, 2, seq_bno.currval, 0, #{originName}, #{changeName}, default)
 	</insert>
 	
+	<insert id="newUploadImage" parameterType="Photo">
+		insert into photo
+		values(seq_phn.nextval, 2, #{targetNo}, 0, #{originName}, #{changeName}, default)
+	</insert>
+	
+	<update id="updateImage" parameterType="Photo">
+		update photo
+		set origin_name = #{originName}, change_name = #{changeName}
+		where target_no=#{targetNo} and board_no = 2
+	</update>
+	
+	
+	
 	<insert id="addReply" parameterType="Reply">
 		insert into reply
 		values(seq_reply_no.nextval, #{memberNo}, 2, #{targetNo}, #{content}, default, default, 0, default)
@@ -129,6 +142,19 @@
 	</select>
 	
 	
+	<update id="updateBoard" parameterType="Board">
+		update f_board
+		set category = #{category}, modify_date = sysdate, content=#{content}
+		where post_no = #{postNo}
+	</update>
+	
+	
+	
+	<update id="deleteBoard" parameterType="Board">
+		update f_board
+		set deleted = 'Y'
+		where post_no =#{postNo}
+	</update>
 	
 	
 </mapper>

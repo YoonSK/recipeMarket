@@ -55,6 +55,14 @@ public class BoardDAO {
 	public int uploadImage(SqlSessionTemplate sqlSession, Photo p) {
 		return sqlSession.insert("boardMapper.uploadImage", p);
 	}
+	
+	public int updateImage(SqlSessionTemplate sqlSession, Photo p) {
+		return sqlSession.update("boardMapper.updateImage",p );
+	}
+	
+	public int newUploadImage(SqlSessionTemplate sqlSession, Photo p) {
+		return sqlSession.insert("boardMapper.newUploadImage", p);
+	}
 
 	public int addReply(SqlSessionTemplate sqlSession, Reply r) {
 		return sqlSession.insert("boardMapper.addReply",r );
@@ -63,6 +71,18 @@ public class BoardDAO {
 	public ArrayList<Reply> selectReplyList(SqlSessionTemplate sqlSession, int postNo) {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectReplyList", postNo);
 	}
+
+	public int bUpdate(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.update("boardMapper.updateBoard",b );
+	}
+
+	
+
+	public int deleteBoard(SqlSessionTemplate sqlSession, int postNo) {
+		return sqlSession.update("boardMapper.deleteBoard", postNo);
+	}
+
+	
 
 	
 
