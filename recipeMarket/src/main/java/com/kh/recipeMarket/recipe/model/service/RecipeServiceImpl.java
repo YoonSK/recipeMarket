@@ -6,7 +6,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.recipeMarket.common.Reply;
 import com.kh.recipeMarket.recipe.model.dao.RecipeDAO;
 import com.kh.recipeMarket.recipe.model.vo.*;
 
@@ -37,7 +36,7 @@ public class RecipeServiceImpl implements RecipeService {
 		ArrayList<RecipeStep> StepList = new ArrayList<RecipeStep>();
 		for(int i=0; i < steps.size(); i++) {
 			RecipeStep stp = new RecipeStep();
-			stp.setStep(i);
+			stp.setStep(i + 1);
 			stp.setPostNo(postNo);
 			stp.setContent(steps.get(i));
 			StepList.add(stp);
@@ -55,7 +54,6 @@ public class RecipeServiceImpl implements RecipeService {
 		
 		return postNo;
 	}
-	
 
 	@Override
 	public Recipe selectRecipe(int postNo) {

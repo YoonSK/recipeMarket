@@ -1,4 +1,4 @@
-package com.kh.recipeMarket.common;
+package com.kh.recipeMarket.common.vo;
 
 import java.sql.Date;
 
@@ -6,11 +6,17 @@ public class Reply {
 	
 	private int replyNo;
 	private int memberNo;
+	
+	private String nickName;
+	
 	private int boardNo;
 	private int targetNo;
+	
 	private String content;
+	
 	private Date createDate;
 	private Date modifyDate;
+	
 	private int rating;
 	private char deleted;
 	
@@ -18,11 +24,12 @@ public class Reply {
 		super();
 	}
 
-	public Reply(int replyNo, int memberNo, int boardNo, int targetNo, String content, Date createDate, Date modifyDate,
-			int rating, char deleted) {
+	public Reply(int replyNo, int memberNo, String nickName, int boardNo, int targetNo, String content, Date createDate,
+			Date modifyDate, int rating, char deleted) {
 		super();
 		this.replyNo = replyNo;
 		this.memberNo = memberNo;
+		this.nickName = nickName;
 		this.boardNo = boardNo;
 		this.targetNo = targetNo;
 		this.content = content;
@@ -46,6 +53,14 @@ public class Reply {
 
 	public void setMemberNo(int memberNo) {
 		this.memberNo = memberNo;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 
 	public int getBoardNo() {
@@ -103,9 +118,14 @@ public class Reply {
 	public void setDeleted(char deleted) {
 		this.deleted = deleted;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "Reply [replyNo=" + replyNo + ", memberNo=" + memberNo + ", nickName=" + nickName + ", boardNo="
+				+ boardNo + ", targetNo=" + targetNo + ", content=" + content + ", createDate=" + createDate
+				+ ", modifyDate=" + modifyDate + ", rating=" + rating + ", deleted=" + deleted + "]";
+	}
+
 	
 	
 }

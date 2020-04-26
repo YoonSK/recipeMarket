@@ -40,7 +40,6 @@
    		
 		insert into R_BOARD
 		values (#{postNo}, #{memberNo}, #{title}, SYSDATE, SYSDATE, #{category}, #{serving}, #{difficulty}, #{reqTime}, DEFAULT, DEFAULT)
-		
 	</insert>
 
 	<insert id="insertIngredients" parameterType="Ingredient">

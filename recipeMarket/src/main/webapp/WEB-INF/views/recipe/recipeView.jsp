@@ -152,79 +152,84 @@
     </div>
 
     <div style="min-height: 60px">
-        <div class="flex" style="min-height: 60px; ">
-            <div style="width: 142px;text-align: center">
-                <div>
-                    <div>
-                        <img width="50px"height="50px" src="">
-                    </div>
-                    <div>
-                        <label>요리킹 조리킹</label>
-                    </div>
-                </div>
-                <div style="color: #fd7e14">
-                    <span>★</span>
-                    <span>★</span>
-                    <span>★</span>
-                    <span>★</span>
-                    <span>★</span>
-                </div>
-            </div>
-            <div style="display: block; min-height: 60px; width:100%; background-color: #e8e5da; padding: 8px">
-                <div style=" min-height: 60px; width: 75%; text-align: left">
-                    댓글 블라블라블라
-                </div>
-                <div style="text-align: right;">
-                    2020-03-03 7:45:22
-                </div>
-            </div>
-        </div>
-        <form>
-        
+        <c:forEach items="${replyList}" var="reply">
+    		<div class="flex" style="min-height: 60px; ">
+            	<div style="width: 142px;text-align: center">
+                	<div>
+                    	<div>
+                        	<img width="50px"height="50px" src="">
+                    	</div>
+                    	<div>
+                        	<label>
+    							<c:out value="${reply.nickName}"/>
+    						</label>
+                    	</div>
+                	</div>
+                	<div style="color: #fd7e14">
+	                    <span>★</span>
+	                    <span>★</span>
+	                    <span>★</span>
+	                    <span>★</span>
+	                    <span>★</span>
+                	</div>
+            	</div>
+            	<div style="display: block; min-height: 60px; width:100%; background-color: #e8e5da; padding: 8px">
+                	<div style=" min-height: 60px; width: 75%; text-align: left">
+    					<c:out value="${reply.content}"/>
+    				</div>
+                	<div style="text-align: right;">
+    					<c:out value="${reply.modifyDate}"/>
+                	</div>
+            	</div>
+        	</div>
+		</c:forEach>
+		
+        <form action="insertReply.rc" method="post" enctype="Multipart/form-data">
         <div class="flex" style="min-height: 150px;">
-        
+  
             <div  style="width: 150px;">
                 <div style="padding-left: 30px">
                     <p>후기</p>
                 </div>
                 <div class="starbox" style="height: 40px;">
                     <span>
-                        <img class="star-left" id = "star1" onclick="rating(1)" src="star_left.png">
+                        <img class="star-left" id = "star1" onclick="rating(1)" src="resources/images/star_left.png">
                     </span>
                     <span>
-                        <img class="star-right" id = "star2" onclick="rating(2)" src="star_right.png">
+                        <img class="star-right" id = "star2" onclick="rating(2)" src="resources/images/star_right.png">
                     </span>
                     <span>
-                        <img class="star-left" id = "star3" onclick="rating(3)" src="star_left.png">
+                        <img class="star-left" id = "star3" onclick="rating(3)" src="resources/images/star_left.png">
                     </span>
                     <span>
-                        <img class="star-right" id = "star4" onclick="rating(4)" src="star_right.png">
+                        <img class="star-right" id = "star4" onclick="rating(4)" src="resources/images/star_right.png">
                     </span>
                     <span>
-                        <img class="star-left" id = "star5" onclick="rating(5)" src="star_left.png">
+                        <img class="star-left" id = "star5" onclick="rating(5)" src="resources/images/star_left.png">
                     </span>
                     <span>
-                        <img class="star-right" id = "star6" onclick="rating(6)" src="star_right.png">
+                        <img class="star-right" id = "star6" onclick="rating(6)" src="resources/images/star_right.png">
                     </span>
                     <span>
-                        <img class="star-left" id = "star7" onclick="rating(7)" src="star_left.png">
+                        <img class="star-left" id = "star7" onclick="rating(7)" src="resources/images/star_left.png">
                     </span>
                     <span>
-                        <img class="star-right" id = "star8" onclick="rating(8)" src="star_right.png">
+                        <img class="star-right" id = "star8" onclick="rating(8)" src="resources/images/star_right.png">
                     </span>
                     <span>
-                        <img class="star-left" id = "star9" onclick="rating(9)" src="star_left.png">
+                        <img class="star-left" id = "star9" onclick="rating(9)" src="resources/images/star_left.png">
                     </span>
                     <span>
-                        <img class="star-right" id = "star10" onclick="rating(10)" src="star_right.png">
+                        <img class="star-right" id = "star10" onclick="rating(10)" src="resources/images/star_right.png">
                     </span>
                 </div>
+                <input type="hidden" id="rate" name="rating" value="0"/>
             </div>
             <div style="width: 100%">
-                <textarea style="min-height: 100px; min-width:98%; background-color: #e8e5da; border: antiquewhite"></textarea>
+                <textarea name="content" style="min-height: 100px; min-width:98%; background-color: #e8e5da; border: antiquewhite"></textarea>
             </div>
             <div>
-                <button style="min-height: 100px">작성 완료</button>
+                <button type="submit">작성 완료</button>
             </div>
         </div>
         </form>
@@ -235,22 +240,23 @@
 <script>
     function rating(no) {
         let num = parseInt(no);
+        document.getElementById('rate').value = num;
         let img = document.getElementById('star' + String(num));
-        img.src= "star_left_on.png";
+        img.src= "resources/images/star_left_on.png";
         for (let i = 1; i <= num; i++){
             if ( i%2 == 1){
-                document.getElementById('star' + String(i)).src = "star_left_on.png";
+                document.getElementById('star' + String(i)).src = "resources/images/star_left_on.png";
             }
             else{
-                document.getElementById('star' + String(i)).src = "star_right_on.png";
+                document.getElementById('star' + String(i)).src = "resources/images/star_right_on.png";
             }
         }
         for (let j = 10; j > num; j--){
             if ( j%2 == 1){
-                document.getElementById('star' + String(j)).src = "star_left.png";
+                document.getElementById('star' + String(j)).src = "resources/images/star_left.png";
             }
             else{
-                document.getElementById('star' + String(j)).src = "star_right.png";
+                document.getElementById('star' + String(j)).src = "resources/images/star_right.png";
             }
         }
     }
