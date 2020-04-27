@@ -253,7 +253,7 @@ public class MyPageController {
 			mv.addObject("list", od);
 			mv.setViewName("memRv");
 		}else {
-			throw new MyPageException("주문 조회에 실패하였습니다.");
+			throw new MyPageException("페이지 불러오기에 실패하였습니다.");
 		}
 		return mv;		
 		
@@ -312,7 +312,30 @@ public class MyPageController {
 			Gson gson = new Gson();
 			String result = "이미 후기를 작성하셨습니다.";
 			gson.toJson(URLEncoder.encode(result, "UTF-8"), response.getWriter());			
+		}	
+	}
+	// 주문 검색
+	@RequestMapping("searchOrder.mp")
+	public ModelAndView searchOrder(@RequestParam(value="page", required=false) Integer page, String oContent, ModelAndView mv, Model model){
+		Member loginUser = (Member)model.getAttribute("loginUser");		
+		String oEmail = loginUser.getEmail();
+		loginUser.setEmail(oContent);
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page; }		
+		int listCount = mps.searchOrderCount(loginUser);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		ArrayList<mOrderInfo> list = mps.searchOrderList(pi, loginUser);
+		loginUser.setEmail(oEmail);
+		if(list != null) {
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.addObject("oContent", oContent);
+			mv.setViewName("memberorder");
+		}else {
+			throw new MyPageException("주문 검색에 실패하였습니다.");
 		}
+		return mv;		
 		
 		
 	}
