@@ -67,15 +67,9 @@
 	
 	<update id="mDelete" parameterType="Member">
 		update member
-		set deleted='Y'
-		where member_no = ${no}
+		set deleted='Y', id='${id}_del', nickName='${nickName}_del'		
+		where member_no = ${memberNo}
 	</update>	
-	
-	<update id="mDeleteUp" parameterType="Member">
-		update member
-		set id='delMemId_${no}', nickName='delMemNick_${no}'
-		where member_no = ${no}
-	</update>
 
 	<update id="mUpdate" parameterType="Member">
 		update member
@@ -287,5 +281,36 @@
 		set "STATUS" = 3
 		where "ORDER_NO" = ${orderNo}
 	</update>
+	
+	<select id="searchOrderCount" parameterType="Member" resultType="_int">
+		select count(*)
+		FROM (SELECT 
+				ORDER_NO, 
+		        "DATE",
+		        TOTAL,
+		        LISTAGG(NAME, ', ') WITHIN GROUP (ORDER BY NAME) AS "oList", STATUS
+                FROM ODLIST
+                where mem_no = ${memberNo}
+                group by "DATE", TOTAL, STATUS, ORDER_NO 
+                order by "DATE" desc )
+		where "oList" like  '%'||'${email}'||'%'
+	</select>	
+
+	<select id="searchOrderList" parameterType="Member" resultMap="oiRS">
+		SELECT ORDER_NO, "DATE", "oList", STATUS, TOTAL
+		FROM (SELECT 
+				ORDER_NO, 
+		        "DATE",
+		        TOTAL,
+		        LISTAGG(NAME, ', ') WITHIN GROUP (ORDER BY NAME) AS "oList", STATUS
+                FROM ODLIST
+                where mem_no = ${memberNo}
+                group by "DATE", TOTAL, STATUS, ORDER_NO 
+                order by "DATE" desc )
+		where "oList" like  '%'||'${email}'||'%'
+		group by "DATE", TOTAL, STATUS, ORDER_NO, "oList"
+		order by "DATE" desc
+	</select>	
+
 	
 </mapper>

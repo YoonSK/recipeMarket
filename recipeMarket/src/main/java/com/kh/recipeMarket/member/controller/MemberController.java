@@ -180,21 +180,16 @@ public class MemberController {
 	
 	// 회원 탈퇴
 	@RequestMapping("mdelete.me")
-	public String mDelete(@RequestParam("no") int no, SessionStatus status) {
-		
-		int result = ms.mDelete(no);
-			if(result > 0) {
-				int result2 = ms.mDeleteUp(no);
-				if(result2 > 0) {
-					status.setComplete();					
-					return "redirect:/";		
-				}else {
-					throw new MemberException("탈퇴에 실패하였습니다.");
-				}				
+	public String mDelete(/*@RequestParam("no") int no, */SessionStatus status, Model model) {
+		Member loginUser = (Member)model.getAttribute("loginUser");		
+		int result = ms.mDelete(loginUser);
+		if(result > 0) {
+				status.setComplete();					
+				return "redirect:/";		
 			}else {
 				throw new MemberException("탈퇴에 실패하였습니다.");
-			}
-	}	
+			}				
+		}	
 	
 	// 아이디 찾기 페이지 이동
 	@RequestMapping("findIdView.me")

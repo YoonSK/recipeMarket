@@ -17,8 +17,6 @@ public interface MemberService {
 
 	String getPhoto(int memberNo);
 
-	int mDelete(int no);
-
 	String findId(Member m);
 
 	int updatePwd(Member m);
@@ -26,5 +24,7 @@ public interface MemberService {
 	Member CheckPwd(Member m);
 
 	int mDeleteUp(int no);
+
+	int mDelete(Member loginUser);
 
 }

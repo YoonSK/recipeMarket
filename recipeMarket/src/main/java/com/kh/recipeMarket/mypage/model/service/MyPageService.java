@@ -44,4 +44,8 @@ public interface MyPageService {
 
 	int updateOrderStatus(int orderNo);
 
+	int searchOrderCount(Member loginUser);
+
+	ArrayList<mOrderInfo> searchOrderList(PageInfo pi, Member loginUser);
+
 }

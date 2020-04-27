@@ -114,5 +114,17 @@ public class MPServiceImpl implements MyPageService{
 	}
 
 
+	@Override
+	public int searchOrderCount(Member loginUser) {
+		return mpDAO.searchOrderCount(sqlSession, loginUser);
+	}
+
+
+	@Override
+	public ArrayList<mOrderInfo> searchOrderList(PageInfo pi, Member loginUser) {
+		return mpDAO.searchOrderList(sqlSession, pi, loginUser);
+	}
+
+
 
 }

@@ -33,10 +33,6 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.checkNickDup", nickName);
 	}
 
-	public int mDelete(SqlSessionTemplate sqlSession, int no) {
-		return sqlSession.update("memberMapper.mDelete", no);
-	}
-
 	public String findId(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.selectOne("memberMapper.findId", m);
 	}
@@ -51,6 +47,10 @@ public class MemberDAO {
 
 	public int mDeleteUp(SqlSessionTemplate sqlSession, int no) {
 		return sqlSession.update("memberMapper.mDeleteUp", no);
+	}
+
+	public int mDelete(SqlSessionTemplate sqlSession, Member loginUser) {
+		return sqlSession.update("memberMapper.mDelete", loginUser);
 	}
 
 }

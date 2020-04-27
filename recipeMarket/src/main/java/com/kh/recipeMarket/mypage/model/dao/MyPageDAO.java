@@ -85,4 +85,14 @@ public class MyPageDAO {
 		return sqlSession.update("memberMapper.upOS", orderNo);
 	}
 
+	public int searchOrderCount(SqlSessionTemplate sqlSession, Member loginUser) {
+		return sqlSession.selectOne("memberMapper.searchOrderCount", loginUser);
+	}
+
+	public ArrayList<mOrderInfo> searchOrderList(SqlSessionTemplate sqlSession, PageInfo pi, Member loginUser) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.searchOrderList", loginUser, rowBounds);
+	}
+
 }
