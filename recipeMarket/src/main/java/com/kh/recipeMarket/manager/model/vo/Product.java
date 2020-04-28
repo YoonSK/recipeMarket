@@ -13,12 +13,12 @@ public class Product {
 	private int income;
 	private int export;
 	private String pName;
-	private Date endDate;
+	private int endDate;
 	
 	
 	public Product() {}
 
-	public Product(int productNo, String name, int price, int stock, String category, Date createDate, String deleted, int income, int export, String pName, Date endDate) {
+	public Product(int productNo, String name, int price, int stock, String category, Date createDate, String deleted, int income, int export, String pName, int endDate) {
 		super();
 		this.productNo = productNo;
 		this.name = name;
@@ -36,11 +36,11 @@ public class Product {
 	
 	
 	
-	public Date getEndDate() {
+	public int getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(int endDate) {
 		this.endDate = endDate;
 	}
 

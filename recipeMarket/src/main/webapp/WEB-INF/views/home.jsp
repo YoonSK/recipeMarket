@@ -49,6 +49,7 @@
 	<div class="imageBar"></div>
 		<div class="boxOuter">
 			<div class="firstBox" id="slick"  style="margin: 5%;">
+			
 			    <div><a href="#"><img class="icon" src="resources/images/all.png"/></a></div>
 			    <div><a href="#"><img class="icon" src="resources/images/mainmenu.png"/></a></div>
 			    <div><a href="#"><img class="icon" src="resources/images/soup.png"/></a></div>
@@ -64,11 +65,9 @@
 		</div>
 	</div>
 		<div id="weather">
-			<h2>- 오늘의 날씨 정보</h2>
-			현재 온도는 <div class="ctemp" style="font-size:40px">  <img class="icon"  style="width:30px;" src="resources/images/celsius.png"/></div>
-			<div class="clowtemp">최저 온도 : </div>
-			<div class="chightemp">최고 온도 : </div>
-			<div class="sky">하늘 상태 : </div>
+			<h2>날씨 정보</h2>
+			 <div class="ctemp" style="font-size:40px">  <img class="icon"  style="width:30px;" src="resources/images/celsius.png"/></div>
+			<!-- <div class="sky">하늘 상태 : </div>-->
 			<div class="cicon"></div>
 		</div>
 		<script>
@@ -97,11 +96,11 @@
 				
 				//A.appne(B) A요소의 내용의 뒤에 B를 추가
 				//A.prepend(B)  A요소의 내용의 앞에 B를 추가
-				$('.clowtemp').append($minTemp);
+			/* 	$('.clowtemp').append($minTemp); */
 				$('.ctemp').prepend($cTemp);
-				$('.chightemp').append($maxTemp);
-				$('h2').prepend($cDate);
-				$('.sky').append($sky);
+				/* 	$('.chightemp').append($maxTemp); */
+				/* $('h2').prepend($cDate); */
+				/* $('.sky').append($sky); */
 				$('.cicon').append('<img src="http://openweathermap.org/img/wn/'+ $wIcon +'@2x.png"/>');
 				// <img src="http://openweathermap.org/img/wn/10d@2x.png"/>
 				/* if($sky == 'clear sky'){
