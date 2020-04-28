@@ -17,6 +17,8 @@ public class Board {
 	
 	private int rCount; // 댓글 갯수
 	
+	private int gCount; // 좋아요 갯수
+	
 	public Board() {}
 	
 	
@@ -25,6 +27,15 @@ public class Board {
 		super();
 		this.postNo = postNo;
 		this.rCount = rCount;
+	}
+	
+	
+
+	public Board(int postNo, int gCount, int rCount) {
+		super();
+		this.postNo = postNo;
+		this.rCount = rCount;
+		this.gCount = gCount;
 	}
 
 
@@ -111,6 +122,8 @@ public class Board {
 		this.nickName = nickName;
 		this.pName = pName;
 	}
+	
+	
 
 	public int getPostNo() {
 		return postNo;
@@ -204,6 +217,20 @@ public class Board {
 
 	public void setrCount(int rCount) {
 		this.rCount = rCount;
+	}
+	
+	
+
+
+
+	public int getgCount() {
+		return gCount;
+	}
+
+
+
+	public void setgCount(int gCount) {
+		this.gCount = gCount;
 	}
 
 

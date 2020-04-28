@@ -28,6 +28,7 @@ import com.kh.recipeMarket.board.model.exception.BoardException;
 import com.kh.recipeMarket.board.model.service.BoardService;
 import com.kh.recipeMarket.board.model.vo.Board;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.common.Like;
 import com.kh.recipeMarket.common.Pagination;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.Reply;
@@ -63,11 +64,13 @@ public class BoardController {
 		ArrayList<Board> list = bService.selectList(pi);
 		ArrayList<Board> plist = bService.profileList(pi);
 		ArrayList<Board> rlist = bService.rCount(pi);
+		ArrayList<Board> glist = bService.gCount(pi);
 		
 		if(list != null) {
 			mv.addObject("list",list);
 			mv.addObject("plist", plist);
 			mv.addObject("rlist", rlist);
+			mv.addObject("glist", glist);
 			mv.addObject("pi",pi);
 			mv.setViewName("boardListView");
 			System.out.println(rlist);
@@ -153,11 +156,20 @@ public class BoardController {
 	}
 	
 	@RequestMapping("bdetail.bo")
-	public ModelAndView boardDetail(@RequestParam("postNo") int postNo, @RequestParam("page") int page, ModelAndView mv) {
+	public ModelAndView boardDetail(@RequestParam("postNo") int postNo, @RequestParam("page") int page, HttpSession session,@ModelAttribute Like like, ModelAndView mv) {
 		
-		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int memberNo = loginUser.getMemberNo();
 		Board board = bService.selectBoard(postNo);
 		Board profile = bService.selectProfile(postNo);
+		
+		like.setBoardNo(2);
+		like.setMemberNo(memberNo);
+		like.setTargetNo(postNo);
+		
+		Like likeCheck = bService.selectLikeCheck(like);
+		
+		
 		System.out.println("==test==start");
 		System.out.println(board);
 		System.out.println(profile);
@@ -166,6 +178,7 @@ public class BoardController {
 		if(board != null) {
 			mv.addObject("board", board);
 			mv.addObject("profile", profile);
+			mv.addObject("likeCheck",likeCheck);
 			mv.addObject("page",page);
 			mv.setViewName("boardDetailView");
 			
@@ -284,6 +297,44 @@ public class BoardController {
 	public String boardDelete(@RequestParam("postNo") int postNo) {
 		int result = bService.deleteBoard(postNo);
 		return "redirect:blist.bo";
+	}
+	
+	@RequestMapping("insertLike.bo")
+	@ResponseBody
+	public String like(@RequestParam("targetNo") int targetNo, @RequestParam("memberNo") int memberNo, @ModelAttribute Like like) {
+		
+		like.setMemberNo(memberNo);
+		like.setTargetNo(targetNo);
+		//Like like =bService.like(targetNo, memberNo);
+		
+		System.out.println(like);
+		int result = bService.insertLike(like);
+		System.out.println(result);
+		
+		if(result > 0) {
+			return "success";
+		} else {
+			throw new BoardException("게시글 좋아요에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("deleteLike.bo")
+	@ResponseBody
+	public String deleteLike(@RequestParam("targetNo") int targetNo, @RequestParam("memberNo") int memberNo, @ModelAttribute Like like) {
+		
+		like.setMemberNo(memberNo);
+		like.setTargetNo(targetNo);
+		//Like like =bService.like(targetNo, memberNo);
+		
+		System.out.println(like);
+		int result = bService.deleteLike(like);
+		System.out.println(result);
+		
+		if(result > 0) {
+			return "success";
+		} else {
+			throw new BoardException("게시글 좋아요 취소에 실패하였습니다.");
+		}
 	}
 	
 }
