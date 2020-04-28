@@ -88,4 +88,9 @@ public class MaServiceImpl implements ManagerService {
 		return maDAO.searchList(sqlSession,p);
 	}
 
+	@Override
+	public ArrayList<Product> productSortList(Product p) {
+		return maDAO.productSortList(sqlSession,p);
+	}
+
 }

@@ -37,4 +37,7 @@ public interface ManagerService {
 
 	ArrayList<Product> searchList(Product p);
 
+	ArrayList<Product> productSortList(Product p);
+
+
 }

@@ -132,6 +132,24 @@
     
     .show {display:block} /*보여주기*/
 	.hide {display:none} /*숨기기*/
+	
+	
+	@-webkit-keyframes blink{
+        0% {opacity:0.4;}
+        100% {opacity:1;}
+    }
+    @-moz-keyframes blink{
+        0% {opacity:0.4;}
+        100% {opacity:1;}
+    }
+    @keyframes blink{
+        0% {opacity:0.4;}
+        100% {opacity:1;}
+    }
+	 /* 기간별 조회 */
+    ul.dateS{height: 29px; float: left; list-style: none; padding-left: 0px; margin-left: 1%;}
+    ul.dateS li{width: 100px; text-align: center; float: left; font-weight: bold; border: 3px solid #e8e5da;}
+    ul.dateS li:hover{background-color: #e8e5da; color: white; cursor: pointer;}
 </style>
 </head>
 <body>
@@ -170,8 +188,14 @@
 							<tr>
 								<th class="head">상품등록일</th>
 								<td>
-									<input type="date" id="startDate"name="startDate" class="insertDate"> &nbsp; - 
-									<input type="date" id="endDate" name="endDate" class="insertDate">
+									<!-- 기간별 조회  -->
+										<ul class="dateS">
+											<li onclick=sortDate(this);>전체</li>
+											<li onclick=sortDate(this);>1개월</li>
+											<li onclick=sortDate(this);>3개월</li>
+											<li onclick=sortDate(this);>6개월</li>
+											<li onclick=sortDate(this);>1년</li>																														
+										</ul>
 								</td>
 							</tr>
 							
@@ -233,7 +257,7 @@
 									<td>${ product.stock }<input type="hidden" value="${ product.stock }" name="stock" id="stock"></td>
 									<td>
 										<c:if test="${ product.stock eq 0 }">
-											품절
+											<span class="blinking" style="border-radius:5px;padding: 5px">품절</span>
 										</c:if>
 										<c:if test="${ product.stock le 100 and product.stock gt 0  }">
 											부족
@@ -263,9 +287,9 @@
 									$('#moneyBtn').click(function(){
 										//	$('#a').html('<tr><td id="count" colspan="8">수량</td></tr>');
 									});
-									
+								 	
 									/* 엑셀 파일 만들기 이벤트 */
-									function doExcelDownloadProcess(){
+								/*	function doExcelDownloadProcess(){
 									         var productNo = ${product.productNo};
 									        
 									        $.ajax({
@@ -275,8 +299,14 @@
 									                console.log(data);
 									            }
 									        });
-									    }
-									
+									    } */
+									    
+									    
+										/* 기간별 조회  */	
+										function sortDate(data){
+											var sortDate = data.innerText;
+											location.href = "productSort.ma?sortDate="+sortDate+"&page=1";
+										}
 								</script>
 							</c:forEach>
 							
@@ -343,8 +373,9 @@
 			var category= $('#category').val();
 			var startDate = $('#startDate').val();
 			var endDate = $('#endDate').val();
-			 location.href = "searchProduct.ma?keyword="+keyword+"&searchCate="+searchCate+"&category="+category+"&startDate="+startDate+"&endDate="+endDate; 
+			 location.href = "searchProduct.ma?keyword="+keyword+"&searchCate="+searchCate+"&category="+category; 
 		}
+		
 			
 	</script>
 	
@@ -362,12 +393,12 @@
 						<div id="slectBox">
 						  	<div id="imageArea">
 					    		<figure>
-									<img name="pImageArea" width=140px; height=140px; id="pImageArea" src="https://recipe1.ezmember.co.kr/img/pic_none3.gif">
+									<img name="pImageArea" width=140px; height=140px; id="pImageArea" src="https://recipe1.ezmember.co.kr/img/pic_none3.gif" >
 								</figure>	
 							</div>	
 										
 						<div id="uArea">
-							<input type="file" name= "pImage" id="pImage" multiple="multiple" onchange="LoadImg(this)">
+							<input type="file" name= "pImage" id="pImage" multiple="multiple" onchange="LoadImg(this)" required>
 						</div>
 					
 						<br>
@@ -377,6 +408,7 @@
 									$("#imageArea").click(function(){
 										$("#pImage").click();
 									});
+									
 								});
 									function LoadImg(value){
 										if(value.files && value.files[0]){
@@ -392,7 +424,7 @@
 							<tr>
 								<th class="head">상품분류</th>
 								<td>
-									<select name="category">
+									<select name="category" required>
 									    <option value="">대분류</option>
 									    <option value="곡류">곡류</option>
 									    <option value="과일류">과일류</option>
@@ -407,37 +439,42 @@
 							<tr>
 								<th class="head">상품명</th>
 								<td>
-									<input type="text" name="name" placeholder="상품명을 입력해주세요." class="insertDate" style="width: 200px;">
+									<input type="text" name="name" required placeholder="상품명을 입력해주세요." class="insertDate" style="width: 200px;">
 								</td>
 							</tr>
 						
 							<tr>
 								<th class="head">상품가격</th>
 								<td>
-									<input type="text" name="price" class="insertDate"> 원
+									<input type="text" name="price" class="insertDate" required> 원
 								</td>
 							</tr>
 							
 						
 							<tr>
 								<th  class="head">상품수량</th>
-								<td><input type="number" name="stock" min="1" max="999999" class="insertDate" style="width:70px;">개</td>
+								<td><input type="number" name="stock" min="1" max="999999" class="insertDate" style="width:70px;" required>개</td>
 							</tr>
 						</table>
-							<button type="submit" class="defaultBtn">등록</button>
+							<button type="submit" class="defaultBtn" id="insertP">등록</button>
 							<button type="button" id="cancel" onclick="cancelBtn();">취소</button>
 				      </div>
 				    </div>
 			      </form>	 
 			    </div>
-			    <script>	  
-					$('span.close').click(function(){
-						$('#cmodal').attr('style', 'display:none');
-					});		
+			    <script>	
+			    $('#insertP').click(function(){
+			    	console.log($('#pImage').val());
+			    	  if($('#pImage').val() == "" ){
+						alert("사진을 등록해주세요.");
+						}
+			    });
+			    	
+			   
+				$('span.close').click(function(){
+					$('#cmodal').attr('style', 'display:none');
+				});		
 					
-					function cancelBtn(){
-						$('#cmodal').attr('style', 'display:none');
-					}
 
 				</script>
 

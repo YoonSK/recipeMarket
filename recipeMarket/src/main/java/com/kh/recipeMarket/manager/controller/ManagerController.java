@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +29,8 @@ import com.kh.recipeMarket.manager.model.vo.Pagination;
 import com.kh.recipeMarket.manager.model.vo.Product;
 import com.kh.recipeMarket.manager.model.vo.ProductPagination;
 import com.kh.recipeMarket.member.model.exception.MemberException;
+import com.kh.recipeMarket.member.model.vo.Member;
+import com.kh.recipeMarket.mypage.model.exception.MyPageException;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
 @Controller
@@ -239,11 +242,11 @@ public class ManagerController {
 			p.setProductNo(Integer.parseInt(keyword));
 		}
 		
-		if(startDate != null) {
-			p.setCreateDate(startDate);
-		} else if(endDate != null) {
-			p.setEndDate(endDate);
-		}
+//		if(startDate != null) {
+//			p.setCreateDate(startDate);
+//		} else if(endDate != null) {
+//			p.setEndDate(endDate);
+//		}
 		System.out.println("p : "+ p);
 		int slistCount = mas.getSearchListCount(p);
 		PageInfo pi = ProductPagination.getPageInfo(currentPage, slistCount);
@@ -260,6 +263,38 @@ public class ManagerController {
 			throw new ManagerException("게시글 전체 조회에 실패하였습니다.");
 		}
 		
+		return mv;
+	}
+	
+	/* 날짜로 검색 */
+	@RequestMapping("productSort.ma")
+	public ModelAndView dateSort(@RequestParam(value="page", required=false) Integer page, String sortDate, ModelAndView mv, Model model,Product p) {
+		String date = sortDate;
+		int ds = 0;
+		System.out.println(date);
+		switch(date) {
+		case "전체": ds = 0; break;
+		case "1개월" : ds = 31; break;
+		case "3개월": ds = 91; break;
+		case "6개월" : ds = 181; break;
+		case "1년" : ds = 366; break;
+		}
+		p.setEndDate(ds);
+		System.out.println("p의 endDate확인" + p);
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page; }		
+//		int listCount = mps.oderSortCount(loginUser);
+//		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		ArrayList<Product> list = mas.productSortList(p);
+		if(list != null) {
+			mv.addObject("list", list);
+//			mv.addObject("pi", pi);
+			mv.addObject("sortDate", date);
+			mv.setViewName("productManager");
+		}else {
+			throw new MyPageException("주문 조회에 실패하였습니다.");
+		}
 		return mv;
 	}
 		

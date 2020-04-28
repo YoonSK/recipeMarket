@@ -79,4 +79,8 @@ public class ManagerDAO {
 		return (ArrayList)sqlSession.selectList("managerMapper.searchList",p);
 	}
 
+	public ArrayList<Product> productSortList(SqlSessionTemplate sqlSession, Product p) {
+		return (ArrayList)sqlSession.selectList("managerMapper.productSortList",p);
+	}
+
 }

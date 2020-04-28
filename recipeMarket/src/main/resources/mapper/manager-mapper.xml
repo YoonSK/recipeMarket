@@ -124,9 +124,9 @@
 		<if test ="#{productNo} != null">
 			and product_no = #{productNo}
 		</if>
-		<if test ="#{createDate} != null or #{endDate} != null">
+		<!-- <if test ="#{createDate} != null or #{endDate} != null">
 			and (create_date between #{createDate} and #{endDate})
-		</if>
+		</if> -->
 	</select>
 	
 	<select id="searchList" resultMap="productResultSet">
@@ -141,6 +141,28 @@
 			<if test ="productNo != 0">
 			and product_no = #{productNo}
 			</if>
+		order by product_no desc
+	</select>
+	
+	<select id="productSortList" resultMap="productResultSet" parameterType="Product">
+		select product_no,name, price, stock, create_date, income, export, change_name
+		from product p
+			LEFT OUTER JOIN PHOTO ON(product_no = TARGET_NO AND BOARD_NO = 3)
+			WHERE p.deleted='N'
+		<choose>
+			<when test="endDate == 31">
+				and CREATE_DATE BETWEEN SYSDATE - 31 AND SYSDATE
+			</when>			
+			<when test="endDate == 91">
+				and CREATE_DATE BETWEEN SYSDATE - 91 AND SYSDATE
+			</when>		
+			<when test="endDate== 181">
+				and CREATE_DATE BETWEEN SYSDATE - 181 AND SYSDATE
+			</when>		
+			<when test="endDate == 366">
+				and CREATE_DATE BETWEEN SYSDATE - 366 AND SYSDATE
+			</when>										
+		</choose> 		
 		order by product_no desc
 	</select>
 </mapper>
