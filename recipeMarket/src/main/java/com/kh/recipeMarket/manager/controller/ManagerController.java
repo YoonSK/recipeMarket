@@ -216,4 +216,51 @@ public class ManagerController {
 			throw new ManagerException("입고 수량 수정에 실패하였습니다.");
 		}
 	}
+	
+	//검색
+	@RequestMapping("searchProduct.ma")
+	public ModelAndView searchListProduct(@RequestParam(value = "page", required=false) Integer page,ModelAndView mv, String keyword, String category,String searchCate,
+											Product p, Date startDate, Date endDate) {
+		System.out.println("keyword: "+keyword + "category : "+ category + "searchCate : "+ searchCate+ "startDate : "+ startDate+ "endDate : "+ endDate);
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		int listCount = mas.getListCount();
+		
+		
+		if(category != null) {
+			p.setCategory(category);
+		}
+		
+		if(searchCate.equals("상품명")) {
+			p.setName(keyword);
+		} else if(searchCate.equals("상품코드")) {
+			p.setProductNo(Integer.parseInt(keyword));
+		}
+		
+		if(startDate != null) {
+			p.setCreateDate(startDate);
+		} else if(endDate != null) {
+			p.setEndDate(endDate);
+		}
+		System.out.println("p : "+ p);
+		int slistCount = mas.getSearchListCount(p);
+		PageInfo pi = ProductPagination.getPageInfo(currentPage, slistCount);
+		ArrayList<Product> list = mas.searchList(p);
+		if(list != null) {
+			mv.addObject("list",list);
+			mv.addObject("listCount", listCount);
+			mv.addObject("slistCount", slistCount);
+			mv.setViewName("productManager");
+			
+			System.out.println("slistCount : "+ slistCount);
+			System.out.println("seacrh : " + list);
+		} else {
+			throw new ManagerException("게시글 전체 조회에 실패하였습니다.");
+		}
+		
+		return mv;
+	}
+		
 }

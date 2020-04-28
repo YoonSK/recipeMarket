@@ -13,11 +13,12 @@ public class Product {
 	private int income;
 	private int export;
 	private String pName;
+	private Date endDate;
 	
 	
 	public Product() {}
 
-	public Product(int productNo, String name, int price, int stock, String category, Date createDate, String deleted, int income, int export, String pName) {
+	public Product(int productNo, String name, int price, int stock, String category, Date createDate, String deleted, int income, int export, String pName, Date endDate) {
 		super();
 		this.productNo = productNo;
 		this.name = name;
@@ -29,6 +30,18 @@ public class Product {
 		this.income = income;
 		this.export = export;
 		this.pName = pName;
+		this.endDate = endDate;
+	}
+
+	
+	
+	
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	public int getProductNo() {
@@ -115,7 +128,7 @@ public class Product {
 	public String toString() {
 		return "Product [productNo=" + productNo + ", name=" + name + ", price=" + price + ", stock=" + stock
 				+ ", category=" + category + ", createDate=" + createDate + ", deleted=" + deleted + ", income="
-				+ income + ", export=" + export + ", pName=" + pName + "]";
+				+ income + ", export=" + export + ", pName=" + pName + ", endDate= "+endDate + "]";
 	}
 
 	

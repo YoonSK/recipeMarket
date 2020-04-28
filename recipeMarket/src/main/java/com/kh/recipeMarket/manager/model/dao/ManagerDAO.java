@@ -1,5 +1,6 @@
 package com.kh.recipeMarket.manager.model.dao;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import org.apache.ibatis.session.RowBounds;
@@ -10,7 +11,6 @@ import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.manager.model.vo.Product;
-import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
 @Repository("maDAO")
@@ -69,6 +69,14 @@ public class ManagerDAO {
 
 	public int oSortCount(SqlSessionTemplate sqlSession, int status) {
 		return sqlSession.selectOne("managerMapper.oSortCount", status);
+	}
+
+	public int getSearchListCount(SqlSessionTemplate sqlSession, Product p) {
+		return sqlSession.selectOne("managerMapper.getSearchListCount",p);
+	}
+
+	public ArrayList<Product> searchList(SqlSessionTemplate sqlSession, Product p) {
+		return (ArrayList)sqlSession.selectList("managerMapper.searchList",p);
 	}
 
 }
