@@ -169,7 +169,7 @@
 		         	
 		         	<div class="input-submit" align="center" style="padding-bottom: 30px">
 		         	    <input type="submit" value="등록하기"  id="insertBtn"> &nbsp; &nbsp;
-		         		<button onclick="location.href='blist.bo'" id="backBtn">목록으로</button>
+		         		<button type="button" onclick="location.href='blist.bo'" id="backBtn">목록으로</button>
 		         	</div>
 		         	
 

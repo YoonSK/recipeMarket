@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.recipeMarket.board.model.dao.BoardDAO;
 import com.kh.recipeMarket.board.model.vo.Board;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.common.Like;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.Reply;
 
@@ -102,6 +103,36 @@ public class BoardServiceImpl implements BoardService{
 	public int newUploadImage(Photo p) {
 		return bDAO.newUploadImage(sqlSession, p);
 	}
+
+
+	@Override
+	public int insertLike(Like like) {
+		return bDAO.insertLike(sqlSession, like);
+	}
+
+
+	@Override
+	public int deleteLike(Like like) {
+		return bDAO.deleteLike(sqlSession, like);
+	}
+
+
+	@Override
+	public Like selectLikeCheck(Like like) {
+		return bDAO.selectLikeCheck(sqlSession, like);
+	}
+
+
+	@Override
+	public ArrayList<Board> gCount(PageInfo pi) {
+		return bDAO.gCount(sqlSession,pi);
+	}
+
+
+//	@Override
+//	public Like like(int targetNo, int memberNo) {
+//		return bDAO.selectLike(sqlSession, targetNo,memberNo);
+//	}
 
 
 	

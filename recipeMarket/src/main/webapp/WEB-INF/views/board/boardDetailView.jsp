@@ -173,29 +173,36 @@
 	         	</script>
 	         	
 	         	
-	         	
-	         	
-	         	
 	         	<hr>
 	         	
 	         	
 	         	<br>
 	         	
 	         	<div>
-	         		<button style="width:200px; height:150px; float:left;">
-		         		<img style="width:70%; height:70%;" src="resources/images/heart.png">
+	         	
+	         		<c:if test="${likeCheck == null }">
+	         		<button type="button" style="width:200px; height:150px; float:left;" onclick="insertLike();">
+		         		<img style="width:70%; height:70%;" src="resources/images/like.png">
 		         	</button>
+		         	</c:if>
+		         	
+		         	<c:if test="${likeCheck != null }">
+		         	<button type="button" style="width:200px; height:150px; float:left;" onclick="deleteLike();">
+		         		<img style="width:70%; height:70%;" src="resources/images/unlike.png">
+		         	</button>
+		         	</c:if>
 	         	</div>
 	         	
-	         	<div style=" height:150px; float:left;">
+	         	<div style=" height:135px; float:left;">
 	         		<!-- <input type="text" id="rContent" placeholder="댓글을 입력해주세요." style="width:800px; height:150px; font-size:25px; float:left;"> -->
-	         		<textarea id="rContent"  style="width:799px; height:150px; font-size:25px; float:left;" placeholder="댓글을 입력해주세요."></textarea>
+	         		<textarea id="rContent"  style="width:770px; height:135px; font-size:25px; float:left; padding:15px;" placeholder="댓글을 입력해주세요."></textarea>
 	         		<button type="button" style="width:200px; height:150px; font-size:30px; vertical-align: sub;  float:left;" id="rSubmit">등록</button>
 	         	</div>
 	         </div>
 	         
 	         
 		</div>
+		
 	<!-- </form> -->
 	
 	<script>
@@ -285,6 +292,47 @@
 		         	}
 		       	});
 			}
+		
+		// 좋아요 누름
+		function insertLike(){
+			var targetNo = ${ board.postNo };
+			var memberNo = ${ loginUser.memberNo };
+			//var nickName = ${ board.nickName };
+			
+			$.ajax({
+				url:'insertLike.bo',
+				data:{targetNo:targetNo, memberNo:memberNo},
+				type:'post',
+				success:function(data){ 
+					console.log(data);
+					if(data == "success"){	
+						alert('${ board.nickName}' + "님의 게시글을 추천했습니다.");
+						window.location.reload();
+					}
+				}
+			});
+		}
+		
+		
+		// 좋아요 취소
+		function deleteLike(){
+			var targetNo = ${ board.postNo };
+			var memberNo = ${ loginUser.memberNo };
+			//var nickName = ${ board.nickName };
+			
+			$.ajax({
+				url:'deleteLike.bo',
+				data:{targetNo:targetNo, memberNo:memberNo},
+				type:'post',
+				success:function(data){ 
+					console.log(data);
+					if(data == "success"){	
+						alert('${ board.nickName}' + "님의 게시글 추천을 취소 했습니다.");
+						window.location.reload();
+					}
+				}
+			});
+		}
 	</script>
 	
 </body>

@@ -73,11 +73,23 @@
 	
 	<select id="selectrCount" resultMap="boardResultSet">
 		select post_no, count(reply_no)as RCOUNT
-		from f_board
+		from f_board f
     		full outer join reply r on(post_no = target_no)
+    	where f.deleted = 'N'
 		group by post_no
 		order by post_no desc
 	</select>
+	
+	<select id="selectgCount" resultMap="boardResultSet">
+		select post_no, count(board_no)as RCOUNT
+		from f_board f
+    		full outer join good g on(post_no = target_no)
+    	where f.deleted = 'N'
+		group by post_no
+		order by post_no desc
+	</select>
+	
+	
 	
 	<resultMap type="Photo" id="photoRS">
 		<id property = "photoNo" column="PHOTO_NO"/>
@@ -156,5 +168,28 @@
 		where post_no =#{postNo}
 	</update>
 	
+	
+	
+	<resultMap type="Like" id="LikeResultSet">
+		<id property="boardNo"  column="BOARD_NO"/>
+		<id property="targetNo" column="TARGET_NO"/>
+		<id property="memberNo" column="MEMBER_NO"/>
+	</resultMap>
+	
+	<insert id="insertLike" parameterType="Like">
+		insert into GOOD
+		values(2,#{targetNo},#{memberNo})
+	</insert>
+	
+	<delete id="deleteLike" parameterType="Like">
+		delete from GOOD
+		where board_no = 2 and target_no = #{targetNo} and member_no = #{memberNo}
+	</delete>
+	
+	<select id="selectLikeCheck" resultMap="LikeResultSet">
+		select *
+		from GOOD
+		where board_no = 2 and target_no = #{targetNo} and member_no = #{memberNo}
+	</select>
 	
 </mapper>

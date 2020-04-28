@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.recipeMarket.board.model.vo.Board;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.common.Like;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.Reply;
 
@@ -36,6 +37,16 @@ public interface BoardService {
 	int deleteBoard(int postNo);
 
 	int newUploadImage(Photo p);
+
+	//Like like(int targetNo, int memberNo);
+
+	int insertLike(Like like);
+
+	int deleteLike(Like like);
+
+	Like selectLikeCheck(Like like);
+
+	ArrayList<Board> gCount(PageInfo pi);
 
 	
 
