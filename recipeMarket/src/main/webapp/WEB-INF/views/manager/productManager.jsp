@@ -1,9 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>     
+
+<% response.setContentType("text/html"); %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
+ <link rel="icon" type="image/png"  href="resources/images/tablogo.png"/>
 <meta charset="UTF-8">
 <title>레시피 마켓  - 재고관리</title>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script> 
@@ -28,7 +33,7 @@
 		background: #e8e5da;
 		    height: 40px;
 	}
-	#searchText{
+	#keyword{
 		outline: none;
 	    height: 25px;
 	    border-radius: 5px;
@@ -124,46 +129,49 @@
 	    border-radius: 5px;
 	    width: 50px;
     }
+    
+    .show {display:block} /*보여주기*/
+	.hide {display:none} /*숨기기*/
 </style>
 </head>
 <body>
 	<c:import url="../common/header.jsp"/>	
 	<div class="outer">
 		<div id="container">
-			<form action="<%= request.getContextPath() %>/updateProduct.ma" id="cForm" method="post" enctype="Multipart/form-data">
+			<form action="<%= request.getContextPath() %>/updateProduct.ma" id="cForm" name ="cForm" method="post" enctype="Multipart/form-data">
 				<h2>재고 관리</h2>
 				<div id="content" >
 					<div id="slectBox">
 						<table id="selectT" style="border: 1px solid #dee6c3">
 							<tr>
 								<th class="head">상품분류</th>
-								<td><select name="searchCategory">
-								    <option value="">대분류</option>
-								    <option value="곡류">곡류</option>
-									<option value="과일류">과일류</option>
-									<option value="채소류">채소류</option>
-									<option value="어류">어류</option>
-									<option value="육류">육류</option>
-								    <option value="음료">음료</option>
-								    <option value="기타">기타</option>
+								<td><select name="category" id="category">
+									    <option value="">대분류</option>
+									    <option value="곡류">곡류</option>
+										<option value="과일류">과일류</option>
+										<option value="채소류">채소류</option>
+										<option value="어류">어류</option>
+										<option value="육류">육류</option>
+									    <option value="음료">음료</option>
+									    <option value="기타">기타</option>
 									</select>
 								</td>
 							</tr>
 							<tr>
 								<th class="head">재고상태</th>
 								<td>
-									<input type="radio" name="chk_info" value="전체">전체
-									<input type="radio" name="chk_info" value="품절">품절
-									<input type="radio" name="chk_info" value="부족">부족
-									<input type="radio" name="chk_info" value="여유">여유
+									<input type="radio" id="chk_info" name="chk_info" value="전체">전체
+									<input type="radio" id="chk_info" name="chk_info" value="품절">품절
+									<input type="radio" id="chk_info" name="chk_info" value="부족">부족
+									<input type="radio" id="chk_info" name="chk_info" value="여유">여유
 								</td>
 							</tr>
 							
 							<tr>
 								<th class="head">상품등록일</th>
 								<td>
-									<input type="date" name="startDate" class="insertDate"> &nbsp; - 
-									<input type="date" name="endDate" class="insertDate">
+									<input type="date" id="startDate"name="startDate" class="insertDate"> &nbsp; - 
+									<input type="date" id="endDate" name="endDate" class="insertDate">
 								</td>
 							</tr>
 							
@@ -171,53 +179,58 @@
 							<tr>
 								<th  class="head">검색조건</th>
 								<td>
-								<select name="searchCate">
+								<select name="searchCate" id="searchCate">
 								    <option value="상품명">상품명</option>
-								    <option value="학생">상품코드</option>
-								    <option value="기타">기타</option>
+								    <option value="상품코드">상품코드</option>
 								</select>
-								<input type="text" id="searchText" placeholder="검색어를 입력해주세요.">
-								<button id="searchBtn">검색</button>
+								<input type="text" id="keyword" name="keyword" placeholder="검색어를 입력해주세요.">
+								<button type="button" id="searchBtn" onclick="searchProduct();">검색</button>
 								</td>
 							</tr>
 						</table>
 						<div id="count">
-							<span>총 상품수  : ${ listCount }</span><span id="pCount"></span><span> 검색 상품수 : </span><span id="sCount"></span>
+							<span>총 상품수  : ${ listCount }</span><span id="pCount"></span><span> 검색 상품수 : ${ slistCount }<b id="listSearchCount"></b></span><span id="sCount"></span>
 							<button type="button" style="float: right; margin-right: 10px;" class="insertBtn" onclick="insertProduct();">상품등록</button>
-							<button type="button" style="float: right;  margin-right: 10px;"class="exChangeBtn">엑셀파일로 만들기</button>
+							<button type="button" style="float: right;  margin-right: 10px;"class="exChangeBtn" onclick="doExcelDownloadProcess()">엑셀파일로 만들기</button>
 						</div>
+						
 						<table id="productT" style="text-align:center;">
-							<tr>
-								<th colspan=2>상품코드</th>
-								<th>상품명</th>
-								<th>판매가</th>
-								<th>입고</th>
-								<th>출고</th>
-								<th>재고</th>
-								<th>상태</th>
-								<th>기능</th>
-							</tr>
-							<c:if test="${ empty list }">
+							<thead>
+								<tr>
+									<th colspan=2>상품코드</th>
+									<th>상품명</th>
+									<th>판매가</th>
+									<th>입고</th>
+									<th>출고</th>
+									<th>재고</th>
+									<th>상태</th>
+									<th>기능</th>
+								</tr>
+							</thead>
+							<tbody>
+							<c:if test="${ empty list}">
 							<tr>
 								<td colspan="8">
 									<h2 align="center">상품이 존재하지 않습니다.</h2>
 								</td>
 							</tr>
 							</c:if>
+							
+							
 							<c:forEach var="product" items="${ list }" varStatus="status">
 								<tr>
-									<td>${ product.productNo }</td>
-									<c:if test="${ plist[status.index].pName != null}">
+									<td>${ product.productNo }<input type="hidden" value="${ product.productNo }" name="productNo"></td>
+									<c:if test="${ list[status.index].pName != null}">
 										<td>
-											<img id="profileImg" style="width:70px; float:right" src="resources/upload/${ plist[status.index].pName }"/>
+											<img id="profileImg" name="pName" style="width:70px; float:right" src="resources/upload/${ list[status.index].pName }"/>
 										</td>
 									</c:if>
 									
-									<td>${ product.name }</td>
-									<td>${ product.price }</td>
-									<td id="incomeVal${product.productNo}">${ product.income }</td>
-									<td>${ product.export }</td>
-									<td>${ product.stock }</td>
+									<td>${ product.name }<input type="hidden" value="${ product.name }" id="name" name="name"></td>
+									<td>${ product.price }<input type="hidden" value="${ product.price }" id="price" name="price"></td>
+									<td id="incomeVal${product.productNo}">${ product.income }<input type="hidden" id="income" value="${ product.income }" name="income"></td>
+									<td>${ product.export }<input type="hidden" value="${ product.export }" name="export" id="export"></td>
+									<td>${ product.stock }<input type="hidden" value="${ product.stock }" name="stock" id="stock"></td>
 									<td>
 										<c:if test="${ product.stock eq 0 }">
 											품절
@@ -234,18 +247,39 @@
 										<button id="updateBtn${product.productNo}" style="background: orangered; color: white; height: 30px; border: none; border-radius: 5px; width: 50px;" type="button">수정</button>
 									</td>
 								</tr>
+								<tr id="a"></tr>
 								<script>
-								$('#updateBtn${product.productNo}').click(function(){
-									$('#btnArea${product.productNo}').html('<button type="submit" id="updateProduct">확인</button>');
-									
 									var reset = "";
-									$('#incomeVal${product.productNo}').html(reset);
-									$('#incomeVal${product.productNo}').html('<input type="text" id="income" value="${product.income}" style="height: 30px;border: none; border-radius: 5px;width: 50px; background: #ddfcff; color: black;" name="income"><input type="hidden" name="productNo" value="${product.productNo }">');
+									$('#updateBtn${product.productNo}').click(function(){
+										$('#btnArea${product.productNo}').html('<button type="submit" id="updateProduct">확인</button>');
+										
+										$('#incomeVal${product.productNo}').html(reset);
+										$('#incomeVal${product.productNo}').html('<input type="text" id="income" value="${product.income}" style="height: 30px;border: none; border-radius: 5px;width: 50px; background: #ddfcff; color: black;" name="income"><input type="hidden" name="productNo" value="${product.productNo }">');
+										
+									});
+									var count = 0;
 									
-								});
-								
+									/* 판매수익 버튼 이벤트 */
+									$('#moneyBtn').click(function(){
+										//	$('#a').html('<tr><td id="count" colspan="8">수량</td></tr>');
+									});
+									
+									/* 엑셀 파일 만들기 이벤트 */
+									function doExcelDownloadProcess(){
+									         var productNo = ${product.productNo};
+									        
+									        $.ajax({
+									            url: "downloadExcelFile.ma",
+									            type: "POST",
+									            success: function(data){
+									                console.log(data);
+									            }
+									        });
+									    }
+									
 								</script>
 							</c:forEach>
+							
 							 	<!-- 페이징 처리 -->
 						      	<tr align="center" height="20" id="buttonTab">
 						        	<td colspan="9">
@@ -287,17 +321,36 @@
 						            </c:if>
 						         </td>
 						      </tr>	
+						     
 						</table>
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
+	
+	
+							
+	
 		<script>
 		function insertProduct(){
 			$('#cmodal').attr('style', 'display:block');
 		}
+		/* 검색 버튼 이벤트 */
+		function searchProduct(){
+			var keyword= $('#keyword').val();
+			var searchCate= $('#searchCate').val();
+			var category= $('#category').val();
+			var startDate = $('#startDate').val();
+			var endDate = $('#endDate').val();
+			 location.href = "searchProduct.ma?keyword="+keyword+"&searchCate="+searchCate+"&category="+category+"&startDate="+startDate+"&endDate="+endDate; 
+		}
+			
 	</script>
+	
+	
+	
+	
 		 <!-- The Modal -->
 			    <div id="cmodal" class="modal">	 
 			      <!-- Modal content -->
@@ -388,6 +441,6 @@
 
 				</script>
 
-<%-- 	<c:import url="../common/footer.jsp"/> --%>
+<%-- <c:import url="../common/footer.jsp"/> --%>
 </body>
 </html>

@@ -110,4 +110,37 @@
 	<update id="updateProduct" parameterType="Product">
 		update product set income=#{income} where product_no = #{productNo}   
 	</update>
+	
+	<select id="getSearchListCount" resultType="_int">
+		select count(*)
+		from product
+		where deleted='N'
+		<if test ="#{name} != null">
+			and name like '%'||#{name}||'%'
+		</if>
+		<if test ="#{category} != null and #{name} != null">
+			and category like '%'||#{category}||'%'
+		</if>
+		<if test ="#{productNo} != null">
+			and product_no = #{productNo}
+		</if>
+		<if test ="#{createDate} != null or #{endDate} != null">
+			and (create_date between #{createDate} and #{endDate})
+		</if>
+	</select>
+	
+	<select id="searchList" resultMap="productResultSet">
+		select product_no,name, price, stock, create_date, income, export, change_name
+		from product p
+			LEFT OUTER JOIN PHOTO ON(product_no = TARGET_NO AND BOARD_NO = 3)
+		WHERE p.deleted='N' and category = #{category} 
+			<if test ="name != null">
+			and name like '%'||#{name}||'%'
+			</if>
+			
+			<if test ="productNo != 0">
+			and product_no = #{productNo}
+			</if>
+		order by product_no desc
+	</select>
 </mapper>

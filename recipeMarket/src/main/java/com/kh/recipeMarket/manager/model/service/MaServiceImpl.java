@@ -1,5 +1,6 @@
 package com.kh.recipeMarket.manager.model.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -11,7 +12,6 @@ import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.manager.model.dao.ManagerDAO;
 import com.kh.recipeMarket.manager.model.vo.Product;
-import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
 @Service("mas")
@@ -76,6 +76,16 @@ public class MaServiceImpl implements ManagerService {
 	@Override
 	public int oSortCount(int status) {
 		return maDAO.oSortCount(sqlSession, status);
+	}
+
+	@Override
+	public int getSearchListCount(Product p) {
+		return maDAO.getSearchListCount(sqlSession,p);
+	}
+
+	@Override
+	public ArrayList<Product> searchList(Product p) {
+		return maDAO.searchList(sqlSession,p);
 	}
 
 }
