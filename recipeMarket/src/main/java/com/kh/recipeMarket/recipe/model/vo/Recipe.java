@@ -3,6 +3,8 @@ package com.kh.recipeMarket.recipe.model.vo;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import com.kh.recipeMarket.common.Photo;
+
 
 public class Recipe {
 	private int postNo;
@@ -20,6 +22,7 @@ public class Recipe {
 	private ArrayList<Ingredient> ingredientList;
 	private ArrayList<RecipeStep> stepList;
 	private ArrayList<Tag> tagList;
+	private ArrayList<Photo> imgList;
 	
 	private double rating;
 	private int hit;
@@ -47,7 +50,7 @@ public class Recipe {
 
 	public Recipe(int postNo, int memberNo, String title, Date createDate, Date modifyDate, String category,
 			int serving, int reqTime, int difficulty, ArrayList<Ingredient> ingredientList,
-			ArrayList<RecipeStep> stepList, ArrayList<Tag> tagList, double rating, int hit, char deleted) {
+			ArrayList<RecipeStep> stepList, ArrayList<Tag> tagList, ArrayList<Photo> imgList, double rating, int hit, char deleted) {
 		super();
 		this.postNo = postNo;
 		this.memberNo = memberNo;
@@ -61,6 +64,7 @@ public class Recipe {
 		this.ingredientList = ingredientList;
 		this.stepList = stepList;
 		this.tagList = tagList;
+		this.imgList = imgList;
 		this.rating = rating;
 		this.hit = hit;
 		this.deleted = deleted;
@@ -162,6 +166,14 @@ public class Recipe {
 		this.tagList = tagList;
 	}
 
+	public ArrayList<Photo> getImgList(){
+		return imgList;
+	}
+	
+	public void setImgList(ArrayList<Photo> imgList) {
+		this.imgList = imgList;
+	}
+	
 	public double getRating() {
 		return rating;
 	}

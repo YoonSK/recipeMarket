@@ -1,4 +1,4 @@
-package com.kh.recipeMarket.common;
+package com.kh.recipeMarket.common.vo;
 
 public class Photo {
 	private int photoNo;
@@ -84,5 +84,5 @@ public class Photo {
 		return "Photo [photoNo=" + photoNo + ", boardNo=" + boardNo + ", targetNo=" + targetNo + ", fileLevel="
 				+ fileLevel + ", originName=" + originName + ", changeName=" + changeName + ", deleted=" + deleted + "]";
 	}
-	
+		
 }

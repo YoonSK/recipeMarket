@@ -6,6 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.recipeMarket.common.dao.CommonDAO;
+import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.recipe.model.dao.RecipeDAO;
 import com.kh.recipeMarket.recipe.model.vo.*;
 
@@ -17,10 +19,13 @@ public class RecipeServiceImpl implements RecipeService {
 	private RecipeDAO rDAO;
 
 	@Autowired
+	private CommonDAO cDAO;
+	
+	@Autowired
 	private SqlSessionTemplate sqlSession;
 	   
 	@Override
-	public int insertRecipe(Recipe r, ArrayList<String> steps, ArrayList<String> ings, ArrayList<String> amts, ArrayList<String> tags) {
+	public int insertRecipe(Recipe r, ArrayList<String> steps, ArrayList<String> ings, ArrayList<String> amts, ArrayList<String> tags, ArrayList<Photo> images) {
 		int postNo = rDAO.insertRecipe(sqlSession, r);
 		
 		ArrayList<Ingredient> IngList = new ArrayList<Ingredient>();
@@ -52,6 +57,13 @@ public class RecipeServiceImpl implements RecipeService {
 		}
 		rDAO.insertTags(sqlSession, TagList);
 		
+		for(int i=0; i < images.size(); i++) {
+			images.get(i).setTargetNo(postNo);
+			System.out.println(images.get(i));
+		}
+		cDAO.insertPhotos(sqlSession, images);
+		
+		
 		return postNo;
 	}
 
@@ -62,6 +74,7 @@ public class RecipeServiceImpl implements RecipeService {
 		rb.setIngredientList(rDAO.selectIngredients(sqlSession, postNo));
 		rb.setStepList(rDAO.selectRecipeSteps(sqlSession, postNo));
 		rb.setTagList(rDAO.selectTags(sqlSession, postNo));
+		rb.setImgList(cDAO.selectPhotos(sqlSession, 1, postNo));
 
 		return rb;
 	}

@@ -5,6 +5,7 @@
 	<resultMap id="replyResultSet" type="Reply">
 		<id property="replyNo" column="REPLY_NO"/>
 		<result property="nickName" column="NICKNAME"/>
+		<result property="pName" column="CHANGE_NAME"/>
 		<result property="boardNo" column="BOARD_NO"/>
 		<result property="targetNo" column="TARGET_NO"/>
 		<result property="content" column="CONTENT"/>
@@ -14,13 +15,27 @@
 		<result property="deleted" column="DELETED"/>
 	</resultMap>
 	
+	<resultMap id="photoResultSet" type="Photo">
+		<id property="photoNo" column="PHOTO_NO"/>
+		<result property="fileLevel" column="FILE_LEVEL"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+	</resultMap>
+	
 	<select id="selectReplies" parameterType="Reply" resultMap="replyResultSet">
 		select NICKNAME, CONTENT, CREATE_DATE, MODIFY_DATE, RATING
 		from REPLY R
 		join MEMBER M using(MEMBER_NO)
+		where R.BOARD_NO = #{boardNo}
+		and R.TARGET_NO = #{targetNo}
+		and R.DELETED ='N'
+	</select>
+	
+	<select id="selectPhotos" parameterType="Photo" resultMap="photoResultSet">
+		select PHOTO_NO, FILE_LEVEL, CHANGE_NAME
+		from Photo
 		where BOARD_NO = #{boardNo}
 		and TARGET_NO = #{targetNo}
-		and R.DELETED ='N'
+		and DELETED ='N'
 	</select>
 	
 	<insert id="insertReply" parameterType="Reply">
@@ -32,6 +47,10 @@
 		values(${replyNo}, #{memberNo}, #{boardNo}, #{targetNo}, #{content}, sysdate, sysdate, #{rating}, default)
 	</insert>
 
-
+	<insert id="insertPhotos" parameterType="Photo">
+        insert into photo
+        values(SEQ_PHOTO_NO.nextval, #{boardNo}, #{targetNo}, #{fileLevel}, #{originName}, #{changeName}, default)
+    </insert>
+    
 	
 </mapper>

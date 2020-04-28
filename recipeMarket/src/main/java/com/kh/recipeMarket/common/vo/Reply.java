@@ -8,6 +8,7 @@ public class Reply {
 	private int memberNo;
 	
 	private String nickName;
+	private String pName;
 	
 	private int boardNo;
 	private int targetNo;
@@ -20,16 +21,18 @@ public class Reply {
 	private int rating;
 	private char deleted;
 	
+	
 	public Reply() {
 		super();
 	}
 
-	public Reply(int replyNo, int memberNo, String nickName, int boardNo, int targetNo, String content, Date createDate,
+	public Reply(int replyNo, int memberNo, String nickName, String pName, int boardNo, int targetNo, String content, Date createDate,
 			Date modifyDate, int rating, char deleted) {
 		super();
 		this.replyNo = replyNo;
 		this.memberNo = memberNo;
 		this.nickName = nickName;
+		this.pName= pName;
 		this.boardNo = boardNo;
 		this.targetNo = targetNo;
 		this.content = content;
@@ -61,6 +64,14 @@ public class Reply {
 
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
+	}
+	
+	public String getPName() {
+		return pName;
+	}
+
+	public void setPName(String pName) {
+		this.pName = pName;
 	}
 
 	public int getBoardNo() {
@@ -121,7 +132,7 @@ public class Reply {
 
 	@Override
 	public String toString() {
-		return "Reply [replyNo=" + replyNo + ", memberNo=" + memberNo + ", nickName=" + nickName + ", boardNo="
+		return "Reply [replyNo=" + replyNo + ", memberNo=" + memberNo + ", nickName=" + nickName +  ", pName=" + pName +", boardNo="
 				+ boardNo + ", targetNo=" + targetNo + ", content=" + content + ", createDate=" + createDate
 				+ ", modifyDate=" + modifyDate + ", rating=" + rating + ", deleted=" + deleted + "]";
 	}

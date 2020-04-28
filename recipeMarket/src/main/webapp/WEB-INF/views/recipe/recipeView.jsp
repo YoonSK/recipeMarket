@@ -40,7 +40,7 @@
     <div style="display: block; justify-content: center;">
         <h1>레시피</h1>
         <div class="flex" id = "mainImage" style="justify-content: center">
-            <img width="300px" height="300px"/>
+            <img width="300px" height="300px" src="resources/upload/${imgList[0].changeName}"/>
         </div>
         <div class="flex" style="justify-content: center">
             <div style="font-size: 30px">
@@ -126,9 +126,9 @@
         </div>
     </div>
     <div class="flex" style="justify-content: center; flex-direction: column; width: 100%; margin: 5px auto;">
-   		<c:forEach items="${stepList}" var="step">
+   		<c:forEach items="${stepList}" var="step" varStatus="status">
    		
-        <div class="flex" class = "step" id = "step[1]" style="width: 100%; background-color: #add1c3">
+        <div class="flex" class = "step" id = "step[<c:out value="${step.step}"/>]" style="width: 100%; background-color: #add1c3">
             <div style="width: 50px; text-align: center; font-size: 30px">
                 <label>
     				<c:out value="${step.step}"/>
@@ -138,7 +138,7 @@
                 <p><c:out value="${step.content}"/></p>
             </div>
             <div>
-                <img width="300px" height="300px"/>
+                <img width="300px" height="300px" src="resources/upload/${imgList[status.index +1].changeName}"/>
             </div>
         </div>
         

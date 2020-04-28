@@ -88,7 +88,7 @@
                     <img id="output" width="200px" height="200px"/>
                 </div>
                 <div>
-                    <input type='file' accept='image/*' onchange='openFile(event)' id="imgInput" name="profileImg">
+                    <input type='file' accept='image/*' onchange='openFile(event)' id="imgInput" name="recipeImg">
                 </div>
             </div>
             <div id="optionBox" style="padding-top: 30px">
@@ -185,7 +185,7 @@
                 </div>
                 <div class = "stepImage">
                     <img class="stepThumb" id="step_output1" width="150px" height="150px"/>
-                    <input type='file' accept='image/*' onchange="imagepreview(this);" id="step_imgInput1" name="stepImg">
+                    <input type='file' accept='image/*' onchange="imagepreview(this);" id="step_imgInput1" name="recipeImg">
                 </div>
             </div>
         </div>
@@ -341,6 +341,7 @@ function addStBtn(){
   					StepImageInput.setAttribute('type', 'file');
   					StepImageInput.setAttribute('accept', 'image/*');
   					StepImageInput.setAttribute('onchange', 'imagepreview(this)');
+  					StepImageInput.setAttribute('name', 'recipeImg');
    		 		StepImage.appendChild(StepImageInput);
    		 	Step.appendChild(StepImage);
    		

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.kh.recipeMarket.common.dao.CommonDAO;
 import com.kh.recipeMarket.common.vo.Reply;
-import com.kh.recipeMarket.recipe.model.dao.RecipeDAO;
 
 @Service
 public class CommonServiceImpl implements CommonService {

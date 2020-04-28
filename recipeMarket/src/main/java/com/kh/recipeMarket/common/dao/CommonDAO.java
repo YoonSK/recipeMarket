@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.vo.Reply;
 import com.kh.recipeMarket.common.vo.Targetter;
 
@@ -20,5 +21,16 @@ public class CommonDAO {
 		return (ArrayList)sqlSession.selectList("commonMapper.selectReplies", target);
 	}
 	
+	public int insertPhotos(SqlSessionTemplate sqlSession, ArrayList<Photo> photos) {
+		for (Photo photo : photos) {
+		sqlSession.insert("commonMapper.insertPhotos", photo);
+		}
+		return 1;
+	}
+	
+	public ArrayList<Photo> selectPhotos(SqlSessionTemplate sqlSession, int boardNo, int targetNo){
+		Targetter target = new Targetter(boardNo, targetNo);
+		return (ArrayList)sqlSession.selectList("commonMapper.selectPhotos", target);
+	}
 	
 }
