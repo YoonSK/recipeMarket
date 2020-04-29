@@ -24,9 +24,23 @@
 		where id = #{id}
 			  and deleted = 'N'			  
 	</select>
+	
  	<insert id="memberJoin" parameterType="Member">
 		insert into member
 		values(seq_mno.nextval, #{id}, #{pwd}, #{name}, #{nickName}, #{email}, #{phone}, #{birth}, 
+				#{zip}, #{address}, #{address2}, 1, default)
+	</insert> 
+	
+	<select id="checkKaKao" resultMap="memberRS">
+		SELECT *
+		from member
+		where email = #{email}
+		and deleted = 'N'	
+	</select>
+
+ 	<insert id="kJoinMember" parameterType="Member">
+		insert into member
+		values(seq_mno.nextval, concat('kakao', seq_mno.currval), #{pwd}, #{name}, #{nickName}, #{email}, #{phone}, #{birth}, 
 				#{zip}, #{address}, #{address2}, 1, default)
 	</insert> 
 
