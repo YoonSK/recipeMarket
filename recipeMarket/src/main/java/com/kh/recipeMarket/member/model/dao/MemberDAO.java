@@ -1,5 +1,7 @@
 package com.kh.recipeMarket.member.model.dao;
 
+import java.util.HashMap;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -51,6 +53,14 @@ public class MemberDAO {
 
 	public int mDelete(SqlSessionTemplate sqlSession, Member loginUser) {
 		return sqlSession.update("memberMapper.mDelete", loginUser);
+	}
+
+	public Member checkKaKao(SqlSessionTemplate sqlSession, HashMap<String, Object> userInfo) {
+		return sqlSession.selectOne("memberMapper.checkKaKao", userInfo);
+	}
+
+	public int kJoinMember(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.insert("memberMapper.kJoinMember", m);
 	}
 
 }
