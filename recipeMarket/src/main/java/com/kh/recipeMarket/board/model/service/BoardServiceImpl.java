@@ -18,6 +18,7 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Autowired
 	private BoardDAO bDAO;
+	 
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
@@ -126,6 +127,18 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public ArrayList<Board> gCount(PageInfo pi) {
 		return bDAO.gCount(sqlSession,pi);
+	}
+
+
+	@Override
+	public Board selectrCount(int postNo) {
+		return bDAO.selectrCount(sqlSession,postNo);
+	}
+
+
+	@Override
+	public int rDelete(int replyNo) {
+		return bDAO.rDelete(sqlSession,replyNo);
 	}
 
 

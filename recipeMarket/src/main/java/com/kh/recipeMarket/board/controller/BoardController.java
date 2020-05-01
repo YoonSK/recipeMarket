@@ -41,6 +41,7 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService bService;
+	 
 	
 	private MemberService ms;
 	
@@ -169,16 +170,19 @@ public class BoardController {
 		
 		Like likeCheck = bService.selectLikeCheck(like);
 		
+		Board gCount = bService.selectrCount(postNo);
 		
 		System.out.println("==test==start");
 		System.out.println(board);
 		System.out.println(profile);
+		System.out.println(gCount);
 		System.out.println("==test==end");
 		
 		if(board != null) {
 			mv.addObject("board", board);
 			mv.addObject("profile", profile);
 			mv.addObject("likeCheck",likeCheck);
+			mv.addObject("gCount",gCount);
 			mv.addObject("page",page);
 			mv.setViewName("boardDetailView");
 			
@@ -193,7 +197,7 @@ public class BoardController {
 	public void getReplyList(HttpServletResponse reponse, @RequestParam("postNo") int postNo) throws JsonIOException, IOException {
 		ArrayList<Reply> rList = bService.selectReplyList(postNo);
 		
-		System.out.println("controller 의 rList : " + rList);
+		//System.out.println("controller 의 rList : " + rList);
 		
 		for(Reply r : rList) {
 			r.setContent(URLEncoder.encode(r.getContent(),"UTF-8"));
@@ -337,4 +341,19 @@ public class BoardController {
 		}
 	}
 	
+	
+	@RequestMapping("rDelete.bo")
+	@ResponseBody
+	public String replyDelete(@RequestParam("replyNo") int replyNo,  @ModelAttribute Reply reply) {
+		System.out.println("replyNo : "+replyNo);
+		
+		int result = bService.rDelete(replyNo);
+		
+		if(result > 0) {
+			return "success";
+		} else {
+			throw new BoardException("댓글삭제에 실패하였습니다.");
+		}
+		//int result = bService.replyDelete(replyNo);
+	}
 }

@@ -19,7 +19,8 @@ public class BoardDAO {
 
 	public int getListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("boardMapper.getListCount");
-	}
+	} 
+	
 
 	public ArrayList<Board> selectList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		int offset =(pi.getCurrentPage()-1) * pi.getBoardLimit();
@@ -103,6 +104,14 @@ public class BoardDAO {
 
 	public Like selectLikeCheck(SqlSessionTemplate sqlSession, Like like) {
 		return sqlSession.selectOne("boardMapper.selectLikeCheck", like);
+	}
+
+	public Board selectrCount(SqlSessionTemplate sqlSession,int postNo) {
+		return sqlSession.selectOne("boardMapper.rCount", postNo);
+	}
+
+	public int rDelete(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.update("boardMapper.rDelete", replyNo);
 	}
 
 

@@ -14,6 +14,7 @@ public interface BoardService {
 
 	ArrayList<Board> selectList(PageInfo pi);
 	
+	
 	ArrayList<Board> rCount(PageInfo pi);
 
 	int insertBoard(Board b);
@@ -47,6 +48,10 @@ public interface BoardService {
 	Like selectLikeCheck(Like like);
 
 	ArrayList<Board> gCount(PageInfo pi);
+
+	Board selectrCount(int postNo);
+
+	int rDelete(int replyNo);
 
 	
 
