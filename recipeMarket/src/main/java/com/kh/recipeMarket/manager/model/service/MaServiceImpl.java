@@ -2,6 +2,7 @@ package com.kh.recipeMarket.manager.model.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,13 +85,33 @@ public class MaServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public ArrayList<Product> searchList(Product p) {
-		return maDAO.searchList(sqlSession,p);
+	public ArrayList<Product> searchList(Product p,PageInfo pi) {
+		return maDAO.searchList(sqlSession,p,pi);
 	}
 
 	@Override
-	public ArrayList<Product> productSortList(Product p) {
-		return maDAO.productSortList(sqlSession,p);
+	public ArrayList<Product> productSortList(Product p,PageInfo pi) {
+		return maDAO.productSortList(sqlSession,p,pi);
+	}
+
+	@Override
+	public int productSortCount(Product p) {
+		return maDAO.productSortCount(sqlSession,p);
+	}
+
+	@Override
+	public List<Product> selectExcelList() {
+		return maDAO.selectExcelList(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Product> selectsList(Product p, PageInfo pi) {
+		return maDAO.selectsList(sqlSession,p, pi);
+	}
+
+	@Override
+	public int productStatusCount(Product p) {
+		return maDAO.productStatusCount(sqlSession,p);
 	}
 
 }

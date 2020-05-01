@@ -5,13 +5,18 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,15 +28,17 @@ import com.google.gson.JsonIOException;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
+import com.kh.recipeMarket.excel.MakeExcel;
 import com.kh.recipeMarket.manager.model.exception.ManagerException;
 import com.kh.recipeMarket.manager.model.service.ManagerService;
 import com.kh.recipeMarket.manager.model.vo.Pagination;
 import com.kh.recipeMarket.manager.model.vo.Product;
 import com.kh.recipeMarket.manager.model.vo.ProductPagination;
 import com.kh.recipeMarket.member.model.exception.MemberException;
-import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.mypage.model.exception.MyPageException;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
+
+import net.sf.jxls.exception.ParsePropertyException;
 
 @Controller
 public class ManagerController {
@@ -208,13 +215,14 @@ public class ManagerController {
 	
 	// 상품 입고 수정
 	@RequestMapping("updateProduct.ma")
-	public String updateProduct(@ModelAttribute Product p,@RequestParam("productNo") int productNo) {
+	public String updateProduct(@ModelAttribute Product p,@RequestParam("productNo") int productNo,HttpServletRequest request) {
 		
 		p.setProductNo(productNo);
-		System.out.println(p);
+		System.out.println("수정 : " + p);
 		int result = mas.updateProduct(p);
+		 String referer = request.getHeader("Referer");
 		if(result > 0) {
-			return "redirect:/pManage.ma";
+			return "redirect:"+referer;
 		} else {
 			throw new ManagerException("입고 수량 수정에 실패하였습니다.");
 		}
@@ -223,14 +231,12 @@ public class ManagerController {
 	//검색
 	@RequestMapping("searchProduct.ma")
 	public ModelAndView searchListProduct(@RequestParam(value = "page", required=false) Integer page,ModelAndView mv, String keyword, String category,String searchCate,
-											Product p, Date startDate, Date endDate) {
-		System.out.println("keyword: "+keyword + "category : "+ category + "searchCate : "+ searchCate+ "startDate : "+ startDate+ "endDate : "+ endDate);
+											Product p) {
+		System.out.println("keyword: "+keyword + "category : "+ category + "searchCate : "+ searchCate);
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
-		int listCount = mas.getListCount();
-		
 		
 		if(category != null) {
 			p.setCategory(category);
@@ -240,21 +246,21 @@ public class ManagerController {
 			p.setName(keyword);
 		} else if(searchCate.equals("상품코드")) {
 			p.setProductNo(Integer.parseInt(keyword));
-		}
+		} 
 		
-//		if(startDate != null) {
-//			p.setCreateDate(startDate);
-//		} else if(endDate != null) {
-//			p.setEndDate(endDate);
-//		}
 		System.out.println("p : "+ p);
+		int listCount = mas.getListCount();
 		int slistCount = mas.getSearchListCount(p);
 		PageInfo pi = ProductPagination.getPageInfo(currentPage, slistCount);
-		ArrayList<Product> list = mas.searchList(p);
+		ArrayList<Product> list = mas.searchList(p,pi);
 		if(list != null) {
 			mv.addObject("list",list);
 			mv.addObject("listCount", listCount);
 			mv.addObject("slistCount", slistCount);
+			mv.addObject("pi", pi);
+			mv.addObject("keyword", keyword);
+//			mv.addObject("category", category);
+			mv.addObject("searchCate", searchCate);
 			mv.setViewName("productManager");
 			
 			System.out.println("slistCount : "+ slistCount);
@@ -284,12 +290,16 @@ public class ManagerController {
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page; }		
-//		int listCount = mps.oderSortCount(loginUser);
-//		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-		ArrayList<Product> list = mas.productSortList(p);
+		int slistCount = mas.productSortCount(p);
+		int listCount = mas.getListCount();
+		System.out.println(listCount);
+		PageInfo pi = ProductPagination.getPageInfo(currentPage, slistCount);
+		ArrayList<Product> list = mas.productSortList(p,pi);
 		if(list != null) {
 			mv.addObject("list", list);
-//			mv.addObject("pi", pi);
+			mv.addObject("listCount",listCount);
+			mv.addObject("slistCount", slistCount);
+			mv.addObject("pi", pi);
 			mv.addObject("sortDate", date);
 			mv.setViewName("productManager");
 		}else {
@@ -297,5 +307,74 @@ public class ManagerController {
 		}
 		return mv;
 	}
+	
+	/* 재고 상태로 검색 */
+	@RequestMapping("productStatus.ma")
+	public ModelAndView productStatus(@RequestParam(value="page", required=false) Integer page, String pStatus, ModelAndView mv,Product p) {
+		int ds = 0;
+		System.out.println(pStatus);
+		switch(pStatus) {
+		case "전체": ds = 0; break;
+		case "품절" : ds = 1; break;
+		case "부족": ds = 2; break;
+		case "여유" : ds = 3; break;
+		}
+		p.setStock(ds);
 		
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page; }		
+		
+		
+		
+		int listCount = mas.getListCount();
+		System.out.println(listCount);
+		int slistCount = mas.productStatusCount(p);
+		PageInfo pi = ProductPagination.getPageInfo(currentPage, slistCount);
+		ArrayList<Product> list = null;
+		if(ds == 0) {
+			list = mas.selectsList(p,pi);
+		}else if(ds ==1) {
+			list = mas.selectsList(p,pi);
+		}else if(ds ==2) {
+			list = mas.selectsList(p,pi);
+		} else if(ds ==3) {
+			list = mas.selectsList(p,pi);
+		}
+		
+		if(list != null) {
+			mv.addObject("list", list);
+			mv.addObject("listCount",listCount);
+			mv.addObject("slistCount", slistCount);
+			mv.addObject("pi", pi);
+			mv.addObject("pStatus", pStatus);
+			mv.setViewName("productManager");
+		}else {
+			throw new MyPageException("주문 조회에 실패하였습니다.");
+		}
+		return mv;
+	}	
+	
+	
+	/* 엑셀 파일 다운 */
+	
+	@RequestMapping("downloadExcelFile.ma")
+	 public void listExcel(HttpServletRequest request,
+	            HttpServletResponse response,@ModelAttribute("product") Product product,
+	            ModelMap modelMap) throws ParsePropertyException, InvalidFormatException {
+
+	        // Service의 해당 메소드로 실현될 쿼리로는 list select문을 그대로 사용하면 된다. 
+	        List<Product> pList = mas.selectExcelList();
+	        Map<String, Object> beans = new HashMap<String, Object>();
+	        
+	        beans.put("pList", pList);
+	        System.out.println("pList"+pList);
+	        
+	        // 엑셀 다운로드 메소드가 담겨 있는 객체
+	        MakeExcel me = new MakeExcel();
+	        
+	        // 인자로 request, response, Map Collection 객체, 파일명, 폴더명, 견본파일을 받는다.
+	        me.download(request, response, beans, "src/main/webapp/WEB-INF/excel/", "recipe_market_Product.xlsx", "recipe.xlsx");
+	    }
+
 }

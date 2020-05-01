@@ -111,29 +111,30 @@
 		update product set income=#{income} where product_no = #{productNo}   
 	</update>
 	
-	<select id="getSearchListCount" resultType="_int">
+	<select id="getSearchListCount" resultType="_int" parameterType="Product">
 		select count(*)
 		from product
 		where deleted='N'
-		<if test ="#{name} != null">
+		<if test ="name != null">
 			and name like '%'||#{name}||'%'
 		</if>
-		<if test ="#{category} != null and #{name} != null">
+		<if test ="category != null">
 			and category like '%'||#{category}||'%'
 		</if>
-		<if test ="#{productNo} != null">
+		<if test ="productNo > 0">
 			and product_no = #{productNo}
 		</if>
-		<!-- <if test ="#{createDate} != null or #{endDate} != null">
-			and (create_date between #{createDate} and #{endDate})
-		</if> -->
+		
 	</select>
 	
-	<select id="searchList" resultMap="productResultSet">
+	<select id="searchList" resultMap="productResultSet" parameterType="Product">
 		select product_no,name, price, stock, create_date, income, export, change_name
 		from product p
 			LEFT OUTER JOIN PHOTO ON(product_no = TARGET_NO AND BOARD_NO = 3)
-		WHERE p.deleted='N' and category = #{category} 
+		WHERE p.deleted='N' 
+			<if test="category != null">
+				and category = #{category} 
+			</if> 
 			<if test ="name != null">
 			and name like '%'||#{name}||'%'
 			</if>
@@ -164,5 +165,70 @@
 			</when>										
 		</choose> 		
 		order by product_no desc
+	</select>
+	
+	
+	<select id="productSortCount"  parameterType="Product" resultType="_int">
+		select count(*)
+		from product
+		where deleted='N'
+		<choose>
+			<when test="endDate == 31">
+				and CREATE_DATE BETWEEN SYSDATE - 31 AND SYSDATE
+			</when>			
+			<when test="endDate == 91">
+				and CREATE_DATE BETWEEN SYSDATE - 91 AND SYSDATE
+			</when>		
+			<when test="endDate == 181">
+				and CREATE_DATE BETWEEN SYSDATE - 181 AND SYSDATE
+			</when>		
+			<when test="endDate == 366">
+				and CREATE_DATE BETWEEN SYSDATE - 366 AND SYSDATE
+			</when>										
+		</choose>
+	</select>
+	
+	<select id="selectExcelList" resultMap="productResultSet">
+		select product_no,name, price, stock, create_date, income, export, change_name
+		from product p
+			LEFT OUTER JOIN PHOTO ON(product_no = TARGET_NO AND BOARD_NO = 3)
+		WHERE p.deleted='N'
+		order by product_no desc
+	</select>
+	
+	<select id="searchsList" resultMap="productResultSet" parameterType="Product">
+		select product_no,name, price, stock, create_date, income, export, change_name
+		from product p
+			LEFT OUTER JOIN PHOTO ON(product_no = TARGET_NO AND BOARD_NO = 3)
+			WHERE p.deleted='N'
+		<choose>
+			<when test="stock == 1">
+				and stock =0
+			</when>
+			<when test="stock == 2">
+				and stock between 1 and 100
+			</when>			
+			<when test="stock == 3">
+				and stock > 100
+			</when>	
+		</choose> 		
+		order by product_no desc
+	</select>
+	
+	<select id="productStatusCount" parameterType="Product" resultType="_int">
+		select count(*)
+		from product
+		where deleted='N'
+		<choose>
+			<when test="stock == 1">
+				and stock =0
+			</when>			
+			<when test="stock == 2">
+				and stock between 1 and 100
+			</when>		
+			<when test="stock == 3">
+				and stock > 100
+			</when>		
+		</choose>
 	</select>
 </mapper>
