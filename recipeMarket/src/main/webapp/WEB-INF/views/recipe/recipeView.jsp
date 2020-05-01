@@ -193,7 +193,7 @@
         	</div>
 		</c:forEach>
 		
-        <form action='insertReply.rc?postNo="${recipe.postNo}"' method="post" enctype="Multipart/form-data">
+        <form action='insertReply.rc' method="post" enctype="Multipart/form-data">
         <div class="flex" style="min-height: 150px;">
   		
             <div  style="width: 150px;">
@@ -239,6 +239,7 @@
             </div>
             <div>
                 <button type="submit">작성 완료</button>
+                <input type="hidden" name="postNo" value="${recipe.postNo}"/>
             </div>
         </div>
         </form>
