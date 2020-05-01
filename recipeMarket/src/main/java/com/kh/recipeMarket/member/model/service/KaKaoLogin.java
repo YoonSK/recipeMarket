@@ -40,11 +40,7 @@ public class KaKaoLogin {
 	            sb.append("&code=" + authorize_code);
 	            bw.write(sb.toString());
 	            bw.flush();
-	            
-	            //    결과 코드가 200이라면 성공
-	            int responseCode = conn.getResponseCode();
-	            System.out.println("responseCode : " + responseCode);
-	 
+
 	            //    요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
 	            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 	            String line = "";
@@ -53,18 +49,14 @@ public class KaKaoLogin {
 	            while ((line = br.readLine()) != null) {
 	                result += line;
 	            }
-/*	            System.out.println("response body : " + result);*/
-	            
+
 	            //    Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
 	            JsonParser parser = new JsonParser();
 	            JsonElement element = parser.parse(result);
 	            
 	            access_Token = element.getAsJsonObject().get("access_token").getAsString();
 	            refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
-	            
-/*	            System.out.println("access_token : " + access_Token);
-	            System.out.println("refresh_token : " + refresh_Token);
-	            */
+
 	            br.close();
 	            bw.close();
 	        } catch (IOException e) {
@@ -87,10 +79,7 @@ public class KaKaoLogin {
 	            
 	            //    요청에 필요한 Header에 포함될 내용
 	            conn.setRequestProperty("Authorization", "bearer " + access_Token);
-	            
-	            int responseCode = conn.getResponseCode();
-/*	            System.out.println("responseCode : " + responseCode);*/
-	            
+
 	            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 	            
 	            String line = "";
@@ -126,8 +115,6 @@ public class KaKaoLogin {
 	            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	            conn.setRequestMethod("POST");
 	            conn.setRequestProperty("Authorization", "Bearer " + access_Token);
-	            
-	            int responseCode = conn.getResponseCode();
 
 	            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 	            

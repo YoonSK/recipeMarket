@@ -421,12 +421,9 @@
 						if($('#joinCheck').is(":checked") && userInfo == null){
 							return true;
 						}else if($('#joinCheck').is(":checked") && userInfo != null){
-							alert('dur;;;'+nickname+email);
 							return true;
 						}else{
 							alert("약관에 동의하지 않으셨습니다.");
-							console.log(nickname);
-							console.log(email);
 							return false;
 						}
 					});
