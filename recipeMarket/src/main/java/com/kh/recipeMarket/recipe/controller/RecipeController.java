@@ -192,10 +192,11 @@ public class RecipeController {
 	}
 	
 	@RequestMapping("insertReply.rc")
-	public String replyInsert(@ModelAttribute Reply rp, HttpSession session){
+	public String replyInsert(
+			@RequestParam("postNo") int postNo,
+			@ModelAttribute Reply rp, HttpSession session){
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int memberNo = loginUser.getMemberNo();
-		int postNo = (int)session.getAttribute("postNo");
 		int boardNo = new Enum().boardNo("recipe");
 		
 		rp.setMemberNo(memberNo);
