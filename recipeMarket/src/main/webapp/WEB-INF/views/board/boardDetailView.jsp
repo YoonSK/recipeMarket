@@ -97,10 +97,10 @@
 						
 						<td style="font-size:20px; width:30px;">♡</td>
 						<c:if test="${ gCount.rCount ne null}">
-						<td width="30px" style="font-size:20px">${ gCount.rCount }</td>
+						<td width="30px" style="font-size:20px"><b>${ gCount.rCount }</b></td>
 						</c:if>
 						<c:if test="${ gCount.rCount eq null}">
-						<td width="30px" style="font-size:20px">0</td>
+						<td width="30px" style="font-size:20px"><b>0</b></td>
 						</c:if>
 						<td style="font-size:20px; width:70px;">댓글수</td>
 						<td style="font-size:20px; width:30px"><b id="rCount"></b></td>			         		

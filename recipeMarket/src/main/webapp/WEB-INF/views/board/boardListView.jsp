@@ -88,7 +88,12 @@
 						<td style="font-size:20px; width:30px;">♡</td>
 						<td width="30px" style="font-size:20px">${ glist[status.index].rCount }</td>
 						<td style="font-size:20px; width:70px;">댓글수</td>
-						<td style="font-size:20px; width:30px">${ rlist[status.index].rCount }</td>			         		
+						<c:if test="${ rlist[status.index].rCount != null}">
+						<td style="font-size:20px; width:30px">${ rlist[status.index].rCount }</td>	
+						</c:if>	
+						<c:if test="${ rlist[status.index].rCount == null}">
+						<td style="font-size:20px; width:30px">0</td>	
+						</c:if>		         		
 		        	</tr>
 		         		
 		        	<tr>
