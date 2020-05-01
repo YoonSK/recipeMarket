@@ -36,9 +36,7 @@ public class RecipeController {
 	
 	@RequestMapping("insertForm.rc")
 	public String recipeInsertForm(HttpSession session) {
-		
 		return "recipeInsert";
-		
 	}
 	
 	@RequestMapping("insert.rc")
@@ -73,7 +71,7 @@ public class RecipeController {
 		int postNo = rService.insertRecipe(r, steps, ingredients, amounts, tags, images);
 		session.setAttribute("postNo", postNo);
 		
-		mv.setViewName("redirect:detail.rc");
+		mv.setViewName("redirect:detail.rc?postNo=" + postNo);
 		return mv;
 	}
 	
@@ -120,8 +118,7 @@ public class RecipeController {
 	}
 	
 	@RequestMapping("detail.rc")
-	public ModelAndView recipeDetail(HttpSession session, ModelAndView mv){
-		int postNo = (int)session.getAttribute("postNo");
+	public ModelAndView recipeDetail(@RequestParam("postNo") int postNo, ModelAndView mv){
 		
 		Recipe rb = rService.selectRecipe(postNo);
 		mv.addObject("recipe", rb);
@@ -138,9 +135,7 @@ public class RecipeController {
 	}
 	
 	@RequestMapping("insertReply.rc")
-	public String replyInsert(
-			@ModelAttribute Reply rp,
-			HttpSession session){
+	public String replyInsert(@ModelAttribute Reply rp, HttpSession session){
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int memberNo = loginUser.getMemberNo();
 		int postNo = (int)session.getAttribute("postNo");
@@ -154,13 +149,15 @@ public class RecipeController {
 		
 		int replyNo = cService.insertReply(rp);
 		
-		return "redirect:detail.rc";
+		return "redirect:detail.rc?=postNo" + postNo;
 	}
 
 	@RequestMapping("list.rc")
-	public ModelAndView recipeList(Recipe r, ModelAndView mv){
-		ArrayList<Recipe> rlist = new ArrayList<Recipe>();
-
+	public ModelAndView recipeList(HttpSession session, ModelAndView mv){
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int memberNo = loginUser.getMemberNo();
+		ArrayList<RecipePreview> rlist = rService.selectRecipeList(memberNo);
+		
 		mv.addObject("rlist", rlist);
 		
 		mv.setViewName("recipeList");
@@ -168,10 +165,19 @@ public class RecipeController {
 	}
 	
 	@RequestMapping("search.rc")
-	public ModelAndView recipeSearch(Recipe r, ModelAndView mv){
-		ArrayList<Recipe> rlist = new ArrayList<Recipe>();
+	public ModelAndView recipeSearch(
+			@RequestParam(value = "tag", required=false) ArrayList<String> tags,
+			@RequestParam(value = "ingredient", required=false) ArrayList<String> ingredients,
+			@ModelAttribute SearchCon sc, 
+			ModelAndView mv){
 		
-		mv.addObject(rlist);
+		sc.setIngredientList(ingredients);
+		sc.setTagList(tags);
+		
+		ArrayList<RecipePreview> rlist = rService.searchRecipeList(sc);
+		
+		System.out.println(rlist);
+		mv.addObject("rlist", rlist);
 		
 		mv.setViewName("recipeSearch");
 		return mv;

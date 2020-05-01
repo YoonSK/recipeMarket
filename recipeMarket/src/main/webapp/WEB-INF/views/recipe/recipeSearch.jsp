@@ -70,13 +70,13 @@
 <div class="outer" style="display:flex; justify-content: center;">
     <div class="container" style="width: 1000px; margin: 0 auto; display: flex; flex-direction: column">
         <h1>레시피 검색</h1>
-        <form>
+        <form action="search.rc" method="post">
         <div class="content">
             <div class="option">
                 <div class="mini_option">
                     <span class="option_name">분량</span>
                     <select name="serving">
-                        <option selected="selected">무관</option>
+                        <option value="0" selected="selected">무관</option>
                         <option value="1">1인</option>
                         <option value="2">2인</option>
                         <option value="3">3인</option>
@@ -100,8 +100,8 @@
                 </div>
                 <div class="mini_option">
                     <span class="option_name">시간</span>
-                    <select>
-                        <option value="none" selected="selected">무관</option>
+                    <select name="reqTime">
+                        <option value="0" selected="selected">무관</option>
                         <option value="10">10분 이내</option>
                         <option value="30">30분 이내</option>
                         <option value="60">60분 이내</option>
@@ -111,10 +111,10 @@
                 </div>
                 <div class="mini_option">
                     <span class="option_name">난이도</span>
-                    <select>
-                        <option value="easy">쉬움</option>
-                        <option value="normal">보통 이하</option>
-                        <option value="hard">어려움 이하</option>
+                    <select name="difficulty">
+                        <option value="0">쉬움</option>
+                        <option value="1">보통 이하</option>
+                        <option value="2">어려움 이하</option>
                     </select>
                 </div>
             </div>
@@ -160,74 +160,55 @@
             <div class="option">
                 <span class="option_name">검색</span>
                 <div>
-                    <input type="text" id="search">
+                    <input type="text" id="search" name="keyword">
                 </div>
                 <button type="submit" id="searchBtn" style="background-color: lightgrey; border-radius:10px;margin-left: 10px ">찾기</button>
             </div>
             <div class="option">
                 <span class="option_name">정렬</span>
-                <button type="button" style="background-color: rgba(254,44,19,0.51)">평점순</button>
-                <button type="button"style="background-color: rgba(0,191,255,0.72) ">인기순</button>
-                <button type="button"style="background-color: rgba(156,255,156,0.77)">최신순</button>
+                <button type="button" onclick="setSort('RATING')" style="background-color: rgba(254,44,19,0.51)">평점순</button>
+                <button type="button" onclick="setSort('HIT')" style="background-color: rgba(0,191,255,0.72) ">조회순</button>
+                <button type="button" onclick="setSort('POST_NO')" style="background-color: rgba(156,255,156,0.77)">최신순</button>
+                <input type="hidden" id = "sorter" name="sorter" value=""/>
             </div>
         </div>
         </form>
         
-        <div class="content" style="display: flex; flex-direction: column">
-            <div style="display: flex;">
-                <div class="box">
-                    <a href="insertForm.rc">
-                        <img width="200px" height="200px">
-                        <label class="recipeName">레시피</label>
-                    </a>
-                </div>
-                <div class="box">
-                    <a href="detail.rc">
-                        <img width="200px" height="200px">
-                        <label class="recipeName">레시피</label>
-                    </a>
-                </div>
-                <div class="box" >
-                    <a href="list.rc">
-                        <img width="200px" height="200px">
-                        <label class="recipeName">레시피</label>
-                    </a>
-                </div>
-                <div class="box">
-                    <a href="">
-                        <img width="200px" height="200px">
-                        <label class="recipeName">레시피</label>
-                    </a>
-                </div>
-            </div>
+        <div class="content" style="display: flex; flex-wrap : wrap;">
+	        <div class="box">
+	            <a href="insertForm.rc">
+	                <img width="200px" height="200px">
+	                <label class="recipeName">레시피</label>
+	            </a>
+	        </div>
+	        <div class="box">
+	            <a href="detail.rc">
+	                <img width="200px" height="200px">
+	                <label class="recipeName">레시피</label>
+	            </a>
+	        </div>
+	        <div class="box" >
+	            <a href="list.rc">
+	                <img width="200px" height="200px">
+	                <label class="recipeName">레시피</label>
+	            </a>
+	        </div>
+	        <div class="box">
+	            <a href="">
+	                <img width="200px" height="200px">
+	                <label class="recipeName">레시피</label>
+	            </a>
+	        </div>
 			
-            <div style="display: flex;">
-                <div class="box">
-                    <a href="">
-                        <img width="200px" height="200px">
-                        <label class="recipeName">레시피</label>
-                    </a>
-                </div>
-                <div class="box">
-                    <a href="">
-                        <img width="200px" height="200px">
-                        <label class="recipeName">레시피</label>
-                    </a>
-                </div>
-                <div class="box" >
-                    <a href="">
-                        <img width="200px" height="200px">
-                        <label class="recipeName">레시피</label>
-                    </a>
-                </div>
-                <div class="box">
-                    <a href="">
-                        <img width="200px" height="200px">
-                        <label class="recipeName">레시피</label>
-                    </a>
-                </div>
-            </div>
-
+			<c:forEach items="${rlist}" var="recipe" varStatus="status">
+				<div class="box">
+	        		<a href="detail.rc?postNo=${recipe.postNo}">
+	            	<img width="150px" height="150px" src="resources/upload/<c:out value="${recipe.thumb}"/>">
+	       			<label class="recipeName"><c:out value="${recipe.title}"/></label>
+	    			</a>
+				</div>
+			</c:forEach>
+			
         </div>
     </div>
 </div>
@@ -319,6 +300,10 @@ function randomColor(){
     var z = Math.floor(Math.random() * 160 + 96);
     var bgColor = "rgb(" + x + "," + y + "," + z + ")";
 	return bgColor;
+}
+
+function setSorter(sort){
+	document.getElementById().value = sort;
 }
 </script>
 </html>

@@ -32,6 +32,14 @@
 		<result property="name" column="INGREDIENT"/>
 		<result property="amount" column="AMOUNT"/>
 	</resultMap>
+	
+	<resultMap id="recipeListMap" type="RecipePreView">
+		<id property="postNo" column="POST_NO"/>
+		<result property="title" column="TITLE"/>
+		<result property="thumb" column="CHANGE_NAME"/>
+		<result property="rating" column="RATE"/>
+		<result property="hit" column="HIT"/>
+	</resultMap>
 
 	<insert id="insertRecipe" parameterType="Recipe">		
 		<selectKey keyProperty="postNo" resultType="int" order="BEFORE" >
@@ -88,6 +96,61 @@
 		FROM R_STEP
 		WHERE POST_NO = #{postNo}
 	</select>
+    
+    <select id="selectRecipeList" parameterType="RecipePreview" resultMap="recipeListMap">
+    	SELECT POST_NO, TITLE, CHANGE_NAME
+    	FROM R_BOARD R
+    	JOIN PHOTO P ON(BOARD_NO = 1 AND TARGET_NO = POST_NO AND FILE_LEVEL = 0)
+		WHERE MEMBER_NO = #{memberNo}
+		AND R.DELETED = 'N'
+		ORDER BY POST_NO DESC
+    </select>
+    
+    <select id="searchRecipeList" parameterType="RecipePreview" resultMap="recipeListMap">
+    	SELECT R.POST_NO, R.TITLE, P.CHANGE_NAME, AVG(L.RATING) AS RATE, R.HIT
+    	
+    	FROM R_BOARD R
+    	JOIN PHOTO P ON(P.BOARD_NO = 1 AND P.TARGET_NO = R.POST_NO AND P.FILE_LEVEL = 0)
+    	LEFT OUTER JOIN REPLY L ON(L.BOARD_NO = 1 AND L.TARGET_NO = R.POST_NO)
+    	JOIN R_INGREDIENT G ON(R.POST_NO = G.POST_NO)
+    	JOIN R_TAG T ON(R.POST_NO = T.POST_NO)
+		WHERE R.DELETED = 'N'
+		
+		<if test="keyword != ''">
+			and R.TITLE like '%${keyword}%'
+		</if>
+		<if test='category != null and category != "none" '>
+			and R.CATEGORY = #{category}
+		</if>
+		<if test="serving != null and serving != 0">
+			and R.SERVING = ${serving}
+		</if>
+		<if test="difficulty != null">
+			and R.DIFFICULTY <![CDATA[<=]]> ${difficulty}
+		</if>
+		<if test="reqTime != null and reqTime != 0">
+			and R.REQTIME <![CDATA[<=]]> ${reqTime}
+		</if>
+		
+		<if test="ingredientList != null">
+		and
+		<foreach collection="ingredientList" item="ing"  open="(" close=")" separator="or">
+            G.INGREDIENT = #{ing}
+        </foreach>
+		</if>
+		
+		<if test="tagList != null">
+		and
+        <foreach collection="tagList" item="tag"  open="(" close=")" separator="or">
+            T.TAG = #{tag}
+        </foreach>
+		</if>
+		
+		GROUP BY R.POST_NO, R.TITLE, P.CHANGE_NAME, HIT
+		<if test="sorter != null">
+		ORDER BY ${sorter} DESC
+		</if>
+    </select>
     
     
 	

@@ -45,4 +45,11 @@ public class RecipeDAO {
 		return (ArrayList)sqlSession.selectList("recipeMapper.selectTags", postNo);
 	}
 	
+	public ArrayList<RecipePreview> selectRecipeList(SqlSessionTemplate sqlSession, int memberNo){
+		return (ArrayList)sqlSession.selectList("recipeMapper.selectRecipeList", memberNo);
+	}
+	
+	public ArrayList<RecipePreview> searchRecipeList(SqlSessionTemplate sqlSession, SearchCon sc){
+		return (ArrayList)sqlSession.selectList("recipeMapper.searchRecipeList", sc);
+	}
 }

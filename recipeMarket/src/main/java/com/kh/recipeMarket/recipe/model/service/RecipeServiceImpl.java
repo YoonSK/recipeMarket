@@ -63,13 +63,11 @@ public class RecipeServiceImpl implements RecipeService {
 		}
 		cDAO.insertPhotos(sqlSession, images);
 		
-		
 		return postNo;
 	}
 
 	@Override
 	public Recipe selectRecipe(int postNo) {
-		
 		Recipe rb = rDAO.selectRecipe(sqlSession, postNo);
 		rb.setIngredientList(rDAO.selectIngredients(sqlSession, postNo));
 		rb.setStepList(rDAO.selectRecipeSteps(sqlSession, postNo));
@@ -77,6 +75,16 @@ public class RecipeServiceImpl implements RecipeService {
 		rb.setImgList(cDAO.selectPhotos(sqlSession, 1, postNo));
 
 		return rb;
+	}
+
+	@Override
+	public ArrayList<RecipePreview> selectRecipeList(int memberNo) {
+		return rDAO.selectRecipeList(sqlSession, memberNo);
+	}
+
+	@Override
+	public ArrayList<RecipePreview> searchRecipeList(SearchCon sc) {
+		return rDAO.searchRecipeList(sqlSession, sc);
 	}
 
 	

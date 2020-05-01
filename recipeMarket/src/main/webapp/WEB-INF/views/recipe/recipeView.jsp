@@ -166,11 +166,12 @@
                     	</div>
                 	</div>
                 	<div style="color: #fd7e14">
-	                    <span>★</span>
-	                    <span>★</span>
-	                    <span>★</span>
-	                    <span>★</span>
-	                    <span>★</span>
+                		<c:forEach var="fullStar" begin="1" end="${reply.rating / 2}" step="1">
+	                    	<span>★</span>
+						</c:forEach>
+                		<c:if test="${reply.rating %2 == 1}">
+	                    	<span>☆</span>
+                		</c:if>
                 	</div>
             	</div>
             	<div style="display: block; min-height: 60px; width:100%; background-color: #e8e5da; padding: 8px">
@@ -193,34 +194,34 @@
                 </div>
                 <div class="starbox" style="height: 40px;">
                     <span>
-                        <img class="star-left" id = "star1" onclick="rating(1)" src="resources/images/star_left.png">
+                        <img class="star-left" id = "star1" onclick="ratingStar(1)" src="resources/images/star_left.png">
                     </span>
                     <span>
-                        <img class="star-right" id = "star2" onclick="rating(2)" src="resources/images/star_right.png">
+                        <img class="star-right" id = "star2" onclick="ratingStar(2)" src="resources/images/star_right.png">
                     </span>
                     <span>
-                        <img class="star-left" id = "star3" onclick="rating(3)" src="resources/images/star_left.png">
+                        <img class="star-left" id = "star3" onclick="ratingStar(3)" src="resources/images/star_left.png">
                     </span>
                     <span>
-                        <img class="star-right" id = "star4" onclick="rating(4)" src="resources/images/star_right.png">
+                        <img class="star-right" id = "star4" onclick="ratingStar(4)" src="resources/images/star_right.png">
                     </span>
                     <span>
-                        <img class="star-left" id = "star5" onclick="rating(5)" src="resources/images/star_left.png">
+                        <img class="star-left" id = "star5" onclick="ratingStar(5)" src="resources/images/star_left.png">
                     </span>
                     <span>
-                        <img class="star-right" id = "star6" onclick="rating(6)" src="resources/images/star_right.png">
+                        <img class="star-right" id = "star6" onclick="ratingStar(6)" src="resources/images/star_right.png">
                     </span>
                     <span>
-                        <img class="star-left" id = "star7" onclick="rating(7)" src="resources/images/star_left.png">
+                        <img class="star-left" id = "star7" onclick="ratingStar(7)" src="resources/images/star_left.png">
                     </span>
                     <span>
-                        <img class="star-right" id = "star8" onclick="rating(8)" src="resources/images/star_right.png">
+                        <img class="star-right" id = "star8" onclick="ratingStar(8)" src="resources/images/star_right.png">
                     </span>
                     <span>
-                        <img class="star-left" id = "star9" onclick="rating(9)" src="resources/images/star_left.png">
+                        <img class="star-left" id = "star9" onclick="ratingStar(9)" src="resources/images/star_left.png">
                     </span>
                     <span>
-                        <img class="star-right" id = "star10" onclick="rating(10)" src="resources/images/star_right.png">
+                        <img class="star-right" id = "star10" onclick="ratingStar(10)" src="resources/images/star_right.png">
                     </span>
                 </div>
                 <input type="hidden" id="rate" name="rating" value="0"/>
@@ -238,25 +239,24 @@
 </div>
 </body>
 <script>
-    function rating(no) {
-        let num = parseInt(no);
-        document.getElementById('rate').value = num;
-        let img = document.getElementById('star' + String(num));
+    function ratingStar(no) {
+        document.getElementById('rate').value = no;
+        var img = document.getElementById('star' + no);
         img.src= "resources/images/star_left_on.png";
-        for (let i = 1; i <= num; i++){
+        for (let i = 1; i <= no; i++){
             if ( i%2 == 1){
-                document.getElementById('star' + String(i)).src = "resources/images/star_left_on.png";
+                document.getElementById('star' + i).src = "resources/images/star_left_on.png";
             }
             else{
-                document.getElementById('star' + String(i)).src = "resources/images/star_right_on.png";
+                document.getElementById('star' + i).src = "resources/images/star_right_on.png";
             }
         }
         for (let j = 10; j > num; j--){
             if ( j%2 == 1){
-                document.getElementById('star' + String(j)).src = "resources/images/star_left.png";
+                document.getElementById('star' + j).src = "resources/images/star_left.png";
             }
             else{
-                document.getElementById('star' + String(j)).src = "resources/images/star_right.png";
+                document.getElementById('star' + j).src = "resources/images/star_right.png";
             }
         }
     }

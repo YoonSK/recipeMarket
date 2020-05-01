@@ -11,6 +11,7 @@ public interface RecipeService {
 
 	Recipe selectRecipe(int postNo);
 	
-	
-	
+	ArrayList<RecipePreview> selectRecipeList(int memberNo);
+
+	ArrayList<RecipePreview> searchRecipeList(SearchCon sc);
 }
