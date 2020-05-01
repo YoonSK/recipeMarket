@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>      
+    pageEncoding="UTF-8"%>     
 <!DOCTYPE html>
 <html>
 <head>
@@ -2541,7 +2540,6 @@ html[subframe] body {
 </style>
 </head>
 <body>
-	<c:import url="../common/header.jsp"/>
 	<div id="error-container" style="text-align: center;">
 		<h1>Error</h1>
 		<h2 style="color:red;">${ message }</h2>
@@ -2570,7 +2568,7 @@ html[subframe] body {
    }(document, 'script', 'facebook-jssdk'));
 </script>
 <div id="main-frame-error" class="interstitial-wrapper" jstcache="0">
-    <div class="onlyforchrome" style="font-size: 30px;text-align: center;font-family: Helvetica;">공룡 게임</div>
+    <div class="onlyforchrome" style="font-size: 30px;text-align: center;font-family: Helvetica;">쉬어가기</div>
     <div class="onlyforchrome" style="margin-top:5px;text-align:center;color:#8a8a8a;margin-bottom:80px; font-size:.8em;line-height:1.2em;font-family: Georgia;"><strong>스페이스를 누르세요</strong></div>
 	<div id="main-frame-notchrome" style="display:none; margin-top:50px;">Sorry, this game only runs on the Google Chrome! You can download it free <a href="https://www.google.com/chrome">here</a></div>
     <div id="offline-resources" jstcache="0">
