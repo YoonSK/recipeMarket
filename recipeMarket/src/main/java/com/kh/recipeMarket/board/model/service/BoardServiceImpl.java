@@ -129,6 +129,18 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 
+	@Override
+	public Board selectrCount(int postNo) {
+		return bDAO.selectrCount(sqlSession,postNo);
+	}
+
+
+	@Override
+	public int rDelete(int replyNo) {
+		return bDAO.rDelete(sqlSession,replyNo);
+	}
+
+
 //	@Override
 //	public Like like(int targetNo, int memberNo) {
 //		return bDAO.selectLike(sqlSession, targetNo,memberNo);

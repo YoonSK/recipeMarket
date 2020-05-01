@@ -48,6 +48,10 @@ public interface BoardService {
 
 	ArrayList<Board> gCount(PageInfo pi);
 
+	Board selectrCount(int postNo);
+
+	int rDelete(int replyNo);
+
 	
 
 //	int insertBoard(String nickName);

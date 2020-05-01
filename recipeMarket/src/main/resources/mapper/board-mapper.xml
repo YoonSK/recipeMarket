@@ -45,6 +45,8 @@
 		<result property="category" column="CATEGORY"/>
 		<result property="nickName" column="NICKNAME"/>
 		<result property="pName" column="CHANGE_NAME"/>
+		<result property="rCount" column="RCOUNT"/>
+		
 	</resultMap>
 	
 	<insert id="inserBoard" parameterType="Board">
@@ -75,7 +77,7 @@
 		select post_no, count(reply_no)as RCOUNT
 		from f_board f
     		full outer join reply r on(post_no = target_no)
-    	where f.deleted = 'N'
+    	where f.deleted = 'N' and r.deleted = 'N'
 		group by post_no
 		order by post_no desc
 	</select>
@@ -149,7 +151,7 @@
 		from reply r
 			JOIN MEMBER M USING(MEMBER_NO)
 			LEFT OUTER JOIN PHOTO p on(MEMBER_NO = p .target_no)
-		where r.target_no = #{postNo}
+		where r.target_no = #{postNo} and r.deleted='N'
 		order by reply_no desc
 	</select>
 	
@@ -191,5 +193,19 @@
 		from GOOD
 		where board_no = 2 and target_no = #{targetNo} and member_no = #{memberNo}
 	</select>
+	
+	<select id="rCount" resultMap="boardResultSet">
+		select post_no, count(*) as rcount
+		from f_board
+    		join good on(target_no = post_no)
+		where board_no = 2 and target_no = #{postNo}
+		group by post_no
+	</select>
+	
+	<update id="rDelete" parameterType="Reply">
+		update reply
+		set deleted='Y'
+		where reply_no = #{replyNo}
+	</update>
 	
 </mapper>
