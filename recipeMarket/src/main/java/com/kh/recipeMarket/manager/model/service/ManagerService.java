@@ -2,6 +2,7 @@ package com.kh.recipeMarket.manager.model.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.buy.model.vo.Order;
@@ -35,9 +36,17 @@ public interface ManagerService {
 
 	int getSearchListCount(Product p);
 
-	ArrayList<Product> searchList(Product p);
+	ArrayList<Product> searchList(Product p,PageInfo pi);
 
-	ArrayList<Product> productSortList(Product p);
+	ArrayList<Product> productSortList(Product p,PageInfo pi);
+
+	int productSortCount(Product p);
+
+	List<Product> selectExcelList();
+
+	ArrayList<Product> selectsList(Product p, PageInfo pi);
+
+	int productStatusCount(Product p);
 
 
 }

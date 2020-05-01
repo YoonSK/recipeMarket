@@ -13,34 +13,23 @@
 <title>레시피 마켓  - 재고관리</title>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script> 
 <style>
-	select{
-		    height: 30px;
-    width: 150px;
-    border-radius: 10px;
-    margin-left: 1%;
-	}
-	#selectT{
-		margin-bottom: 10px;
-	}
-	#count{
-		height:35px;
-	}
-	#selectT, #productT, #count{
-		width: 80%;
-		margin-left:10%;
-	}
-	th{
-		background: #e8e5da;
-		    height: 40px;
-	}
-	#keyword{
-		outline: none;
-	    height: 25px;
-	    border-radius: 5px;
-	    border: 1px solid lightgray;
-	    vertical-align: bottom;
-    }
-    
+
+/* 페이징 버튼 */
+	.pagingArea{border-left: hidden; border-right: hidden;}
+	.pagingArea button{background-color: white; color: black; text-decoration: none; transition: background-color .3s; border: 1px solid #add1c3; font-size: 15px; font-weight: 700;}	
+	.pagingArea button:hover{background-color: #add1c3; color: white; cursor: pointer;}
+	.pagingArea button:disabled{background-color: gray;}
+	.pagingArea button:disabled:hover{cursor: not-allowed; color: black;}
+	
+/* select 설정 */	
+	select{height: 30px; width: 150px; border-radius: 10px;margin-left: 1%;}
+	#selectT{margin-bottom: 10px;}
+	
+/* 검색항목 갯수  */
+	#count{height:35px;}
+	#selectT, #productT, #count{width: 80%; margin-left:10%; }
+	th{	background: #e8e5da; height: 40px;}
+	#keyword{ outline: none; height: 25px; border-radius: 5px; border: 1px solid lightgray; vertical-align: bottom;}
     #updateBtn, #updateProduct{
     	background: orangered;
     	color: white;
@@ -53,14 +42,7 @@
     	font-size: 13pt;
 	    font-weight: 700;
     }
-    .insertDate{
-    	height: 25px;
-    width: 150px;
-    border-radius: 5px;
-    border:1px solid lightgray;
-    margin-left: 1%;
-    }
-    
+    .insertDate{height: 25px; width: 150px; border-radius: 5px; border:1px solid lightgray; margin-left: 1%; }
     .insertBtn{
     	background : #ff6464;
     	color: white;
@@ -81,6 +63,8 @@
     button{
     	cursor:pointer;
     }
+    
+    /* 모달창 */
     .modal {display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
     .modal-content {background-color: #fefefe; margin: 20% auto; padding: 20px; border: 1px solid #888; width: 50%; height: auto;}
     .close {color: #aaa; float: right; font-size: 28px; font-weight: bold;}
@@ -133,8 +117,14 @@
     .show {display:block} /*보여주기*/
 	.hide {display:none} /*숨기기*/
 	
-	
-	@-webkit-keyframes blink{
+	.blinking{
+		color: white;
+		background: pink;
+		-webkit-animation:blink .5s ease-in-out infinite alternate;
+		-moz-animation:blink .5s ease-in-out infinite alternate;
+		animation:blink .5s ease-in-out infinite alternate;
+    }
+    @-webkit-keyframes blink{
         0% {opacity:0.4;}
         100% {opacity:1;}
     }
@@ -164,7 +154,7 @@
 							<tr>
 								<th class="head">상품분류</th>
 								<td><select name="category" id="category">
-									    <option value="">대분류</option>
+									    <option value="">분류</option>
 									    <option value="곡류">곡류</option>
 										<option value="과일류">과일류</option>
 										<option value="채소류">채소류</option>
@@ -178,10 +168,10 @@
 							<tr>
 								<th class="head">재고상태</th>
 								<td>
-									<input type="radio" id="chk_info" name="chk_info" value="전체">전체
-									<input type="radio" id="chk_info" name="chk_info" value="품절">품절
-									<input type="radio" id="chk_info" name="chk_info" value="부족">부족
-									<input type="radio" id="chk_info" name="chk_info" value="여유">여유
+									<input type="radio" id="all" name="pStatus" value="전체"  onclick=productStatusAll();>전체
+									<input type="radio" id="none" name="pStatus" value="품절" onclick=productStatusNone();>품절
+									<input type="radio" id="less" name="pStatus" value="부족" onclick=productStatusLess();>부족
+									<input type="radio" id="enough" name="pStatus" value="여유" onclick=productStatusEnough();>여유
 								</td>
 							</tr>
 							
@@ -204,6 +194,7 @@
 								<th  class="head">검색조건</th>
 								<td>
 								<select name="searchCate" id="searchCate">
+								 	<option value="">검색조건</option>
 								    <option value="상품명">상품명</option>
 								    <option value="상품코드">상품코드</option>
 								</select>
@@ -228,6 +219,7 @@
 									<th>출고</th>
 									<th>재고</th>
 									<th>상태</th>
+									<th>등록일자</th>
 									<th>기능</th>
 								</tr>
 							</thead>
@@ -266,6 +258,9 @@
 											여유
 										</c:if>
 									</td>
+									<td>
+										${ product.createDate }
+									</td>
 									<td id="btnArea${product.productNo}">
 										<button id="moneyBtn" type="button">판매수익</button>
 										<button id="updateBtn${product.productNo}" style="background: orangered; color: white; height: 30px; border: none; border-radius: 5px; width: 50px;" type="button">수정</button>
@@ -281,15 +276,18 @@
 										$('#incomeVal${product.productNo}').html('<input type="text" id="income" value="${product.income}" style="height: 30px;border: none; border-radius: 5px;width: 50px; background: #ddfcff; color: black;" name="income"><input type="hidden" name="productNo" value="${product.productNo }">');
 										
 									});
-									var count = 0;
 									
+									
+									$('#updateProduct').click(function(){
+										
+									})
 									/* 판매수익 버튼 이벤트 */
 									$('#moneyBtn').click(function(){
 										//	$('#a').html('<tr><td id="count" colspan="8">수량</td></tr>');
 									});
 								 	
 									/* 엑셀 파일 만들기 이벤트 */
-								/*	function doExcelDownloadProcess(){
+									function doExcelDownloadProcess(){
 									         var productNo = ${product.productNo};
 									        
 									        $.ajax({
@@ -299,55 +297,206 @@
 									                console.log(data);
 									            }
 									        });
-									    } */
+									    } 
 									    
+									    
+									    /* 상태별 조회  */	
+					/* 					function productStatus(data){
+											var status = data.innerText;
+											location.href = "productStatus.ma?status="+pStatus+"&page=1";
+										} */
 									    
 										/* 기간별 조회  */	
 										function sortDate(data){
 											var sortDate = data.innerText;
 											location.href = "productSort.ma?sortDate="+sortDate+"&page=1";
 										}
+									    
+									    /* 검색 버튼 이벤트 */
+										function searchProduct(){
+											var keyword= $('#keyword').val();
+											var searchCate= $('#searchCate').val();
+											var category= $('#category').val();
+											console.log("keyword : "+ keyword + " searchCate : "+ searchCate + " category : " + category);
+											
+											if(keyword != ""){
+												if(searchCate == ""){
+													alert("검색 조건을 설정해주세요.");
+												}
+												
+											 }
+											/* 검색 조건을 설정하지 않고 검색 시 모든 리스트 출력 */
+											if(keyword == "" && searchCate =="" && category==""){
+												$('#searchCate').attr("required" , false);
+												location.href="pManage.ma";
+											/* 분류 미선택 + 검색 조건을 설정하지 않고 검색할 경우 검색 조건 설정 alert */
+											}else if(category == "" && keyword != "" && searchCate ==""){
+												$('#searchCate').attr("required" , true);
+											}else if(category == "" ){
+											 location.href = "searchProduct.ma?keyword="+keyword+"&searchCate="+searchCate+"&page=1";
+											}else {
+												location.href = "searchProduct.ma?keyword="+keyword+"&searchCate="+searchCate+"&category="+category +"&page=1"; 
+											}
+										}
+									    
+									    
+									    /* 재고 상태로 검색  */
+										function productStatusAll(){
+											var pStatus=$("input:radio[id=all]").val();
+											location.href = "productStatus.ma?pStatus="+pStatus+"&page=1";
+										}
+										function productStatusNone(){
+											var pStatus=$("input:radio[id=none]").val();
+											location.href = "productStatus.ma?pStatus="+pStatus+"&page=1";
+										}
+										function productStatusLess(){
+											var pStatus=$("input:radio[id=less]").val();
+											location.href = "productStatus.ma?pStatus="+pStatus+"&page=1";
+										}
+										function productStatusEnough(){
+											var pStatus=$("input:radio[id=enough]").val();
+											location.href = "productStatus.ma?pStatus="+pStatus+"&page=1";
+										}
 								</script>
 							</c:forEach>
 							
 							 	<!-- 페이징 처리 -->
-						      	<tr align="center" height="20" id="buttonTab">
-						        	<td colspan="9">
-						         
+						      	<tr align="center" height="20" id="buttonTab" class="pagingArea">
+						        	<td colspan="10">
 						        	<!-- [이전] -->
-						        	<c:if test="${ pi.currentPage <= 1 }">
-						            	   [이전] &nbsp;
-						            </c:if>
-						            <c:if test="${ pi.currentPage > 1 }">
-						               <c:url var="before" value="pManage.ma">
-						                  <c:param name="page" value="${ pi.currentPage - 1 }"/>
-						               </c:url>
-						               <a href="${ before }">[이전]</a> &nbsp;
-						            </c:if>
+							        	<c:if test="${ pi.currentPage <= 1 }">
+							            	  <button disabled>&laquo;</button>
+							            </c:if>
+							            <c:if test="${ pi.currentPage > 1 }">
+							            	<c:choose>
+												<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/productSort.ma'}">
+													<c:url var="before" value="productSort.ma">
+														<c:param name="sortDate" value="${ sortDate }"/>											
+														<c:param name="page" value="${ pi.currentPage - 1 }"/>
+													</c:url>	
+												</c:when>
+												<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/searchProduct.ma'}">
+												<%-- 	<c:url var="before" value="searchProduct.ma"> --%>
+													<c:if test="category== ''">
+														<c:url var="before" value="searchProduct.ma">
+															<c:param name="keyword" value="${ keyword }"/>
+															<c:param name="searchCate" value="${ searchCate }"/>
+															<c:param name="page" value="${ pi.currentPage - 1 }"/>		
+														</c:url>
+													</c:if>	
+														
+														<c:if test="category != '' && keyword == '' && searchCate==''">
+															<c:url var="before" value="searchProduct.ma">
+																<c:param name="category" value="${ category }"/>									
+																<c:param name="page" value="${ pi.currentPage - 1 }"/>
+															</c:url>
+														</c:if>
+														<%-- <c:param name="keyword" value="${ param.keyword }"/>
+														<c:param name="searchCate" value="${ param.searchCate }"/>	
+														<c:param name="category" value="${ param.category }"/>								
+														<c:param name="page" value="${ pi.currentPage - 1 }"/> --%>
+												<%-- 	</c:url> --%>	
+												</c:when>
+												<c:otherwise>	
+									               <c:url var="before" value="pManage.ma">
+									                  <c:param name="page" value="${ pi.currentPage - 1 }"/>
+									               </c:url>
+								               </c:otherwise>
+							             </c:choose>
+							               <button onclick="location.href='${ before }'">&laquo;</button>
+							            </c:if>
 						            
 						            <!-- 페이지 -->
 						            <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
 						               <c:if test="${ p eq pi.currentPage }">
-						                  <font color="red" size="4"><b>[${ p }]</b></font>
+						                 <button disabled>${ p }</button>
 						               </c:if>
 						               
 						               <c:if test="${ p ne pi.currentPage }">
-						                  <c:url var="pagination" value="pManage.ma">
-						                     <c:param name="page" value="${ p }"/>
-						                  </c:url>
+						               	<c:choose>
+											<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/productSort.ma'}">																												
+												<c:url var="pagination" value="productSort.ma">
+													<c:param name="sortDate" value="${ sortDate }"/>
+													<c:param name="page" value="${ p }"/>
+												</c:url>
+											</c:when>
+											<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/searchProduct.ma'}">																												
+												<c:url var="pagination" value="searchProduct.ma">
+												<c:if test="${ param.category } == ''">
+														<c:param name="keyword" value="${ param.keyword }"/>
+														<c:param name="searchCate" value="${ param.searchCate }"/>
+														<c:param name="page"  value="${ p }"/>
+														</c:if>
+												</c:url>		
+								<%-- 						
+													<c:if test="category == ''">
+														<c:url var="pagination" value="searchProduct.ma">
+															<c:param name="keyword" value="${ keyword }"/>
+															<c:param name="searchCate" value="${ searchCate }"/>
+															<c:param name="page" value="${ p }"/>	
+														</c:url>	
+													</c:if>	
+													
+													<c:if test="category != '' && keyword == '' && searchCate==''">
+													<c:url var="pagination" value="searchProduct.ma">
+															<c:param name="category" value="${ category }"/>									
+															<c:param name="page" value="${ p }"/>
+													</c:url>
+													</c:if> --%>
+											</c:when>
+											<c:otherwise>	
+							                  <c:url var="pagination" value="pManage.ma">
+							                     <c:param name="page" value="${ p }"/>
+							                  </c:url>
+						                  </c:otherwise>
+						                </c:choose>
 						                  <a href="${ pagination }">${ p }</a> &nbsp;
 						               </c:if>
 						            </c:forEach>
 						            
 						            <!-- [다음] -->
 						            <c:if test="${ pi.currentPage >= pi.maxPage }">
-						               [다음]
+						              <button disabled>&raquo;</button>
 						            </c:if>
 						            <c:if test="${ pi.currentPage < pi.maxPage }">
-						               <c:url var="after" value="pManage.ma">
-						                  <c:param name="page" value="${ pi.currentPage + 1 }"/>
-						               </c:url> 
-						               <a href="${ after }">[다음]</a>
+						            	<c:choose>
+											<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/productSort.ma'}">																												
+												<c:url var="after" value="productSort.ma">	
+													<c:param name="sortDate" value="${ sortDate }"/>										
+													<c:param name="page" value="${ pi.currentPage + 1 }"/>										
+												</c:url>					
+											</c:when>	
+											<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/searchProduct.ma'}">
+											
+												<c:url var="after" value="searchProduct.ma">
+														<%-- 	<c:param name="keyword" value="${ keyword }"/>
+															<c:param name="searchCate" value="${ searchCate }"/> --%>
+															<c:param name="page" value="${ pi.currentPage + 1 }"/>	
+												</c:url>
+																																							
+												<%-- 
+													<c:if test="${ param.category } == ''">
+														<c:url var="after" value="searchProduct.ma">
+															<c:param name="keyword" value="${ keyword }"/>
+															<c:param name="searchCate" value="${ searchCate }"/>
+															<c:param name="page" value="${ pi.currentPage + 1 }"/>		
+														</c:url>
+													</c:if>	
+													
+													<c:if test="category != '' && keyword == '' && searchCate==''">
+														<c:url var="after" value="searchProduct.ma">
+															<c:param name="category" value="${ category }"/>									
+															<c:param name="page" value="${ pi.currentPage + 1 }"/>
+														</c:url>
+													</c:if> --%>
+											</c:when>
+											<c:otherwise>
+								               <c:url var="after" value="pManage.ma">
+								                  <c:param name="page" value="${ pi.currentPage + 1 }"/>
+								               </c:url> 
+								            </c:otherwise>
+						              	</c:choose>
+						             <button onclick="location.href='${ after }'">&raquo;</button>								
 						            </c:if>
 						         </td>
 						      </tr>	
@@ -365,15 +514,6 @@
 		<script>
 		function insertProduct(){
 			$('#cmodal').attr('style', 'display:block');
-		}
-		/* 검색 버튼 이벤트 */
-		function searchProduct(){
-			var keyword= $('#keyword').val();
-			var searchCate= $('#searchCate').val();
-			var category= $('#category').val();
-			var startDate = $('#startDate').val();
-			var endDate = $('#endDate').val();
-			 location.href = "searchProduct.ma?keyword="+keyword+"&searchCate="+searchCate+"&category="+category; 
 		}
 		
 			
@@ -425,7 +565,7 @@
 								<th class="head">상품분류</th>
 								<td>
 									<select name="category" required>
-									    <option value="">대분류</option>
+									    <option value="">분류</option>
 									    <option value="곡류">곡류</option>
 									    <option value="과일류">과일류</option>
 									    <option value="채소류">채소류</option>
@@ -439,7 +579,7 @@
 							<tr>
 								<th class="head">상품명</th>
 								<td>
-									<input type="text" name="name" required placeholder="상품명을 입력해주세요." class="insertDate" style="width: 200px;">
+									<input type="text" name="name"  placeholder="상품명을 입력해주세요." class="insertDate" style="width: 200px;" required>
 								</td>
 							</tr>
 						
@@ -474,6 +614,11 @@
 				$('span.close').click(function(){
 					$('#cmodal').attr('style', 'display:none');
 				});		
+				
+				
+				function cancelBtn(){
+					$('#cmodal').attr('style', 'display:none');
+				}
 					
 
 				</script>

@@ -10,6 +10,10 @@
 <meta charset="UTF-8">
 <title>레시피 마켓</title>
 <style>
+	
+	.slick-prev{
+		background: blue;
+	}
 	.icon{
 		width:100px;
 	}
@@ -25,6 +29,13 @@
 	.slick-prev:before{
 		color: black;
 	}
+		/* 슬라이드 화살표 */
+.slick-prev:before,.slick-next:before{
+	background: black;
+}
+.slick-next{
+	right: 0;
+}
 	
 /* 	.slide{
 		background: lightblue;
