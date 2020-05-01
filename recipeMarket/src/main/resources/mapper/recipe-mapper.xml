@@ -152,6 +152,21 @@
 		</if>
     </select>
     
+    <delete id="clearRecipe">
+    	DELETE
+    	FROM R_STEP R, R_INGREDIENT G, PHOTO P
+    	LEFT JOIN R_INGREDIENT G ON(G.POST_NO = R_POST_NO)
+    	LEFT JOIN R_TAG T ON(T.POST_NO = R.POST_NO)
+    	LEFT JOIN PHOTO ON(BOARD_NO = 1 AND TARGET_NO = R.POST_NO)
+    	WHERE R.POST_NO = #{postNo}
+    </delete>
+    
+    <update id="deleteRecipe" parameterType="Recipe">
+    	UPDATE R_BOARD
+    	SET DELETED = 'Y'
+    	WHERE POST_N0 = ${postNo}
+    </update>
+    
     
 	
 </mapper>

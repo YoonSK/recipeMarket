@@ -152,7 +152,7 @@
                         </span>
                     </div>
                     <div id="ingredientBox">
-                    
+                    	
                     </div>
                 </div>
                 <div class="option" style="display: block">
@@ -171,6 +171,7 @@
                         </div>
                     </div>
                     <div id="tagBox">
+                    
                     </div>
                 </div>
             </div>
@@ -387,6 +388,50 @@ function imagepreview(input){
        filerd.readAsDataURL(input.files[0]);
    }
  }
+
+var prevIng = ${ingredientList};
+prevIng.forEach(function (item, index, array) {
+	var Name = ${item.name};
+  	var Amount = ${item.amount};
+  	
+  	if (Name && Amount &&isNew('ing' + Name)){
+  		ingNo += 1;
+      	document.getElementById( 'addIngredient' ).value = '';
+      	document.getElementById( 'addAmount' ).value = '';
+  		
+  		var Btn = document.createElement( 'button' );
+      	Btn.setAttribute('class', 'ingredient');
+      	Btn.setAttribute('id', 'ing' + Name);
+      	Btn.setAttribute('value', 'ing' + ingNo);
+      	Btn.setAttribute('type', 'button');
+      	Btn.addEventListener('click', function(event) {
+      		this.remove();
+      		document.getElementById(this.value).remove();
+      		document.getElementById(this.value + 'amt').remove();
+      	})
+          var BtnText = document.createTextNode( Name + ' - ' + Amount);
+          Btn.appendChild( BtnText );
+          
+          var BtnVal = document.createElement( 'input' );
+      	BtnVal.setAttribute('id', 'ing' + ingNo);
+      	BtnVal.setAttribute('type', 'hidden');
+      	BtnVal.setAttribute('name', 'ingredient');
+      	BtnVal.setAttribute('value', Name);
+
+      	var BtnVal2 = document.createElement( 'input' );
+      	BtnVal2.setAttribute('id', 'ing' + ingNo + 'amt');
+      	BtnVal2.setAttribute('type', 'hidden');
+      	BtnVal2.setAttribute('name', 'amount');
+      	BtnVal2.setAttribute('value', Amount);
+      	
+          Btn.style.background = randomColor();
+          document.getElementById('ingredientBox').appendChild( Btn );
+          document.getElementById('ingredientBox').appendChild( BtnVal );
+          document.getElementById('ingredientBox').appendChild( BtnVal2 );
+  	}
+});
+
+
 
 </script>
 </html>

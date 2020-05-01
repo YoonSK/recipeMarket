@@ -33,8 +33,8 @@
             display: flex;
             flex-direction: column;
             text-align: center;
-            width: 200px;
-            height: 250px;
+            width: 150px;
+            height: 200px;
             margin: 15px 15px auto;
         }
         .example{
@@ -166,10 +166,10 @@
             </div>
             <div class="option">
                 <span class="option_name">정렬</span>
-                <button type="button" onclick="setSort('RATING')" style="background-color: rgba(254,44,19,0.51)">평점순</button>
-                <button type="button" onclick="setSort('HIT')" style="background-color: rgba(0,191,255,0.72) ">조회순</button>
-                <button type="button" onclick="setSort('POST_NO')" style="background-color: rgba(156,255,156,0.77)">최신순</button>
-                <input type="hidden" id = "sorter" name="sorter" value=""/>
+                <button type="button" id="sortBtnRate" onclick="setSorter(1)" style="background-color: rgba(254,44,19,0.51)">평점순</button>
+                <button type="button" id="sortBtnHit" onclick="setSorter(2)" style="background-color: rgba(0,191,255,0.72) ">조회순</button>
+                <button type="button" id="sortBtnNew" onclick="setSorter(3)" style="background-color: rgba(156,255,156,0.77)">최신순</button>
+                <input type="hidden" id = "sorter" name="sorter" value="POST_NO"/>
             </div>
         </div>
         </form>
@@ -177,25 +177,25 @@
         <div class="content" style="display: flex; flex-wrap : wrap;">
 	        <div class="box">
 	            <a href="insertForm.rc">
-	                <img width="200px" height="200px">
+	                <img width="150px" height="150px">
 	                <label class="recipeName">레시피</label>
 	            </a>
 	        </div>
 	        <div class="box">
 	            <a href="detail.rc">
-	                <img width="200px" height="200px">
+	                <img width="150px" height="150px">
 	                <label class="recipeName">레시피</label>
 	            </a>
 	        </div>
 	        <div class="box" >
 	            <a href="list.rc">
-	                <img width="200px" height="200px">
+	                <img width="150px" height="150px">
 	                <label class="recipeName">레시피</label>
 	            </a>
 	        </div>
 	        <div class="box">
 	            <a href="">
-	                <img width="200px" height="200px">
+	                <img width="150px" height="150px">
 	                <label class="recipeName">레시피</label>
 	            </a>
 	        </div>
@@ -303,7 +303,23 @@ function randomColor(){
 }
 
 function setSorter(sort){
-	document.getElementById().value = sort;
+	if (sort == 1){
+		document.getElementById("sortBtnRate").style.border = "1.5px solid #000000";
+		document.getElementById("sortBtnHit").style.border = "none";
+		document.getElementById("sortBtnNew").style.border = "none";
+		document.getElementById("sorter").value = "RATE";
+	}
+	else if (sort == 2){
+		document.getElementById("sortBtnRate").style.border = "none";
+		document.getElementById("sortBtnHit").style.border = "1.5px solid #000000";
+		document.getElementById("sortBtnNew").style.border = "none";
+		document.getElementById("sorter").value = "HIT";
+	}else if (sort == 3){
+		document.getElementById("sortBtnRate").style.border = "none";
+		document.getElementById("sortBtnHit").style.border = "none";
+		document.getElementById("sortBtnNew").style.border = "1.5px solid #000000";
+		document.getElementById("sorter").value = "POST_NO";
+	} 
 }
 </script>
 </html>

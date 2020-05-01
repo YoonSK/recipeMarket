@@ -52,4 +52,13 @@ public class RecipeDAO {
 	public ArrayList<RecipePreview> searchRecipeList(SqlSessionTemplate sqlSession, SearchCon sc){
 		return (ArrayList)sqlSession.selectList("recipeMapper.searchRecipeList", sc);
 	}
+
+	public int clearRecipe(SqlSessionTemplate sqlSession, int postNo) {
+		return sqlSession.delete("recipeMapper.clearRecipe", postNo);
+	}
+	
+	public int deleteRecipe(SqlSessionTemplate sqlSession, int postNo) {
+		return sqlSession.delete("recipeMapper.deleteRecipe", postNo);
+	}
+
 }

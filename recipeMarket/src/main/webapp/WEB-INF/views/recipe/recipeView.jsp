@@ -147,8 +147,16 @@
     </div>
 
     <div class="flex" style="height: 30px; width: 100%">
-        <button style="width: 50%">구독</button>
-        <button style="width: 50%">담아두기</button>
+    <c:choose>
+    	<c:when test="${loginUser.memberNo == recipe.memberNo}">
+        <button class="reactBtn" type="submit" onclick='location.href="updateForm.rc?postNo=${recipe.postNo}";' style="width: 50%">수정</button>
+        <button class="reactBtn" type="submit" onclick='location.href="delete.rc?postNo=${recipe.postNo}";' style="width: 50%">삭제</button>
+    	</c:when>
+    	<c:otherwise>
+        <button class="reactBtn" type="submit" onclick='location.href="follow.rc?postNo=${recipe.memberNo}";' style="width: 50%">구독</button>
+        <button class="reactBtn" type="submit" onclick='location.href="save.rc?postNo=${recipe.postNo}";' style="width: 50%">담아두기</button>
+    	</c:otherwise>
+    </c:choose>
     </div>
 
     <div style="min-height: 60px">

@@ -117,6 +117,56 @@ public class RecipeController {
 		return photos;
 	}
 	
+	@RequestMapping("updateForm.rc")
+	public ModelAndView recipeUpdateForm(@RequestParam("postNo") int postNo, ModelAndView mv){
+		
+		Recipe rb = rService.selectRecipe(postNo);
+		mv.addObject("recipe", rb);
+		mv.addObject("ingredientList", rb.getIngredientList());
+		mv.addObject("tagList", rb.getTagList());
+		mv.addObject("stepList", rb.getStepList());
+		mv.addObject("imgList", rb.getImgList());
+		
+		ArrayList<Reply> rplist = cService.selectReplies(new Enum().boardNo("recipe"), postNo);
+		mv.addObject("replyList", rplist);
+		
+		mv.setViewName("recipeUpdate");
+		return mv;
+	}
+	
+	@RequestMapping("update.rc")
+	public ModelAndView recipeUpdate(
+			@RequestParam("postNo") int postNo,
+			@RequestParam("stepContent") ArrayList<String> steps,
+			@RequestParam("ingredient") ArrayList<String> ingredients,
+			@RequestParam("amount") ArrayList<String> amounts,
+			@RequestParam("tag") ArrayList<String> tags,
+			@ModelAttribute Recipe r,
+			@RequestParam("recipeImg") MultipartFile[] recipeImages,
+			HttpSession session,
+			ModelAndView mv,
+			HttpServletRequest request
+			)
+	{
+		r.setPostNo(postNo);
+		
+		System.out.println(steps);
+		System.out.println(ingredients);
+		System.out.println(amounts);
+		System.out.println(tags);
+		System.out.println(r);
+		
+		ArrayList<Photo> images = upload(recipeImages, request);
+		for(Photo p : images) {
+			System.out.println(p);
+		}
+		
+		rService.updateRecipe(r, steps, ingredients, amounts, tags, images);
+		
+		mv.setViewName("redirect:detail.rc?postNo=" + postNo);
+		return mv;
+	}
+	
 	@RequestMapping("detail.rc")
 	public ModelAndView recipeDetail(@RequestParam("postNo") int postNo, ModelAndView mv){
 		
@@ -134,6 +184,13 @@ public class RecipeController {
 		return mv;
 	}
 	
+	@RequestMapping("delete.rc")
+	public String recipeDelete(@RequestParam("postNo") int postNo){
+		
+		rService.deleteRecipe(postNo);
+		return "recipeSearch";
+	}
+	
 	@RequestMapping("insertReply.rc")
 	public String replyInsert(@ModelAttribute Reply rp, HttpSession session){
 		Member loginUser = (Member)session.getAttribute("loginUser");
@@ -147,7 +204,7 @@ public class RecipeController {
 		
 		System.out.println(rp);
 		
-		int replyNo = cService.insertReply(rp);
+		cService.insertReply(rp);
 		
 		return "redirect:detail.rc?=postNo" + postNo;
 	}
@@ -170,17 +227,24 @@ public class RecipeController {
 			@RequestParam(value = "ingredient", required=false) ArrayList<String> ingredients,
 			@ModelAttribute SearchCon sc, 
 			ModelAndView mv){
+		System.out.println(sc);
 		
 		sc.setIngredientList(ingredients);
 		sc.setTagList(tags);
 		
 		ArrayList<RecipePreview> rlist = rService.searchRecipeList(sc);
 		
-		System.out.println(rlist);
+		
 		mv.addObject("rlist", rlist);
 		
 		mv.setViewName("recipeSearch");
 		return mv;
+	}
+	
+	@RequestMapping("follow.rc")
+	public String recipeFollow() {
+		
+		return "";
 	}
 	
 	

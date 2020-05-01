@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>유저 레시피</title>
+    <title>레시피 목록</title>
     <style>
         a{
             color: #0b2e13;

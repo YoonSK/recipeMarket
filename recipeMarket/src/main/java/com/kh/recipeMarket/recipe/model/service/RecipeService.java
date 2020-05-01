@@ -14,4 +14,8 @@ public interface RecipeService {
 	ArrayList<RecipePreview> selectRecipeList(int memberNo);
 
 	ArrayList<RecipePreview> searchRecipeList(SearchCon sc);
+	
+	int updateRecipe(Recipe r, ArrayList<String> steps, ArrayList<String> ings, ArrayList<String> amts, ArrayList<String> tags, ArrayList<Photo> images);
+
+	int deleteRecipe(int postNo);
 }
