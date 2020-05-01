@@ -9,9 +9,11 @@
 	<typeAliases>
 		<typeAlias type="com.kh.recipeMarket.member.model.vo.Member" alias="Member"/>
 		<typeAlias type="com.kh.recipeMarket.board.model.vo.Board" alias="Board"/>
-		<typeAlias type="com.kh.recipeMarket.common.Photo" alias="Photo"/>		
+		<typeAlias type="com.kh.recipeMarket.common.Photo" alias="Photo"/>	
+		<typeAlias type="com.kh.recipeMarket.common.Reply" alias="Reply"/>				
 		<typeAlias type="com.kh.recipeMarket.recipe.model.vo.Recipe" alias="Recipe"/>
 		<typeAlias type="com.kh.recipeMarket.recipe.model.vo.RecipeStep" alias="RecipeStep"/>
+		<typeAlias type="com.kh.recipeMarket.recipe.model.vo.RecipePreview" alias="RecipePreview"/>		
 		<typeAlias type="com.kh.recipeMarket.recipe.model.vo.Ingredient" alias="Ingredient"/>
 		<typeAlias type="com.kh.recipeMarket.recipe.model.vo.Tag" alias="Tag"/>
 		<typeAlias type="com.kh.recipeMarket.recipe.model.vo.SearchCon" alias="SearchCon"/>
@@ -25,5 +27,6 @@
 		<mapper resource="mapper/member-mapper.xml"/>
 		<mapper resource="mapper/board-mapper.xml"/>	
 		<mapper resource="mapper/manager-mapper.xml"/>			
+		<mapper resource="mapper/recipe-mapper.xml"/>
 	</mappers>
 </configuration>
