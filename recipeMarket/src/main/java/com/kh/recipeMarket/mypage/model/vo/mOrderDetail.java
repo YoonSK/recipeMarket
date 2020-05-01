@@ -5,7 +5,6 @@ import java.sql.Date;
 public class mOrderDetail {
 	private String pName;
 	private String mName;
-	private String phName;
 	private Date date;
 	private int total;
 	private int detailNo;
@@ -20,17 +19,15 @@ public class mOrderDetail {
 	private String note;
 	private int phone;
 	private int coupon;
-	private String reviewed;
 	
 	public mOrderDetail() {}
 
-	public mOrderDetail(String pName, String mName, String phName, Date date, int total, int detailNo, int orderNo, int prCount,
+	public mOrderDetail(String pName, String mName, Date date, int total, int detailNo, int orderNo, int prCount,
 			int price, int memNo, int status, int zip, String address, String address2, String note, int phone,
-			int coupon, String reviewed) {
+			int coupon) {
 		super();
 		this.pName = pName;
 		this.mName = mName;
-		this.phName = phName;
 		this.date = date;
 		this.total = total;
 		this.detailNo = detailNo;
@@ -45,7 +42,6 @@ public class mOrderDetail {
 		this.note = note;
 		this.phone = phone;
 		this.coupon = coupon;
-		this.reviewed = reviewed;
 	}
 
 	public String getpName() {
@@ -176,30 +172,13 @@ public class mOrderDetail {
 		this.coupon = coupon;
 	}
 
-	public String getPhName() {
-		return phName;
-	}
-
-	public void setPhName(String phName) {
-		this.phName = phName;
-	}
-
-	public String getReviewed() {
-		return reviewed;
-	}
-
-	public void setReviewed(String reviewed) {
-		this.reviewed = reviewed;
-	}
-
 	@Override
 	public String toString() {
-		return "mOrderDetail [pName=" + pName + ", mName=" + mName + ", phName=" + phName + ", date=" + date
-				+ ", total=" + total + ", detailNo=" + detailNo + ", orderNo=" + orderNo + ", prCount=" + prCount
-				+ ", price=" + price + ", memNo=" + memNo + ", status=" + status + ", zip=" + zip + ", address="
-				+ address + ", address2=" + address2 + ", note=" + note + ", phone=" + phone + ", coupon=" + coupon
-				+ ", reviewed=" + reviewed + "]";
+		return "mOrderDetail [pName=" + pName + ", mName=" + mName + ", total=" + total + ", detailNo=" + detailNo
+				+ ", orderNo=" + orderNo + ", prCount=" + prCount + ", price=" + price + ", memNo=" + memNo
+				+ ", status=" + status + ", zip=" + zip + ", address=" + address + ", address2=" + address2 + ", note="
+				+ note + ", phone=" + phone + ", coupon=" + coupon + "]";
 	}
-
-
+	
+	
 }

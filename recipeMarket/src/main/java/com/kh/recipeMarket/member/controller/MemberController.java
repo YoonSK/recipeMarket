@@ -3,12 +3,9 @@ package com.kh.recipeMarket.member.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -38,11 +35,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.member.model.exception.MemberException;
-import com.kh.recipeMarket.member.model.service.KaKaoLogin;
 import com.kh.recipeMarket.member.model.service.MemberService;
 import com.kh.recipeMarket.member.model.vo.Member;
 
-@SessionAttributes({"loginUser", "access_Token"})
+@SessionAttributes("loginUser")
 @Controller
 public class MemberController {
 	
@@ -52,37 +48,11 @@ public class MemberController {
 	@Autowired
 	private BCryptPasswordEncoder bcrypt;	
 	
-	@Autowired
-	private KaKaoLogin kakao;
-	
 	@RequestMapping("goLogin.me")
 	public String goLogin(){
 	
 		return "/memberLogin";		
 	}
-	
-	@RequestMapping("/kLogin.me")
-	public String kLogin(@RequestParam("code") String code, HttpSession session, Model model) {
-        String access_Token = kakao.getAccessToken(code);
-        HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
-        
-        // 가입한 회원인지 확인
-        Member loginUser = ms.checkKaKao(userInfo);
-		if(loginUser != null) {
-			int memberNo = loginUser.getMemberNo();
-			String mPhoto = ms.getPhoto(memberNo);
-			if(mPhoto != null) {
-				loginUser.setpName(mPhoto);
-			}
-			model.addAttribute("loginUser", loginUser);
-			model.addAttribute("access_Token", access_Token);
-			return "redirect:/";	
-        }else {
-        	model.addAttribute("userInfo", userInfo);
-			return "registerTerm";	
-		}
-	}
-
 
 	// 로그인
 	@RequestMapping(value="login.me", method= {RequestMethod.POST,  RequestMethod.GET})
@@ -113,18 +83,10 @@ public class MemberController {
 	public String goTerm() {
 		return "/registerTerm";
 	}	
-
+	
 	@RequestMapping("goJoin.me")
-	public String goJoin(@RequestParam(name="nickname", required=false)String nickname, @RequestParam(name="email", required=false)String email, Model model){
-		Member m = new Member();
-		m.setNickName(nickname);
-		m.setEmail(email);
-		if(nickname != null) {
-			model.addAttribute("m", m);
-			return "/kMemberJoin";
-		}else {
-			return "/memberJoin";
-		}
+	public String goJoin() {
+		return "/memberJoin";
 	}	
 	
 	//회원 가입
@@ -164,45 +126,6 @@ public class MemberController {
 
 	} 
 	
-	//카카오 회원 가입
-	@RequestMapping("kJoin.me")
-	public String kJoin(@ModelAttribute Member m, @ModelAttribute Photo p, @RequestParam("year") int year, @RequestParam("month") int month, @RequestParam("day") int day,
-												@RequestParam("mImage") MultipartFile mImage, HttpServletRequest request) {
-		// Date 화
-		Date birth = new Date(new GregorianCalendar(year, month, day).getTimeInMillis());
-		m.setBirth(birth);	
-
-		// 임의 비번
-		String encPwd = bcrypt.encode(m.getEmail());	
-		m.setPwd(encPwd);
-
-		int result = ms.kJoinMember(m);
-		if(result > 0) {
-			// 사진 첨부
-			if(mImage != null && !mImage.isEmpty()) {
-				String pName = saveImage(mImage, request);
-			
-				if(pName != null) {
-					p.setOriginName(mImage.getOriginalFilename());
-					p.setChangeName(pName);
-				}
-				int result2 = ms.uploadImage(p);
-				if(result2 > 0) {
-					return "redirect:/";						
-				} else {
-					throw new MemberException("회원가입에 실패하였습니다.");					
-				}
-				
-			} else {
-				return "redirect:/";		
-			}
-		} else {
-				throw new MemberException("회원가입에 실패하였습니다.");
-		}
-
-	} 	
-	
-	
 	// 이미지 업로드
 	public String saveImage(MultipartFile file, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
@@ -236,11 +159,7 @@ public class MemberController {
 	
 	// 로그아웃
 	@RequestMapping("logout.me")
-	public String logout(SessionStatus status, HttpSession session, Model model) {
-		String access_Token = (String)model.getAttribute("access_Token");
-		kakao.kakaoLogout((String)session.getAttribute(access_Token));
-	    session.removeAttribute("access_Token");
-	    session.removeAttribute("userId");
+	public String logout(SessionStatus status) {
 		status.setComplete();
 		return "redirect:/";		
 	}	
@@ -261,16 +180,18 @@ public class MemberController {
 	
 	// 회원 탈퇴
 	@RequestMapping("mdelete.me")
-	public String mDelete(/*@RequestParam("no") int no, */SessionStatus status, Model model) {
-		Member loginUser = (Member)model.getAttribute("loginUser");		
-		int result = ms.mDelete(loginUser);
+	public String mDelete(@RequestParam("no") int no, SessionStatus status) {
+		
+		int result = ms.mDelete(no);
+		
 		if(result > 0) {
-				status.setComplete();					
-				return "redirect:/";		
-			}else {
-				throw new MemberException("탈퇴에 실패하였습니다.");
-			}				
-		}	
+			status.setComplete();					
+			return "redirect:/";		
+		}else {
+			throw new MemberException("탈퇴에 실패하였습니다.");
+		}
+
+	}
 	
 	// 아이디 찾기 페이지 이동
 	@RequestMapping("findIdView.me")

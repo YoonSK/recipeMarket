@@ -28,7 +28,6 @@ import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Pagination;
 import com.kh.recipeMarket.common.Photo;
-import com.kh.recipeMarket.common.Reply;
 import com.kh.recipeMarket.member.model.exception.MemberException;
 import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.mypage.model.exception.MyPageException;
@@ -182,48 +181,15 @@ public class MyPageController {
 		}else {
 			throw new MyPageException("주문 조회에 실패하였습니다.");
 		}
-		return mv;
+	return mv;
 	}	
-	
-	// 주문 기간 조회
-	@RequestMapping("dateSort.mp")
-	public ModelAndView dateSort(@RequestParam(value="page", required=false) Integer page, String sortDate, ModelAndView mv, Model model) {
-		Member loginUser = (Member)model.getAttribute("loginUser");		
-		String date = sortDate;
-		int ds = 0;
-		switch(date) {
-		case "전체": ds = 0; break;
-		case "1개월" : ds = 31; break;
-		case "3개월": ds = 91; break;
-		case "6개월" : ds = 181; break;
-		case "1년" : ds = 366; break;
-		}
-		int oGrade = loginUser.getGrade();
-		loginUser.setGrade(ds);
-		int currentPage = 1;
-		if(page != null) {
-			currentPage = page; }		
-		int listCount = mps.oderSortCount(loginUser);
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-		ArrayList<mOrderInfo> list = mps.orderSortList(pi, loginUser);
-		loginUser.setGrade(oGrade);
-		if(list != null) {
-			mv.addObject("list", list);
-			mv.addObject("pi", pi);
-			mv.addObject("sortDate", date);
-			mv.setViewName("memberorder");
-		}else {
-			throw new MyPageException("주문 조회에 실패하였습니다.");
-		}
-		return mv;
-	}
 	
 	// 주문 상세 조회
 	@RequestMapping(value="orderDetail.mp", produces="text/plain;charset=UTF-8")
 	public void orderDetail(HttpServletResponse response, @RequestParam("no") int no) throws JsonIOException, IOException {
 		
 		ArrayList<mOrderDetail> od = mps.orderDetail(no);
-
+		
 		for(mOrderDetail mrd : od) {
 			mrd.setpName(URLEncoder.encode(mrd.getpName(), "UTF-8"));
 			mrd.setmName(URLEncoder.encode(mrd.getmName(), "UTF-8"));
@@ -243,101 +209,4 @@ public class MyPageController {
 		Gson gson = new Gson();
 		gson.toJson(result, response.getWriter());
 	}	
-	
-	// 후기 작성 페이지
-	@RequestMapping(value="writeRv.mp")
-	public ModelAndView goWriteRv(@RequestParam("orderNo") int orderNo, ModelAndView mv) {
-		
-		ArrayList<mOrderDetail> od = mps.goWriteRv(orderNo);
-		if(od != null) {
-			mv.addObject("list", od);
-			mv.setViewName("memRv");
-		}else {
-			throw new MyPageException("페이지 불러오기에 실패하였습니다.");
-		}
-		return mv;		
-		
-	}
-	
-	// 후기 작성
-	@RequestMapping(value="insertRv.mp")
-	public void insertRv(HttpServletResponse response, @ModelAttribute Reply r, Model model, @RequestParam("orderNo") int orderNo) throws JsonIOException, IOException {
-		Member loginUser = (Member)model.getAttribute("loginUser");	
-		r.setMemberNo(loginUser.getMemberNo());
-		
-		// 후기 썼는지 확인
-		int rvcResult = mps.rvCount(r.getTargetNo());
-	
-		// 후기 안 썼으면 후기 입력	
-		if(rvcResult < 1) {
-			int insertResult = mps.insertRv(r);
-	
-			// 후기 작성 후 ORDER_DETAIL REVIEWED 항목 Y로 수정
-			if(insertResult > 0) {
-				int rvResult = mps.rvResult(r.getTargetNo());
-			
-				// 한 주문에 있는 모든 상품의 후기 작성 여부 확인
-				if(rvResult > 0) {
-					int odCount = mps.orderCount(orderNo);
-
-					if(odCount == 0) {
-						int odStatus = mps.updateOrderStatus(orderNo);
-						if(odStatus >  0) {
-							Gson gson = new Gson();
-							String result = "후기 작성이 완료되었습니다.";
-							gson.toJson(URLEncoder.encode(result, "UTF-8"), response.getWriter());	
-						}else {
-							Gson gson = new Gson();
-							String result = "후기 작성이 완료되었습니다.";
-							gson.toJson(URLEncoder.encode(result, "UTF-8"), response.getWriter());								
-						}
-					}else {
-						Gson gson = new Gson();
-						String result = "후기 작성이 완료되었습니다.";
-						gson.toJson(URLEncoder.encode(result, "UTF-8"), response.getWriter());						
-					}
-				} else {
-					Gson gson = new Gson();
-					String result = "후기 업로드 중 오류가 발생했습니다.";
-					gson.toJson(URLEncoder.encode(result, "UTF-8"), response.getWriter());						
-				}
-			}else {
-				// 이미 해당 상품 후기 작성시
-				Gson gson = new Gson();
-				String result = "후기 업로드 중 오류가 발생했습니다.";
-				gson.toJson(URLEncoder.encode(result, "UTF-8"), response.getWriter());					
-			}
-		} else {
-			// 이미 해당 상품 후기 작성시
-			Gson gson = new Gson();
-			String result = "이미 후기를 작성하셨습니다.";
-			gson.toJson(URLEncoder.encode(result, "UTF-8"), response.getWriter());			
-		}	
-	}
-	// 주문 검색
-	@RequestMapping("searchOrder.mp")
-	public ModelAndView searchOrder(@RequestParam(value="page", required=false) Integer page, String oContent, ModelAndView mv, Model model){
-		Member loginUser = (Member)model.getAttribute("loginUser");		
-		String oEmail = loginUser.getEmail();
-		loginUser.setEmail(oContent);
-		int currentPage = 1;
-		if(page != null) {
-			currentPage = page; }		
-		int listCount = mps.searchOrderCount(loginUser);
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-		ArrayList<mOrderInfo> list = mps.searchOrderList(pi, loginUser);
-		loginUser.setEmail(oEmail);
-		if(list != null) {
-			mv.addObject("list", list);
-			mv.addObject("pi", pi);
-			mv.addObject("oContent", oContent);
-			mv.setViewName("memberorder");
-		}else {
-			throw new MyPageException("주문 검색에 실패하였습니다.");
-		}
-		return mv;		
-		
-		
-	}
-	
 }

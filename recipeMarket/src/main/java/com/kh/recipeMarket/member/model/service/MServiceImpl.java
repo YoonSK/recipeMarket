@@ -1,7 +1,5 @@
 package com.kh.recipeMarket.member.model.service;
 
-import java.util.HashMap;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +48,11 @@ public class MServiceImpl implements MemberService {
 	}
 
 	@Override
+	public int mDelete(int no) {
+		return mDAO.mDelete(sqlSession, no);
+	}
+
+	@Override
 	public String findId(Member m) {
 		return mDAO.findId(sqlSession, m);
 	}
@@ -62,25 +65,5 @@ public class MServiceImpl implements MemberService {
 	@Override
 	public Member CheckPwd(Member m) {
 		return mDAO.checkPwd(sqlSession, m);
-	}
-
-	@Override
-	public int mDeleteUp(int no) {
-		return mDAO.mDeleteUp(sqlSession, no);
-	}
-
-	@Override
-	public int mDelete(Member loginUser) {
-		return mDAO.mDelete(sqlSession, loginUser);
-	}
-
-	@Override
-	public Member checkKaKao(HashMap<String, Object> userInfo) {
-		return mDAO.checkKaKao(sqlSession, userInfo);
-	}
-
-	@Override
-	public int kJoinMember(Member m) {
-		return mDAO.kJoinMember(sqlSession, m);
 	}
 }

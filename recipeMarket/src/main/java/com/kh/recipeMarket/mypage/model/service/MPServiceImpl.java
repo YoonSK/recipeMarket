@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
-import com.kh.recipeMarket.common.Reply;
 import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.mypage.model.dao.MyPageDAO;
 import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
@@ -64,65 +63,6 @@ public class MPServiceImpl implements MyPageService{
 	@Override
 	public int orderStatus(Order o) {
 		return mpDAO.orderStatus(sqlSession, o);
-	}
-
-	@Override
-	public ArrayList<mOrderInfo> orderSortList(PageInfo pi, Member loginUser) {
-		return mpDAO.orderSortList(sqlSession, pi, loginUser);
-	}
-
-
-	@Override
-	public int oderSortCount(Member loginUser) {
-		return mpDAO.orderSortCount(sqlSession, loginUser);
-	}
-
-
-	@Override
-	public ArrayList<mOrderDetail> goWriteRv(int orderNo) {
-		return mpDAO.goWriteRv(sqlSession, orderNo);
-	}
-
-
-	@Override
-	public int rvCount(int targetNo) {
-		return mpDAO.rvCount(sqlSession, targetNo);
-	}
-
-
-	@Override
-	public int insertRv(Reply r) {
-		return mpDAO.insertRv(sqlSession, r);
-	}
-
-
-	@Override
-	public int rvResult(int targetNo) {
-		return mpDAO.rvResult(sqlSession, targetNo);
-	}
-
-
-	@Override
-	public int orderCount(int orderNo) {
-		return mpDAO.orderCount(sqlSession, orderNo);
-	}
-
-
-	@Override
-	public int updateOrderStatus(int orderNo) {
-		return mpDAO.updateOrderStatus(sqlSession, orderNo);
-	}
-
-
-	@Override
-	public int searchOrderCount(Member loginUser) {
-		return mpDAO.searchOrderCount(sqlSession, loginUser);
-	}
-
-
-	@Override
-	public ArrayList<mOrderInfo> searchOrderList(PageInfo pi, Member loginUser) {
-		return mpDAO.searchOrderList(sqlSession, pi, loginUser);
 	}
 
 

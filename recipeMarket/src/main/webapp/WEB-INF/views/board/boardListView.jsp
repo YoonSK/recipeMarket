@@ -67,18 +67,21 @@
 	         	<h2 align="center">게시글이 존재하지 않습니다.</h2>
 	         </c:if>
 	         
+	         
 	         <table style="background: white; width:1450px; margin:0 auto;">
-	         	<c:forEach var="b" items="${ list }" varStatus="status">
+	         	<c:forEach var="b" items="${ list }">
 		        	<!-- <div > -->
 		        	<tr>
-		        		<c:if test="${ plist[status.index].pName == null}">
+		        	
+		        	
+		        		<c:if test="${ b.pName == null }">
 						<td rowspan=4 width="150" height="150">
 							<img id="profileImg" src="resources/images/user.png"/>
 						</td>
 						</c:if>
-						<c:if test="${ plist[status.index].pName != null}">
+						<c:if test="${ b.pName != null }">
 						<td rowspan=4 width="150" height="150">
-							<img id="profileImg" src="resources/upload/${ plist[status.index].pName }"/>
+							<img id="profileImg" src="resources/upload/${ b.pName }"/>
 						</td>
 						</c:if>
 						
@@ -86,9 +89,9 @@
 						</td>
 							
 						<td style="font-size:20px; width:30px;">♡</td>
-						<td width="30px" style="font-size:20px">${ glist[status.index].rCount }</td>
+						<td width="30px" style="font-size:20px">0</td>
 						<td style="font-size:20px; width:70px;">댓글수</td>
-						<td style="font-size:20px; width:30px">${ rlist[status.index].rCount }</td>			         		
+						<td style="font-size:20px; width:30px">0</td>			         		
 		        	</tr>
 		         		
 		        	<tr>
@@ -98,7 +101,7 @@
 		        	<tr class="contentTR">
 		        		<td width="75%" colspan=5 style="font-size:20px">
 			        		${ b.content }
-			        		<input type="hidden" value="${ b.postNo }" name="postNo" id="postNo">
+			        		
 		        		</td>
 		        	</tr>
 		        		
@@ -108,9 +111,9 @@
 		        			<img  src="resources/upload/${ b.pName }" id="thumImg"/>
 		        			</c:if>
 		        			
-		        			<%-- <c:if test="${ b.pName == null }">
+		        			<c:if test="${ b.pName == null }">
 		        			<img  src="resources/images/food.PNG" id="thumImg"/>
-		        			</c:if> --%>
+		        			</c:if>
 		        			
 		        			
 		        			<input type="hidden" value="${ b.postNo }" name="postNo" id="postNo">
@@ -167,6 +170,21 @@
 			</table>
 			
 			
+			<!-- <script>
+				$(function(){
+					$('.contentTR').mouseover(function(){
+						$(this).css({'background-color':'gray', 'cursor':'pointer'});
+					}).mouseout(function(){
+						$(this).css({'background-color':'white'});
+					}).click(function(){
+						var postNo= $(this).children('td').children('input').val();
+						
+						location.href="bdetail.bo?postNo="postNo+"&page="+${pi.currentPage};
+					});
+					
+					
+				});
+			</script> -->
 			
 	    <script>
 	    	$(function(){
@@ -176,14 +194,8 @@
 	    			$(this).css('background-color','white');
 	    		}).click(function(){
 	    			 var postNo= $(this).children('td').children('input').val();
-	    			 
 	    			 console.log(postNo);
-	    			 	if(${ loginUser eq null } ){
-	    			 		alert("로그인후 이용해 주세요.");
-	    			 		location.href='goLogin.me';
-	    			 	}  else{
-		    				location.href="bdetail.bo?postNo="+postNo+"&page="+${pi.currentPage};
-	    			 	}
+		    			location.href="bdetail.bo?postNo="+postNo+"&page="+${pi.currentPage};
 		    	});
 	    	}); 
 	    </script>     

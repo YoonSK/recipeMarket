@@ -15,30 +15,7 @@ public class Board {
 	
 	private String pName;
 	
-	private int rCount; // 댓글 갯수
-	
-	private int gCount; // 좋아요 갯수
-	
 	public Board() {}
-	
-	
-
-	public Board(int postNo, int rCount) {
-		super();
-		this.postNo = postNo;
-		this.rCount = rCount;
-	}
-	
-	
-
-	public Board(int postNo, int gCount, int rCount) {
-		super();
-		this.postNo = postNo;
-		this.rCount = rCount;
-		this.gCount = gCount;
-	}
-
-
 
 	public Board(int postNo, int memberNo, String content, Date createDate, Date modifyDate, int hit, String deleted,
 			String category) {
@@ -51,10 +28,7 @@ public class Board {
 		this.hit = hit;
 		this.deleted = deleted;
 		this.category = category;
-		
 	}
-	
-	
 	
 	
 
@@ -69,7 +43,6 @@ public class Board {
 		this.hit = hit;
 		this.deleted = deleted;
 		this.category = category;
-		
 	}
 	
 	
@@ -122,8 +95,6 @@ public class Board {
 		this.nickName = nickName;
 		this.pName = pName;
 	}
-	
-	
 
 	public int getPostNo() {
 		return postNo;
@@ -208,46 +179,20 @@ public class Board {
 	public void setpName(String pName) {
 		this.pName = pName;
 	}
-	
-	
-
-	public int getrCount() {
-		return rCount;
-	}
-
-	public void setrCount(int rCount) {
-		this.rCount = rCount;
-	}
-	
-	
-
-
-
-	public int getgCount() {
-		return gCount;
-	}
-
-
-
-	public void setgCount(int gCount) {
-		this.gCount = gCount;
-	}
-
-
 
 	@Override
 	public String toString() {
-		return "Board [postNo=" + postNo + ", rCount=" + rCount + "]";
+		return "Board [postNo=" + postNo + ", nickName=" + nickName + ", content=" + content
+				+ ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", hit=" + hit + ", deleted=" + deleted
+				+ ", category=" + category + ", pName=" + pName + "]";
 	}
 
 //	@Override
 //	public String toString() {
-//		return "Board [postNo=" + postNo + ", nickName=" + nickName + ", content=" + content
-//				+ ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", hit=" + hit + ", deleted=" + deleted
-//				+ ", category=" + category + ", pName=" + pName + "]";
+//		return "Board [postNo=" + postNo + ", nickName=" + nickName + ", content=" + content + ", createDate="
+//				+ createDate + ", modifyDate=" + modifyDate + ", hit=" + hit + ", deleted=" + deleted + ", category="
+//				+ category + "]";
 //	}
-
-	
 	
 	
 

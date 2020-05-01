@@ -5,84 +5,168 @@
 	<resultMap id="recipeResultSet" type="Recipe">
 		<id property="postNo" column="POST_NO"/>
 		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="title" column="TITLE"/>
 		<result property="createDate" column="CREATE_DATE"/>
 		<result property="modifyDate" column="MODIFY_DATE"/>
-		<result property="circumstnce" column="CIRCUMSTANCE"/>
+		<result property="category" column="CATEGORY"/>
 		<result property="serving" column="SERVING"/>
-		<result property="difficulty" column="Diffyculty"/>
+		<result property="reqTime" column="REQTIME"/>
+		<result property="difficulty" column="DIFFICULTY"/>
 		<result property="hit" column="HIT"/>
 		<result property="deleted" column="DELETED"/>
 	</resultMap>
 	
 	<resultMap id="recipeStepResultSet" type="RecipeStep">
-		<id property="step" column="POST_NO"/>
+		<id property="postNo" column="POST_NO"/>
 		<result property="step" column="STEP"/>
 		<result property="content" column="CONTENT"/>
-		<result property="timer" column="TIMER"/>
 	</resultMap>
 	
-	<resultMap id="recipeTagResultSet" type="RecipeTag">
+	<resultMap id="recipeTagResultSet" type="Tag">
 		<id property="postNo" column="POST_NO"/>
 		<result property="tag" column="TAG"/>
 	</resultMap>
 	
-	<resultMap id="recipeTagResultSet" type="RecipeTag">
+	<resultMap id="recipeIngredientResultSet" type="Ingredient">
 		<id property="postNo" column="POST_NO"/>
-		<result property="ingredient" column="INGREDIENT"/>
+		<result property="name" column="INGREDIENT"/>
 		<result property="amount" column="AMOUNT"/>
 	</resultMap>
+	
+	<resultMap id="recipeListMap" type="RecipePreView">
+		<id property="postNo" column="POST_NO"/>
+		<result property="title" column="TITLE"/>
+		<result property="thumb" column="CHANGE_NAME"/>
+		<result property="rating" column="RATE"/>
+		<result property="hit" column="HIT"/>
+	</resultMap>
 
-
-	<insert id="insertRecipe" parameterType="java.util.Map">
+	<insert id="insertRecipe" parameterType="Recipe">		
+		<selectKey keyProperty="postNo" resultType="int" order="BEFORE" >
+			SELECT SEQ_RECIPE_NO.NEXTVAL FROM DUAL
+   		</selectKey>
+   		
 		insert into R_BOARD
-		values (seq_rpcno.nextVal, #{memberNo}, sysdate, sysdate, #{circumstance}, #{serving}, #{difficulty}, 0, default)
+		values (#{postNo}, #{memberNo}, #{title}, SYSDATE, SYSDATE, #{category}, #{serving}, #{difficulty}, #{reqTime}, DEFAULT, DEFAULT)
 	</insert>
 
-	<insert id="insertIngredient" parameterType="java.util.Map">
+	<insert id="insertIngredients" parameterType="Ingredient">
         <foreach collection="list" item="item" index="index"  open="INSERT ALL " separator=" " close="SELECT * FROM DUAL" > 
-        	into R_Ingredient()
-        	values(#{ingredient}, #{postNo}, #{amount})
+        	into R_Ingredient
+        	values(#{item.name}, #{item.postNo}, #{item.amount})
         </foreach>
     </insert>
     
-    <insert id="insertTag" parameterType="java.util.Map">
+    <insert id="insertSteps" parameterType="RecipeStep">
         <foreach collection="list" item="item" index="index"  open="INSERT ALL " separator=" " close="SELECT * FROM DUAL" > 
-        	into R_Tag()
-        	values(#{Tag}, #{postNo})
+        	into R_Step
+        	values(#{item.step}, #{item.postNo}, #{item.content})
         </foreach>
     </insert>
-
-	<insert id="insertStep" parameterType="java.util.Map">
+    
+    <insert id="insertTags" parameterType="Tag">
         <foreach collection="list" item="item" index="index"  open="INSERT ALL " separator=" " close="SELECT * FROM DUAL" > 
-        	into R_Step()
-        	values(#{Step}, #{postNo}, #{amount})
+        	into R_Tag
+        	values(#{item.tag}, #{item.postNo})
         </foreach>
     </insert>
-
-	<select id="selectRecipe" parameterType="Recipe" resultMap="Recipe">
-		SELECT *
+    
+    
+    <select id="selectRecipe" parameterType="Recipe" resultMap="recipeResultSet">
+		SELECT POST_NO, MEMBER_NO, TITLE, CREATE_DATE, MODIFY_DATE, CATEGORY, SERVING, DIFFICULTY, REQTIME, HIT, DELETED
 		FROM R_BOARD
 		WHERE POST_NO = #{postNo}
-		  AND DELETED = 'N'
+		AND DELETED = 'N'
 	</select>
-
-	<select id="selectTags" parameterType="" resultMap="">
-		SELECT *
+    
+    <select id="selectTags" parameterType="Tag" resultMap="recipeTagResultSet">
+		SELECT POST_NO, TAG
 		FROM R_TAG
 		WHERE POST_NO = #{postNo}
 	</select>
 	
-	<select id="selectIngredients" parameterType="" resultMap="">
-		SELECT *
+	<select id="selectIngredients" parameterType="Ingredient" resultMap="recipeIngredientResultSet">
+		SELECT POST_NO, INGREDIENT, AMOUNT
 		FROM R_INGREDIENT
 		WHERE POST_NO = #{postNo}
 	</select>
 	
-	<select id="selectSteps" parameterType="" resultMap="">
-		SELECT *
-		FROM R_STEPS
+	<select id="selectRecipeSteps" parameterType="RecipeStep" resultMap="recipeStepResultSet">
+		SELECT POST_NO, STEP, CONTENT
+		FROM R_STEP
 		WHERE POST_NO = #{postNo}
 	</select>
-	
+    
+    <select id="selectRecipeList" parameterType="RecipePreview" resultMap="recipeListMap">
+    	SELECT POST_NO, TITLE, CHANGE_NAME
+    	FROM R_BOARD R
+    	JOIN PHOTO P ON(BOARD_NO = 1 AND TARGET_NO = POST_NO AND FILE_LEVEL = 0)
+		WHERE MEMBER_NO = #{memberNo}
+		AND R.DELETED = 'N'
+		ORDER BY POST_NO DESC
+    </select>
+    
+    <select id="searchRecipeList" parameterType="RecipePreview" resultMap="recipeListMap">
+    	SELECT R.POST_NO, R.TITLE, P.CHANGE_NAME, AVG(L.RATING) AS RATE, R.HIT
+    	
+    	FROM R_BOARD R
+    	JOIN PHOTO P ON(P.BOARD_NO = 1 AND P.TARGET_NO = R.POST_NO AND P.FILE_LEVEL = 0)
+    	LEFT OUTER JOIN REPLY L ON(L.BOARD_NO = 1 AND L.TARGET_NO = R.POST_NO)
+    	JOIN R_INGREDIENT G ON(R.POST_NO = G.POST_NO)
+    	JOIN R_TAG T ON(R.POST_NO = T.POST_NO)
+		WHERE R.DELETED = 'N'
+		
+		<if test="keyword != ''">
+			and R.TITLE like '%${keyword}%'
+		</if>
+		<if test='category != null and category != "none" '>
+			and R.CATEGORY = #{category}
+		</if>
+		<if test="serving != null and serving != 0">
+			and R.SERVING = ${serving}
+		</if>
+		<if test="difficulty != null">
+			and R.DIFFICULTY <![CDATA[<=]]> ${difficulty}
+		</if>
+		<if test="reqTime != null and reqTime != 0">
+			and R.REQTIME <![CDATA[<=]]> ${reqTime}
+		</if>
+		
+		<if test="ingredientList != null">
+		and
+		<foreach collection="ingredientList" item="ing"  open="(" close=")" separator="or">
+            G.INGREDIENT = #{ing}
+        </foreach>
+		</if>
+		
+		<if test="tagList != null">
+		and
+        <foreach collection="tagList" item="tag"  open="(" close=")" separator="or">
+            T.TAG = #{tag}
+        </foreach>
+		</if>
+		
+		GROUP BY R.POST_NO, R.TITLE, P.CHANGE_NAME, HIT
+		<if test="sorter != null">
+		ORDER BY ${sorter} DESC
+		</if>
+    </select>
+    
+    <delete id="clearRecipe">
+    	DELETE
+    	FROM R_STEP R, R_INGREDIENT G, PHOTO P
+    	LEFT JOIN R_INGREDIENT G ON(G.POST_NO = R_POST_NO)
+    	LEFT JOIN R_TAG T ON(T.POST_NO = R.POST_NO)
+    	LEFT JOIN PHOTO ON(BOARD_NO = 1 AND TARGET_NO = R.POST_NO)
+    	WHERE R.POST_NO = #{postNo}
+    </delete>
+    
+    <update id="deleteRecipe" parameterType="Recipe">
+    	UPDATE R_BOARD
+    	SET DELETED = 'Y'
+    	WHERE POST_N0 = ${postNo}
+    </update>
+    
+    
 	
 </mapper>

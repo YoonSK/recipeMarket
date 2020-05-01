@@ -1,7 +1,5 @@
 package com.kh.recipeMarket.member.model.service;
 
-import java.util.HashMap;
-
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.member.model.vo.Member;
 
@@ -19,18 +17,12 @@ public interface MemberService {
 
 	String getPhoto(int memberNo);
 
+	int mDelete(int no);
+
 	String findId(Member m);
 
 	int updatePwd(Member m);
 
 	Member CheckPwd(Member m);
-
-	int mDeleteUp(int no);
-
-	int mDelete(Member loginUser);
-
-	Member checkKaKao(HashMap<String, Object> userInfo);
-
-	int kJoinMember(Member m);
 
 }

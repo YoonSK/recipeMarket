@@ -27,7 +27,7 @@
 				<div class="menu_box">
 					<div class="icon_con">
 						<figure>
-							<a href="pManage.ma"><img src="resources/images/grocery.png" width=100px; height=100px;></a>
+							<a href="pManage.ma"><img src="resources/images/goods.png" width=100px; height=100px;></a>
 							<figcaption>상품 관리</figcaption>
 						</figure>	
 					</div>	

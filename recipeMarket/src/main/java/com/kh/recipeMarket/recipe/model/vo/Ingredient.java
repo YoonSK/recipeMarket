@@ -3,9 +3,9 @@ package com.kh.recipeMarket.recipe.model.vo;
 
 
 public class Ingredient {
-	int postNo;
-	String name;
-	String amount;
+	private int postNo;
+	private String name;
+	private String amount;
 	
 	public Ingredient() {
 		super();

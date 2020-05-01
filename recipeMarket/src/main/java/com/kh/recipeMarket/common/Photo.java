@@ -7,14 +7,12 @@ public class Photo {
 	private int fileLevel;
 	private String originName;
 	private String changeName;
-	private String filePath;
 	private String deleted;
-
 	 
 	public Photo() {}
 
 	public Photo(int photoNo, int boardNo, int targetNo, int fileLevel, String originName, String changeName,
-			String filePath, String deleted) {
+			String deleted) {
 		super();
 		this.photoNo = photoNo;
 		this.boardNo = boardNo;
@@ -22,12 +20,8 @@ public class Photo {
 		this.fileLevel = fileLevel;
 		this.originName = originName;
 		this.changeName = changeName;
-		this.filePath = filePath;
 		this.deleted = deleted;
 	}
-	
-	
-
 
 	public int getPhotoNo() {
 		return photoNo;
@@ -77,14 +71,6 @@ public class Photo {
 		this.changeName = changeName;
 	}
 
-	public String getFilePath() {
-		return filePath;
-	}
-
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
-	}
-
 	public String getDeleted() {
 		return deleted;
 	}
@@ -96,8 +82,7 @@ public class Photo {
 	@Override
 	public String toString() {
 		return "Photo [photoNo=" + photoNo + ", boardNo=" + boardNo + ", targetNo=" + targetNo + ", fileLevel="
-				+ fileLevel + ", originName=" + originName + ", changeName=" + changeName + ", filePath=" + filePath
-				+ ", deleted=" + deleted + "]";
+				+ fileLevel + ", originName=" + originName + ", changeName=" + changeName + ", deleted=" + deleted + "]";
 	}
-		
+	
 }

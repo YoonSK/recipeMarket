@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>마이 페이지</title>
+<title>관리자 페이지</title>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script> 
 <style>
 	div#content{width: 800px; margin-left: 30%; margin-top: 2%; margin-bottom: 1%;}

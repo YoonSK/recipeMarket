@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
-import com.kh.recipeMarket.common.Reply;
 import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
@@ -49,50 +48,6 @@ public class MyPageDAO {
 
 	public int orderStatus(SqlSessionTemplate sqlSession, Order o) {
 		return sqlSession.update("memberMapper.orderStatus", o);
-	}
-
-	public ArrayList<mOrderInfo> orderSortList(SqlSessionTemplate sqlSession, PageInfo pi, Member loginUser) {
-		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("memberMapper.orderSortList", loginUser, rowBounds);
-	}
-
-	public int orderSortCount(SqlSessionTemplate sqlSession, Member loginUser) {
-		return sqlSession.selectOne("memberMapper.orderSortCount", loginUser);
-	}
-
-	public ArrayList<mOrderDetail> goWriteRv(SqlSessionTemplate sqlSession, int orderNo) {
-		return (ArrayList)sqlSession.selectList("memberMapper.goWriteRv", orderNo);
-	}
-
-	public int rvCount(SqlSessionTemplate sqlSession, int targetNo) {
-		return sqlSession.selectOne("memberMapper.rvCount", targetNo);
-	}
-
-	public int insertRv(SqlSessionTemplate sqlSession, Reply r) {
-		return sqlSession.insert("memberMapper.insertRv", r);
-	}
-
-	public int rvResult(SqlSessionTemplate sqlSession, int targetNo) {
-		return sqlSession.update("memberMapper.updateRv", targetNo);
-	}
-
-	public int orderCount(SqlSessionTemplate sqlSession, int orderNo) {
-		return sqlSession.selectOne("memberMapper.orderCount", orderNo);
-	}
-
-	public int updateOrderStatus(SqlSessionTemplate sqlSession, int orderNo) {
-		return sqlSession.update("memberMapper.upOS", orderNo);
-	}
-
-	public int searchOrderCount(SqlSessionTemplate sqlSession, Member loginUser) {
-		return sqlSession.selectOne("memberMapper.searchOrderCount", loginUser);
-	}
-
-	public ArrayList<mOrderInfo> searchOrderList(SqlSessionTemplate sqlSession, PageInfo pi, Member loginUser) {
-		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("memberMapper.searchOrderList", loginUser, rowBounds);
 	}
 
 }

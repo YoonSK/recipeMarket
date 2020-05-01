@@ -8,31 +8,18 @@
 	</select>
 	
 	<select id="selectList" resultMap="boardResultSet">
-  		<!-- select POST_NO, NICKNAME, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, F.DELETED, CATEGORY, CHANGE_NAME
+  		select POST_NO, NICKNAME, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, F.DELETED, CATEGORY, CHANGE_NAME
 		FROM F_BOARD F
     		JOIN MEMBER M USING(MEMBER_NO)
     		LEFT OUTER JOIN PHOTO ON(POST_NO = TARGET_NO)
 		WHERE F.deleted='N'
-		order by post_no desc  -->
-		
-		select POST_NO, NICKNAME, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, F.DELETED, CATEGORY, CHANGE_NAME
-		FROM F_BOARD F
-			JOIN MEMBER M USING(MEMBER_NO)
-			LEFT OUTER JOIN PHOTO ON(POST_NO = TARGET_NO AND BOARD_NO = 2)
-		WHERE F.deleted='N'
 		order by post_no desc 
 		 
+		<!-- select * 
+		from f_board
+		WHERE deleted='N'
+		order by post_no desc -->
 	</select>
-	
-	<select id="profileList" resultMap="boardResultSet">		
-		SELECT POST_NO, NICKNAME, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, F.DELETED, CATEGORY, CHANGE_NAME
-		FROM F_BOARD F
-    		JOIN MEMBER M USING(MEMBER_NO)
-    		left OUTER JOIN PHOTO P ON(MEMBER_NO = TARGET_NO AND BOARD_NO = 0)
-		WHERE F.deleted='N'
-		order by post_no desc 	 
-	</select>
-	
 	
 	<resultMap id="boardResultSet" type="Board">
 		<id property="postNo" column="POST_NO"/>
@@ -45,8 +32,6 @@
 		<result property="category" column="CATEGORY"/>
 		<result property="nickName" column="NICKNAME"/>
 		<result property="pName" column="CHANGE_NAME"/>
-		<result property="rCount" column="RCOUNT"/>
-		
 	</resultMap>
 	
 	<insert id="inserBoard" parameterType="Board">
@@ -58,40 +43,10 @@
 		select POST_NO, NICKNAME, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, F.DELETED, CATEGORY, CHANGE_NAME
 		FROM F_BOARD F
     		JOIN MEMBER M USING(MEMBER_NO)
-    		LEFT OUTER JOIN PHOTO ON(POST_NO = TARGET_NO AND BOARD_NO = 2)
+    		LEFT OUTER JOIN PHOTO ON(POST_NO = TARGET_NO)
 		WHERE F.deleted='N' and post_no = #{postNo}
 		order by post_no desc 
 	</select>
-	
-	
-	<select id="selectProfile" resultMap="boardResultSet">
-		SELECT POST_NO, NICKNAME, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, F.DELETED, CATEGORY, CHANGE_NAME
-		FROM F_BOARD F
-    		JOIN MEMBER M USING(MEMBER_NO)
-    		left OUTER JOIN PHOTO P ON(MEMBER_NO = TARGET_NO AND BOARD_NO = 0)
-		WHERE F.deleted='N' and post_no = #{postNo}
-		order by post_no desc 
-	</select>
-	
-	<select id="selectrCount" resultMap="boardResultSet">
-		select post_no, count(reply_no)as RCOUNT
-		from f_board f
-    		full outer join reply r on(post_no = target_no)
-    	where f.deleted = 'N' and r.deleted = 'N'
-		group by post_no
-		order by post_no desc
-	</select>
-	
-	<select id="selectgCount" resultMap="boardResultSet">
-		select post_no, count(board_no)as RCOUNT
-		from f_board f
-    		full outer join good g on(post_no = target_no)
-    	where f.deleted = 'N'
-		group by post_no
-		order by post_no desc
-	</select>
-	
-	
 	
 	<resultMap type="Photo" id="photoRS">
 		<id property = "photoNo" column="PHOTO_NO"/>
@@ -108,104 +63,5 @@
 		values(seq_phn.nextval, 2, seq_bno.currval, 0, #{originName}, #{changeName}, default)
 	</insert>
 	
-	<insert id="newUploadImage" parameterType="Photo">
-		insert into photo
-		values(seq_phn.nextval, 2, #{targetNo}, 0, #{originName}, #{changeName}, default)
-	</insert>
-	
-	<update id="updateImage" parameterType="Photo">
-		update photo
-		set origin_name = #{originName}, change_name = #{changeName}
-		where target_no=#{targetNo} and board_no = 2
-	</update>
-	
-	
-	
-	<insert id="addReply" parameterType="Reply">
-		insert into reply
-		values(seq_reply_no.nextval, #{memberNo}, 2, #{targetNo}, #{content}, default, default, 0, default)
-	</insert>
-	
-	<resultMap type="Reply" id="replyResultSet">
-		<id property="replyNo"  column="REPLY_NO"/>
-		<result property="nickName" column="NICKNAME"/>
-		<result property="boardNo" column="BOARD_NO"/>
-		<result property="targetNo" column="TARGET_NO"/>
-		<result property="content" column="CONTENT"/>
-		<result property="createDate" column="CREATE_DATE"/>
-		<result property="modifyDate" column="MODIFY_DATE"/>
-		<result property="rating" column="RATING"/>
-		<result property="deleted" column="DELETED"/>
-		<result property="pName" column="CHANGE_NAME"/>
-		<result property="rCount" column="RCOUNT"/>
-	</resultMap>
-	
-	<select id="selectReplyList" resultMap="replyResultSet">
-		<!-- select reply_no,nickname, r.board_no, target_no, r.content, r.create_date, r.modify_date, rating, r.deleted, p.change_name  
-		from reply r
-    		JOIN MEMBER M USING(MEMBER_NO)
-    		LEFT OUTER JOIN PHOTO p using(target_no)
-		where target_no = #{postNo} and r.board_no = 2 -->
-		
-		select reply_no,nickname, r.board_no, r.target_no, r.content, r.create_date, r.modify_date, rating, r.deleted, p.change_name  
-		from reply r
-			JOIN MEMBER M USING(MEMBER_NO)
-			LEFT OUTER JOIN PHOTO p on(MEMBER_NO = p .target_no)
-		where r.target_no = #{postNo} and r.deleted='N'
-		order by reply_no desc
-	</select>
-	
-	
-	<update id="updateBoard" parameterType="Board">
-		update f_board
-		set category = #{category}, modify_date = sysdate, content=#{content}
-		where post_no = #{postNo}
-	</update>
-	
-	
-	
-	<update id="deleteBoard" parameterType="Board">
-		update f_board
-		set deleted = 'Y'
-		where post_no =#{postNo}
-	</update>
-	
-	
-	
-	<resultMap type="Like" id="LikeResultSet">
-		<id property="boardNo"  column="BOARD_NO"/>
-		<id property="targetNo" column="TARGET_NO"/>
-		<id property="memberNo" column="MEMBER_NO"/>
-	</resultMap>
-	
-	<insert id="insertLike" parameterType="Like">
-		insert into GOOD
-		values(2,#{targetNo},#{memberNo})
-	</insert>
-	
-	<delete id="deleteLike" parameterType="Like">
-		delete from GOOD
-		where board_no = 2 and target_no = #{targetNo} and member_no = #{memberNo}
-	</delete>
-	
-	<select id="selectLikeCheck" resultMap="LikeResultSet">
-		select *
-		from GOOD
-		where board_no = 2 and target_no = #{targetNo} and member_no = #{memberNo}
-	</select>
-	
-	<select id="rCount" resultMap="boardResultSet">
-		select post_no, count(*) as rcount
-		from f_board
-    		join good on(target_no = post_no)
-		where board_no = 2 and target_no = #{postNo}
-		group by post_no
-	</select>
-	
-	<update id="rDelete" parameterType="Reply">
-		update reply
-		set deleted='Y'
-		where reply_no = #{replyNo}
-	</update>
 	
 </mapper>
