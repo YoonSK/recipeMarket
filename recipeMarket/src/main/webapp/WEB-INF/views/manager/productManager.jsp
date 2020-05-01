@@ -268,6 +268,7 @@
 								</tr>
 								<tr id="a"></tr>
 								<script>
+								$(function(){
 									var reset = "";
 									$('#updateBtn${product.productNo}').click(function(){
 										$('#btnArea${product.productNo}').html('<button type="submit" id="updateProduct">확인</button>');
@@ -276,6 +277,8 @@
 										$('#incomeVal${product.productNo}').html('<input type="text" id="income" value="${product.income}" style="height: 30px;border: none; border-radius: 5px;width: 50px; background: #ddfcff; color: black;" name="income"><input type="hidden" name="productNo" value="${product.productNo }">');
 										
 									});
+								});
+									
 									
 									
 									$('#updateProduct').click(function(){

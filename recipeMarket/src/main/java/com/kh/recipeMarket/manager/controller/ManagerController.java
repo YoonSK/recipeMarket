@@ -217,8 +217,8 @@ public class ManagerController {
 	@RequestMapping("updateProduct.ma")
 	public String updateProduct(@ModelAttribute Product p,@RequestParam("productNo") int productNo,HttpServletRequest request) {
 		
-		p.setProductNo(productNo);
-		System.out.println("수정 : " + p);
+//		p.setProductNo(productNo);
+		System.out.println("수정 : " + productNo);
 		int result = mas.updateProduct(p);
 		 String referer = request.getHeader("Referer");
 		if(result > 0) {
@@ -312,7 +312,7 @@ public class ManagerController {
 	@RequestMapping("productStatus.ma")
 	public ModelAndView productStatus(@RequestParam(value="page", required=false) Integer page, String pStatus, ModelAndView mv,Product p) {
 		int ds = 0;
-		System.out.println(pStatus);
+//		System.out.println(pStatus);
 		switch(pStatus) {
 		case "전체": ds = 0; break;
 		case "품절" : ds = 1; break;
@@ -328,7 +328,7 @@ public class ManagerController {
 		
 		
 		int listCount = mas.getListCount();
-		System.out.println(listCount);
+//		System.out.println(listCount);
 		int slistCount = mas.productStatusCount(p);
 		PageInfo pi = ProductPagination.getPageInfo(currentPage, slistCount);
 		ArrayList<Product> list = null;
