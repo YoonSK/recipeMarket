@@ -19,7 +19,8 @@ public class BoardDAO {
 
 	public int getListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("boardMapper.getListCount");
-	}
+	} 
+	
 
 	public ArrayList<Board> selectList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		int offset =(pi.getCurrentPage()-1) * pi.getBoardLimit();

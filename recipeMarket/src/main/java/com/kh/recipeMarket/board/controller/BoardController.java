@@ -41,6 +41,7 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService bService;
+	 
 	
 	private MemberService ms;
 	

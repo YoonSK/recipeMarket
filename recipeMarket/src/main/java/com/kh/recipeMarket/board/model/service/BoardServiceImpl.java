@@ -18,6 +18,7 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Autowired
 	private BoardDAO bDAO;
+	 
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;

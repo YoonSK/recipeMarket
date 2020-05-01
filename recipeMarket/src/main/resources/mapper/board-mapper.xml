@@ -7,6 +7,7 @@
 		where deleted='N'
 	</select>
 	
+	
 	<select id="selectList" resultMap="boardResultSet">
   		<!-- select POST_NO, NICKNAME, CONTENT, CREATE_DATE, MODIFY_DATE, HIT, F.DELETED, CATEGORY, CHANGE_NAME
 		FROM F_BOARD F
