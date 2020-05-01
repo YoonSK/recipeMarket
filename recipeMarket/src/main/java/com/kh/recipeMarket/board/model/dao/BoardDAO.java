@@ -105,6 +105,14 @@ public class BoardDAO {
 		return sqlSession.selectOne("boardMapper.selectLikeCheck", like);
 	}
 
+	public Board selectrCount(SqlSessionTemplate sqlSession,int postNo) {
+		return sqlSession.selectOne("boardMapper.rCount", postNo);
+	}
+
+	public int rDelete(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.update("boardMapper.rDelete", replyNo);
+	}
+
 
 
 	
