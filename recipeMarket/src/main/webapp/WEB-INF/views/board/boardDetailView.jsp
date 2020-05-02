@@ -99,6 +99,7 @@
 						<c:if test="${ gCount.rCount ne null}">
 						<td width="30px" style="font-size:20px"><b>${ gCount.rCount }</b></td>
 						</c:if>
+						
 						<c:if test="${ gCount.rCount eq null}">
 						<td width="30px" style="font-size:20px"><b>0</b></td>
 						</c:if>
