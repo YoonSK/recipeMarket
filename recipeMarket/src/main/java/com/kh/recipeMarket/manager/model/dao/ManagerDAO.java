@@ -113,4 +113,5 @@ public class ManagerDAO {
 		return (ArrayList)sqlSession.selectList("managerMapper.selectExcelList");
 	}
 
+	
 }

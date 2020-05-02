@@ -160,6 +160,7 @@
 				    </div>
 			      </form>	 
 			    </div>
+			    
 			    <script>	
 				$('span.close').click(function(){
 					$('#hmodal').attr('style', 'display:none');

@@ -114,4 +114,5 @@ public class MaServiceImpl implements ManagerService {
 		return maDAO.selectRow(sqlSession);
 	}
 
+	
 }
