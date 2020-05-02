@@ -90,6 +90,20 @@
 		<url-pattern>*.rc</url-pattern>
 	</servlet-mapping>
 
+	<!-- 구매 관련 -->
+	<servlet>
+		<servlet-name>buyServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/buy-context.xml</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>buyServlet</servlet-name>
+		<url-pattern>*.by</url-pattern>
+	</servlet-mapping>
+
 	<!-- 관리자 관련 -->
 	<servlet>
 		<servlet-name>managerServlet</servlet-name>
