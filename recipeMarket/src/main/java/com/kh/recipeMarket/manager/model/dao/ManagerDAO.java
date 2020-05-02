@@ -89,7 +89,6 @@ public class ManagerDAO {
 		
 		return (ArrayList)sqlSession.selectList("managerMapper.productSortList",p,rowBounds);
 	}
-	
 
 	public int productSortCount(SqlSessionTemplate sqlSession, Product p) {
 		return sqlSession.selectOne("managerMapper.productSortCount",p);

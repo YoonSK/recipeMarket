@@ -93,7 +93,6 @@ public class MaServiceImpl implements ManagerService {
 	public ArrayList<Product> productSortList(Product p,PageInfo pi) {
 		return maDAO.productSortList(sqlSession,p,pi);
 	}
-	
 
 	@Override
 	public int productSortCount(Product p) {

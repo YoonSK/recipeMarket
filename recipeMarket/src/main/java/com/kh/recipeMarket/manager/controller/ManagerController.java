@@ -390,7 +390,6 @@ public class ManagerController {
 	  objRow = objSheet.createRow(0);
 	  objRow.setHeight((short) 0x150);
 	  
-	  
 
 	  objCell = objRow.createCell(0);
 	  objCell.setCellValue("상품코드");
