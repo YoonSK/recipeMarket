@@ -100,11 +100,6 @@ public class MaServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public List<Product> selectExcelList() {
-		return maDAO.selectExcelList(sqlSession);
-	}
-
-	@Override
 	public ArrayList<Product> selectsList(Product p, PageInfo pi) {
 		return maDAO.selectsList(sqlSession,p, pi);
 	}
@@ -112,6 +107,11 @@ public class MaServiceImpl implements ManagerService {
 	@Override
 	public int productStatusCount(Product p) {
 		return maDAO.productStatusCount(sqlSession,p);
+	}
+	
+	@Override
+	public List<Product> selectRow() {
+		return maDAO.selectRow(sqlSession);
 	}
 
 }

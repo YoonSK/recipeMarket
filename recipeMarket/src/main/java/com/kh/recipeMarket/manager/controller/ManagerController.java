@@ -2,21 +2,25 @@ package com.kh.recipeMarket.manager.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +32,6 @@ import com.google.gson.JsonIOException;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
-import com.kh.recipeMarket.excel.MakeExcel;
 import com.kh.recipeMarket.manager.model.exception.ManagerException;
 import com.kh.recipeMarket.manager.model.service.ManagerService;
 import com.kh.recipeMarket.manager.model.vo.Pagination;
@@ -37,8 +40,6 @@ import com.kh.recipeMarket.manager.model.vo.ProductPagination;
 import com.kh.recipeMarket.member.model.exception.MemberException;
 import com.kh.recipeMarket.mypage.model.exception.MyPageException;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
-
-import net.sf.jxls.exception.ParsePropertyException;
 
 @Controller
 public class ManagerController {
@@ -312,7 +313,7 @@ public class ManagerController {
 	@RequestMapping("productStatus.ma")
 	public ModelAndView productStatus(@RequestParam(value="page", required=false) Integer page, String pStatus, ModelAndView mv,Product p) {
 		int ds = 0;
-		System.out.println(pStatus);
+//		System.out.println(pStatus);
 		switch(pStatus) {
 		case "전체": ds = 0; break;
 		case "품절" : ds = 1; break;
@@ -328,7 +329,7 @@ public class ManagerController {
 		
 		
 		int listCount = mas.getListCount();
-		System.out.println(listCount);
+//		System.out.println(listCount);
 		int slistCount = mas.productStatusCount(p);
 		PageInfo pi = ProductPagination.getPageInfo(currentPage, slistCount);
 		ArrayList<Product> list = null;
@@ -359,22 +360,108 @@ public class ManagerController {
 	/* 엑셀 파일 다운 */
 	
 	@RequestMapping("downloadExcelFile.ma")
-	 public void listExcel(HttpServletRequest request,
-	            HttpServletResponse response,@ModelAttribute("product") Product product,
-	            ModelMap modelMap) throws ParsePropertyException, InvalidFormatException {
+	 public void ExcelPoi(HttpServletResponse response, Model model) throws Exception {
 
-	        // Service의 해당 메소드로 실현될 쿼리로는 list select문을 그대로 사용하면 된다. 
-	        List<Product> pList = mas.selectExcelList();
-	        Map<String, Object> beans = new HashMap<String, Object>();
-	        
-	        beans.put("pList", pList);
-	        System.out.println("pList"+pList);
-	        
-	        // 엑셀 다운로드 메소드가 담겨 있는 객체
-	        MakeExcel me = new MakeExcel();
-	        
-	        // 인자로 request, response, Map Collection 객체, 파일명, 폴더명, 견본파일을 받는다.
-	        me.download(request, response, beans, "src/main/webapp/WEB-INF/excel/", "recipe_market_Product.xlsx", "recipe.xlsx");
-	    }
+	      HSSFWorkbook objWorkBook = new HSSFWorkbook();
+	      HSSFSheet objSheet = null;	// 시트 생성
+	      HSSFRow objRow = null;		// 행 생성
+	      HSSFCell objCell = null;       //셀 생성
+
+	        //제목 폰트
+	  HSSFFont font = objWorkBook.createFont();
+	  font.setFontHeightInPoints((short)9);
+	  
+	  // 글자 굵게 하기
+	  font.setBoldweight((short)font.BOLDWEIGHT_BOLD);
+	  // 폰트 설정
+	  font.setFontName("맑은고딕");
+
+	  //제목 스타일에 폰트 적용, 정렬
+	  HSSFCellStyle styleHd = objWorkBook.createCellStyle();    //제목 스타일
+	  styleHd.setFont(font);
+	  styleHd.setAlignment(HSSFCellStyle.ALIGN_CENTER);	// 가운데 정렬
+	  styleHd.setVerticalAlignment (HSSFCellStyle.VERTICAL_CENTER);
+
+	  objSheet = objWorkBook.createSheet("첫번째 시트");     //워크시트 생성
+
+	  List<Product> pList = mas.selectRow();
+	  // 행으로 제작을 하네
+	  // 1행
+	  objRow = objSheet.createRow(0);
+	  objRow.setHeight((short) 0x150);
+	  
+
+	  objCell = objRow.createCell(0);
+	  objCell.setCellValue("상품코드");
+	  objCell.setCellStyle(styleHd);
+
+	  objCell = objRow.createCell(1);
+	  objCell.setCellValue("상품명");
+	  objCell.setCellStyle(styleHd);
+
+	  objCell = objRow.createCell(2);
+	  objCell.setCellValue("판매가");
+	  objCell.setCellStyle(styleHd);
+
+	  objCell = objRow.createCell(3);
+	  objCell.setCellValue("입고수량");
+	  objCell.setCellStyle(styleHd);
+	  
+	  objCell = objRow.createCell(4);
+	  objCell.setCellValue("출고수량");
+	  objCell.setCellStyle(styleHd);
+	  
+	  objCell = objRow.createCell(5);
+	  objCell.setCellValue("재고");
+	  objCell.setCellStyle(styleHd);
+	  
+	  int index = 1;
+	  for (Product product : pList) {
+	    objRow = objSheet.createRow(index);
+	    objRow.setHeight((short) 0x150);
+
+	    objCell = objRow.createCell(0);
+	    objCell.setCellValue(product.getProductNo());
+	    objCell.setCellStyle(styleHd);
+
+	    objCell = objRow.createCell(1);
+	    objCell.setCellValue((String)product.getName());
+	    objCell.setCellStyle(styleHd);
+
+	    objCell = objRow.createCell(2);
+	    objCell.setCellValue(product.getPrice());
+	    objCell.setCellStyle(styleHd);
+
+	    objCell = objRow.createCell(3);
+	    objCell.setCellValue(product.getIncome());
+	    objCell.setCellStyle(styleHd);
+	    
+	    objCell = objRow.createCell(4);
+	    objCell.setCellValue(product.getExport());
+	    objCell.setCellStyle(styleHd);
+	    
+	    objCell = objRow.createCell(5);
+	    objCell.setCellValue(product.getStock());
+	    objCell.setCellStyle(styleHd);
+	    index++;
+	  }
+
+	  for (int i = 0; i < pList.size(); i++) {
+	    objSheet.autoSizeColumn(i);
+	  }
+
+	  response.setContentType("Application/Msexcel");
+	    response.setHeader("Content-Disposition", "ATTachment; Filename="
+	        + URLEncoder.encode("RECIPE_MARKET", "UTF-8") + ".xls");
+
+	  OutputStream fileOut = response.getOutputStream();
+	  objWorkBook.write(fileOut);
+	  fileOut.close();
+
+	  response.getOutputStream().flush();
+	  response.getOutputStream().close();
+	}
+
 
 }
+

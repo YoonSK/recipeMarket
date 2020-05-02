@@ -133,13 +133,13 @@
 			LEFT OUTER JOIN PHOTO ON(product_no = TARGET_NO AND BOARD_NO = 3)
 		WHERE p.deleted='N' 
 			<if test="category != null">
-				and category = #{category} 
+				and category like '%'||#{category}||'%'
 			</if> 
 			<if test ="name != null">
 			and name like '%'||#{name}||'%'
 			</if>
 			
-			<if test ="productNo != 0">
+			<if test ="productNo > 0">
 			and product_no = #{productNo}
 			</if>
 		order by product_no desc
