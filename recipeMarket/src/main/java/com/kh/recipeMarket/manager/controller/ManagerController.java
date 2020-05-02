@@ -385,6 +385,7 @@ public class ManagerController {
 	  objSheet = objWorkBook.createSheet("첫번째 시트");     //워크시트 생성
 
 	  List<Product> pList = mas.selectRow();
+	  
 	  // 행으로 제작을 하네
 	  // 1행
 	  objRow = objSheet.createRow(0);

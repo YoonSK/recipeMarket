@@ -91,6 +91,7 @@
 				<div id="nick">
 					${ loginUser.nickName }
 				</div>
+				
 				<ul class="nav_mem">
 					<li><a href="manager.ma">관리자 페이지</a></li>
 					<li><a href="logout.me">로그아웃</a></li>

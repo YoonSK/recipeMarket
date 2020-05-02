@@ -145,6 +145,7 @@
 		order by product_no desc
 	</select>
 	
+	
 	<select id="productSortList" resultMap="productResultSet" parameterType="Product">
 		select product_no,name, price, stock, create_date, income, export, change_name
 		from product p
