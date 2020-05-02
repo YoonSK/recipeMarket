@@ -12,12 +12,12 @@
 	/* 네비 상단 */
 	div.menubar_top {margin: 0 auto; padding: 16px 0 0 176px; height: 60px;}
 	p#welcome {position: absolute; right: 60px; top: -5px;}
-	ul.nav_mem {display:inline; padding:0 10px; display: inline; padding: 0 10px; position: absolute; right: 1%; top: 11%;}
+	ul.nav_mem {display:inline; padding:0 10px; display: inline; padding: 0 10px; position: absolute; right: 1%; top: 7%;}
 	ul.nav_mem li{list-style: none; padding: 0 3px; display: inline-block; font-size: 14px;}
 	ul.nav_mem li a:link {text-decoration: none; color: grey;}
 	#search_con{position: absolute; left: 30%; top: 40px;}
 	#topSearch{height: 100px;}
-	div#nick{position: absolute; right: 5%; top: 10%; font-size: 15px; font-weight: bold;}
+	div#nick{position: absolute; right: 5%; top: 7%; font-size: 15px; font-weight: bold;}
 	/* 메뉴바*/
 	div.menubar{margin-top: 10px; margin-bottom: 10px; height: 50px; background-color: #fee0a1;}
 	div.menubar ul{margin: 0 auto; padding: 9px 30px 0; text-align: center;}
@@ -68,7 +68,7 @@
 					${ loginUser.nickName }
 				</div>
 				<ul class="nav_mem">		
-					<li><a href="goLogin.me">장바구니</a></li>						
+					<li><a href="goCart.by">장바구니</a></li>						
 					<li><a href="mypage.mp">마이페이지</a></li>
 					<li><a href="logout.me">로그아웃</a></li>
 				</ul>
