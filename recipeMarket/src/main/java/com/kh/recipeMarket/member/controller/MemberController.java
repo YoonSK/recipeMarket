@@ -119,7 +119,7 @@ public class MemberController {
 		Member m = new Member();
 		m.setNickName(nickname);
 		m.setEmail(email);
-		if(nickname != null) {
+		if(nickname != "") {
 			model.addAttribute("m", m);
 			return "/kMemberJoin";
 		}else {

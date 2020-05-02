@@ -18,6 +18,13 @@
 		    LEFT OUTER JOIN PHOTO ON(C.PRODUCT_NO = TARGET_NO AND BOARD_NO = 3)    
 		WHERE MEMBER_NO	= #{memberNo}
   	</select>
+  	
+  	<delete id="cartDelete" parameterType="Cart">
+  		DELETE
+  		FROM CART
+  		WHERE PRODUCT_NO = #{productNo} and MEMBER_NO = #{memberNo}
+  	
+  	</delete>
   
   
   

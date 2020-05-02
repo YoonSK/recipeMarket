@@ -22,4 +22,9 @@ public class BuyServiceImpl implements BuyService{
 	public ArrayList<Cart> cartList(int memberNo) {
 		return buyDAO.cartList(sqlSession, memberNo);
 	}
+
+	@Override
+	public int cartDelete(Cart cart) {
+		return buyDAO.cartDelete(sqlSession, cart);
+	}
 }

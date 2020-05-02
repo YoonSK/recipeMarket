@@ -146,7 +146,6 @@
 									if(confirm('회원가입 하시겠습니까?')){						
 										return true;
 									} else{
-										console.log($('#email').val()));
 										return false;
 									}
 								} else{
