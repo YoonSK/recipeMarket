@@ -47,5 +47,4 @@ public interface ManagerService {
 	int productStatusCount(Product p);
 
 	List<Product> selectRow();
-	
 }
