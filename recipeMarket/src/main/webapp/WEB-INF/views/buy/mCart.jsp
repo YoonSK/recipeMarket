@@ -32,7 +32,7 @@
 							<td>${ order.pName }</td>
 							<td>${ order.prCount }</td>
 							<td class="order_D"><fmt:formatNumber maxFractionDigits="3" value="${ order.price }"/> 원</td>																		
-						</tr>		
+						</tr>		 
 						</c:forEach>																						
 						</tbody>
 					</table>			
