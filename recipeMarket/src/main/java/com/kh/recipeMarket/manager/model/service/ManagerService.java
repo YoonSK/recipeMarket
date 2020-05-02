@@ -24,6 +24,7 @@ public interface ManagerService {
 
 	int uploadImage(Photo p);
 
+	
 	int getListCount();
 
 	ArrayList<Product> selectList(PageInfo pi);

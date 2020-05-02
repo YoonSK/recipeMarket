@@ -107,6 +107,7 @@
 		order by product_no desc
 	</select>
 	
+	
 	<update id="updateProduct" parameterType="Product">
 		update product set income=#{income} where product_no = #{productNo}   
 	</update>

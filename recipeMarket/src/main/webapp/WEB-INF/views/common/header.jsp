@@ -65,6 +65,7 @@
 				<li><a href="goLogin.me">로그인</a></li>
 				<li><a href="goTerm.me">회원가입</a></li>						
 			</ul>
+			
 			</c:if>	
 			<c:if test="${ !empty sessionScope.loginUser && loginUser.id != 'ADMIN' }">	
 				<p id="welcome" onclick="followList();" style="cursor: pointer">
