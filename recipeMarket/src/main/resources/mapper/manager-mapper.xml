@@ -168,7 +168,6 @@
 		order by product_no desc
 	</select>
 	
-	
 	<select id="productSortCount"  parameterType="Product" resultType="_int">
 		select count(*)
 		from product

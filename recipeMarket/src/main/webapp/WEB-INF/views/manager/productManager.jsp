@@ -489,8 +489,7 @@
 	</script>
 	
 	
-	
-	
+
 	
 		 <!-- The Modal -->
 			    <div id="cmodal" class="modal">	 
