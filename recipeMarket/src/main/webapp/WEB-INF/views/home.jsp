@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
- <link rel="icon" type="image/png"  href="resources/images/tablogo.png"/>
+ <link rel="icon" type="image/png" href="resources/images/tablogo.png"/>
 
 <meta charset="UTF-8">
 <title>레시피 마켓</title>

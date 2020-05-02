@@ -143,8 +143,8 @@ public class ManagerController {
 			mv.addObject("listCount", listCount);
 			mv.addObject("pi",pi);
 			mv.setViewName("productManager");
-			System.out.println(list);
-			System.out.println(plist);
+//			System.out.println(list);
+//			System.out.println(plist);
 		} else {
 			throw new ManagerException("게시글 전체 조회에 실패하였습니다.");
 		}
@@ -216,9 +216,10 @@ public class ManagerController {
 	
 	// 상품 입고 수정
 	@RequestMapping("updateProduct.ma")
-	public String updateProduct(@ModelAttribute Product p,@RequestParam("productNo") int productNo,HttpServletRequest request) {
-		
+	public String updateProduct(Product p,@RequestParam("productNo") int productNo,@RequestParam("income") int income,HttpServletRequest request) {
+		System.out.println("controller의 " + productNo + "income : " + income );
 		p.setProductNo(productNo);
+		p.setIncome(income);
 		System.out.println("수정 : " + p);
 		int result = mas.updateProduct(p);
 		 String referer = request.getHeader("Referer");
@@ -233,7 +234,7 @@ public class ManagerController {
 	@RequestMapping("searchProduct.ma")
 	public ModelAndView searchListProduct(@RequestParam(value = "page", required=false) Integer page,ModelAndView mv, String keyword, String category,String searchCate,
 											Product p) {
-		System.out.println("keyword: "+keyword + "category : "+ category + "searchCate : "+ searchCate);
+//		System.out.println("keyword: "+keyword + "category : "+ category + "searchCate : "+ searchCate);
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
@@ -249,7 +250,7 @@ public class ManagerController {
 			p.setProductNo(Integer.parseInt(keyword));
 		} 
 		
-		System.out.println("p : "+ p);
+//		System.out.println("p : "+ p);
 		int listCount = mas.getListCount();
 		int slistCount = mas.getSearchListCount(p);
 		PageInfo pi = ProductPagination.getPageInfo(currentPage, slistCount);
@@ -264,8 +265,8 @@ public class ManagerController {
 			mv.addObject("searchCate", searchCate);
 			mv.setViewName("productManager");
 			
-			System.out.println("slistCount : "+ slistCount);
-			System.out.println("seacrh : " + list);
+//			System.out.println("slistCount : "+ slistCount);
+//			System.out.println("seacrh : " + list);
 		} else {
 			throw new ManagerException("게시글 전체 조회에 실패하였습니다.");
 		}
@@ -287,13 +288,13 @@ public class ManagerController {
 		case "1년" : ds = 366; break;
 		}
 		p.setEndDate(ds);
-		System.out.println("p의 endDate확인" + p);
+//		System.out.println("p의 endDate확인" + p);
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page; }		
 		int slistCount = mas.productSortCount(p);
 		int listCount = mas.getListCount();
-		System.out.println(listCount);
+//		System.out.println(listCount);
 		PageInfo pi = ProductPagination.getPageInfo(currentPage, slistCount);
 		ArrayList<Product> list = mas.productSortList(p,pi);
 		if(list != null) {

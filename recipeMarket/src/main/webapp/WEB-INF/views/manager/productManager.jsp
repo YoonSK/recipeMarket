@@ -146,7 +146,7 @@
 	<c:import url="../common/header.jsp"/>	
 	<div class="outer">
 		<div id="container">
-			<form action="<%= request.getContextPath() %>/updateProduct.ma" id="cForm" name ="cForm" method="post" enctype="Multipart/form-data">
+			<%-- <form action="<%= request.getContextPath() %>/updateProduct.ma" id="cForm" name ="cForm" method="post" enctype="Multipart/form-data"> --%>
 				<h2>재고 관리</h2>
 				<div id="content" >
 					<div id="slectBox">
@@ -270,27 +270,29 @@
 								<script>
 									var reset = "";
 									$('#updateBtn${product.productNo}').click(function(){
-										$('#btnArea${product.productNo}').html('<button type="submit" id="updateProduct">확인</button>');
+										$('#btnArea${product.productNo}').html('<button type="button" id="updateProduct${product.productNo}" value="${product.productNo}" style="background: orangered; color: white;height: 30px; border: none; border-radius: 5px;width: 50px;">확인</button>');
+									   
+									 
+									
 										
 										$('#incomeVal${product.productNo}').html(reset);
-										$('#incomeVal${product.productNo}').html('<input type="text" id="income" value="${product.income}" style="height: 30px;border: none; border-radius: 5px;width: 50px; background: #ddfcff; color: black;" name="income"><input type="hidden" name="productNo" value="${product.productNo }">');
+										$('#incomeVal${product.productNo}').html('<input type="text" id="income" value="${product.income}" style="height: 30px;border: none; border-radius: 5px;width: 50px; background: #ddfcff; color: black;"><input type="hidden" value="${product.productNo }">');
 										
 									});
 									
 									/* 수정 이벤트 */	
-									$(document).on('click', '#updateProduct', function(){
+									$(document).on('click', '#updateProduct${product.productNo}', function(){
 										var productNo = $(this).val();
+										var income =$(this).parent().parent().children().children().eq(4).val();
+										console.log(income);
 										console.log(productNo);
-										//var replyNo = {reply}
-											//var replyNo = $('#replyNo').val();
-											//console.log(che);
 											
 											$.ajax({
 												url:'updateProduct.ma',
-												data:{productNo:productNo},
+												data:{productNo:productNo, income:income},
 												type:'post',
 												success:function(data){
-													alert("댓글이 삭제되었습니다.");
+													window.location.reload();
 												}
 											}); 
 									});
@@ -306,59 +308,55 @@
 									        location.href="downloadExcelFile.ma";
 									} 
 									    
-										/* 기간별 조회  */	
-										function sortDate(data){
-											var sortDate = data.innerText;
-											location.href = "productSort.ma?sortDate="+sortDate+"&page=1";
-										}
+									/* 기간별 조회  */	
+									function sortDate(data){
+										var sortDate = data.innerText;
+										location.href = "productSort.ma?sortDate="+sortDate+"&page=1";
+									}
 									    
-										   /* 검색 버튼 이벤트 */
-										function searchProduct(){
-											var keyword= $('#keyword').val();
-											var searchCate= $('#searchCate').val();
-											var category= $('#category').val();
-											console.log("keyword : "+ keyword + " searchCate : "+ searchCate + " category : " + category);
+								   /* 검색 버튼 이벤트 */
+									function searchProduct(){
+										var keyword= $('#keyword').val();
+										var searchCate= $('#searchCate').val();
+										var category= $('#category').val();
+										console.log("keyword : "+ keyword + " searchCate : "+ searchCate + " category : " + category);
+										
+										if(keyword != ""){
+											if(searchCate == ""){
+												alert("검색 조건을 설정해주세요.");
+											}
 											
-											if(keyword != ""){
-												if(searchCate == ""){
-													alert("검색 조건을 설정해주세요.");
-												}
-												
-											 }
-											/* 검색 조건을 설정하지 않고 검색 시 모든 리스트 출력 */
-											if(keyword == "" && searchCate =="" && category==""){
-												$('#searchCate').attr("required" , false);
-												location.href="pManage.ma";
-											/* 분류 미선택 + 검색 조건을 설정하지 않고 검색할 경우 검색 조건 설정 alert */
-											}else if(category == "" && keyword != "" && searchCate ==""){
-												$('#searchCate').attr("required" , true);
-											} 
-												location.href = "searchProduct.ma?keyword="+keyword+"&searchCate="+searchCate+"&category="+category +"&page=1"; 
-											
-		/* 									}else if(category == "" ){
-											 location.href = "searchProduct.ma?keyword="+keyword+"&searchCate="+searchCate+"&page=1";
-											}else {
-												location.href = "searchProduct.ma?keyword="+keyword+"&searchCate="+searchCate+"&category="+category +"&page=1"; 
-											} */
-										}
-									    
-									    /* 재고 상태로 검색  */
-										function productStatusAll(){
-											var pStatus=$("input:radio[id=all]").val();
-											location.href = "productStatus.ma?pStatus="+pStatus+"&page=1";
-										}
-										function productStatusNone(){
-											var pStatus=$("input:radio[id=none]").val();
-											location.href = "productStatus.ma?pStatus="+pStatus+"&page=1";
-										}
-										function productStatusLess(){
-											var pStatus=$("input:radio[id=less]").val();
-											location.href = "productStatus.ma?pStatus="+pStatus+"&page=1";
-										}
-										function productStatusEnough(){
-											var pStatus=$("input:radio[id=enough]").val();
-											location.href = "productStatus.ma?pStatus="+pStatus+"&page=1";
-										}
+										 }
+										/* 검색 조건을 설정하지 않고 검색 시 모든 리스트 출력 */
+										if(keyword == "" && searchCate =="" && category==""){
+											$('#searchCate').attr("required" , false);
+											location.href="pManage.ma";
+										/* 분류 미선택 + 검색 조건을 설정하지 않고 검색할 경우 검색 조건 설정 alert */
+										}else if(category == "" && keyword != "" && searchCate ==""){
+											$('#searchCate').attr("required" , true);
+										} 
+									
+										location.href = "searchProduct.ma?keyword="+keyword+"&searchCate="+searchCate+"&category="+category +"&page=1"; 
+										
+									}
+								    
+								    /* 재고 상태로 검색  */
+									function productStatusAll(){
+										var pStatus=$("input:radio[id=all]").val();
+										location.href = "productStatus.ma?pStatus="+pStatus+"&page=1";
+									}
+									function productStatusNone(){
+										var pStatus=$("input:radio[id=none]").val();
+										location.href = "productStatus.ma?pStatus="+pStatus+"&page=1";
+									}
+									function productStatusLess(){
+										var pStatus=$("input:radio[id=less]").val();
+										location.href = "productStatus.ma?pStatus="+pStatus+"&page=1";
+									}
+									function productStatusEnough(){
+										var pStatus=$("input:radio[id=enough]").val();
+										location.href = "productStatus.ma?pStatus="+pStatus+"&page=1";
+									}
 								</script>
 							</c:forEach>
 							
@@ -479,7 +477,7 @@
 						</table>
 					</div>
 				</div>
-			</form>
+			<!-- </form> -->
 		</div>
 	</div>
 	<script>
