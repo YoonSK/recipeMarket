@@ -133,10 +133,13 @@
 $(document).ready(function(){
  $('#slick').slick({
 	  dots: true,
-	  infinite: false,
+	  infinite: true,
 	  speed: 300,
 	  slidesToShow: 5,
 	  slidesToScroll: 5,
+	  autoplaySpeed: 1900,	/* 다음이미지로 넘어갈 시간 */         
+  	speed: 700, 		/* 다음이미지로 넘겨질때 걸리는 시간 */         
+  	pauseOnHover:true, 	/* 마우스 호버시 슬라이드 이동 멈춤 */
 	  responsive: [
 	    {
 	      breakpoint: 1024,
@@ -152,6 +155,7 @@ $(document).ready(function(){
 	      settings: {
 	        slidesToShow: 2,
 	        slidesToScroll: 2
+	        
 	      }
 	    },
 	    {
@@ -164,12 +168,12 @@ $(document).ready(function(){
 	  ]
 	});
 });
-	$('#slick').slick({
+/* 	$('#slick').slick({
 		  infinite: true,
 		  slidesToShow: 5,
 		  slidesToScroll: 5
 		}); 
 	
-
+ */
 	</script>
 </html>
