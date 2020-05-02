@@ -42,11 +42,9 @@ public interface ManagerService {
 
 	int productSortCount(Product p);
 
-	List<Product> selectExcelList();
-
 	ArrayList<Product> selectsList(Product p, PageInfo pi);
 
 	int productStatusCount(Product p);
 
-
+	List<Product> selectRow();
 }

@@ -277,34 +277,34 @@
 										
 									});
 									
+									/* 수정 이벤트 */	
+									$(document).on('click', '#updateProduct', function(){
+										var productNo = $(this).val();
+										console.log(productNo);
+										//var replyNo = {reply}
+											//var replyNo = $('#replyNo').val();
+											//console.log(che);
+											
+											$.ajax({
+												url:'updateProduct.ma',
+												data:{productNo:productNo},
+												type:'post',
+												success:function(data){
+													alert("댓글이 삭제되었습니다.");
+												}
+											}); 
+									});
 									
-									$('#updateProduct').click(function(){
-										
-									})
 									/* 판매수익 버튼 이벤트 */
 									$('#moneyBtn').click(function(){
 										//	$('#a').html('<tr><td id="count" colspan="8">수량</td></tr>');
 									});
 								 	
+
 									/* 엑셀 파일 만들기 이벤트 */
 									function doExcelDownloadProcess(){
-									         var productNo = ${product.productNo};
-									        
-									        $.ajax({
-									            url: "downloadExcelFile.ma",
-									            type: "POST",
-									            success: function(data){
-									                console.log(data);
-									            }
-									        });
-									    } 
-									    
-									    
-									    /* 상태별 조회  */	
-					/* 					function productStatus(data){
-											var status = data.innerText;
-											location.href = "productStatus.ma?status="+pStatus+"&page=1";
-										} */
+									        location.href="downloadExcelFile.ma";
+									} 
 									    
 										/* 기간별 조회  */	
 										function sortDate(data){
@@ -312,7 +312,7 @@
 											location.href = "productSort.ma?sortDate="+sortDate+"&page=1";
 										}
 									    
-									    /* 검색 버튼 이벤트 */
+										   /* 검색 버튼 이벤트 */
 										function searchProduct(){
 											var keyword= $('#keyword').val();
 											var searchCate= $('#searchCate').val();
@@ -332,13 +332,15 @@
 											/* 분류 미선택 + 검색 조건을 설정하지 않고 검색할 경우 검색 조건 설정 alert */
 											}else if(category == "" && keyword != "" && searchCate ==""){
 												$('#searchCate').attr("required" , true);
-											}else if(category == "" ){
+											} 
+												location.href = "searchProduct.ma?keyword="+keyword+"&searchCate="+searchCate+"&category="+category +"&page=1"; 
+											
+		/* 									}else if(category == "" ){
 											 location.href = "searchProduct.ma?keyword="+keyword+"&searchCate="+searchCate+"&page=1";
 											}else {
 												location.href = "searchProduct.ma?keyword="+keyword+"&searchCate="+searchCate+"&category="+category +"&page=1"; 
-											}
+											} */
 										}
-									    
 									    
 									    /* 재고 상태로 검색  */
 										function productStatusAll(){
@@ -360,6 +362,7 @@
 								</script>
 							</c:forEach>
 							
+				
 							 	<!-- 페이징 처리 -->
 						      	<tr align="center" height="20" id="buttonTab" class="pagingArea">
 						        	<td colspan="10">
@@ -376,26 +379,18 @@
 													</c:url>	
 												</c:when>
 												<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/searchProduct.ma'}">
-												<%-- 	<c:url var="before" value="searchProduct.ma"> --%>
-													<c:if test="category== ''">
 														<c:url var="before" value="searchProduct.ma">
-															<c:param name="keyword" value="${ keyword }"/>
-															<c:param name="searchCate" value="${ searchCate }"/>
-															<c:param name="page" value="${ pi.currentPage - 1 }"/>		
+															<c:param name="keyword" value="${ param.keyword }"/>
+															<c:param name="searchCate" value="${ param.searchCate }"/>
+															<c:param name="category" value="${ param.category }"/>	
+															<c:param name="page" value="${ pi.currentPage - 1 }"/>	
 														</c:url>
-													</c:if>	
-														
-														<c:if test="category != '' && keyword == '' && searchCate==''">
-															<c:url var="before" value="searchProduct.ma">
-																<c:param name="category" value="${ category }"/>									
-																<c:param name="page" value="${ pi.currentPage - 1 }"/>
-															</c:url>
-														</c:if>
-														<%-- <c:param name="keyword" value="${ param.keyword }"/>
-														<c:param name="searchCate" value="${ param.searchCate }"/>	
-														<c:param name="category" value="${ param.category }"/>								
-														<c:param name="page" value="${ pi.currentPage - 1 }"/> --%>
-												<%-- 	</c:url> --%>	
+												</c:when>
+												<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/productStatus.ma'}">
+														<c:url var="before" value="productStatus.ma">
+															<c:param name="pStatus" value="${ pStatus }"/>	
+															<c:param name="page" value="${ pi.currentPage - 1 }"/>	
+														</c:url>
 												</c:when>
 												<c:otherwise>	
 									               <c:url var="before" value="pManage.ma">
@@ -422,28 +417,18 @@
 											</c:when>
 											<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/searchProduct.ma'}">																												
 												<c:url var="pagination" value="searchProduct.ma">
-												<c:if test="${ param.category } == ''">
 														<c:param name="keyword" value="${ param.keyword }"/>
 														<c:param name="searchCate" value="${ param.searchCate }"/>
+														<c:param name="category" value="${ param.category }"/>	
 														<c:param name="page"  value="${ p }"/>
-														</c:if>
 												</c:url>		
-								<%-- 						
-													<c:if test="category == ''">
-														<c:url var="pagination" value="searchProduct.ma">
-															<c:param name="keyword" value="${ keyword }"/>
-															<c:param name="searchCate" value="${ searchCate }"/>
-															<c:param name="page" value="${ p }"/>	
-														</c:url>	
-													</c:if>	
-													
-													<c:if test="category != '' && keyword == '' && searchCate==''">
-													<c:url var="pagination" value="searchProduct.ma">
-															<c:param name="category" value="${ category }"/>									
-															<c:param name="page" value="${ p }"/>
-													</c:url>
-													</c:if> --%>
 											</c:when>
+											<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/productStatus.ma'}">
+												<c:url var="pagination" value="productStatus.ma">
+													<c:param name="pStatus" value="${ pStatus }"/>	
+													<c:param name="page" value="${ p }"/>	
+												</c:url>
+												</c:when>
 											<c:otherwise>	
 							                  <c:url var="pagination" value="pManage.ma">
 							                     <c:param name="page" value="${ p }"/>
@@ -467,29 +452,19 @@
 												</c:url>					
 											</c:when>	
 											<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/searchProduct.ma'}">
-											
 												<c:url var="after" value="searchProduct.ma">
-														<%-- 	<c:param name="keyword" value="${ keyword }"/>
-															<c:param name="searchCate" value="${ searchCate }"/> --%>
+															<c:param name="keyword" value="${ param.keyword }"/>
+															<c:param name="searchCate" value="${ param.searchCate }"/>
+															<c:param name="category" value="${ param.category }"/>	
 															<c:param name="page" value="${ pi.currentPage + 1 }"/>	
 												</c:url>
-																																							
-												<%-- 
-													<c:if test="${ param.category } == ''">
-														<c:url var="after" value="searchProduct.ma">
-															<c:param name="keyword" value="${ keyword }"/>
-															<c:param name="searchCate" value="${ searchCate }"/>
-															<c:param name="page" value="${ pi.currentPage + 1 }"/>		
-														</c:url>
-													</c:if>	
-													
-													<c:if test="category != '' && keyword == '' && searchCate==''">
-														<c:url var="after" value="searchProduct.ma">
-															<c:param name="category" value="${ category }"/>									
-															<c:param name="page" value="${ pi.currentPage + 1 }"/>
-														</c:url>
-													</c:if> --%>
 											</c:when>
+											<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/productStatus.ma'}">
+												<c:url var="after" value="productStatus.ma">
+													<c:param name="pStatus" value="${ pStatus }"/>	
+													<c:param name="page" value="${  pi.currentPage + 1 }"/>	
+												</c:url>
+												</c:when>
 											<c:otherwise>
 								               <c:url var="after" value="pManage.ma">
 								                  <c:param name="page" value="${ pi.currentPage + 1 }"/>
@@ -507,17 +482,12 @@
 			</form>
 		</div>
 	</div>
-	
-	
-							
-	
-		<script>
+	<script>
 		function insertProduct(){
 			$('#cmodal').attr('style', 'display:block');
 		}
-		
-			
 	</script>
+	
 	
 	
 	
@@ -540,6 +510,7 @@
 						<div id="uArea">
 							<input type="file" name= "pImage" id="pImage" multiple="multiple" onchange="LoadImg(this)" required>
 						</div>
+					
 					
 						<br>
 							<script>
@@ -621,6 +592,7 @@
 				}
 					
 
+				
 				</script>
 
 <%-- <c:import url="../common/footer.jsp"/> --%>

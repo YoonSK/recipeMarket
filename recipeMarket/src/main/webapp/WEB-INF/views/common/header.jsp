@@ -36,6 +36,17 @@
 	input:-moz-placeholder {color: #999;}
 	input::-webkit-input-placeholder {color: #999;}
 
+  /* 모달창 */
+    .hmodal {display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
+    .modal-content {background-color: #fefefe; margin: 20% auto; padding: 20px; border: 1px solid #888; width: 50%; height: auto;}
+    .close {color: #aaa; float: right; font-size: 28px; font-weight: bold;}
+    .close:hover, .close:focus {color: black; text-decoration: none; cursor: pointer;}	
+    
+    /* 삭제 버튼 */
+     #deleteBtn{ background: orangered; color: white; height: 30px; border: none; border-radius: 5px; width: 50px; }
+     
+     /* follow table */
+     #listT{ margin-left: 10%; width: 650px;}
 </style>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script> 
 </head>
@@ -56,7 +67,7 @@
 			</ul>
 			</c:if>	
 			<c:if test="${ !empty sessionScope.loginUser && loginUser.id != 'ADMIN' }">	
-				<p id="welcome">
+				<p id="welcome" onclick="followList();" style="cursor: pointer">
 		    		<c:if test="${ loginUser.pName != null }">	
 						<img name="profile" width=60px; height=60px; style="border-radius: 40px;" id="profile" src="resources/upload/${ loginUser.pName }">
 					</c:if>
@@ -80,6 +91,7 @@
 				<div id="nick">
 					${ loginUser.nickName }
 				</div>
+				
 				<ul class="nav_mem">
 					<li><a href="manager.ma">관리자 페이지</a></li>
 					<li><a href="logout.me">로그아웃</a></li>
@@ -116,5 +128,47 @@
 			});
 		});
 	</script>
+<script>
+		function followList(){
+			$('#hmodal').attr('style', 'display:block');
+		}
+	</script>
+		 <!-- The Modal -->
+			    <div id="hmodal" class="hmodal">	 
+			      <!-- Modal content -->
+			      <form action="<%= request.getContextPath() %>/insertProduct.ma" id="cForm" method="post" enctype="Multipart/form-data">
+				      <div class="modal-content">
+				        <span class="close">&times;</span>                                                               
+				        <p><font style="font-size:25px; font-weight:500;">${loginUser.nickName }님의 팔로워, 팔로잉 목록</font></p>
+				        <br>
+						<div id="listArea">
+							<table id="listT">
+								<tr>
+									<th colspan="3" style=" border-bottom: 1px solid black;">팔로워</th>
+									<th colspan="3" style=" border-bottom: 1px solid black;">팔로잉</th>
+								</tr>
+								<tr>
+									<td>사진</td>
+									<td>쉐프 닉네임</td>
+									<td><button type="button" id="deleteBtn">삭제</button></td>
+									<td>사진</td>
+									<td>쉐프 닉네임</td>
+									<td><button type="button" id="deleteBtn">삭제</button></td>
+								</tr>
+							</table>
+				     	</div>
+				    </div>
+			      </form>	 
+			    </div>
+			    <script>	
+				$('span.close').click(function(){
+					$('#hmodal').attr('style', 'display:none');
+				});		
+				
+				
+				function cancelBtn(){
+					$('#hmodal').attr('style', 'display:none');
+				}
+				</script>
 </body>
 </html>

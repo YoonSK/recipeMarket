@@ -108,5 +108,9 @@ public class ManagerDAO {
 	public int productStatusCount(SqlSessionTemplate sqlSession, Product p) {
 		return sqlSession.selectOne("managerMapper.productStatusCount",p);
 	}
+	
+	public List<Product> selectRow(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("managerMapper.selectExcelList");
+	}
 
 }
