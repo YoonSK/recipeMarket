@@ -12,8 +12,8 @@ public class Cart {
 
 	public Cart(int memberNo, int productNo, int prCount, String pName, String phName, int price) {
 		super();
-		memberNo = memberNo;
-		productNo = productNo;
+		this.memberNo = memberNo;
+		this.productNo = productNo;
 		this.prCount = prCount;
 		this.pName = pName;
 		this.phName = phName;
@@ -25,7 +25,7 @@ public class Cart {
 	}
 
 	public void setMemberNo(int memberNo) {
-		memberNo = memberNo;
+		this.memberNo = memberNo;
 	}
 
 	public int getProductNo() {
@@ -33,7 +33,7 @@ public class Cart {
 	}
 
 	public void setProductNo(int productNo) {
-		productNo = productNo;
+		this.productNo = productNo;
 	}
 
 	public int getPrCount() {

@@ -8,4 +8,6 @@ public interface BuyService {
 
 	ArrayList<Cart> cartList(int memberNo);
 
+	int cartDelete(Cart cart);
+
 }

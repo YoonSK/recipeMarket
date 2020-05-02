@@ -14,4 +14,8 @@ public class BuyDAO {
 		return (ArrayList)sqlSession.selectList("buyMapper.cartList", memberNo);
 	}
 
+	public int cartDelete(SqlSessionTemplate sqlSession, Cart cart) {
+		return sqlSession.delete("buyMapper.cartDelete", cart);
+	}
+
 }

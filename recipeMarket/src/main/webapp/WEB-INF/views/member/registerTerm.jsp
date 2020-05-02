@@ -418,9 +418,10 @@
 						var userInfo = '${ userInfo }';
 						var nickname='${ userInfo.nickname }';
 						var email='${ userInfo.email }';
-						if($('#joinCheck').is(":checked") && userInfo == null){
+						
+						if($('#joinCheck').is(":checked") && userInfo == ''){
 							return true;
-						}else if($('#joinCheck').is(":checked") && userInfo != null){
+						}else if($('#joinCheck').is(":checked") && userInfo != ''){
 							return true;
 						}else{
 							alert("약관에 동의하지 않으셨습니다.");
