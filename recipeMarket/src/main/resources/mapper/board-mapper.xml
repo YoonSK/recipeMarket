@@ -78,7 +78,7 @@
 		select post_no, count(reply_no)as RCOUNT
 		from f_board f
     		full outer join reply r on(post_no = target_no)
-    	where f.deleted = 'N' and r.deleted = 'N'
+    	where f.deleted = 'N'
 		group by post_no
 		order by post_no desc
 	</select>
@@ -203,10 +203,15 @@
 		group by post_no
 	</select>
 	
-	<update id="rDelete" parameterType="Reply">
+	<delete id="rDelete" parameterType="Reply">
+		delete from reply
+		where reply_no = #{replyNo}
+	</delete>
+	
+<!-- 	<update id="rDelete" parameterType="Reply">
 		update reply
 		set deleted='Y'
 		where reply_no = #{replyNo}
-	</update>
+	</update> -->
 	
 </mapper>

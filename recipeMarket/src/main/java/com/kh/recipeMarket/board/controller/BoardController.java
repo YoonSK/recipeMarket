@@ -110,17 +110,19 @@ public class BoardController {
 				if(pName != null) {
 						p.setOriginName(bImage.getOriginalFilename());
 						p.setChangeName(pName);
-					}
-					int result2 = bService.uploadImage(p);
-					if(result2 > 0) {
-						return "boardListView";						
-					} else {
-						throw new MemberException("게시글 등록에 실패하였습니다.");					
-					}
+				}
+				int result2 = bService.uploadImage(p);
 					
+				if(result2 > 0) {
+						return "redirect:/blist.bo";						
 				} else {
-					return "boardListView";		
+						throw new MemberException("게시글 등록에 실패하였습니다.");					
+				}
+					
+			} else {
+				return "redirect:/blist.bo";		
 			}
+			
 		} else {
 			throw new BoardException("게시글 등록에 실패하였습니다.");
 		}
