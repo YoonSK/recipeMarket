@@ -216,6 +216,13 @@
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
         </dependency>
+        
+        <!-- 썸내일 기능 -->
+        <dependency>
+         <groupId>net.coobird</groupId> 
+         <artifactId>thumbnailator</artifactId> 
+         <version>0.4.8</version> 
+        </dependency>
 		     
 	</dependencies>
     <build>
