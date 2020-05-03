@@ -1,41 +1,70 @@
 package com.kh.recipeMarket.recipe.model.vo;
 
+import java.sql.Date;
 import java.util.ArrayList;
+
+import com.kh.recipeMarket.common.Photo;
 
 
 public class Recipe {
-	int postNo;
-	int memberNo;
-	int createDate;
-	int modifyDate;
-	int category;
-	int serving;
-	int difficulty;
-	ArrayList<Ingredient> ingredientList;
-	ArrayList<Tag> tagList;
-	ArrayList<RecipeStep> stepList;
-	double rating;
-	int hit;
-	char deleted;
+	private int postNo;
+	private int memberNo;
+	private String title;
+	
+	private Date createDate;
+	private Date modifyDate;
+	
+	private String category;
+	private int serving;
+	private int reqTime;
+	private int difficulty;
+	
+	private ArrayList<Ingredient> ingredientList;
+	private ArrayList<RecipeStep> stepList;
+	private ArrayList<Tag> tagList;
+	private ArrayList<Photo> imgList;
+	
+	private double rating;
+	private int hit;
+	
+	private char deleted;
 	
 	public Recipe() {
 		super();
 	}
 
-	public Recipe(int postNo, int memberNo, int createDate, int modifyDate, int category, int serving, int difficulty,
-			ArrayList<Ingredient> ingredientList, ArrayList<Tag> tagList, ArrayList<RecipeStep> stepList,
-			double rating, int hit, char deleted) {
+	public Recipe(int postNo, int memberNo, String title, Date createDate, Date modifyDate, String category,
+			int serving, int reqTime, int difficulty, char deleted) {
 		super();
 		this.postNo = postNo;
 		this.memberNo = memberNo;
+		this.title = title;
 		this.createDate = createDate;
 		this.modifyDate = modifyDate;
 		this.category = category;
 		this.serving = serving;
+		this.reqTime = reqTime;
+		this.difficulty = difficulty;
+		this.deleted = deleted;
+	}
+
+	public Recipe(int postNo, int memberNo, String title, Date createDate, Date modifyDate, String category,
+			int serving, int reqTime, int difficulty, ArrayList<Ingredient> ingredientList,
+			ArrayList<RecipeStep> stepList, ArrayList<Tag> tagList, ArrayList<Photo> imgList, double rating, int hit, char deleted) {
+		super();
+		this.postNo = postNo;
+		this.memberNo = memberNo;
+		this.title = title;
+		this.createDate = createDate;
+		this.modifyDate = modifyDate;
+		this.category = category;
+		this.serving = serving;
+		this.reqTime = reqTime;
 		this.difficulty = difficulty;
 		this.ingredientList = ingredientList;
-		this.tagList = tagList;
 		this.stepList = stepList;
+		this.tagList = tagList;
+		this.imgList = imgList;
 		this.rating = rating;
 		this.hit = hit;
 		this.deleted = deleted;
@@ -57,27 +86,35 @@ public class Recipe {
 		this.memberNo = memberNo;
 	}
 
-	public int getCreateDate() {
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public Date getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(int createDate) {
+	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
 
-	public int getModifyDate() {
+	public Date getModifyDate() {
 		return modifyDate;
 	}
 
-	public void setModifyDate(int modifyDate) {
+	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}
 
-	public int getCategory() {
+	public String getCategory() {
 		return category;
 	}
 
-	public void setCategory(int category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
 
@@ -87,6 +124,14 @@ public class Recipe {
 
 	public void setServing(int serving) {
 		this.serving = serving;
+	}
+
+	public int getReqTime() {
+		return reqTime;
+	}
+
+	public void setReqTime(int reqTime) {
+		this.reqTime = reqTime;
 	}
 
 	public int getDifficulty() {
@@ -105,14 +150,6 @@ public class Recipe {
 		this.ingredientList = ingredientList;
 	}
 
-	public ArrayList<Tag> getTagList() {
-		return tagList;
-	}
-
-	public void setTagList(ArrayList<Tag> tagList) {
-		this.tagList = tagList;
-	}
-
 	public ArrayList<RecipeStep> getStepList() {
 		return stepList;
 	}
@@ -121,6 +158,22 @@ public class Recipe {
 		this.stepList = stepList;
 	}
 
+	public ArrayList<Tag> getTagList() {
+		return tagList;
+	}
+
+	public void setTagList(ArrayList<Tag> tagList) {
+		this.tagList = tagList;
+	}
+
+	public ArrayList<Photo> getImgList(){
+		return imgList;
+	}
+	
+	public void setImgList(ArrayList<Photo> imgList) {
+		this.imgList = imgList;
+	}
+	
 	public double getRating() {
 		return rating;
 	}
@@ -144,7 +197,16 @@ public class Recipe {
 	public void setDeleted(char deleted) {
 		this.deleted = deleted;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Recipe [postNo=" + postNo + ", memberNo=" + memberNo + ", title=" + title + ", createDate=" + createDate
+				+ ", modifyDate=" + modifyDate + ", category=" + category + ", serving=" + serving + ", reqTime="
+				+ reqTime + ", difficulty=" + difficulty + ", ingredientList=" + ingredientList + ", stepList="
+				+ stepList + ", tagList=" + tagList + ", rating=" + rating + ", hit=" + hit + ", deleted=" + deleted
+				+ "]";
+	}
+
+
 	
 }

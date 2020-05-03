@@ -10,23 +10,31 @@
 		<typeAlias type="com.kh.recipeMarket.member.model.vo.Member" alias="Member"/>
 		<typeAlias type="com.kh.recipeMarket.board.model.vo.Board" alias="Board"/>
 		<typeAlias type="com.kh.recipeMarket.common.Photo" alias="Photo"/>		
+		
 		<typeAlias type="com.kh.recipeMarket.recipe.model.vo.Recipe" alias="Recipe"/>
 		<typeAlias type="com.kh.recipeMarket.recipe.model.vo.RecipeStep" alias="RecipeStep"/>
 		<typeAlias type="com.kh.recipeMarket.recipe.model.vo.Ingredient" alias="Ingredient"/>
+		<typeAlias type="com.kh.recipeMarket.recipe.model.vo.Tag" alias="tag"/>
+		<typeAlias type="com.kh.recipeMarket.recipe.model.vo.RecipePreview" alias="RecipePreview"/>
+		<typeAlias type="com.kh.recipeMarket.recipe.model.vo.SearchCon" alias="SearchCon"/>
+		
 		<typeAlias type="com.kh.recipeMarket.buy.model.vo.Order" alias="Order"/>
 		<typeAlias type="com.kh.recipeMarket.buy.model.vo.OrderDetail" alias="OrderDetail"/>		
 		<typeAlias type="com.kh.recipeMarket.buy.model.vo.Cart" alias="Cart"/>			
 		<typeAlias type="com.kh.recipeMarket.mypage.model.vo.mOrderInfo" alias="OrderInfo"/>
 		<typeAlias type="com.kh.recipeMarket.mypage.model.vo.mOrderDetail" alias="mOrderDetail"/>
 		<typeAlias type="com.kh.recipeMarket.manager.model.vo.Product" alias="Product"/>
-		<typeAlias type="com.kh.recipeMarket.common.Reply" alias="Reply"/>
-		<typeAlias type="com.kh.recipeMarket.common.Like" alias="Like"/>					
+		<typeAlias type="com.kh.recipeMarket.common.vo.Reply" alias="Reply"/>
+		<typeAlias type="com.kh.recipeMarket.common.Like" alias="Like"/>
+		<typeAlias type="com.kh.recipeMarket.common.vo.Targetter" alias="Targetter"/>					
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mapper/member-mapper.xml"/>
 		<mapper resource="mapper/board-mapper.xml"/>	
 		<mapper resource="mapper/manager-mapper.xml"/>			
+		<mapper resource="mapper/recipe-mapper.xml"/>			
 		<mapper resource="mapper/buy-mapper.xml"/>				
+		<mapper resource="mapper/common-mapper.xml"/>			
 	</mappers>
 </configuration>
