@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.recipeMarket.common.vo.Author;
 import com.kh.recipeMarket.recipe.model.vo.*;
 
 @Repository("rDAO")
@@ -45,6 +46,10 @@ public class RecipeDAO {
 		return (ArrayList)sqlSession.selectList("recipeMapper.selectTags", postNo);
 	}
 	
+	public Author selectAuthor(SqlSessionTemplate sqlSession, int postNo){
+		return sqlSession.selectOne("recipeMapper.selectRecipeAuthor", postNo);
+	}
+	
 	public ArrayList<RecipePreview> selectRecipeList(SqlSessionTemplate sqlSession, int memberNo){
 		return (ArrayList)sqlSession.selectList("recipeMapper.selectRecipeList", memberNo);
 	}
@@ -59,6 +64,10 @@ public class RecipeDAO {
 	
 	public int deleteRecipe(SqlSessionTemplate sqlSession, int postNo) {
 		return sqlSession.delete("recipeMapper.deleteRecipe", postNo);
+	}
+	
+	public ArrayList<Author> selectChefList(SqlSessionTemplate sqlSession, String sorter) {
+		return (ArrayList)sqlSession.selectList("recipeMapper.selectChefList", sorter);
 	}
 
 }

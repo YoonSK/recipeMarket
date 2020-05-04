@@ -176,6 +176,7 @@ public class RecipeController {
 		mv.addObject("tagList", rb.getTagList());
 		mv.addObject("stepList", rb.getStepList());
 		mv.addObject("imgList", rb.getImgList());
+		mv.addObject("author", rb.getAuthor());
 		
 		ArrayList<Reply> rplist = cService.selectReplies(new Enum().boardNo("recipe"), postNo);
 		mv.addObject("replyList", rplist);
@@ -207,7 +208,7 @@ public class RecipeController {
 		
 		cService.insertReply(rp);
 		
-		return "redirect:detail.rc?=postNo" + postNo;
+		return "redirect:detail.rc?postNo=" + postNo;
 	}
 
 	@RequestMapping("list.rc")
@@ -248,6 +249,15 @@ public class RecipeController {
 		return "";
 	}
 	
+	@RequestMapping("chefList.rc")
+	public ModelAndView chefList(@RequestParam(value = "sorter", required=false) String sorter, ModelAndView mv) {
+		
+		ArrayList<Author> clist = rService.selectChefList(sorter);
+		
+		mv.addObject("clist", clist);
+		mv.setViewName("chefList");
+		return mv;
+	}
 	
 	
 }
