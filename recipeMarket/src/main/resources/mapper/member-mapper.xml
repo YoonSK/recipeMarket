@@ -326,5 +326,20 @@
 		order by "DATE" desc
 	</select>	
 
+	<select id="getProduct" parameterType="Order" resultMap="odRS">
+		SELECT PRODUCT_NO
+		FROM ORDER_DETAIL  	
+		WHERE ORDER_NO = #{orderNo}
+	</select>
+	
+	<update id="productExport" parameterType="mOrderDetail">
+		update PRODUCT 
+		SET EXPORT
+		<foreach collection="list" item="pr" open="" close="" separator=""> 					 
+			= EXPORT + #{pr.prCount}
+			where PRODUCT_NO = ${pr.productNo};
+		</foreach> 
+	</update>
+	
 	
 </mapper>

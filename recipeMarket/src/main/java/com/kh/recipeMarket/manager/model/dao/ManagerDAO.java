@@ -12,6 +12,7 @@ import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.manager.model.vo.Product;
+import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
 @Repository("maDAO")
@@ -111,6 +112,14 @@ public class ManagerDAO {
 	
 	public List<Product> selectRow(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("managerMapper.selectExcelList");
+	}
+
+	public ArrayList<mOrderDetail> getProduct(SqlSessionTemplate sqlSession, Order o) {
+		return (ArrayList)sqlSession.selectList("managerMapper.getProduct", o);
+	}
+
+	public int productExport(SqlSessionTemplate sqlSession, ArrayList<mOrderDetail> list) {
+		return sqlSession.update("managerMapper.productExport", list);
 	}
 
 	
