@@ -1,8 +1,8 @@
 package com.kh.recipeMarket.recipe.model.vo;
 
 public class Tag {
-	int postNo;
-	String tag;
+	private int postNo;
+	private String tag;
 	
 	public Tag() {
 		super();
