@@ -57,6 +57,7 @@
 	            <span style="float:right; padding:10px; margin:0 auto;">
 	            	<c:if test="${ !empty loginUser }">
 	                <button id="insertBtn" onclick="location.href='insertView.bo';">등록하기</button>
+	                <button id= "test1" onclick="location.href='test1.bo';">문의하기</button>
 	            	</c:if>
 	            </span>
 	         </div>
@@ -131,6 +132,7 @@
 	        	<!-- 페이징 처리 -->
 		      	<tr align="center" height="20" id="buttonTab">
 		        	<td colspan="6">
+		         
 		         
 		        	<!-- [이전] -->
 		        	<c:if test="${ pi.currentPage <= 1 }">

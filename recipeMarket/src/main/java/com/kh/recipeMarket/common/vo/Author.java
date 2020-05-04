@@ -14,6 +14,7 @@ public class Author {
 	public Author() {
 		super();
 	}
+	
 
 	public Author(int memberNo, String nickName, String pName, int posts, int rating, int follows, int hits) {
 		super();
