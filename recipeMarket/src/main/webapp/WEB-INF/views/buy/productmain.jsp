@@ -30,7 +30,7 @@
 				</c:if>
 				<c:if test="${ !empty pm.value }">
 					<div class="book">
-						<a href="${contextPath}/goods/goodsDetail.do?goods_id=${item.goods_id }">
+						<a href="${contextPath}/productdetail.bu?name=${pm.value.name}">
 			            <img class="link"  src="images/1px.gif"> 
 			            </a> 
 			                <img width="121" height="154" 

@@ -78,6 +78,8 @@
 		<result property = "deleted" column ="DELETED"/>
 	</resultMap>
 	
+	<select id="">
 	
+	</select>
 	
 </mapper>
