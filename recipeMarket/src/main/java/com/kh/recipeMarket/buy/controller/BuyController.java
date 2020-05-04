@@ -2,6 +2,9 @@ package com.kh.recipeMarket.buy.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +22,8 @@ import com.kh.recipeMarket.buy.model.exception.BuyException;
 import com.kh.recipeMarket.buy.model.service.BuyService;
 import com.kh.recipeMarket.buy.model.vo.Cart;
 import com.kh.recipeMarket.member.model.vo.Member;
+import com.kh.recipeMarket.buy.model.vo.Order;
+import com.kh.recipeMarket.buy.model.vo.OrderDetail;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -56,6 +61,93 @@ public class BuyController {
 		gson.toJson(result, response.getWriter());		
 		
 	}
+	
+	// 구매창
+	@RequestMapping("goBuy.by")
+	public ModelAndView goBuy(ModelAndView mv, Model model, @RequestParam("prArray") ArrayList<Integer> prArray) {
+		Member loginUser = (Member)model.getAttribute("loginUser");		
+		int memberNo = loginUser.getMemberNo();
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<Integer> prnArray = new ArrayList();
+		for(int i = 0; i < prArray.size(); i++) {
+			if(prArray.get(i) != 0) {
+			prnArray.add(prArray.get(i));
 
+			}
+		}
+		ArrayList<Cart> list = new ArrayList<Cart>();
+		for(int i = 0; i < prnArray.size(); i++) {
+			list = bs.goBuy(prnArray);
+		}		
+
+		if(list != null) {
+			mv.addObject("list", list);			
+			mv.setViewName("mBuy");			
+		}else {
+			throw new BuyException("구매 페이지 로딩에 실패하였습니다.");
+		}
+		
+		return mv;
+	}
+	
+	// 구매완료
+	@RequestMapping("buyComple.by")
+	public void buyComple(HttpServletResponse response, @RequestParam("amount") int amount, @RequestParam("email") String email, @RequestParam("name") String name, @RequestParam("phone") int phone, @RequestParam("addr") String addr, @RequestParam("addr2") String addr2,
+							@RequestParam("zip") int zip, @RequestParam("memo") String memo, @RequestParam("prArray") ArrayList<Integer> prArray, @RequestParam("prCArray") ArrayList<Integer> prCArray, @RequestParam("pPrArray") ArrayList<Integer> pPrArray, Model model) throws JsonIOException, IOException{
+		Member loginUser = (Member)model.getAttribute("loginUser");		
+		int memberNo = loginUser.getMemberNo();
+		// 1. 주문 결과 Order에 넣기
+		Order o = new Order();
+		o.setTotal(amount);
+		o.setAddress(addr);
+		o.setAddress2(addr2);
+		o.setNote(memo);
+		o.setZip(zip);
+		o.setMemNo(memberNo);
+		
+		int result = bs.insertOrder(o);
+
+		ArrayList<OrderDetail> list = new ArrayList();
+		System.out.println(o.getOrderNo());
+		// 2. 주문 결과 OrderDetail에 넣기	
+		if(result > 0) {
+			for(int i = 0; i < prArray.size(); i++) {
+				OrderDetail od = new OrderDetail();
+				od.setProductNo(prArray.get(i));
+				od.setPrCount(prCArray.get(i));
+				od.setPrice(pPrArray.get(i));
+				od.setOrderNo(o.getOrderNo());
+				list.add(od);
+			}
+		System.out.println(list);
+		
+		int result2 = bs.insertOrderD(list);
+
+		// 3. 주문한 product는 cart에서 삭제
+			if(result2 > 0) {
+				ArrayList<Cart> delList = bs.selectOrderDetail(o.getOrderNo());
+				for(int i = 0; i < delList.size(); i++) {
+					delList.get(i).setMemberNo(memberNo);
+				}
+				int result3 = bs.cartDeleteAfter(delList);
+				System.out.println("최종"+result3);
+				if(result3 > 0) {
+					int orderNo = o.getOrderNo();
+					Gson gson = new Gson();
+					gson.toJson(orderNo, response.getWriter());
+				}
+			}			
+		}
+
+	}
+	
+	@RequestMapping("goComple.by")
+	public ModelAndView goComple(ModelAndView mv, @RequestParam("orderNo") int orderNo) {
+		
+		mv.addObject("orderNo", orderNo);			
+		mv.setViewName("buyComple");				
+		return mv;
+	}
 	
 }
