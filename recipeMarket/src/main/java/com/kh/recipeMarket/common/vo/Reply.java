@@ -20,6 +20,7 @@ public class Reply {
 	
 	private int rating;
 	private char deleted;
+
 	
 	
 	public Reply() {
