@@ -22,9 +22,10 @@
 	</resultMap>
 	
 	<select id="selectReplies" parameterType="Reply" resultMap="replyResultSet">
-		select NICKNAME, CONTENT, CREATE_DATE, MODIFY_DATE, RATING
+		select NICKNAME, CHANGE_NAME, CONTENT, CREATE_DATE, MODIFY_DATE, RATING
 		from REPLY R
-		join MEMBER M using(MEMBER_NO)
+		join MEMBER using(MEMBER_NO)
+		JOIN PHOTO P on(P.BOARD_NO = 0 AND P.TARGET_NO = MEMBER_NO AND P.FILE_LEVEL = 0)
 		where R.BOARD_NO = #{boardNo}
 		and R.TARGET_NO = #{targetNo}
 		and R.DELETED ='N'

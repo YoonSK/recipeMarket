@@ -103,10 +103,10 @@
 	</select>
 	
 	<select id="selectRecipeAuthor" parameterType="Author" resultMap="recipeAuthorResultSet">
-		SELECT MEMBER_NO, NICKNAME, CHANGE_NAME
-		FROM R_BOARD
-		JOIN MEMBER USING(MEMBER_NO)
-		JOIN PHOTO ON(BOARD_NO = 0 AND TARGET_NO = MEMBER_NO AND FILE_LEVEL = 0)
+		SELECT MEMBER_NO, M.NICKNAME, P.CHANGE_NAME
+		FROM R_BOARD R
+		JOIN MEMBER M USING(MEMBER_NO)
+		JOIN PHOTO P ON(BOARD_NO = 0 AND TARGET_NO = MEMBER_NO AND FILE_LEVEL = 0)
 		WHERE POST_NO = #{postNo}
 	</select>
     
@@ -165,19 +165,16 @@
 		</if>
     </select>
     
-    <delete id="clearRecipe">
+    <delete id="clearRecipe" parameterType="_int">
     	DELETE
-    	FROM R_STEP R, R_INGREDIENT G, PHOTO P
-    	LEFT JOIN R_INGREDIENT G ON(G.POST_NO = R_POST_NO)
-    	LEFT JOIN R_TAG T ON(T.POST_NO = R.POST_NO)
-    	LEFT JOIN PHOTO ON(BOARD_NO = 1 AND TARGET_NO = R.POST_NO)
+    	FROM R_STEP R
     	WHERE R.POST_NO = #{postNo}
     </delete>
     
     <update id="deleteRecipe" parameterType="Recipe">
     	UPDATE R_BOARD
     	SET DELETED = 'Y'
-    	WHERE POST_N0 = ${postNo}
+    	WHERE POST_NO = ${postNo}
     </update>
     
     

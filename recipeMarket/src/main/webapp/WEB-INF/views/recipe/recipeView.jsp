@@ -165,7 +165,7 @@
             	<div style="width: 142px;text-align: center">
                 	<div>
                     	<div>
-                        	<img width="50px"height="50px" src="">
+                        	<img width="50px"height="50px" src="resources/upload/${reply.pName}">
                     	</div>
                     	<div>
                         	<label>
