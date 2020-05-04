@@ -108,7 +108,7 @@
 					<a href="#">레시피</a>
 				</li>
 				<li>
-					<a href="#">스토어</a>
+					<a href="list.bu">스토어</a>
 				</li>
 				<li>
 					<a href="blist.bo">자유게시판</a>

@@ -21,12 +21,15 @@
 		<typeAlias type="com.kh.recipeMarket.manager.model.vo.Product" alias="Product"/>
 		<typeAlias type="com.kh.recipeMarket.common.Reply" alias="Reply"/>
 		<typeAlias type="com.kh.recipeMarket.common.Like" alias="Like"/>					
+
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mapper/member-mapper.xml"/>
 		<mapper resource="mapper/board-mapper.xml"/>	
 		<mapper resource="mapper/manager-mapper.xml"/>			
+
 		<mapper resource="mapper/buy-mapper.xml"/>				
+
 	</mappers>
 </configuration>
