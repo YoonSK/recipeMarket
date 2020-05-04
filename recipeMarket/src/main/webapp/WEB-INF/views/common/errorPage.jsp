@@ -2540,6 +2540,7 @@ html[subframe] body {
 </style>
 </head>
 <body>
+	<c:import url="../common/header.jsp"/>	
 	<div id="error-container" style="text-align: center;">
 		<h1>Error</h1>
 		<h2 style="color:red;">${ message }</h2>
