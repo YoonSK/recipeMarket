@@ -23,8 +23,8 @@
 	input[type="button"].deleteBtn:hover{border: none; background: white; cursor: pointer;}
 	
 	div#button {margin-left: 40%; margin-top: 10%;}
-	div#button > input[type="submit"]{width: 80px; height: 30px; font-size: 14px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
-	div#button > input[type="submit"]:hover{cursor: pointer; background: #fee0a1; color: white;}
+	div#button > input[type="button"]{width: 80px; height: 30px; font-size: 14px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
+	div#button > input[type="button"]:hover{cursor: pointer; background: #fee0a1; color: white;}
 	span > input[type="button"]{width: 80px; height: 30px; font-size: 14px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
 	span > input[type="button"]:hover{cursor: pointer; background: #fee0a1; color: white;}	
 	
@@ -35,8 +35,8 @@
 	<div class="outer">
 		<div class="container">
 			<div class="content">	
-				<h2>장바구니</h2>
-				<form>		
+				<h2>장바구니</h2>	
+				<form>
 				<div class="tableArea">
 					<table id="table">
 						<thead> <!-- 게시판 라벨 부분 -->
@@ -67,19 +67,18 @@
 				<hr style="width=80%;">
 				<div id="summary">
 					<span class="sHead">상품금액</span><span class="sBody" id="price">0</span> 원<br>
-					<span class="sHead">배송비</span><span class="sBody">2500 원</span><br>
+					<span class="sHead">배송비</span><span class="sBody"><fmt:formatNumber maxFractionDigits="3" value="2500"/> 원</span><br>
 					<span class="sHead">합계</span><span class="sBody" id="total">0</span> 원
-					<input type="hidden" name="total">
 				</div>	
 				<div id="button">
-					<input type="submit" id="buyBtn" value="주문하기">
+					<input type="button" id="buyBtn" value="주문하기">
 					<span><input type="button" id="backBtn" onclick='history.back();' value="돌아가기"></span>					
 				</div>
 				</form>
 				<script>
 					var all = document.getElementById("all");
 					var checkP = document.getElementsByName("checkP");	
-					var prC = document.getElementsByName("prC");
+					var prC = document.getElementsByName("prC");					
 					
 					function selectAll(){
 						var total = 2500;
@@ -148,6 +147,20 @@
 									
 								}
 							});
+				      });
+				      
+				      // 구매
+				      $('#buyBtn').click(function(){
+				    	  var prN = document.getElementsByName("prN");
+				    	  var prArray = new Array();				    	  
+						   for(var i = 0; i < checkP.length; i++){
+							      if(checkP[i].checked){							    	  
+							         prArray[i] = parseInt(prN[i].value);	
+							      }else{
+							    	  prArray[i] = 0;
+							      }
+							   }
+						   location.href="goBuy.by?prArray="+prArray;
 				      });
 				      
 				</script>

@@ -25,7 +25,50 @@
   		WHERE PRODUCT_NO = #{productNo} and MEMBER_NO = #{memberNo}
   	
   	</delete>
+  	
+  	<select id="goBuy" resultMap="CartRS" parameterType="java.util.Map">
+		SELECT C.PRODUCT_NO, P.NAME AS "PNAME", PR_COUNT, PRICE, CHANGE_NAME AS "PHNAME"
+		FROM CART C
+		    JOIN PRODUCT P ON (C.PRODUCT_NO = P.PRODUCT_NO)
+		    LEFT OUTER JOIN PHOTO ON(C.PRODUCT_NO = TARGET_NO AND BOARD_NO = 3)    
+		WHERE C.PRODUCT_NO in
+			<foreach collection="list" item="prN" open="(" close=")" separator=",">
+				#{prN}
+			</foreach>  
+  	</select>
+  	
+  	<insert id="insertOrder" parameterType="Order">
+  		INSERT INTO "ORDER"
+  		VALUES(SEQ_ORN.NEXTVAL, #{memNo}, SYSDATE, #{zip}, #{address}, #{address2}, #{note}, #{phone}, NULL, 0, #{total})
+		<selectKey keyProperty="orderNo" resultType="_int" order="AFTER">
+		 	SELECT SEQ_ORN.CURRVAL FROM dual
+		</selectKey>
+  	</insert>
   
-  
+	<insert id="insertOrderD" parameterType="java.util.List">
+		INSERT INTO "ORDER_DETAIL"(DETAIL_NO, ORDER_NO, PRODUCT_NO, PR_COUNT, PRICE, REVIEWED)
+		SELECT SEQ_ODN.NEXTVAL AS DETAIL_NO, A.* FROM (
+			<foreach collection="list" item="od" separator="UNION ALL ">
+				SELECT #{od.orderNo} AS ORDER_NO, #{od.productNo} AS PRODUCT_NO, #{od.prCount} AS PR_COUNT, #{od.price} AS PRICE, 'N' AS REVIWED
+				FROM DUAL 
+			</foreach>) A
+	
+	</insert>
+	  
+	<select id="selectOrderDetail" resultMap="CartRS">
+		SELECT PRODUCT_NO
+		FROM ORDER_DETAIL  	
+		WHERE ORDER_NO = #{orderNo}
+	 
+	 </select>
+ 
+  	<select id="cartDeleteAfter" parameterType="java.util.List">
+  		DELETE
+  		FROM CART
+  		WHERE
+			<foreach collection="list" item="cart" open="" close="" separator="OR">
+ 				PRODUCT_NO = #{cart.productNo} and MEMBER_NO = #{cart.memberNo}
+			</foreach>  
+  	</select>  
   
 </mapper>
