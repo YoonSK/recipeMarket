@@ -6,4 +6,5 @@ public class GradePoint {
 	private int indirectPurchase;
 	
 	
+	
 }

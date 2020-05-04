@@ -8,6 +8,7 @@ public class Targetter {
 	public Targetter() {
 		super();
 	}
+	
 
 	public Targetter(int boardNo, int targetNo) {
 		super();

@@ -49,6 +49,9 @@
 <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script> 
 <!-- 사용자 위치 js -->
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="resources/sockjs.min.js"></script>
 </head>
 <body>
 	<c:import url="common/header.jsp"/>
@@ -122,6 +125,9 @@
 		</script> 
 	</div>
 	
+
+	
+	
 	
 	<c:import url="common/footer.jsp"/>
 </body>
@@ -176,4 +182,5 @@ $(document).ready(function(){
 	
  */
 	</script>
+	
 </html>
