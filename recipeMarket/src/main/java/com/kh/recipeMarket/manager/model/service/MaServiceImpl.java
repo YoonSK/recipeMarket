@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.buy.model.vo.Cart;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.manager.model.dao.ManagerDAO;
@@ -116,12 +117,12 @@ public class MaServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public ArrayList<mOrderDetail> getProduct(Order o) {
+	public ArrayList<Cart> getProduct(Order o) {
 		return maDAO.getProduct(sqlSession, o);
 	}
 
 	@Override
-	public int productExport(ArrayList<mOrderDetail> list) {
+	public int productExport(Cart list) {
 		return maDAO.productExport(sqlSession, list);
 	}
 

@@ -231,4 +231,29 @@
 			</when>		
 		</choose>
 	</select>
+	
+
+	<resultMap type="Cart" id="CartRS">
+		<result property = "productNo" column="PRODUCT_NO"/>	
+		<result property = "memberNo" column ="MEMBER_NO"/>
+		<result property = "prCount" column ="PR_COUNT"/>
+		<result property = "pName" column ="PNAME"/>
+		<result property = "phName" column="PHNAME"/>		
+		<result property = "price" column ="PRICE"/>
+	</resultMap>  
+  
+
+	<select id="getProduct" parameterType="Order" resultMap="CartRS">
+		SELECT PRODUCT_NO, PR_COUNT
+		FROM ORDER_DETAIL  	
+		WHERE ORDER_NO = #{orderNo}
+	</select>
+	
+	<update id="productExport" parameterType="Cart">						
+			update PRODUCT SET    
+			EXPORT = EXPORT + #{prCount}
+			WHERE PRODUCT_NO = ${productNo}
+	</update>
+	
+		
 </mapper>
