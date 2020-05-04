@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.buy.model.vo.Cart;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.manager.model.vo.Product;
@@ -114,11 +115,11 @@ public class ManagerDAO {
 		return (ArrayList)sqlSession.selectList("managerMapper.selectExcelList");
 	}
 
-	public ArrayList<mOrderDetail> getProduct(SqlSessionTemplate sqlSession, Order o) {
+	public ArrayList<Cart> getProduct(SqlSessionTemplate sqlSession, Order o) {
 		return (ArrayList)sqlSession.selectList("managerMapper.getProduct", o);
 	}
 
-	public int productExport(SqlSessionTemplate sqlSession, ArrayList<mOrderDetail> list) {
+	public int productExport(SqlSessionTemplate sqlSession, Cart list) {
 		return sqlSession.update("managerMapper.productExport", list);
 	}
 
