@@ -51,18 +51,18 @@
             </div>
             <div style="margin-left: 10px; text-align: center">
                 <div>
-                    <img width="50px"height="50px">
+                    <img width="50px"height="50px" src="resources/upload/${author.pName}">
                 </div>
                 <div>
                     <label>
-                        만렙주부
+                    ${author.nickName}
                     </label>
                 </div>
             </div>
         </div>
         <div class="flex" style="justify-content: center">
             <div>
-                4.5 별점
+                ${recipe.rating}별점
             </div>
         </div>
         <div class="flex" style="justify-content: center; text-align: center">
@@ -153,7 +153,7 @@
         <button class="reactBtn" type="submit" onclick='location.href="delete.rc?postNo=${recipe.postNo}";' style="width: 50%">삭제</button>
     	</c:when>
     	<c:otherwise>
-        <button class="reactBtn" type="submit" onclick='location.href="follow.rc?postNo=${recipe.memberNo}";' style="width: 50%">구독</button>
+        <button class="reactBtn" type="submit" onclick='location.href="follow.rc?memberNo=${recipe.memberNo}";' style="width: 50%">구독</button>
         <button class="reactBtn" type="submit" onclick='location.href="save.rc?postNo=${recipe.postNo}";' style="width: 50%">담아두기</button>
     	</c:otherwise>
     </c:choose>

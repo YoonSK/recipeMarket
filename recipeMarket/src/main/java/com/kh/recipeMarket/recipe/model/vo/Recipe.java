@@ -4,12 +4,15 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import com.kh.recipeMarket.common.Photo;
+import com.kh.recipeMarket.common.vo.Author;
 
 
 public class Recipe {
 	private int postNo;
 	private int memberNo;
 	private String title;
+	
+	private Author author;
 	
 	private Date createDate;
 	private Date modifyDate;
@@ -32,29 +35,16 @@ public class Recipe {
 	public Recipe() {
 		super();
 	}
-
-	public Recipe(int postNo, int memberNo, String title, Date createDate, Date modifyDate, String category,
-			int serving, int reqTime, int difficulty, char deleted) {
+	
+	public Recipe(int postNo, int memberNo, String title, Author author, Date createDate, Date modifyDate,
+			String category, int serving, int reqTime, int difficulty, ArrayList<Ingredient> ingredientList,
+			ArrayList<RecipeStep> stepList, ArrayList<Tag> tagList, ArrayList<Photo> imgList, double rating, int hit,
+			char deleted) {
 		super();
 		this.postNo = postNo;
 		this.memberNo = memberNo;
 		this.title = title;
-		this.createDate = createDate;
-		this.modifyDate = modifyDate;
-		this.category = category;
-		this.serving = serving;
-		this.reqTime = reqTime;
-		this.difficulty = difficulty;
-		this.deleted = deleted;
-	}
-
-	public Recipe(int postNo, int memberNo, String title, Date createDate, Date modifyDate, String category,
-			int serving, int reqTime, int difficulty, ArrayList<Ingredient> ingredientList,
-			ArrayList<RecipeStep> stepList, ArrayList<Tag> tagList, ArrayList<Photo> imgList, double rating, int hit, char deleted) {
-		super();
-		this.postNo = postNo;
-		this.memberNo = memberNo;
-		this.title = title;
+		this.author = author;
 		this.createDate = createDate;
 		this.modifyDate = modifyDate;
 		this.category = category;
@@ -92,6 +82,14 @@ public class Recipe {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public Author getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(Author author) {
+		this.author = author;
 	}
 
 	public Date getCreateDate() {
@@ -166,14 +164,14 @@ public class Recipe {
 		this.tagList = tagList;
 	}
 
-	public ArrayList<Photo> getImgList(){
+	public ArrayList<Photo> getImgList() {
 		return imgList;
 	}
-	
+
 	public void setImgList(ArrayList<Photo> imgList) {
 		this.imgList = imgList;
 	}
-	
+
 	public double getRating() {
 		return rating;
 	}

@@ -177,6 +177,7 @@
             </div>
         </div>
         <div class="content" id="stepContainer" style="display:flex;flex-direction: column; width: 100%; margin: 5px auto;">
+        
             <div class = "step" id = "step1">
                 <div class = "stepNo">
                     1
@@ -189,6 +190,7 @@
                     <input type='file' accept='image/*' onchange="imagepreview(this);" id="step_imgInput1" name="recipeImg">
                 </div>
             </div>
+            
         </div>
         <div style="display: flex; justify-content: space-between">
         	<div>

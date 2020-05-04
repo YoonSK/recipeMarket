@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.recipeMarket.common.dao.CommonDAO;
+import com.kh.recipeMarket.common.vo.Author;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.recipe.model.dao.RecipeDAO;
 import com.kh.recipeMarket.recipe.model.vo.*;
@@ -73,6 +74,7 @@ public class RecipeServiceImpl implements RecipeService {
 		rb.setStepList(rDAO.selectRecipeSteps(sqlSession, postNo));
 		rb.setTagList(rDAO.selectTags(sqlSession, postNo));
 		rb.setImgList(cDAO.selectPhotos(sqlSession, 1, postNo));
+		rb.setAuthor(rDAO.selectAuthor(sqlSession, postNo));
 
 		return rb;
 	}
@@ -138,6 +140,12 @@ public class RecipeServiceImpl implements RecipeService {
 		rDAO.clearRecipe(sqlSession, postNo);
 		rDAO.deleteRecipe(sqlSession, postNo);
 		return 0;
+	}
+
+	@Override
+	public ArrayList<Author> selectChefList(String sorter) {
+		rDAO.selectChefList(sqlSession, sorter);
+		return null;
 	}
 
 	
