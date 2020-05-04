@@ -13,11 +13,12 @@ public class Product {
 	private int income;
 	private int export;
 	private String pName;
-	
+	private int endDate;
+	private String pStatus;
 	
 	public Product() {}
 
-	public Product(int productNo, String name, int price, int stock, String category, Date createDate, String deleted, int income, int export, String pName) {
+	public Product(int productNo, String name, int price, int stock, String category, Date createDate, String deleted, int income, int export, String pName, int endDate, String pStatus) {
 		super();
 		this.productNo = productNo;
 		this.name = name;
@@ -29,6 +30,19 @@ public class Product {
 		this.income = income;
 		this.export = export;
 		this.pName = pName;
+		this.endDate = endDate;
+		this.pStatus = pStatus;
+	}
+
+	
+	
+	
+	public int getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(int endDate) {
+		this.endDate = endDate;
 	}
 
 	public int getProductNo() {
@@ -111,11 +125,20 @@ public class Product {
 		this.pName = pName;
 	}
 
+	
+	public String getpStatus() {
+		return pStatus;
+	}
+
+	public void setpStatus(String pStatus) {
+		this.pStatus = pStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [productNo=" + productNo + ", name=" + name + ", price=" + price + ", stock=" + stock
 				+ ", category=" + category + ", createDate=" + createDate + ", deleted=" + deleted + ", income="
-				+ income + ", export=" + export + ", pName=" + pName + "]";
+				+ income + ", export=" + export + ", pName=" + pName + ", endDate= "+endDate +  ", pStatus= "+pStatus + "]";
 	}
 
 	

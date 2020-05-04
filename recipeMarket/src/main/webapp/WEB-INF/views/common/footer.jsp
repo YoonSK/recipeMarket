@@ -14,7 +14,7 @@
 	<footer>
 		대표이사  박신우 |  사업자 121-34-345671  | TEL 02)2032-4356<br>
 		본사 ) 서울특별시 강남구 역삼로 테헤란로 14길 6<br>
-		E-MAIL recipeMarket@recipteMarket.com<br>
+		E-MAIL recipeMarket@recipeMarket.com<br>
 		Copyright © 1998-2019 Recipe Market Service All Right Reserved	<br>					                 
 	</footer>
 </body>

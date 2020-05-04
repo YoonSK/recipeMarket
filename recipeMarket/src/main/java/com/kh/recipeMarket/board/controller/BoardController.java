@@ -28,6 +28,7 @@ import com.kh.recipeMarket.board.model.exception.BoardException;
 import com.kh.recipeMarket.board.model.service.BoardService;
 import com.kh.recipeMarket.board.model.vo.Board;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.common.Like;
 import com.kh.recipeMarket.common.Pagination;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.Reply;
@@ -40,6 +41,7 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService bService;
+	 
 	
 	private MemberService ms;
 	
@@ -63,11 +65,13 @@ public class BoardController {
 		ArrayList<Board> list = bService.selectList(pi);
 		ArrayList<Board> plist = bService.profileList(pi);
 		ArrayList<Board> rlist = bService.rCount(pi);
+		ArrayList<Board> glist = bService.gCount(pi);
 		
 		if(list != null) {
 			mv.addObject("list",list);
 			mv.addObject("plist", plist);
 			mv.addObject("rlist", rlist);
+			mv.addObject("glist", glist);
 			mv.addObject("pi",pi);
 			mv.setViewName("boardListView");
 			System.out.println(rlist);
@@ -106,17 +110,19 @@ public class BoardController {
 				if(pName != null) {
 						p.setOriginName(bImage.getOriginalFilename());
 						p.setChangeName(pName);
-					}
-					int result2 = bService.uploadImage(p);
-					if(result2 > 0) {
-						return "boardListView";						
-					} else {
-						throw new MemberException("게시글 등록에 실패하였습니다.");					
-					}
+				}
+				int result2 = bService.uploadImage(p);
 					
+				if(result2 > 0) {
+						return "redirect:/blist.bo";						
 				} else {
-					return "boardListView";		
+						throw new MemberException("게시글 등록에 실패하였습니다.");					
+				}
+					
+			} else {
+				return "redirect:/blist.bo";		
 			}
+			
 		} else {
 			throw new BoardException("게시글 등록에 실패하였습니다.");
 		}
@@ -153,19 +159,32 @@ public class BoardController {
 	}
 	
 	@RequestMapping("bdetail.bo")
-	public ModelAndView boardDetail(@RequestParam("postNo") int postNo, @RequestParam("page") int page, ModelAndView mv) {
+	public ModelAndView boardDetail(@RequestParam("postNo") int postNo, @RequestParam("page") int page, HttpSession session,@ModelAttribute Like like, ModelAndView mv) {
 		
-		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int memberNo = loginUser.getMemberNo();
 		Board board = bService.selectBoard(postNo);
 		Board profile = bService.selectProfile(postNo);
+		
+		like.setBoardNo(2);
+		like.setMemberNo(memberNo);
+		like.setTargetNo(postNo);
+		
+		Like likeCheck = bService.selectLikeCheck(like);
+		
+		Board gCount = bService.selectrCount(postNo);
+		
 		System.out.println("==test==start");
 		System.out.println(board);
 		System.out.println(profile);
+		System.out.println(gCount);
 		System.out.println("==test==end");
 		
 		if(board != null) {
 			mv.addObject("board", board);
 			mv.addObject("profile", profile);
+			mv.addObject("likeCheck",likeCheck);
+			mv.addObject("gCount",gCount);
 			mv.addObject("page",page);
 			mv.setViewName("boardDetailView");
 			
@@ -180,7 +199,7 @@ public class BoardController {
 	public void getReplyList(HttpServletResponse reponse, @RequestParam("postNo") int postNo) throws JsonIOException, IOException {
 		ArrayList<Reply> rList = bService.selectReplyList(postNo);
 		
-		System.out.println("controller 의 rList : " + rList);
+		//System.out.println("controller 의 rList : " + rList);
 		
 		for(Reply r : rList) {
 			r.setContent(URLEncoder.encode(r.getContent(),"UTF-8"));
@@ -286,4 +305,57 @@ public class BoardController {
 		return "redirect:blist.bo";
 	}
 	
+	@RequestMapping("insertLike.bo")
+	@ResponseBody
+	public String like(@RequestParam("targetNo") int targetNo, @RequestParam("memberNo") int memberNo, @ModelAttribute Like like) {
+		
+		like.setMemberNo(memberNo);
+		like.setTargetNo(targetNo);
+		//Like like =bService.like(targetNo, memberNo);
+		
+		System.out.println(like);
+		int result = bService.insertLike(like);
+		System.out.println(result);
+		
+		if(result > 0) {
+			return "success";
+		} else {
+			throw new BoardException("게시글 좋아요에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("deleteLike.bo")
+	@ResponseBody
+	public String deleteLike(@RequestParam("targetNo") int targetNo, @RequestParam("memberNo") int memberNo, @ModelAttribute Like like) {
+		
+		like.setMemberNo(memberNo);
+		like.setTargetNo(targetNo);
+		//Like like =bService.like(targetNo, memberNo);
+		
+		System.out.println(like);
+		int result = bService.deleteLike(like);
+		System.out.println(result);
+		
+		if(result > 0) {
+			return "success";
+		} else {
+			throw new BoardException("게시글 좋아요 취소에 실패하였습니다.");
+		}
+	}
+	
+	
+	@RequestMapping("rDelete.bo")
+	@ResponseBody
+	public String replyDelete(@RequestParam("replyNo") int replyNo,  @ModelAttribute Reply reply) {
+		System.out.println("replyNo : "+replyNo);
+		
+		int result = bService.rDelete(replyNo);
+		
+		if(result > 0) {
+			return "success";
+		} else {
+			throw new BoardException("댓글삭제에 실패하였습니다.");
+		}
+		//int result = bService.replyDelete(replyNo);
+	}
 }

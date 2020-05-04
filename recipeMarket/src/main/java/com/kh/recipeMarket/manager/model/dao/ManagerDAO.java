@@ -1,6 +1,8 @@
 package com.kh.recipeMarket.manager.model.dao;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -10,7 +12,6 @@ import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.manager.model.vo.Product;
-import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
 @Repository("maDAO")
@@ -71,4 +72,46 @@ public class ManagerDAO {
 		return sqlSession.selectOne("managerMapper.oSortCount", status);
 	}
 
+	public int getSearchListCount(SqlSessionTemplate sqlSession, Product p) {
+		return sqlSession.selectOne("managerMapper.getSearchListCount",p);
+	}
+
+	public ArrayList<Product> searchList(SqlSessionTemplate sqlSession, Product p,PageInfo pi) {
+		int offset =(pi.getCurrentPage()-1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("managerMapper.searchList",p, rowBounds);
+	}
+
+	public ArrayList<Product> productSortList(SqlSessionTemplate sqlSession, Product p,PageInfo pi) {
+		int offset =(pi.getCurrentPage()-1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("managerMapper.productSortList",p,rowBounds);
+	}
+
+	public int productSortCount(SqlSessionTemplate sqlSession, Product p) {
+		return sqlSession.selectOne("managerMapper.productSortCount",p);
+	}
+
+	public List<Product> selectExcelList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("managerMapper.selectExcelList");
+	}
+
+	public ArrayList<Product> selectsList(SqlSessionTemplate sqlSession,Product p, PageInfo pi) {
+		int offset =(pi.getCurrentPage()-1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("managerMapper.searchsList",p, rowBounds);
+	}
+
+	public int productStatusCount(SqlSessionTemplate sqlSession, Product p) {
+		return sqlSession.selectOne("managerMapper.productStatusCount",p);
+	}
+	
+	public List<Product> selectRow(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("managerMapper.selectExcelList");
+	}
+
+	
 }

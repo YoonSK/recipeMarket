@@ -15,8 +15,10 @@
 	h3 {margin-left: 10%;}
 	.content{margin-left: 15%;}
 	div.joinBox{margin-left: 15%;}
+	input[type="submit"]{width: 80px; height: 30px; font-size: 14px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
+	input[type="submit"]:hover{cursor: pointer; background: #fee0a1; color: white;}
 	input[type="button"]{width: 80px; height: 30px; font-size: 14px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
-	input[type="button"]:hover{cursor: pointer; background: #fee0a1; color: white;}
+	input[type="button"]:hover{cursor: pointer; background: #fee0a1; color: white;}	
 	div.input-submit{margin-left: 100px;}	
 	
 </style>
@@ -402,21 +404,34 @@
 					<br>
 					<input type="checkbox" id="joinCheck">약관을 모두 읽어봤으며 동의하에 회원가입을 진행합니다.
 					<br><br>
-					<input type="button" id="goJoinBtn" onclick="goJoin();" value="가입">
+					<form method="post" action="goJoin.me" id="kForm">
+						<input type="hidden" id="nickname" name="nickname" value="${userInfo.nickname }">
+						<input type="hidden" id="email" name="email" value="${userInfo.email }">					
+					<input type="submit" id="goJoinBtn" value="가입">
 					<span><input type="button" id="backBtn" onclick='history.back();' value="돌아가기"></span>
 					<br><br>
+					</form>
 				</div>	
+				
 				<script>
-					function goJoin(){
-						if($('#joinCheck').is(":checked")){
-							location.href="goJoin.me"
+					$('#kForm').submit(function(){
+						var userInfo = '${ userInfo }';
+						var nickname='${ userInfo.nickname }';
+						var email='${ userInfo.email }';
+						
+						if($('#joinCheck').is(":checked") && userInfo == ''){
+							return true;
+						}else if($('#joinCheck').is(":checked") && userInfo != ''){
+							return true;
 						}else{
-							alert('약관에 동의하지 않으셨습니다.');
+							alert("약관에 동의하지 않으셨습니다.");
+							return false;
 						}
-					}
+					});
 				</script>			
 			</div>						
 		</div>
+		
 	</div>
 	<c:import url="../common/footer.jsp"/>		
 </body>

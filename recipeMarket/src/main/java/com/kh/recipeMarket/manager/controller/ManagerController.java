@@ -2,15 +2,25 @@ package com.kh.recipeMarket.manager.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +38,7 @@ import com.kh.recipeMarket.manager.model.vo.Pagination;
 import com.kh.recipeMarket.manager.model.vo.Product;
 import com.kh.recipeMarket.manager.model.vo.ProductPagination;
 import com.kh.recipeMarket.member.model.exception.MemberException;
+import com.kh.recipeMarket.mypage.model.exception.MyPageException;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
 @Controller
@@ -132,8 +143,8 @@ public class ManagerController {
 			mv.addObject("listCount", listCount);
 			mv.addObject("pi",pi);
 			mv.setViewName("productManager");
-			System.out.println(list);
-			System.out.println(plist);
+//			System.out.println(list);
+//			System.out.println(plist);
 		} else {
 			throw new ManagerException("게시글 전체 조회에 실패하였습니다.");
 		}
@@ -205,15 +216,252 @@ public class ManagerController {
 	
 	// 상품 입고 수정
 	@RequestMapping("updateProduct.ma")
-	public String updateProduct(@ModelAttribute Product p,@RequestParam("productNo") int productNo) {
-		
+	public String updateProduct(Product p,@RequestParam("productNo") int productNo,@RequestParam("income") int income,HttpServletRequest request) {
+		System.out.println("controller의 " + productNo + "income : " + income );
 		p.setProductNo(productNo);
-		System.out.println(p);
+		p.setIncome(income);
+		System.out.println("수정 : " + p);
 		int result = mas.updateProduct(p);
+		 String referer = request.getHeader("Referer");
 		if(result > 0) {
-			return "redirect:/pManage.ma";
+			return "redirect:"+referer;
 		} else {
 			throw new ManagerException("입고 수량 수정에 실패하였습니다.");
 		}
 	}
+	
+	//검색
+	@RequestMapping("searchProduct.ma")
+	public ModelAndView searchListProduct(@RequestParam(value = "page", required=false) Integer page,ModelAndView mv, String keyword, String category,String searchCate,
+											Product p) {
+//		System.out.println("keyword: "+keyword + "category : "+ category + "searchCate : "+ searchCate);
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		if(category != null) {
+			p.setCategory(category);
+		}
+		
+		if(searchCate.equals("상품명")) {
+			p.setName(keyword);
+		} else if(searchCate.equals("상품코드")) {
+			p.setProductNo(Integer.parseInt(keyword));
+		} 
+		
+//		System.out.println("p : "+ p);
+		int listCount = mas.getListCount();
+		int slistCount = mas.getSearchListCount(p);
+		PageInfo pi = ProductPagination.getPageInfo(currentPage, slistCount);
+		ArrayList<Product> list = mas.searchList(p,pi);
+		if(list != null) {
+			mv.addObject("list",list);
+			mv.addObject("listCount", listCount);
+			mv.addObject("slistCount", slistCount);
+			mv.addObject("pi", pi);
+			mv.addObject("keyword", keyword);
+//			mv.addObject("category", category);
+			mv.addObject("searchCate", searchCate);
+			mv.setViewName("productManager");
+			
+//			System.out.println("slistCount : "+ slistCount);
+//			System.out.println("seacrh : " + list);
+		} else {
+			throw new ManagerException("게시글 전체 조회에 실패하였습니다.");
+		}
+		
+		return mv;
+	}
+	
+	/* 날짜로 검색 */
+	@RequestMapping("productSort.ma")
+	public ModelAndView dateSort(@RequestParam(value="page", required=false) Integer page, String sortDate, ModelAndView mv, Model model,Product p) {
+		String date = sortDate;
+		int ds = 0;
+		System.out.println(date);
+		switch(date) {
+		case "전체": ds = 0; break;
+		case "1개월" : ds = 31; break;
+		case "3개월": ds = 91; break;
+		case "6개월" : ds = 181; break;
+		case "1년" : ds = 366; break;
+		}
+		p.setEndDate(ds);
+//		System.out.println("p의 endDate확인" + p);
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page; }		
+		int slistCount = mas.productSortCount(p);
+		int listCount = mas.getListCount();
+//		System.out.println(listCount);
+		PageInfo pi = ProductPagination.getPageInfo(currentPage, slistCount);
+		ArrayList<Product> list = mas.productSortList(p,pi);
+		if(list != null) {
+			mv.addObject("list", list);
+			mv.addObject("listCount",listCount);
+			mv.addObject("slistCount", slistCount);
+			mv.addObject("pi", pi);
+			mv.addObject("sortDate", date);
+			mv.setViewName("productManager");
+		}else {
+			throw new MyPageException("주문 조회에 실패하였습니다.");
+		}
+		return mv;
+	}
+	
+	/* 재고 상태로 검색 */
+	@RequestMapping("productStatus.ma")
+	public ModelAndView productStatus(@RequestParam(value="page", required=false) Integer page, String pStatus, ModelAndView mv,Product p) {
+		int ds = 0;
+//		System.out.println(pStatus);
+		switch(pStatus) {
+		case "전체": ds = 0; break;
+		case "품절" : ds = 1; break;
+		case "부족": ds = 2; break;
+		case "여유" : ds = 3; break;
+		}
+		p.setStock(ds);
+		
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page; }		
+		
+		
+		
+		int listCount = mas.getListCount();
+//		System.out.println(listCount);
+		int slistCount = mas.productStatusCount(p);
+		PageInfo pi = ProductPagination.getPageInfo(currentPage, slistCount);
+		ArrayList<Product> list = null;
+		if(ds == 0) {
+			list = mas.selectsList(p,pi);
+		}else if(ds ==1) {
+			list = mas.selectsList(p,pi);
+		}else if(ds ==2) {
+			list = mas.selectsList(p,pi);
+		} else if(ds ==3) {
+			list = mas.selectsList(p,pi);
+		}
+		
+		if(list != null) {
+			mv.addObject("list", list);
+			mv.addObject("listCount",listCount);
+			mv.addObject("slistCount", slistCount);
+			mv.addObject("pi", pi);
+			mv.addObject("pStatus", pStatus);
+			mv.setViewName("productManager");
+		}else {
+			throw new MyPageException("주문 조회에 실패하였습니다.");
+		}
+		return mv;
+	}	
+	
+	
+	/* 엑셀 파일 다운 */
+	
+	@RequestMapping("downloadExcelFile.ma")
+	 public void ExcelPoi(HttpServletResponse response, Model model) throws Exception {
+
+	      HSSFWorkbook objWorkBook = new HSSFWorkbook();
+	      HSSFSheet objSheet = null;	// 시트 생성
+	      HSSFRow objRow = null;		// 행 생성
+	      HSSFCell objCell = null;       //셀 생성
+
+	        //제목 폰트
+	  HSSFFont font = objWorkBook.createFont();
+	  font.setFontHeightInPoints((short)9);
+	  
+	  // 글자 굵게 하기
+	  font.setBoldweight((short)font.BOLDWEIGHT_BOLD);
+	  // 폰트 설정
+	  font.setFontName("맑은고딕");
+
+	  //제목 스타일에 폰트 적용, 정렬
+	  HSSFCellStyle styleHd = objWorkBook.createCellStyle();    //제목 스타일
+	  styleHd.setFont(font);
+	  styleHd.setAlignment(HSSFCellStyle.ALIGN_CENTER);	// 가운데 정렬
+	  styleHd.setVerticalAlignment (HSSFCellStyle.VERTICAL_CENTER);
+
+	  objSheet = objWorkBook.createSheet("첫번째 시트");     //워크시트 생성
+
+	  List<Product> pList = mas.selectRow();
+	  // 행으로 제작을 하네
+	  // 1행
+	  objRow = objSheet.createRow(0);
+	  objRow.setHeight((short) 0x150);
+
+	  objCell = objRow.createCell(0);
+	  objCell.setCellValue("상품코드");
+	  objCell.setCellStyle(styleHd);
+
+	  objCell = objRow.createCell(1);
+	  objCell.setCellValue("상품명");
+	  objCell.setCellStyle(styleHd);
+
+	  objCell = objRow.createCell(2);
+	  objCell.setCellValue("판매가");
+	  objCell.setCellStyle(styleHd);
+
+	  objCell = objRow.createCell(3);
+	  objCell.setCellValue("입고수량");
+	  objCell.setCellStyle(styleHd);
+	  
+	  objCell = objRow.createCell(4);
+	  objCell.setCellValue("출고수량");
+	  objCell.setCellStyle(styleHd);
+	  
+	  objCell = objRow.createCell(5);
+	  objCell.setCellValue("재고");
+	  objCell.setCellStyle(styleHd);
+	  
+	  int index = 1;
+	  for (Product product : pList) {
+	    objRow = objSheet.createRow(index);
+	    objRow.setHeight((short) 0x150);
+
+	    objCell = objRow.createCell(0);
+	    objCell.setCellValue(product.getProductNo());
+	    objCell.setCellStyle(styleHd);
+
+	    objCell = objRow.createCell(1);
+	    objCell.setCellValue((String)product.getName());
+	    objCell.setCellStyle(styleHd);
+
+	    objCell = objRow.createCell(2);
+	    objCell.setCellValue(product.getPrice());
+	    objCell.setCellStyle(styleHd);
+
+	    objCell = objRow.createCell(3);
+	    objCell.setCellValue(product.getIncome());
+	    objCell.setCellStyle(styleHd);
+	    
+	    objCell = objRow.createCell(4);
+	    objCell.setCellValue(product.getExport());
+	    objCell.setCellStyle(styleHd);
+	    
+	    objCell = objRow.createCell(5);
+	    objCell.setCellValue(product.getStock());
+	    objCell.setCellStyle(styleHd);
+	    index++;
+	  }
+
+	  for (int i = 0; i < pList.size(); i++) {
+	    objSheet.autoSizeColumn(i);
+	  }
+
+	  response.setContentType("Application/Msexcel");
+	    response.setHeader("Content-Disposition", "ATTachment; Filename="
+	        + URLEncoder.encode("RECIPE_MARKET", "UTF-8") + ".xls");
+
+	  OutputStream fileOut = response.getOutputStream();
+	  objWorkBook.write(fileOut);
+	  fileOut.close();
+
+	  response.getOutputStream().flush();
+	  response.getOutputStream().close();
+	}
+
+
 }
+

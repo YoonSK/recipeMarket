@@ -29,6 +29,17 @@
     ul.dateS{height: 29px; float: left; list-style: none; padding-left: 0px; margin-left: 1%;}
     ul.dateS li{width: 100px; text-align: center; float: left; font-weight: bold; border: 3px solid #e8e5da;}
     ul.dateS li:hover{background-color: #e8e5da; color: white; cursor: pointer;}
+ 
+	/* 검색창 */
+	input {outline: none;}
+	input[type=search]#search {-webkit-appearance: textfield; -webkit-box-sizing: content-box;	font-family: inherit; font-size: 100%;}
+	input::-webkit-search-decoration,
+	input::-webkit-search-cancel-button {display: none;}
+	input[type=search]#search {background: #ffff url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
+								border: solid 1px #e8e5da; padding: 9px 10px 9px 32px; width: 150px; -webkit-transition: all .5s; -moz-transition: all .5s; transition: all .5s; margin-top: -5%; margin-left: 100px;}
+	input[type=search]#search:focus {width: 250px; background-color: #fff; border-color: #add1c3; -webkit-box-shadow: 0 0 5px rgba(109,207,246,.5); -moz-box-shadow: 0 0 5px rgba(109,207,246,.5); box-shadow: 0 0 5px rgba(109,207,246,.5);}
+	input:-moz-placeholder {color: #999;}
+	input::-webkit-input-placeholder {color: #999;} 
     
  	/* 페이징 버튼 */
 	.pagingArea{border-left: hidden; border-right: hidden;}
@@ -46,7 +57,8 @@
     span#orderInfo_head{font-weight: 800; font-size: 17px;}
 	table#tableD > thead th{border-bottom: 2px solid #e8e5da; background-color: #e8e5da; height: 20px; font-weight: 600; text-align: center;}    
 	table#tableD {width: 100%;}
-	table#tableD > th, td{word-spacing: 5px; padding: 5px; height: 20px;}    
+	table#tableD > th, td{word-spacing: 5px; padding: 5px; height: 20px;}  
+	  
 </style>
 </head>
 <body>
@@ -65,6 +77,9 @@
 						<li onclick=sortDate(this);>1년</li>																														
 					</ul>
 					<br>
+					<span>
+						<input type="search" placeholder="검색" id="search">
+					</span>
 					<table id="table">
 						<thead> <!-- 게시판 라벨 부분 -->
 						<tr>
@@ -127,6 +142,12 @@
 												<c:param name="page" value="${ pi.currentPage - 1 }"/>
 											</c:url>	
 										</c:when>
+										<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/searchOrder.mp'}">	
+											<c:url var="before" value="searchOrder.mp">
+												<c:param name="oContent" value="${ oContent }"/>											
+												<c:param name="page" value="${ pi.currentPage - 1 }"/>
+											</c:url>	
+										</c:when>										
 										<c:otherwise>																	
 											<c:url var="before" value="mOrder.mp">
 												<c:param name="page" value="${ pi.currentPage - 1 }"/>
@@ -149,6 +170,12 @@
 													<c:param name="page" value="${ p }"/>
 												</c:url>
 											</c:when>
+											<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/searchOrder.mp'}">	
+												<c:url var="pagination" value="searchOrder.mp">
+													<c:param name="oContent" value="${ oContent }"/>											
+													<c:param name="page" value="${ p }"/>
+												</c:url>	
+											</c:when>												
 											<c:otherwise>											
 												<c:url var="pagination" value="mOrder.mp">
 													<c:param name="page" value="${ p }"/>
@@ -171,6 +198,12 @@
 											<c:param name="page" value="${ pi.currentPage + 1 }"/>										
 										</c:url>					
 									</c:when>	
+									<c:when test="${requestScope['javax.servlet.forward.servlet_path'] == '/searchOrder.mp'}">	
+										<c:url var="after" value="searchOrder.mp">
+											<c:param name="oContent" value="${ oContent }"/>											
+											<c:param name="page" value="${ pi.currentPage + 1 }"/>
+										</c:url>	
+									</c:when>										
 									<c:otherwise>
 										<c:url var="after" value="mOrder.mp">
 											<c:param name="page" value="${ pi.currentPage + 1 }"/>
@@ -233,9 +266,6 @@
 							case "후기완료" : status = 3; break;
 							case "주문취소" : status = 4; break;
 						}
-						console.log(stat);
-						console.log(status);
-						console.log(orderNo);
 						$.ajax({
 							url: 'oStatus.mp',
 							data: {orderNo:orderNo, status:status},
@@ -259,6 +289,14 @@
 					location.href = "dateSort.mp?sortDate="+sortDate+"&page=1";
 				}	
 				
+				/* 검색  */
+					$("#search").keydown(function(e){
+						var oContent = $(this).val(); 
+						if(e.keyCode == 13){
+ 							location.href = "searchOrder.mp?oContent="+oContent+"&page=1";
+						}
+					});
+					
 				</script>							
 			    <!-- The Modal -->
 			    <div id="cmodal" class="modal">	 

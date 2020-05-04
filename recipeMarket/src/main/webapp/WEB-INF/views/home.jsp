@@ -5,9 +5,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+ <link rel="icon" type="image/png" href="resources/images/tablogo.png"/>
+
 <meta charset="UTF-8">
 <title>레시피 마켓</title>
 <style>
+	
+	.slick-prev{
+		background: blue;
+	}
 	.icon{
 		width:100px;
 	}
@@ -23,6 +29,13 @@
 	.slick-prev:before{
 		color: black;
 	}
+		/* 슬라이드 화살표 */
+.slick-prev:before,.slick-next:before{
+	background: black;
+}
+.slick-next{
+	right: 0;
+}
 	
 /* 	.slide{
 		background: lightblue;
@@ -47,6 +60,7 @@
 	<div class="imageBar"></div>
 		<div class="boxOuter">
 			<div class="firstBox" id="slick"  style="margin: 5%;">
+			
 			    <div><a href="#"><img class="icon" src="resources/images/all.png"/></a></div>
 			    <div><a href="#"><img class="icon" src="resources/images/mainmenu.png"/></a></div>
 			    <div><a href="#"><img class="icon" src="resources/images/soup.png"/></a></div>
@@ -62,12 +76,10 @@
 		</div>
 	</div>
 		<div id="weather">
-			<h2>- 오늘의 날씨 정보</h2>
-			<div class="ctemp">현재 온도 : </div>
-			<div class="clowtemp">최저 온도 : </div>
-			<div class="chightemp">최고 온도 : </div>
-			<div class="sky">하늘 상태 : </div>
-			<div class="cicon">아이콘 : </div>
+			<h2>날씨 정보</h2>
+			 <div class="ctemp" style="font-size:40px">  <img class="icon"  style="width:30px;" src="resources/images/celsius.png"/></div>
+			<!-- <div class="sky">하늘 상태 : </div>-->
+			<div class="cicon"></div>
 		</div>
 		<script>
 		navigator.geolocation.getCurrentPosition(function(pos) {
@@ -95,11 +107,11 @@
 				
 				//A.appne(B) A요소의 내용의 뒤에 B를 추가
 				//A.prepend(B)  A요소의 내용의 앞에 B를 추가
-				$('.clowtemp').append($minTemp);
-				$('.ctemp').append($cTemp);
-				$('.chightemp').append($maxTemp);
-				$('h2').prepend($cDate);
-				$('.sky').append($sky);
+			/* 	$('.clowtemp').append($minTemp); */
+				$('.ctemp').prepend($cTemp);
+				/* 	$('.chightemp').append($maxTemp); */
+				/* $('h2').prepend($cDate); */
+				/* $('.sky').append($sky); */
 				$('.cicon').append('<img src="http://openweathermap.org/img/wn/'+ $wIcon +'@2x.png"/>');
 				// <img src="http://openweathermap.org/img/wn/10d@2x.png"/>
 				/* if($sky == 'clear sky'){
@@ -121,10 +133,13 @@
 $(document).ready(function(){
  $('#slick').slick({
 	  dots: true,
-	  infinite: false,
+	  infinite: true,
 	  speed: 300,
 	  slidesToShow: 5,
 	  slidesToScroll: 5,
+	  autoplaySpeed: 1900,	/* 다음이미지로 넘어갈 시간 */         
+  	speed: 700, 		/* 다음이미지로 넘겨질때 걸리는 시간 */         
+  	pauseOnHover:true, 	/* 마우스 호버시 슬라이드 이동 멈춤 */
 	  responsive: [
 	    {
 	      breakpoint: 1024,
@@ -140,6 +155,7 @@ $(document).ready(function(){
 	      settings: {
 	        slidesToShow: 2,
 	        slidesToScroll: 2
+	        
 	      }
 	    },
 	    {
@@ -152,12 +168,12 @@ $(document).ready(function(){
 	  ]
 	});
 });
-	$('#slick').slick({
+/* 	$('#slick').slick({
 		  infinite: true,
 		  slidesToShow: 5,
 		  slidesToScroll: 5
 		}); 
 	
-
+ */
 	</script>
 </html>

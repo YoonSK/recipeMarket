@@ -86,9 +86,14 @@
 						</td>
 							
 						<td style="font-size:20px; width:30px;">♡</td>
-						<td width="30px" style="font-size:20px">0</td>
+						<td width="30px" style="font-size:20px">${ glist[status.index].rCount }</td>
 						<td style="font-size:20px; width:70px;">댓글수</td>
-						<td style="font-size:20px; width:30px">${ rlist[status.index].rCount }</td>			         		
+						<c:if test="${ rlist[status.index].rCount != null}">
+						<td style="font-size:20px; width:30px">${ rlist[status.index].rCount }</td>	
+						</c:if>	
+						<c:if test="${ rlist[status.index].rCount == null}">
+						<td style="font-size:20px; width:30px">0</td>	
+						</c:if>		         		
 		        	</tr>
 		         		
 		        	<tr>
@@ -176,9 +181,14 @@
 	    			$(this).css('background-color','white');
 	    		}).click(function(){
 	    			 var postNo= $(this).children('td').children('input').val();
+	    			 
 	    			 console.log(postNo);
-		    			location.href="bdetail.bo?postNo="+postNo+"&page="+${pi.currentPage};
-		    			
+	    			 	if(${ loginUser eq null } ){
+	    			 		alert("로그인후 이용해 주세요.");
+	    			 		location.href='goLogin.me';
+	    			 	}  else{
+		    				location.href="bdetail.bo?postNo="+postNo+"&page="+${pi.currentPage};
+	    			 	}
 		    	});
 	    	}); 
 	    </script>     

@@ -1,6 +1,8 @@
 package com.kh.recipeMarket.manager.model.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,6 @@ import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.manager.model.dao.ManagerDAO;
 import com.kh.recipeMarket.manager.model.vo.Product;
-import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
 @Service("mas")
@@ -78,4 +79,40 @@ public class MaServiceImpl implements ManagerService {
 		return maDAO.oSortCount(sqlSession, status);
 	}
 
+	@Override
+	public int getSearchListCount(Product p) {
+		return maDAO.getSearchListCount(sqlSession,p);
+	}
+
+	@Override
+	public ArrayList<Product> searchList(Product p,PageInfo pi) {
+		return maDAO.searchList(sqlSession,p,pi);
+	}
+
+	@Override
+	public ArrayList<Product> productSortList(Product p,PageInfo pi) {
+		return maDAO.productSortList(sqlSession,p,pi);
+	}
+
+	@Override
+	public int productSortCount(Product p) {
+		return maDAO.productSortCount(sqlSession,p);
+	}
+
+	@Override
+	public ArrayList<Product> selectsList(Product p, PageInfo pi) {
+		return maDAO.selectsList(sqlSession,p, pi);
+	}
+
+	@Override
+	public int productStatusCount(Product p) {
+		return maDAO.productStatusCount(sqlSession,p);
+	}
+	
+	@Override
+	public List<Product> selectRow() {
+		return maDAO.selectRow(sqlSession);
+	}
+
+	
 }

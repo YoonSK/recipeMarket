@@ -65,7 +65,12 @@
     	border-radius: 10px;
     	cursor:pointer;
 	}
+	
+	#rtb{
+		width:100%;
+	}
 
+	
 	
 </style>
 </head>
@@ -91,7 +96,13 @@
 						<td width="65%" style="font-size:30px">${ board.nickName }</td>
 						
 						<td style="font-size:20px; width:30px;">♡</td>
-						<td width="30px" style="font-size:20px">0</td>
+						<c:if test="${ gCount.rCount ne null}">
+						<td width="30px" style="font-size:20px"><b>${ gCount.rCount }</b></td>
+						</c:if>
+						
+						<c:if test="${ gCount.rCount eq null}">
+						<td width="30px" style="font-size:20px"><b>0</b></td>
+						</c:if>
 						<td style="font-size:20px; width:70px;">댓글수</td>
 						<td style="font-size:20px; width:30px"><b id="rCount"></b></td>			         		
 	         		</tr>
@@ -143,35 +154,14 @@
 	         <div class="content" style="background: white; padding-top: 10px;" >
 	         	<h2>&nbsp;&nbsp;댓글</h2>
 	         	<hr>
-	         	<table class="replyTable" id="rtb">
-	         		<!-- <tr>
-						<td rowspan=2><img width="100" height="100" src="resources/images/user.png"/></td>
-						<td style="width:150px; font-size:20px">닉네임2 </td>
-						<td style="font-size:15px">2020-04-01</td>		         		
-	         		</tr>
-	         		
-	         		<tr>
-	         			<td  colspan=5 style="font-size:13px">
-	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-	         				내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-	         				
-	         			</td>
-	         			
-	         		</tr> -->
-	         		<tbody></tbody>
-	         		
-	         		
-	         	</table>
 	         	
-	         	<script>
-	         		function deleteBoard(){
-	         			var bool = confirm("정말 삭제하시겠습니까?");
-	         			if(bool){
-	         				location.href='${ bdelete }';
-	         			}
-	         		}
-	         	</script>
-	         	
+	         	<!-- <form action="rDelete.bo" id="ReplyForm" method="post"> -->
+		         <table class="replyTable" id="rtb">
+		         		
+		         	<tbody></tbody>
+		         	
+		         </table>
+	         	<!-- </form> -->
 	         	
 	         	
 	         	
@@ -182,21 +172,40 @@
 	         	<br>
 	         	
 	         	<div>
-	         		<button style="width:200px; height:150px; float:left;">
-		         		<img style="width:70%; height:70%;" src="resources/images/heart.png">
+	         	
+	         		<c:if test="${likeCheck == null }">
+	         		<button type="button" style="width:200px; height:150px; float:left;" onclick="insertLike();">
+		         		<img style="width:70%; height:70%;" src="resources/images/like.png">
 		         	</button>
+		         	</c:if>
+		         	
+		         	<c:if test="${likeCheck != null }">
+		         	<button type="button" style="width:200px; height:150px; float:left;" onclick="deleteLike();">
+		         		<img style="width:70%; height:70%;" src="resources/images/unlike.png">
+		         	</button>
+		         	</c:if>
 	         	</div>
 	         	
-	         	<div style=" height:150px; float:left;">
+	         	<div style=" height:135px; float:left;">
 	         		<!-- <input type="text" id="rContent" placeholder="댓글을 입력해주세요." style="width:800px; height:150px; font-size:25px; float:left;"> -->
-	         		<textarea id="rContent"  style="width:799px; height:150px; font-size:25px; float:left;" placeholder="댓글을 입력해주세요."></textarea>
+	         		<textarea id="rContent"  style="width:770px; height:135px; font-size:25px; float:left; padding:15px;" placeholder="댓글을 입력해주세요."></textarea>
 	         		<button type="button" style="width:200px; height:150px; font-size:30px; vertical-align: sub;  float:left;" id="rSubmit">등록</button>
 	         	</div>
 	         </div>
 	         
 	         
 		</div>
+		
 	<!-- </form> -->
+	
+	<script>
+		function deleteBoard(){
+			var bool = confirm("정말 삭제하시겠습니까?");
+	    	if(bool){
+	    		location.href='${ bdelete }';
+	    	}
+	    }
+    </script>
 	
 	<script>
 		$(function(){
@@ -239,7 +248,7 @@
 					//console.log(data);
 		        	$tableBody = $('#rtb tbody');
 		        	$tableBody.html('');
-		         				
+		         	
 		         	var $tr1;
 		         	var $tr2;
 		         	var $profileTd;
@@ -247,31 +256,55 @@
 		         	var $rWriter;
 		         	var $rContent;
 		         	var $rCreateDate;
+		         	var $replyNo;
+		         	
+		         	var $rDeleteBtn;
 		         	
 		         	$('#rCount').text(data.length);
 		         				
 		         	if(data.length > 0){
 		         		for(var i in data){
 		         			var pName = data[i].pName;
-		         			$tr1 = $('<tr>');
+		         			//var replyNo = data[i].replyNo;
+		         			var loginUserNick = "${loginUser.nickName}";
+		         			
+		         			$tr1 = $('<tr class="TR1">');
 		         			$tr2 = $('<tr>');
-		         			$profileTd =  $('<td rowspan="2">');
+		         			$profileTd =  $('<td rowspan="2" width="120px">');
 		         			if(pName == null){
 		         				$profile = $('<img width="100" height="100"  src="resources/images/user.png">');
 		         			} else{
 		         				$profile = $('<img width="100" height="100" style="border-radius: 100%" src="resources/upload/' + data[i].pName + '">');
 		         			}
 		         			$rWriter = $('<td style="width:120px; font-size:20px">').text(decodeURIComponent(data[i].nickName));
-		         			$rCreateDate = $('<td style="font-size:17px">').text(data[i].createDate);
-		         			$rContent = $('<td colspan=5 style="font-size:20px">').text(decodeURIComponent(data[i].content.replace(/\+/g," ")));
+		         			$rCreateDate = $('<td class="rCreateTd" style="font-size:17px;">').text(data[i].createDate);
+		         			$rContent = $('<td colspan=6 style="font-size:20px">').text(decodeURIComponent(data[i].content.replace(/\+/g," ")));
+		         			
+		         			$rDeleteBtn=$('<button type="button" class="rDeleteBtn">').text("댓글 삭제").attr('value',data[i].replyNo);
+		         			//$rDeleteBtn=$('<div onclick="rDeleteBtn();">').text("댓글 삭제").attr('value',data[i].replyNo);
+		         			$replyNo = $('<input type="hidden"  id="replyNo">').attr('value',data[i].replyNo);
 		         			
 		         			$profileTd.append($profile);
 		         			$tr1.append($profileTd);
+		         			//$tr1.append($replyNo);
+		         			//$rWriter.append($replyNo);
 		         			$tr1.append($rWriter);
+		         			
+		         			if(loginUserNick == decodeURIComponent(data[i].nickName)){
+		         				$rCreateDate.append($rDeleteBtn);
+		         				$rCreateDate.append($replyNo);
+		         			}
+		         			
+	
 		         			$tr1.append($rCreateDate); 
 		         			$tr2.append($rContent);
 		         			$tableBody.append($tr1);
 		         			$tableBody.append($tr2);
+		         			
+		         			
+		         			
+		         			
+		         			
 		         		}
 		         					
 		         	}else{
@@ -285,6 +318,70 @@
 		         	}
 		       	});
 			}
+		
+		// 좋아요 누름
+		function insertLike(){
+			var targetNo = ${ board.postNo };
+			var memberNo = ${ loginUser.memberNo };
+			//var nickName = ${ board.nickName };
+			
+			$.ajax({
+				url:'insertLike.bo',
+				data:{targetNo:targetNo, memberNo:memberNo},
+				type:'post',
+				success:function(data){ 
+					console.log(data);
+					if(data == "success"){	
+						alert('${ board.nickName}' + "님의 게시글을 추천했습니다.");
+						window.location.reload();
+					}
+				}
+			});
+		}
+		
+		
+		// 좋아요 취소
+		function deleteLike(){
+			var targetNo = ${ board.postNo };
+			var memberNo = ${ loginUser.memberNo };
+			//var nickName = ${ board.nickName };
+			
+			$.ajax({
+				url:'deleteLike.bo',
+				data:{targetNo:targetNo, memberNo:memberNo},
+				type:'post',
+				success:function(data){ 
+					console.log(data);
+					if(data == "success"){	
+						alert('${ board.nickName}' + "님의 게시글 추천을 취소 했습니다.");
+						window.location.reload();
+					}
+				}
+			});
+			
+			
+		}
+					
+			
+			$(document).on('click', '.rDeleteBtn', function(){
+				var replyNo = $(this).val();
+				var bool = confirm("정말 삭제하시겠습니까?");
+				//var replyNo = {reply}
+	 			if(bool){
+					//var replyNo = $('#replyNo').val();
+					//console.log(che);
+					
+					$.ajax({
+						url:'rDelete.bo',
+						data:{replyNo:replyNo},
+						type:'post',
+						success:function(data){
+							alert("댓글이 삭제되었습니다.");
+						}
+					}); 
+				}
+			})
+		
 	</script>
 	
 </body>
