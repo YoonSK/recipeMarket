@@ -39,6 +39,7 @@ import com.kh.recipeMarket.manager.model.vo.Product;
 import com.kh.recipeMarket.manager.model.vo.ProductPagination;
 import com.kh.recipeMarket.member.model.exception.MemberException;
 import com.kh.recipeMarket.mypage.model.exception.MyPageException;
+import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
 @Controller
@@ -112,6 +113,10 @@ public class ManagerController {
 	@RequestMapping(value="oStatus.ma")
 	public void orderStatus(HttpServletResponse response, @ModelAttribute Order o) throws JsonIOException, IOException {
 		int result = mas.orderStatus(o);
+		ArrayList<mOrderDetail> list = mas.getProduct(o);
+		// 재고 관련 처리
+		int result2 = mas.productExport(list);
+		
 		Gson gson = new Gson();
 		gson.toJson(result, response.getWriter());		
 	

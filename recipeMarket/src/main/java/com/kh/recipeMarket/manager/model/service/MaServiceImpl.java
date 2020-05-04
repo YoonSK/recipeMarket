@@ -13,6 +13,7 @@ import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.manager.model.dao.ManagerDAO;
 import com.kh.recipeMarket.manager.model.vo.Product;
+import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
 @Service("mas")
@@ -112,6 +113,16 @@ public class MaServiceImpl implements ManagerService {
 	@Override
 	public List<Product> selectRow() {
 		return maDAO.selectRow(sqlSession);
+	}
+
+	@Override
+	public ArrayList<mOrderDetail> getProduct(Order o) {
+		return maDAO.getProduct(sqlSession, o);
+	}
+
+	@Override
+	public int productExport(ArrayList<mOrderDetail> list) {
+		return maDAO.productExport(sqlSession, list);
 	}
 
 	

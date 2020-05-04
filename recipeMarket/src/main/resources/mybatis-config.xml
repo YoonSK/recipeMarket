@@ -35,7 +35,8 @@
 		<mapper resource="mapper/member-mapper.xml"/>
 		<mapper resource="mapper/board-mapper.xml"/>	
 		<mapper resource="mapper/manager-mapper.xml"/>			
-
+      	<mapper resource="mapper/recipe-mapper.xml"/>
+      	<mapper resource="mapper/common-mapper.xml"/>     
 		<mapper resource="mapper/product-mapper.xml"/>
 		<mapper resource="mapper/buy-mapper.xml"/>
 
