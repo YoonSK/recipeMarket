@@ -11,7 +11,7 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <style>
-	div.content{height: 600px;}
+	div.content{height: 800px;}
 	h2{margin-left: 135px;}
 	.tableArea{width: 80%; height: auto; margin: 0 auto; margin-top: 80px;}
 	table {width: 100%; border-collapse: collapse;}
@@ -21,14 +21,12 @@
 	#summary{margin-left: 70%;}
 	.sHead{font-weight: bold; font-size: 18px;}
 	.sBody{margin-left: 30%}
-	input[type="button"].deleteBtn{border: none; background: white;}
-	input[type="button"].deleteBtn:hover{border: none; background: white; cursor: pointer;}
-	
-	div#button {margin-left: 40%; margin-top: 10%;}
-	div#button > input[type="submit"]{width: 80px; height: 30px; font-size: 14px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
-	div#button > input[type="submit"]:hover{cursor: pointer; background: #fee0a1; color: white;}
+	div#button {margin-left: 40%; margin-top: 5%;}
+	div#button > input[type="button"]{width: 80px; height: 30px; font-size: 14px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
+	div#button > input[type="button"]:hover{cursor: pointer; background: #fee0a1; color: white;}
 	span > input[type="button"]{width: 80px; height: 30px; font-size: 14px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
 	span > input[type="button"]:hover{cursor: pointer; background: #fee0a1; color: white;}	
+	div#orderInfo{margin-left: 10%;}
 	
 </style>
 </head>
@@ -53,7 +51,7 @@
 						<c:forEach var="order" items="${ list }">	
 						<tr class="orderT">
 							<td><img src="/resources/upload/${ order.phName }"></td>
-							<td>${ order.pName }<input type="hidden" name="prN" value="${order.productNo }"></td>
+							<td>${ order.pName }<input type="hidden" name="prN" value="${order.productNo }"><input type="hidden" name="pName" value="${ order.pName }"></td>
 							<td>${ order.prCount }<input type="hidden" name="prC" value="${ order.prCount }"></td>
 							<td class="order_D"><span><fmt:formatNumber maxFractionDigits="3" value="${ order.price }"/><input type="hidden" name="pPr" value="${ order.price}"></span>원</td>	
 							<c:set var = "sum" value="${sum + order.price * order.prCount }"/>																
@@ -70,18 +68,18 @@
 					<span class="sHead">합계</span><span class="sBody" id="total" name="total"><c:set var="total" value="${ total + sum + 2500}"/><fmt:formatNumber maxFractionDigits="3" value="${ total }"/></span> 원
 				</div>	
 				<hr style="width=80%;">
-				<h4>주문자 정보</h4>
 				<div id="orderInfo">
-				<p class="input-label">주문자명 &nbsp; <input type="text" name="name" class="input_text" id="userName" autocomplete="off" required value="${ loginUser.name }" ></p>
-				<p class="input-label">이메일 &nbsp; <input type="email" name="email" class="input_text" id="email" autocomplete="off" required value="${ loginUser.email }" ></p>
-				<p class="input-label">연락처 &nbsp; <input type="text" name="phone" class="input_text" id="phone" maxlength="11" autocomplete="off" onkeyup="inputNumber(this);" required value="${ loginUser.phone }" ></p>
-				<div class="input-box location">
-					<p class="input-label">주소</p>
-					<input type="text" name="zip" id="zip" class="postcodify_postcode5" size="6" value="${ loginUser.zip }" >
-					<button type="button" id="postcodify_searchBtn">주소 검색</button><br>
-					<input type="text" name="address" id="address" class="postcodify_address" value="${ loginUser.address }" ><br>
-					<input type="text" name="address2" id="address2" class="postcodify_extra_info" value="${ loginUser.address2 }" >
-				</div>
+					<h4>주문자 정보</h4>
+					<p class="input-label">주문자명 &nbsp; <input type="text" name="name" class="input_text" id="userName" autocomplete="off" required value="${ loginUser.name }" ></p>
+					<p class="input-label">이메일 &nbsp; <input type="email" name="email" class="input_text" id="email" autocomplete="off" required value="${ loginUser.email }" ></p>
+					<p class="input-label">연락처 &nbsp; <input type="text" name="phone" class="input_text" id="phone" maxlength="11" autocomplete="off" onkeyup="inputNumber(this);" required value="${ loginUser.phone }" ></p>
+					<div class="input-box location">
+						<p class="input-label">주소</p>
+						<input type="text" name="zip" id="zip" class="postcodify_postcode5" size="6" value="${ loginUser.zip }" >
+						<button type="button" id="postcodify_searchBtn">주소 검색</button><br>
+						<input type="text" name="address" id="address" class="postcodify_address" value="${ loginUser.address }" ><br>
+						<input type="text" name="address2" id="address2" class="postcodify_extra_info" value="${ loginUser.address2 }" >
+					</div>
 				<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 				<script>
 					// 검색 단추를 누르면 팝업 레이어가 열리도록 설정한다.
@@ -110,9 +108,11 @@
 				    	var prN = document.getElementsByName("prN");
 				    	var prC = document.getElementsByName("prC");
 				    	var pPr = document.getElementsByName("pPr");
+				    	var pName = document.getElementsByName("pName");
 				    	var prArray = new Array();	
 				    	var prCArray = new Array();
 				    	var pPrArray = new Array();
+				    	var pNArray =  new Array();
 				    	var memo = $('#memo').val();
 				    	var orderNo;
 						for(var i = 0; i < prN.length; i++){
@@ -124,23 +124,22 @@
 						for(var i = 0; i < pPr.length; i++){
 							pPrArray[i] = parseInt(pPr[i].value);
 						}
-						console.log(prArray);
-						console.log(prCArray);
-						console.log(pPrArray);
+						for(var i = 0; i < pName.length; i++){
+							pNArray[i] = pName[i].value;
+						}
 						
 						IMP.init('imp36559149');
 						IMP.request_pay({
 						    pg : 'kakao',
 						    pay_method : 'card',
 						    merchant_uid : 'merchant_' + new Date().getTime(),
-						    name : '레시피마켓 : 주문하기',
+						    name : '레시피마켓 :'+ pNArray,
 						    amount : amount,
 						    buyer_email : email,
 						    buyer_name : name,
 						    buyer_tel : tel,
 						    buyer_addr : addr,
 						    buyer_postcode : postcode,
-						    /* m_redirect_url : "buyComple.by" */
 						}, function(response) {
 						    if(response.success) {
 				                jQuery.ajax({
@@ -161,7 +160,6 @@
 						        var msg = '결제에 실패하였습니다.';
 						        msg += '에러내용 : ' + response.error_msg;
 						    }
-						    alert(msg);
 						});
 					});
 					

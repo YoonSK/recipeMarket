@@ -109,7 +109,6 @@ public class BuyController {
 		int result = bs.insertOrder(o);
 
 		ArrayList<OrderDetail> list = new ArrayList();
-		System.out.println(o.getOrderNo());
 		// 2. 주문 결과 OrderDetail에 넣기	
 		if(result > 0) {
 			for(int i = 0; i < prArray.size(); i++) {
@@ -120,7 +119,6 @@ public class BuyController {
 				od.setOrderNo(o.getOrderNo());
 				list.add(od);
 			}
-		System.out.println(list);
 		
 		int result2 = bs.insertOrderD(list);
 
@@ -131,7 +129,7 @@ public class BuyController {
 					delList.get(i).setMemberNo(memberNo);
 				}
 				int result3 = bs.cartDeleteAfter(delList);
-				System.out.println("최종"+result3);
+				
 				if(result3 > 0) {
 					int orderNo = o.getOrderNo();
 					Gson gson = new Gson();
