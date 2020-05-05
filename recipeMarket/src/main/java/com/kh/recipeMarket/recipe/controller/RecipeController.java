@@ -113,6 +113,16 @@ public class RecipeController {
 	            System.out.println(p);
 	            fileLevel ++;
 	        }
+	        else {
+	        	Photo p = new Photo();
+	            p.setBoardNo(1);
+	            p.setChangeName("");
+	            p.setOriginName("");
+	            p.setFileLevel(fileLevel);
+	            photos.add(p);
+	            System.out.println(p);
+	            fileLevel ++;
+	        }
 	    }
 		return photos;
 	}
@@ -142,12 +152,16 @@ public class RecipeController {
 			@RequestParam("amount") ArrayList<String> amounts,
 			@RequestParam("tag") ArrayList<String> tags,
 			@ModelAttribute Recipe r,
-			@RequestParam("recipeImg") MultipartFile[] recipeImages,
+			@RequestParam(value = "recipeImg", required = false) MultipartFile[] recipeImages,
+			@RequestParam(value = "recipeImgPrev", required = false) ArrayList<Integer> imgChanges,
 			HttpSession session,
 			ModelAndView mv,
 			HttpServletRequest request
 			)
 	{
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int memberNo = loginUser.getMemberNo();
+		r.setMemberNo(memberNo);
 		r.setPostNo(postNo);
 		
 		System.out.println(steps);
@@ -161,6 +175,17 @@ public class RecipeController {
 			System.out.println(p);
 		}
 		
+		ArrayList<Photo> prevImages = rService.selectPhotos(postNo);
+		
+		for(int i=0; i<prevImages.size() && i<imgChanges.size(); i++){
+			if(imgChanges.get(i).intValue() == 1 
+					&& prevImages.get(i).getOriginName() != null) {
+				String originName = prevImages.get(i).getOriginName();
+				String changeName = prevImages.get(i).getChangeName();
+				images.get(i).setOriginName(originName);
+				images.get(i).setChangeName(changeName);
+			}
+		}
 		rService.updateRecipe(r, steps, ingredients, amounts, tags, images);
 		
 		mv.setViewName("redirect:detail.rc?postNo=" + postNo);
@@ -177,6 +202,8 @@ public class RecipeController {
 		mv.addObject("stepList", rb.getStepList());
 		mv.addObject("imgList", rb.getImgList());
 		mv.addObject("author", rb.getAuthor());
+		
+		System.out.println(rb);
 		
 		ArrayList<Reply> rplist = cService.selectReplies(new Enum().boardNo("recipe"), postNo);
 		mv.addObject("replyList", rplist);
@@ -253,6 +280,17 @@ public class RecipeController {
 	public ModelAndView chefList(@RequestParam(value = "sorter", required=false) String sorter, ModelAndView mv) {
 		
 		ArrayList<Author> clist = rService.selectChefList(sorter);
+		
+		mv.addObject("clist", clist);
+		mv.setViewName("chefList");
+		return mv;
+	}
+	
+	@RequestMapping("chefRank.rc")
+	public ModelAndView chefLikeList(HttpSession session, ModelAndView mv) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int memberNo = loginUser.getMemberNo();
+		ArrayList<Author> clist = rService.selectChefLikeList(memberNo);
 		
 		mv.addObject("clist", clist);
 		mv.setViewName("chefList");

@@ -18,6 +18,7 @@
 	<resultMap id="photoResultSet" type="Photo">
 		<id property="photoNo" column="PHOTO_NO"/>
 		<result property="fileLevel" column="FILE_LEVEL"/>
+		<result property="originName" column="ORIGIN_NAME"/>
 		<result property="changeName" column="CHANGE_NAME"/>
 	</resultMap>
 	
@@ -32,11 +33,12 @@
 	</select>
 	
 	<select id="selectPhotos" parameterType="Photo" resultMap="photoResultSet">
-		select PHOTO_NO, FILE_LEVEL, CHANGE_NAME
+		select PHOTO_NO, FILE_LEVEL, ORIGIN_NAME, CHANGE_NAME
 		from Photo
 		where BOARD_NO = #{boardNo}
 		and TARGET_NO = #{targetNo}
 		and DELETED ='N'
+		ORDER BY FILE_LEVEL ASC
 	</select>
 	
 	<insert id="insertReply" parameterType="Reply">

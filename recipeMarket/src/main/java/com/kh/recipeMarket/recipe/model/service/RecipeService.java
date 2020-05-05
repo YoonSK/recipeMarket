@@ -21,4 +21,8 @@ public interface RecipeService {
 	int deleteRecipe(int postNo);
 	
 	ArrayList<Author> selectChefList(String sorter);
+
+	ArrayList<Author> selectChefLikeList(int memberNo);
+
+	ArrayList<Photo> selectPhotos(int postNo);
 }

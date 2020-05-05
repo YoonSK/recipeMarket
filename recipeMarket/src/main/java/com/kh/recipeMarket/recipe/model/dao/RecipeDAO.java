@@ -59,15 +59,32 @@ public class RecipeDAO {
 	}
 
 	public int clearRecipe(SqlSessionTemplate sqlSession, int postNo) {
-		return sqlSession.delete("recipeMapper.clearRecipe", postNo);
+		sqlSession.delete("recipeMapper.clearRecipeStep", postNo);
+		sqlSession.delete("recipeMapper.clearRecipeIngredient", postNo);
+		sqlSession.delete("recipeMapper.clearRecipeTag", postNo);
+		sqlSession.update("recipeMapper.deletePhoto", postNo);
+		return 1;
 	}
 	
 	public int deleteRecipe(SqlSessionTemplate sqlSession, int postNo) {
-		return sqlSession.delete("recipeMapper.deleteRecipe", postNo);
+		sqlSession.delete("recipeMapper.clearRecipeStep", postNo);
+		sqlSession.delete("recipeMapper.clearRecipeIngredient", postNo);
+		sqlSession.delete("recipeMapper.clearRecipeTag", postNo);
+		sqlSession.update("recipeMapper.deletePhoto", postNo);
+		return sqlSession.update("recipeMapper.deleteRecipe", postNo);
 	}
 	
 	public ArrayList<Author> selectChefList(SqlSessionTemplate sqlSession, String sorter) {
 		return (ArrayList)sqlSession.selectList("recipeMapper.selectChefList", sorter);
+	}
+
+	public ArrayList<Author> selectChefLikeList(SqlSessionTemplate sqlSession, int memberNo) {
+		return (ArrayList)sqlSession.selectList("recipeMapper.selectChefLikeList", memberNo);
+	}
+
+	public int updateRecipe(SqlSessionTemplate sqlSession, Recipe r) {
+		return sqlSession.update("recipeMapper.updateRecipe", r);
+		
 	}
 
 }

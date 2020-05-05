@@ -13,7 +13,7 @@
 		<result property="reqTime" column="REQTIME"/>
 		<result property="difficulty" column="DIFFICULTY"/>
 		<result property="hit" column="HIT"/>
-		<result property="deleted" column="DELETED"/>
+		<result property="rating" column="RATE"/>
 	</resultMap>
 	
 	<resultMap id="recipeStepResultSet" type="RecipeStep">
@@ -78,10 +78,12 @@
     </insert>
     
     <select id="selectRecipe" parameterType="Recipe" resultMap="recipeResultSet">
-		SELECT POST_NO, MEMBER_NO, TITLE, CREATE_DATE, MODIFY_DATE, CATEGORY, SERVING, DIFFICULTY, REQTIME, HIT, DELETED
-		FROM R_BOARD
+		SELECT POST_NO, R.MEMBER_NO, TITLE, R.CREATE_DATE, R.MODIFY_DATE, CATEGORY, SERVING, DIFFICULTY, REQTIME, HIT, AVG(L.RATING) AS RATE
+		FROM R_BOARD R
+		LEFT OUTER JOIN REPLY L ON(BOARD_NO = 1 AND TARGET_NO = POST_NO)
 		WHERE POST_NO = #{postNo}
-		AND DELETED = 'N'
+		AND R.DELETED = 'N'
+		GROUP BY POST_NO, R.MEMBER_NO, TITLE, R.CREATE_DATE, R.MODIFY_DATE, CATEGORY, SERVING, DIFFICULTY, REQTIME, HIT
 	</select>
     
     <select id="selectTags" parameterType="Tag" resultMap="recipeTagResultSet">
@@ -100,6 +102,7 @@
 		SELECT POST_NO, STEP, CONTENT
 		FROM R_STEP
 		WHERE POST_NO = #{postNo}
+		ORDER BY STEP ASC
 	</select>
 	
 	<select id="selectRecipeAuthor" parameterType="Author" resultMap="recipeAuthorResultSet">
@@ -109,6 +112,7 @@
 		JOIN PHOTO P ON(BOARD_NO = 0 AND TARGET_NO = MEMBER_NO AND FILE_LEVEL = 0)
 		WHERE POST_NO = #{postNo}
 	</select>
+	
     
     <select id="selectRecipeList" parameterType="RecipePreview" resultMap="recipeListMap">
     	SELECT POST_NO, TITLE, CHANGE_NAME
@@ -165,18 +169,49 @@
 		</if>
     </select>
     
-    <delete id="clearRecipe" parameterType="_int">
+    <delete id="clearRecipeStep" parameterType="_int">
     	DELETE
-    	FROM R_STEP R
-    	WHERE R.POST_NO = #{postNo}
+    	FROM R_STEP
+    	WHERE POST_NO = #{postNo}
     </delete>
     
-    <update id="deleteRecipe" parameterType="Recipe">
+    <delete id="clearRecipeIngredient" parameterType="_int">
+    	DELETE
+    	FROM R_INGREDIENT
+    	WHERE POST_NO = #{postNo}
+    </delete>
+    
+    <delete id="clearRecipeTag" parameterType="_int">
+    	DELETE
+    	FROM R_TAG
+    	WHERE POST_NO = #{postNo}
+    </delete>
+    
+    <update id="deletePhoto" parameterType="_int">
+    	UPDATE PHOTO
+    	SET DELETED = 'Y'
+    	WHERE BOARD_NO = 1 
+    	AND TARGET_NO = ${postNo}
+    </update>
+    
+    <update id="deleteRecipe" parameterType="_int">
     	UPDATE R_BOARD
     	SET DELETED = 'Y'
     	WHERE POST_NO = ${postNo}
     </update>
     
+    <update id="updateRecipe" parameterType="Recipe">
+    	UPDATE R_BOARD
+    	SET 
+    	MEMBER_NO = #{memberNo}, 
+    	TITLE = #{title}, 
+    	MODIFY_DATE = SYSDATE, 
+    	CATEGORY = #{category}, 
+    	SERVING = #{serving}, 
+    	DIFFICULTY = #{difficulty}, 
+    	REQTIME = #{reqTime}
+    	WHERE POST_NO = ${postNo}
+    </update>
     
 	
 </mapper>

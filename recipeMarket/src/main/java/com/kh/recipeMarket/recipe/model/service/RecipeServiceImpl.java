@@ -95,6 +95,7 @@ public class RecipeServiceImpl implements RecipeService {
 		int postNo = r.getPostNo();
 		
 		rDAO.clearRecipe(sqlSession, postNo);
+		rDAO.updateRecipe(sqlSession, r);
 		
 		ArrayList<Ingredient> IngList = new ArrayList<Ingredient>();
 		for(int i=0; i < ings.size(); i++) {
@@ -146,6 +147,16 @@ public class RecipeServiceImpl implements RecipeService {
 	public ArrayList<Author> selectChefList(String sorter) {
 		rDAO.selectChefList(sqlSession, sorter);
 		return null;
+	}
+
+	@Override
+	public ArrayList<Author> selectChefLikeList(int memberNo) {
+		return rDAO.selectChefLikeList(sqlSession, memberNo);
+	}
+
+	@Override
+	public ArrayList<Photo> selectPhotos(int postNo) {
+		return cDAO.selectPhotos(sqlSession, 1, postNo);
 	}
 
 	
