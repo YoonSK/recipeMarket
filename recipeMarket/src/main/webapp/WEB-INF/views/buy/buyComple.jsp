@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <title>주문 완료</title>
 <style>
-	div.container{height: 200px;}
-	div.content{font-align: center; margin-top: 5%; margin-left: 40%;}
+	div.container{height: 600px;}
+	div.content{font-align: center; margin-top: 5%; margin-left: 30%; height: 150px; width: 300px;}
 </style>
 </head>
 <body>
@@ -20,6 +20,7 @@
 				결제가 완료되었습니다.<br>
 				구매해주셔서 감사합니다.<br>
 			</div>
+			<img src="resources/images/shipping.gif" width=100%; height=380px;>
 		</div>
 	</div>
 	<c:import url="../common/footer.jsp"/>			

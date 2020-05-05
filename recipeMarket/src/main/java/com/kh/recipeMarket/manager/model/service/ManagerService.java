@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.buy.model.vo.Cart;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.manager.model.vo.Product;
@@ -49,8 +50,8 @@ public interface ManagerService {
 
 	List<Product> selectRow();
 
-	ArrayList<mOrderDetail> getProduct(Order o);
+	ArrayList<Cart> getProduct(Order o);
 
-	int productExport(ArrayList<mOrderDetail> list);
+	int productExport(Cart cart);
 	
 }

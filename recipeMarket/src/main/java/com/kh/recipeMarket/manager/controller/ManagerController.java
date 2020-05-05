@@ -30,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.buy.model.vo.Cart;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.manager.model.exception.ManagerException;
@@ -39,7 +40,6 @@ import com.kh.recipeMarket.manager.model.vo.Product;
 import com.kh.recipeMarket.manager.model.vo.ProductPagination;
 import com.kh.recipeMarket.member.model.exception.MemberException;
 import com.kh.recipeMarket.mypage.model.exception.MyPageException;
-import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 
 @Controller
@@ -113,12 +113,14 @@ public class ManagerController {
 	@RequestMapping(value="oStatus.ma")
 	public void orderStatus(HttpServletResponse response, @ModelAttribute Order o) throws JsonIOException, IOException {
 		int result = mas.orderStatus(o);
-		ArrayList<mOrderDetail> list = mas.getProduct(o);
+		ArrayList<Cart> list = mas.getProduct(o);
 		// 재고 관련 처리
-		int result2 = mas.productExport(list);
-		
+		int result2 = 0;
+		for(int i = 0; i < list.size(); i++) {
+			result2 = mas.productExport(list.get(i));
+		}
 		Gson gson = new Gson();
-		gson.toJson(result, response.getWriter());		
+		gson.toJson(result2, response.getWriter());		
 	
 	}	
 	

@@ -11,6 +11,7 @@ public class Photo {
 	 
 	public Photo() {}
 
+	
 	public Photo(int photoNo, int boardNo, int targetNo, int fileLevel, String originName, String changeName,
 			String deleted) {
 		super();

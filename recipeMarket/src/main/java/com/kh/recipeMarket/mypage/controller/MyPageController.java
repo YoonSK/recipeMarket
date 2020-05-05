@@ -251,7 +251,7 @@ public class MyPageController {
 		ArrayList<mOrderDetail> od = mps.goWriteRv(orderNo);
 		if(od != null) {
 			mv.addObject("list", od);
-			mv.setViewName("memRv");
+			mv.setViewName("memRV");
 		}else {
 			throw new MyPageException("페이지 불러오기에 실패하였습니다.");
 		}
