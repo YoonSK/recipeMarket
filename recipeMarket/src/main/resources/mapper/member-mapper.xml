@@ -76,7 +76,8 @@
 		select change_name
 		from photo
 		where target_no = #{memberNo}
-			  and deleted = 'N'			  
+			  and deleted = 'N'	
+			  and board_no = 0		  
 	</select>
 	
 	<update id="mDelete" parameterType="Member">
