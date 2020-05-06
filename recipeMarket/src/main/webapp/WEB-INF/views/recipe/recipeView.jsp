@@ -60,9 +60,27 @@
                 </div>
             </div>
         </div>
-        <div class="flex" style="justify-content: center">
+        <div class="flex" style="height:50px; justify-content: center; align-items: center">
+            <div style="font-size:30px; font-weight: 600;margin-right:10px;">
+                ${recipe.rating}
+            </div>
             <div>
-                ${recipe.rating}별점
+            <c:set var="starImage" value="'star_full_on'"/>
+           	<c:choose>
+           		<c:when test = "${recipe.rating < 4.0}">
+           			<c:set var ="starImage" value = "resources/images/star_min_on.png"/>
+           		</c:when>
+           		<c:when test = "${recipe.rating < 7.0}">
+           			<c:set var ="starImage" value = "resources/images/star_half_on.png"/>
+           		</c:when>
+           		<c:when test = "${recipe.rating < 9.0}">
+           			<c:set var ="starImage" value = "resources/images/star_max_on.png"/>
+           		</c:when>
+           		<c:when test = "${recipe.rating >= 9.0}">
+           			<c:set var ="starImage" value = "resources/images/star_full_on.png"/>
+           		</c:when>
+           	</c:choose>
+            	<img width="50" height="50" src="${starImage}">
             </div>
         </div>
         <div class="flex" style="justify-content: center; text-align: center">
@@ -153,7 +171,7 @@
         <button class="reactBtn" type="submit" onclick='location.href="delete.rc?postNo=${recipe.postNo}";' style="width: 50%">삭제</button>
     	</c:when>
     	<c:otherwise>
-        <button class="reactBtn" type="submit" onclick='location.href="follow.rc?memberNo=${recipe.memberNo}";' style="width: 50%">구독</button>
+        <button class="reactBtn" type="submit" onclick='location.href="follow.rc?targetNo=${recipe.memberNo}";' style="width: 50%">구독</button>
         <button class="reactBtn" type="submit" onclick='location.href="save.rc?postNo=${recipe.postNo}";' style="width: 50%">담아두기</button>
     	</c:otherwise>
     </c:choose>
@@ -161,25 +179,35 @@
 
     <div style="min-height: 60px">
         <c:forEach items="${replyList}" var="reply">
-    		<div class="flex" style="min-height: 60px; ">
+    		<div class="flex" style="min-height: 60px; border: 1px solid lightgray">
             	<div style="width: 142px;text-align: center">
                 	<div>
-                    	<div>
+                    	<div style="margin-top:5px">
                         	<img width="50px"height="50px" src="resources/upload/${reply.pName}">
                     	</div>
                     	<div>
                         	<label>
-    							<c:out value="${reply.nickName}"/>
+                        	<c:choose>
+                			<c:when test="${loginUser.memberNo == reply.memberNo}">나</c:when>
+                			<c:when test="${recipe.memberNo == reply.memberNo}">작성자</c:when>
+                			<c:otherwise><c:out value="${reply.nickName}"/></c:otherwise>
+                			</c:choose>
     						</label>
                     	</div>
                 	</div>
                 	<div style="color: #fd7e14">
-                		<c:forEach var="fullStar" begin="1" end="${reply.rating / 2}" step="1">
-	                    	<span>★</span>
-						</c:forEach>
-                		<c:if test="${reply.rating %2 == 1}">
-	                    	<span>☆</span>
-                		</c:if>
+                		<c:choose>
+                			<c:when test="${recipe.memberNo == reply.memberNo}">
+                			</c:when>
+                			<c:otherwise>
+	                			<c:forEach var="fullStar" begin="1" end="${reply.rating / 2}" step="1">
+		                    	<span>★</span>
+								</c:forEach>
+		                		<c:if test="${reply.rating %2 == 1}">
+		                    	<span>☆</span>
+	                			</c:if>
+                			</c:otherwise>
+                		</c:choose>
                 	</div>
             	</div>
             	<div style="display: block; min-height: 60px; width:100%; background-color: #e8e5da; padding: 8px">
@@ -198,9 +226,10 @@
   		
             <div  style="width: 150px;">
                 <div style="padding-left: 30px">
-                    <p>후기</p>
+                    <p>댓글</p>
                 </div>
                 <div class="starbox" style="height: 40px;">
+                <c:if test="${loginUser.memberNo != recipe.memberNo}">
                     <span>
                         <img class="star-left" id = "star1" onclick="ratingStar(1)" src="resources/images/star_left.png">
                     </span>
@@ -231,6 +260,7 @@
                     <span>
                         <img class="star-right" id = "star10" onclick="ratingStar(10)" src="resources/images/star_right.png">
                     </span>
+                </c:if>
                 </div>
                 <input type="hidden" id="rate" name="rating" value="0"/>
             </div>

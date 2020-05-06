@@ -185,6 +185,12 @@
 			            <a href="list.rc">
 			                <button class="linkerBtn" id="myListBtn" type="button">나의 레시피</button>
 			            </a>
+			            <a href="chefList.rc">
+			                <button class="linkerBtn" id="myListBtn" type="button">구독 셰프</button>
+			            </a>
+			            <a href="chefRank.rc">
+			                <button class="linkerBtn" id="myListBtn" type="button">셰프 랭킹</button>
+			            </a>
 			    </div>
             </div>
             <div class="option">

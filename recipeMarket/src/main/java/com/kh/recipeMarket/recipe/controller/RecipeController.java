@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.recipeMarket.common.Enum;
+import com.kh.recipeMarket.common.Like;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.service.CommonService;
 import com.kh.recipeMarket.common.vo.*;
@@ -271,22 +272,51 @@ public class RecipeController {
 	}
 	
 	@RequestMapping("follow.rc")
-	public String recipeFollow() {
+	public String recipeFollow(@RequestParam("targetNo") int targetNo, HttpSession session, HttpServletRequest request) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int memberNo = loginUser.getMemberNo();
 		
-		return "";
+		Like lk = new Like();
+		lk.setBoardNo(0);
+		lk.setTargetNo(targetNo);
+		lk.setMemberNo(memberNo);
+		
+
+		System.out.println(lk);
+
+		cService.insertLike(lk);
+		String referer = request.getHeader("Referer");
+	    return "redirect:"+ referer;
 	}
 	
-	@RequestMapping("chefList.rc")
-	public ModelAndView chefList(@RequestParam(value = "sorter", required=false) String sorter, ModelAndView mv) {
+	@RequestMapping("save.rc")
+	public String recipeSave(@RequestParam("postNo") int postNo, HttpSession session, HttpServletRequest request) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int memberNo = loginUser.getMemberNo();
 		
-		ArrayList<Author> clist = rService.selectChefList(sorter);
+		Like lk = new Like();
+		lk.setBoardNo(1);
+		lk.setTargetNo(postNo);
+		lk.setMemberNo(memberNo);
 		
-		mv.addObject("clist", clist);
-		mv.setViewName("chefList");
-		return mv;
+		System.out.println(lk);
+
+		cService.insertLike(lk);
+		String referer = request.getHeader("Referer");
+	    return "redirect:"+ referer;
 	}
 	
 	@RequestMapping("chefRank.rc")
+	public ModelAndView chefList(@RequestParam(value = "sorter", required=false) String sorter, ModelAndView mv) {
+		
+		ArrayList<Author> clist = rService.selectChefRank(sorter);
+		
+		mv.addObject("clist", clist);
+		mv.setViewName("chefRank");
+		return mv;
+	}
+	
+	@RequestMapping("chefLikeList.rc")
 	public ModelAndView chefLikeList(HttpSession session, ModelAndView mv) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int memberNo = loginUser.getMemberNo();
