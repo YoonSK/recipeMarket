@@ -8,6 +8,10 @@
 <meta charset="UTF-8">
 <title>인기 셰프</title>
 <style>
+
+	a:link { color: black; text-decoration: none}
+    a:visited {color: black;}
+    a:hover{ color : silver;}
 	table{
 		border-collapse: collapse;
 	}
@@ -79,8 +83,10 @@
         		<c:set var="rankNo" value="${rankNo +1}"/>
 	        		<tr>
 	        			<td class="rank"><c:out value='${rankNo}'/></td>
-	        			<td class="nickName"><c:out value='${chef.nickName}'/></td>
-	        			<td class="photoBox"><img class="photo" width="40px" height="40px" src="resources/upload/<c:out value="${chef.pName}"/>"></td>
+	        			<td class="nickName"><a href="list.rc?memberNo=${chef.memberNo}"><c:out value='${chef.nickName}'/></a></td>
+	        			<td class="photoBox"><a href="list.rc?memberNo=${chef.memberNo}">
+	        				<img class="photo" width="40px" height="40px" src="resources/upload/<c:out value="${chef.pName}"/>"></a>
+	        				</td>
 	        			<td class="posts">레시피 <c:out value='${chef.posts}'/></td>
 	        			<td class="rating">별점 <c:out value='${chef.rating}'/></td>
 	        			<td class="follows">구독	<c:out value='${chef.follows}'/></td>
