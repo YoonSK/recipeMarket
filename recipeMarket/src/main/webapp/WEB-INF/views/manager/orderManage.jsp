@@ -37,7 +37,7 @@
 
 	/* 모달 */
     .modal {display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
-    .modal-content {background-color: #fefefe; margin: 20% auto; padding: 20px; border: 1px solid #888; width: 50%; height: auto;}
+    .modal-content2 {background-color: #fefefe; margin: 20% auto; padding: 20px; border: 1px solid #888; width: 50%; height: auto;}
     .close {color: #aaa; float: right; font-size: 28px; font-weight: bold;}
     .close:hover, .close:focus {color: black; text-decoration: none; cursor: pointer;}	
     p#total{font-weight: 900; font-size: 18px; text-align: right;}
@@ -225,7 +225,7 @@
 				    <div id="cmodal" class="modal">	 
 				      <!-- Modal content -->
 				      <form action="<%= request.getContextPath() %>/coupon.pt" id="cForm" method="post">
-					      <div class="modal-content">
+					      <div class="modal-content2">
 					        <span class="close">&times;</span>                                                               
 					        <p><font style="font-size:25px; font-weight:500;">주문 상세</font></p>
 					        <br>

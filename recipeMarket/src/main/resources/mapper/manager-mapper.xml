@@ -251,7 +251,7 @@
 	
 	<update id="productExport" parameterType="Cart">						
 			update PRODUCT SET    
-			EXPORT = EXPORT + #{prCount}, STOCK=STOCK-(EXPORT+ #{prCount))
+			EXPORT = EXPORT + #{prCount}, STOCK=STOCK-#{prCount}
 			WHERE PRODUCT_NO = ${productNo}
 	</update>
 	
