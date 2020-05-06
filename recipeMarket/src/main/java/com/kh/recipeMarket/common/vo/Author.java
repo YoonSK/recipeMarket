@@ -7,7 +7,7 @@ public class Author {
 	private String pName;
 	
 	private int posts;
-	private int rating;
+	private double rating;
 	private int follows;
 	private int hits;
 	
@@ -16,7 +16,7 @@ public class Author {
 	}
 	
 
-	public Author(int memberNo, String nickName, String pName, int posts, int rating, int follows, int hits) {
+	public Author(int memberNo, String nickName, String pName, int posts, double rating, int follows, int hits) {
 		super();
 		this.memberNo = memberNo;
 		this.nickName = nickName;
@@ -59,11 +59,11 @@ public class Author {
 		this.posts = posts;
 	}
 
-	public int getRating() {
+	public double getRating() {
 		return rating;
 	}
 
-	public void setRating(int rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 

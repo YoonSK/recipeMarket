@@ -32,7 +32,7 @@ public class CommonServiceImpl implements CommonService {
 
 	@Override
 	public int insertLike(Like lk) {
-		if(cDAO.checkLike(sqlSession, lk) > 0) {
+		if(cDAO.checkLike(sqlSession, lk) == null) {
 			return cDAO.insertLike(sqlSession, lk);
 		}
 		else return 0;

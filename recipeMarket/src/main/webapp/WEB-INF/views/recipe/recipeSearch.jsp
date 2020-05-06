@@ -185,7 +185,7 @@
 			            <a href="list.rc">
 			                <button class="linkerBtn" id="myListBtn" type="button">나의 레시피</button>
 			            </a>
-			            <a href="chefList.rc">
+			            <a href="chefLikeList.rc">
 			                <button class="linkerBtn" id="myListBtn" type="button">구독 셰프</button>
 			            </a>
 			            <a href="chefRank.rc">
@@ -199,7 +199,7 @@
                 <button type="button" id="sortBtnHit" onclick="setSorter(2)" style="background-color: rgba(0,191,255,0.72) ">조회순</button>
                 <button type="button" id="sortBtnNew" onclick="setSorter(3)" style="background-color: rgba(156,255,156,0.77)">최신순</button>
                 <input type="hidden" id = "sorter" name="sorter" value="POST_NO"/>
-                
+                <input type="hidden" id = "csorter" name="csorter" value="RATE"/>
             </div>
         </div>
         </form>

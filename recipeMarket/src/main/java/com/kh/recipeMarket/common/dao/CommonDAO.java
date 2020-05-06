@@ -38,10 +38,7 @@ public class CommonDAO {
 		return sqlSession.insert("commonMapper.insertLike", lk);
 	}
 
-	public int checkLike(SqlSessionTemplate sqlSession, Like lk) {
-		if (sqlSession.selectOne("commonMapper.checkLike", lk) != null) {
-			return 1;
-		}
-		else return 0;
+	public Integer checkLike(SqlSessionTemplate sqlSession, Like lk) {
+		return sqlSession.selectOne("commonMapper.checkLike", lk);
 	}
 }

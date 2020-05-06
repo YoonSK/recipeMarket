@@ -307,11 +307,11 @@ public class RecipeController {
 	}
 	
 	@RequestMapping("chefRank.rc")
-	public ModelAndView chefList(@RequestParam(value = "sorter", required=false) String sorter, ModelAndView mv) {
-		
+	public ModelAndView chefList(@RequestParam(value = "csorter", required=false) String sorter, ModelAndView mv) {
+
 		ArrayList<Author> clist = rService.selectChefRank(sorter);
 		
-		mv.addObject("clist", clist);
+		mv.addObject("chefList", clist);
 		mv.setViewName("chefRank");
 		return mv;
 	}
@@ -322,7 +322,7 @@ public class RecipeController {
 		int memberNo = loginUser.getMemberNo();
 		ArrayList<Author> clist = rService.selectChefLikeList(memberNo);
 		
-		mv.addObject("clist", clist);
+		mv.addObject("chefList", clist);
 		mv.setViewName("chefList");
 		return mv;
 	}
