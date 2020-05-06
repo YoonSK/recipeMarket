@@ -38,15 +38,27 @@
 
   /* 모달창 */
     .hmodal {display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
-    .modal-content {background-color: #fefefe; margin: 20% auto; padding: 20px; border: 1px solid #888; width: 50%; height: auto;}
+    .modal-content {background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 500px; height: 400px;}
     .close {color: #aaa; float: right; font-size: 28px; font-weight: bold;}
     .close:hover, .close:focus {color: black; text-decoration: none; cursor: pointer;}	
-    
-    /* 삭제 버튼 */
-     #deleteBtn{ background: orangered; color: white; height: 30px; border: none; border-radius: 5px; width: 50px; }
+     
+     /* 삭제 버튼 */
+     .deleteBtn{ background: orangered; color: white; height: 30px; border: none; border-radius: 5px; width: 50px; }
      
      /* follow table */
-     #listT{ margin-left: 10%; width: 650px;}
+     #listT{ margin-left: 10%; width: 100%; overflow:scroll;}
+     
+     /* follow버튼 */
+     .follow{width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    background: #c5db91;
+    color: white;
+    border: none;
+    margin-right: 20px;}
+    button{cursor:pointer;}
+    /* 모달창 스크롤 */
+    #listArea{overflow-y: scroll; overflow-x: hidden; height: 70%;}
 </style>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script> 
 </head>
@@ -131,19 +143,139 @@
 <script>
 		function followList(){
 			$('#hmodal').attr('style', 'display:block');
+			$('#listT tbody').css("overflow", "scroll");
 		}
-	</script>
+</script>
+
+<script>
+var stylyObj ={
+		'margin-left':'20%',
+		'background':'#d9d9d9'
+};
+var followingStyle ={
+		'background':'#d9d9d9'
+}
+var noStyle={'background':'#c5db91','margin-left':'20%'}
+var noStyleF={'background':'#c5db91'}
+$(document).on('click', '#following', function(){
+	$(this).css(followingStyle);
+	$('#follower').css(noStyle);
+	var targetNo = ${loginUser.memberNo};
+	$.ajax({
+		url:'followList.me',
+		data:{targetNo:targetNo},
+		dataType:'json',
+		success:function(data){
+			console.log(data);
+			//$('#hmodal').attr('style', 'display:block');
+			$tableBody = $("#listT tbody");
+			$tableBody.html("");
+			
+			for(var i in data){
+				var $tr = $('<tr>');
+				
+					var $followerpName = $('<td>').text(decodeURIComponent(data[i].pName));
+					 var $followerpName=$('<td>').html('<img src=' + '"resources/upload/' + data[i].pName + '"' + 'width=40px; height=40px;>');									
+                    var $followernickName = $('<td>').text(decodeURIComponent(data[i].nickName));
+                    var $followerdeleteBtn=$('<td>').html('<button type="button" class="deleteBtn" id="deleteFollowing" value="'+data[i].memberNo+'">삭제</button>');				
+                    $tr.append($followerpName);									
+                    $tr.append($followernickName);
+					$tr.append($followerdeleteBtn);
+				     $tableBody.append($tr);	
+			}
+				
+		}
+	});
+});
+
+$(document).on('click', '#follower', function(){
+	$(this).css(stylyObj);
+	$('#following').css(noStyleF);
+	
+	var targetNo = ${loginUser.memberNo};
+	$.ajax({
+		url:'followingList.me',
+		data:{targetNo:targetNo},
+		dataType:'json',
+		success:function(data){
+			console.log(data);
+			//$('#hmodal').attr('style', 'display:block');
+			$tableBody = $("#listT tbody");
+			$tableBody.html("");
+			
+			if(data != null){
+				for(var i in data){
+					var $tr = $('<tr>');
+					
+					var $followermemberNo = $('<td>').text(decodeURIComponent(data[i].memberNo));
+						var $followerpName = $('<td>').text(decodeURIComponent(data[i].pName));
+						 var $followerpName=$('<td>').html('<img src=' + '"resources/upload/' + data[i].pName + '"' + 'width=40px; height=40px;>');									
+	                    var $followerdeleteBtn=$('<td>').html('<button type="button" class="deleteBtn" id="deleteFollower"  value="'+data[i].memberNo+'" onclick="deleteFollow();">삭제</button>');									
+	                    var $followernickName = $('<td>').text(decodeURIComponent(data[i].nickName));
+	                    $tr.append($followerpName);									
+	                    $tr.append($followernickName);
+						$tr.append($followerdeleteBtn);
+					     $tableBody.append($tr);	
+					     
+				}
+			} else{
+				var $tr = $('<tr>');
+				  var $no = $('친구가 없습니다.^^');
+				  $tr.append($no);		
+				  $tableBody.append($tr);
+			}
+			
+				
+		}
+	});
+});
+
+$(document).on('click', '#deleteFollowing', function(){
+	var targetNo = $(this).val();
+	console.log(targetNo);
+	var nickName = $(this).parent().children().eq(2).val();
+	alert("정말 삭제하시겠습니까?");
+	$.ajax({
+		url:'deleteFollow.me',
+		data:{targetNo:targetNo},
+		dataType:'json',
+		success:function(data){
+			window.location.reload();
+		}				
+		});
+	});
+$(document).on('click', '#deleteFollower', function(){
+	var targetNo = $(this).val();
+	console.log(targetNo);
+	alert("정말 삭제하시겠습니까?");
+	$.ajax({
+		url:'deleteFollower.me',
+		data:{targetNo:targetNo},
+		dataType:'json',
+		success:function(data){
+			window.location.reload();
+		}				
+		});
+	});
+</script>
+
+
 		 <!-- The Modal -->
 			    <div id="hmodal" class="hmodal">	 
-			      <!-- Modal content -->
-			      <form action="<%= request.getContextPath() %>/insertProduct.ma" id="cForm" method="post" enctype="Multipart/form-data">
+
+		 <!-- Modal content -->
 				      <div class="modal-content">
-				        <span class="close">&times;</span>                                                               
-				        <p><font style="font-size:25px; font-weight:500;">${loginUser.nickName }님의 팔로워, 팔로잉 목록</font></p>
+				        <span class="close">&times;</span>     
+				        <div id="a" style="border-bottom: 1px solid #d9d9d9;">
+				        <p><font style="font-size:25px; font-weight:500;">[${loginUser.nickName }]님의 팔로워, 팔로잉 목록</font></p>
+				        </div>                                                          
 				        <br>
+				        <button class="follow" style="margin-left: 20%;" id="follower">팔로워</button>
+				        <button class="follow" id="following">팔로잉</button>
 						<div id="listArea">
-							<table id="listT">
-								<tr>
+						 	<table id="listT">
+						 	<tbody></tbody>
+							<!--	<tr>
 									<th colspan="3" style=" border-bottom: 1px solid black;">팔로워</th>
 									<th colspan="3" style=" border-bottom: 1px solid black;">팔로잉</th>
 								</tr>
@@ -154,11 +286,10 @@
 									<td>사진</td>
 									<td>쉐프 닉네임</td>
 									<td><button type="button" id="deleteBtn">삭제</button></td>
-								</tr>
-							</table>
+								</tr>-->
+							</table> 
 				     	</div>
 				    </div>
-			      </form>	 
 			    </div>
 			    
 			    <script>	

@@ -326,5 +326,80 @@
 		group by "DATE", TOTAL, STATUS, ORDER_NO, "oList"
 		order by "DATE" desc
 	</select>	
-
+	
+	<resultMap type="Follow" id="FollowResultSet">
+		<id property="targetNo" column="TARGET_NO"/>
+		<id property="memberNo" column="MEMBER_NO"/>
+		<result property="nickName" column="NICKNAME"/>
+		<result property="pName" column="CHANGE_NAME"/>
+	</resultMap>
+	
+	<insert id="insertFollow" parameterType="Follow">
+		insert into Follow
+		values(#{targetNo},#{memberNo})
+	</insert>
+	
+	<!-- <select id="selectFollow" resultMap="FollowResultSet">
+			select m.member_no, m.nickname, p.change_name
+			from member m
+			    join follow f on (m.member_no = f.member_no)
+			   left outer join photo p on(m.member_no = p.target_no)
+			where f.target_no = #{targetNo} and p.board_no = 0
+	</select> -->
+	
+	<select id="selectFollow" resultMap="FollowResultSet">
+			 select m.member_no, m.nickname, change_name
+        from follow f
+            join member m on(f.member_no = m.member_no)
+            left outer join photo p on(m.member_no = p.target_no)
+        where f.target_no = #{targetNo}
+	</select>
+	
+	<select id="selectFollower" resultMap="FollowResultSet">
+		select m.member_no, m.nickname, p.change_name
+		from member m
+		    join follow f on (m.member_no = f.target_no)
+		   left outer join photo p on(f.target_no = p.target_no)
+		where f.member_no =#{targetNo}
+	</select>
+	
+	<delete id="deleteFollow">
+		delete from follow
+		where member_no = #{memberNo}
+	</delete>
+	<delete id="deleteFollower">
+		delete from follow
+		where target_no = #{memberNo}
+	</delete>
+	
+	<select id="selectChefNews" resultMap="FollowResultSet">
+		 select m.member_no, m.nickname, change_name
+        from follow f
+            join member m on(f.member_no = m.member_no)
+            left outer join photo p on(m.member_no = p.target_no)
+        where f.target_no = #{targetNo}
+	</select>
+	
+		<resultMap id="recipeListMap" type="RecipePreView">
+		<id property="postNo" column="POST_NO"/>
+		<result property="title" column="TITLE"/>
+		<result property="thumb" column="CHANGE_NAME"/>
+		<result property="rating" column="RATE"/>
+		<result property="hit" column="HIT"/>
+	</resultMap>
+<!-- 	<select id="selectChefUpdate" resultMap =  "recipeListMap">
+	select title, change_name, member_no, create_date
+	from r_board r
+    left outer join photo p on(member_no = target_no)
+    where member_no = #{targetNo}
+    order by create_date desc
+	</select> -->
+	<select id="selectChefUpdate" parameterType="Follow" resultMap ="recipeListMap">
+	
+	select f.member_no,p.change_name, r.title
+        from follow f
+            left outer join photo p on(f.member_no = p.target_no)
+            join r_board r on(f.member_no = r.member_no )
+        where f.target_no =#{targetNo}
+     </select>
 </mapper>

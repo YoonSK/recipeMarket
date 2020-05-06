@@ -3,10 +3,10 @@ package com.kh.recipeMarket.member.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Properties;
@@ -31,15 +31,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.kh.recipeMarket.board.model.exception.BoardException;
 import com.kh.recipeMarket.common.Photo;
+import com.kh.recipeMarket.manager.model.exception.ManagerException;
 import com.kh.recipeMarket.member.model.exception.MemberException;
 import com.kh.recipeMarket.member.model.service.KaKaoLogin;
 import com.kh.recipeMarket.member.model.service.MemberService;
+import com.kh.recipeMarket.member.model.vo.Follow;
 import com.kh.recipeMarket.member.model.vo.Member;
 
 @SessionAttributes({"loginUser", "access_Token"})
@@ -405,8 +410,139 @@ public class MemberController {
 	
 		
 	}
+	
+	/* 팔로우 등록 */
+	@RequestMapping("insertFollow.me")
+	@ResponseBody
+	public String insertFollow(@RequestParam("memberNo") int memberNo,@RequestParam("targetNo") int targetNo, @ModelAttribute Follow follow) {
+			
+			follow.setTargetNo(targetNo);
+			follow.setMemberNo(memberNo);
+			System.out.println("postNo의 follow : "+ follow);
+//			Follow mNo = ms.findMno(follow);
+//			System.out.println("mNo : "+ mNo);
+			
+//			mNo.setTargetNo(memberNo);
+//			System.out.println("mNo : " + mNo);
+			int result = ms.insertFollow(follow);
+			
+			if(result > 0) {
+				return "success";
+			} else {
+				throw new BoardException("팔로우에 실패하였습니다.");
+			}
+	}
+	
+	
+	/* 팔로우  목록 조회 */
+//	@RequestMapping("followList.me")
+//	public ModelAndView followList(HttpSession session, @ModelAttribute Follow follow, ModelAndView mv) {
+//		
+//		Member loginUser = (Member)session.getAttribute("loginUser");
+//		int targetNo = loginUser.getMemberNo();
+//		follow.setTargetNo(targetNo);
+//		
+//		ArrayList<Follow> list = ms.selectFollowing(follow);
+//		System.out.println(list);
+//
+//		if(list != null) {
+//			mv.addObject("list", list);
+//			System.out.println("보내는 list : "+ list);
+//			mv.setViewName("header");
+//			
+//			
+//		}else {
+//			throw new BoardException("게시글 상세 조회에 실패하였습니다.");
+//		}
+//		return mv;
+//	}
+	
+	@RequestMapping("followList.me")
+	public void followList(ModelAndView mv,HttpServletResponse response, @RequestParam("targetNo") int targetNo, Follow follow) throws IOException {
+		
+		follow.setTargetNo(targetNo);
+		
+		ArrayList<Follow> list = ms.selectFollowing(follow);
+		System.out.println(list);
+		
+		for(Follow f:list) {
+			f.setNickName(URLEncoder.encode(f.getNickName(), "UTF-8"));
+		}
+		
+		
+//		  follow.setTargetNo(targetNo);
+//		 ArrayList<Follow> flist =  ms.selectFollower(follow);
+//		  System.out.println(flist);
+//		  
+//		  for(Follow f:flist) {
+//				f.setNickName(URLEncoder.encode(f.getNickName(), "UTF-8"));
+//			}
+//		 
+		
+		Gson gson = new Gson();
+		gson.toJson(list, response.getWriter());
+//		gson.toJson(flist, response.getWriter());
+//		if(list != null) {
+//			mv.addObject("list", list);
+//			mv.addObject("flist",flist);
+//			System.out.println("보내는 list : "+ list);
+//			System.out.println("보내는 flist : "+ flist);
+//			mv.setViewName("redirect:views/header.jsp");
+//			
+//		}	
+//		return mv;
+	}
+	
+	
+	@RequestMapping("followingList.me")
+	public void followingList(HttpServletResponse response, @RequestParam("targetNo") int targetNo, Follow follow) throws IOException {
+		
+//		follow.setTargetNo(targetNo);
+		
+//		ArrayList<Follow> list = ms.selectFollowing(follow);
+//		System.out.println(list);
+//		
+//		for(Follow f:list) {
+//			f.setNickName(URLEncoder.encode(f.getNickName(), "UTF-8"));
+//		}
+		
+		
+		  follow.setTargetNo(targetNo);
+		 ArrayList<Follow> list =  ms.selectFollower(follow);
+		  System.out.println(list);
+		  
+		  for(Follow f:list) {
+				f.setNickName(URLEncoder.encode(f.getNickName(), "UTF-8"));
+			}
+		 
+		
+		Gson gson = new Gson();
+		gson.toJson(list, response.getWriter());
 }
 
+	@RequestMapping("deleteFollow.me")
+	public String deleteFollow(HttpServletRequest request, @RequestParam("targetNo") int memberNo) {
+		
+		System.out.println(memberNo);
+		int result = ms.deleteFollow(memberNo);
+		 String referer = request.getHeader("Referer");
+		if(result > 0) {
+			return "redirect:"+referer;
+		} else {
+			throw new MemberException("팔로잉 삭제에 실패하였습니다.");
+		}
+	}
+	@RequestMapping("deleteFollower.me")
+	public String deleteFollower(HttpServletRequest request, @RequestParam("targetNo") int memberNo) {
+		
+		System.out.println(memberNo);
+		int result = ms.deleteFollower(memberNo);
+		 String referer = request.getHeader("Referer");
+		if(result > 0) {
+			return "redirect:"+referer;
+		} else {
+			throw new MemberException("팔로잉 삭제에 실패하였습니다.");
+		}
+	}
 
-
-
+}

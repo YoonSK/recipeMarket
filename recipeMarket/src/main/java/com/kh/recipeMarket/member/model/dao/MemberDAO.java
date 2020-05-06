@@ -1,11 +1,13 @@
 package com.kh.recipeMarket.member.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.recipeMarket.common.Photo;
+import com.kh.recipeMarket.member.model.vo.Follow;
 import com.kh.recipeMarket.member.model.vo.Member;
 
 @Repository("mDAO")
@@ -63,4 +65,27 @@ public class MemberDAO {
 		return sqlSession.insert("memberMapper.kJoinMember", m);
 	}
 
+	public int insertFollow(SqlSessionTemplate sqlSession, Follow follow) {
+		return sqlSession.insert("memberMapper.insertFollow", follow);
+	}
+
+	public Follow findMno(SqlSessionTemplate sqlSession, Follow follow) {
+		return sqlSession.selectOne("memberMapper.findMemNo", follow);
+	}
+
+	public ArrayList<Follow> selectFollowing(SqlSessionTemplate sqlSession, Follow follow) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectFollow", follow);
+	}
+
+	public ArrayList<Follow> selectFollower(SqlSessionTemplate sqlSession, Follow follow) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectFollower", follow);
+	}
+	
+	public int deleteFollow(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.delete("memberMapper.deleteFollow", memberNo);
+	}
+
+	public int deleteFollwer(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.delete("memberMapper.deleteFollower", memberNo);
+	}
 }

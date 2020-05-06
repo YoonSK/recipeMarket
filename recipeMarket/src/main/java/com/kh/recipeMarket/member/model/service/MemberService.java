@@ -1,8 +1,10 @@
 package com.kh.recipeMarket.member.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.kh.recipeMarket.common.Photo;
+import com.kh.recipeMarket.member.model.vo.Follow;
 import com.kh.recipeMarket.member.model.vo.Member;
 
 public interface MemberService {
@@ -32,5 +34,19 @@ public interface MemberService {
 	Member checkKaKao(HashMap<String, Object> userInfo);
 
 	int kJoinMember(Member m);
+
+	int insertFollow(Follow follow);
+
+	//int findMno(Follow follow);
+
+	Follow findMno(Follow follow);
+
+	ArrayList<Follow> selectFollowing(Follow follow);
+
+	ArrayList<Follow> selectFollower(Follow follow);
+
+	int deleteFollow(int memberNo);
+
+	int deleteFollower(int memberNo);
 
 }
