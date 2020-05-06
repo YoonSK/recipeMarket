@@ -53,5 +53,5 @@ public interface ManagerService {
 	ArrayList<Cart> getProduct(Order o);
 
 	int productExport(Cart cart);
-	
+
 }

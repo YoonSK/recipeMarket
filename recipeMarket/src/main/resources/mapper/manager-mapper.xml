@@ -54,7 +54,7 @@
 
 	<insert id="insertProduct" parameterType="Product">
 		insert into product
-		values(seq_prn.nextval, #{name},#{price},#{stock},#{category},sysdate,default,#{stock},default)
+		values(seq_prn.nextval, #{name},#{price},#{income},#{category},sysdate,default,#{income},default)
 	</insert>
 	
 	<resultMap type="Photo" id="photoRS">
@@ -108,7 +108,7 @@
 	</select>
 	
 	<update id="updateProduct" parameterType="Product">
-		update product set income=#{income} where product_no = #{productNo}   
+		update product set income=#{income},stock=#{income}-export where product_no = #{productNo}   
 	</update>
 	
 	<select id="getSearchListCount" resultType="_int" parameterType="Product">
@@ -251,9 +251,9 @@
 	
 	<update id="productExport" parameterType="Cart">						
 			update PRODUCT SET    
-			EXPORT = EXPORT + #{prCount}
+			EXPORT = EXPORT + #{prCount}, STOCK=STOCK-(EXPORT+ #{prCount))
 			WHERE PRODUCT_NO = ${productNo}
 	</update>
 	
-		
+	
 </mapper>
