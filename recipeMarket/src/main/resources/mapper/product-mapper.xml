@@ -12,57 +12,65 @@
 		<result property = "deleted" column ="DELETED"/>
 		<result property = "income" column ="INCOME"/>
 		<result property = "export" column ="EXPORT"/>
+		<result property = "phname" column ="PHNAME"/>
 	</resultMap>	
 	
 	<select id="productList" resultMap="productRS">
 		<![CDATA[
 		
-			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export
-			from (select rownum rnum, product_no, name, price, stock, category, deleted, create_date, income, export
-				  from product
-				  where category = '곡류' and deleted = 'N' and stock > 0
+			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export, phname
+			from (select rownum rnum, p.product_no, p.name, price, stock, category, p.deleted, create_date, income, export, CHANGE_NAME AS "PHNAME"
+				  from product p
+                LEFT OUTER JOIN PHOTO ph ON(p.PRODUCT_NO = ph.TARGET_NO AND BOARD_NO = 3)  
+				  where category = '곡류' and p.deleted = 'N' and stock > 0               
 				  order by product_no desc)
 			where rnum <= 5
 			union 
-			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export
-			from (select rownum rnum, product_no, name, price, stock, category, deleted, create_date, income, export
-				  from product
-				  where category = '과일류' and deleted = 'N' and stock > 0
+			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export, phname
+			from (select rownum rnum, p.product_no, p.name, price, stock, category, p.deleted, create_date, income, export, CHANGE_NAME AS "PHNAME"
+				  from product p
+                LEFT OUTER JOIN PHOTO ph ON(p.PRODUCT_NO = ph.TARGET_NO AND BOARD_NO = 3)  
+				  where category = '과일류' and p.deleted = 'N' and stock > 0               
 				  order by product_no desc)
 			where rnum <= 5
 			union 
-			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export
-			from (select rownum rnum, product_no, name, price, stock, category, deleted, create_date, income, export
-				  from product
-				  where category = '채소류' and deleted = 'N' and stock > 0
+			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export, phname
+			from (select rownum rnum, p.product_no, p.name, price, stock, category, p.deleted, create_date, income, export, CHANGE_NAME AS "PHNAME"
+				  from product p
+                LEFT OUTER JOIN PHOTO ph ON(p.PRODUCT_NO = ph.TARGET_NO AND BOARD_NO = 3)  
+				  where category = '채소류' and p.deleted = 'N' and stock > 0               
 				  order by product_no desc)
 			where rnum <= 5
 			union 
-			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export
-			from (select rownum rnum, product_no, name, price, stock, category, deleted, create_date, income, export
-				  from product
-				  where category = '어류' and deleted = 'N' and stock > 0
+			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export, phname
+			from (select rownum rnum, p.product_no, p.name, price, stock, category, p.deleted, create_date, income, export, CHANGE_NAME AS "PHNAME"
+				  from product p
+                LEFT OUTER JOIN PHOTO ph ON(p.PRODUCT_NO = ph.TARGET_NO AND BOARD_NO = 3)  
+				  where category = '어류' and p.deleted = 'N' and stock > 0               
 				  order by product_no desc)
 			where rnum <= 5
 			union 
-			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export
-			from (select rownum rnum, product_no, name, price, stock, category, deleted, create_date, income, export
-				  from product
-				  where category = '육류' and deleted = 'N' and stock > 0
+			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export, phname
+			from (select rownum rnum, p.product_no, p.name, price, stock, category, p.deleted, create_date, income, export, CHANGE_NAME AS "PHNAME"
+				  from product p
+                LEFT OUTER JOIN PHOTO ph ON(p.PRODUCT_NO = ph.TARGET_NO AND BOARD_NO = 3)  
+				  where category = '육류' and p.deleted = 'N' and stock > 0               
 				  order by product_no desc)
 			where rnum <= 5
 			union 
-			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export
-			from (select rownum rnum, product_no, name, price, stock, category, deleted, create_date, income, export
-				  from product
-				  where category = '음료' and deleted = 'N' and stock > 0
+			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export, phname
+			from (select rownum rnum, p.product_no, p.name, price, stock, category, p.deleted, create_date, income, export, CHANGE_NAME AS "PHNAME"
+				  from product p
+                LEFT OUTER JOIN PHOTO ph ON(p.PRODUCT_NO = ph.TARGET_NO AND BOARD_NO = 3)  
+				  where category = '음료' and p.deleted = 'N' and stock > 0               
 				  order by product_no desc)
 			where rnum <= 5
 			union
-			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export
-			from (select rownum rnum, product_no, name, price, stock, category, deleted, create_date, income, export
-				  from product
-				  where category = '기타' and deleted = 'N' and stock > 0
+			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export, phname
+			from (select rownum rnum, p.product_no, p.name, price, stock, category, p.deleted, create_date, income, export, CHANGE_NAME AS "PHNAME"
+				  from product p
+                LEFT OUTER JOIN PHOTO ph ON(p.PRODUCT_NO = ph.TARGET_NO AND BOARD_NO = 3)  
+				  where category = '기타' and p.deleted = 'N' and stock > 0               
 				  order by product_no desc)
 			where rnum <= 5
 		]]>
