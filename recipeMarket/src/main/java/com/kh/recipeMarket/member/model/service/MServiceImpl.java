@@ -1,5 +1,6 @@
 package com.kh.recipeMarket.member.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.member.model.dao.MemberDAO;
+import com.kh.recipeMarket.member.model.vo.Follow;
 import com.kh.recipeMarket.member.model.vo.Member;
 
 @Service("ms")
@@ -82,5 +84,35 @@ public class MServiceImpl implements MemberService {
 	@Override
 	public int kJoinMember(Member m) {
 		return mDAO.kJoinMember(sqlSession, m);
+	}
+
+	@Override
+	public int insertFollow(Follow follow) {
+		return mDAO.insertFollow(sqlSession, follow);
+	}
+
+	@Override
+	public Follow findMno(Follow follow) {
+		return mDAO.findMno(sqlSession, follow);
+	}
+
+	@Override
+	public ArrayList<Follow> selectFollowing(Follow follow) {
+		return mDAO.selectFollowing(sqlSession, follow);
+	}
+
+	@Override
+	public ArrayList<Follow> selectFollower(Follow follow) {
+		return mDAO.selectFollower(sqlSession,follow);
+	}
+
+	@Override
+	public int deleteFollow(int memberNo) {
+		return mDAO.deleteFollow(sqlSession, memberNo);
+	}
+
+	@Override
+	public int deleteFollower(int memberNo) {
+		return mDAO.deleteFollwer(sqlSession,memberNo);
 	}
 }

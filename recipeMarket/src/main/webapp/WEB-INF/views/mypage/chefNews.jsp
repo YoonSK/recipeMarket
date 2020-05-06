@@ -33,33 +33,33 @@
 				<div class="newsArea">
 					<table style="border-bottom: 1px solid lightgray;">
 					<!-- 반복할 테이블 구성 -->
+						<c:forEach items="${clist}" var="recipe" varStatus="status">
 						<tr>
-							<td><img src="../images/user.png" style="width:70px"/></td>
-							<td><a href="">최고의요리사</a></td>
+						<td>
+						<img width=40px; height=40px; src='resources/upload/${ recipe.pName }'></td>
+						<td>${recipe.nickName}</td>
+						</tr>
+						</c:forEach>
+						<c:forEach items="${rlist}" var="r" varStatus="status">
+						<tr>
+							<td><img width="150px" height="150px" src="resources/upload/<c:out value="${r.thumb}"/>"></td>
 						</tr>
 						<tr>
+						<td><c:out value="${r.title}"/></td>
+						</tr>
+						</c:forEach>
+						
+						<tr >
 							<td></td>
-							<td><img src="../images/1.jpg" style="width:200px"/></td>
-							<td><img src="../images/1.jpg" style="width:200px"/></td>
-							<td><img src="../images/1.jpg" style="width:200px"/></td>
-							<td><img src="../images/1.jpg" style="width:200px"/></td>
+							<%-- <td><img width="150px" height="150px" src="resources/upload/<c:out value="${recipe.thumb}"/>"></td> --%>
+							<%-- <td><c:out value="${recipe.title}"/></td> --%>
 						</tr>
+						
+						
+						
+	            	
 					</table>
 					<br>
-					<table style="border-bottom: 1px solid lightgray;">
-					<!-- 반복할 테이블 구성 -->
-						<tr>
-							<td><img src="../images/user.png" style="width:70px"/></td>
-							<td><a href="">최고의요리사</a></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td><img src="../images/1.jpg" style="width:200px"/></td>
-							<td><img src="../images/1.jpg" style="width:200px"/></td>
-							<td><img src="../images/1.jpg" style="width:200px"/></td>
-							<td><img src="../images/1.jpg" style="width:200px"/></td>
-						</tr>
-					</table>
 				</div>
 			</div>		
 		</div>

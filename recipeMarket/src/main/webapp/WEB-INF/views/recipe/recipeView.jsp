@@ -171,6 +171,8 @@
         <button class="reactBtn" type="submit" onclick='location.href="delete.rc?postNo=${recipe.postNo}";' style="width: 50%">삭제</button>
     	</c:when>
     	<c:otherwise>
+    	  <!-- 팔로우를 위한 공간 -->
+        <button id="follow"  style="font-size:20px; width:50%;" value="${author.nickName}" >구독하기</button>
         <button class="reactBtn" type="submit" onclick='location.href="follow.rc?targetNo=${recipe.memberNo}";' style="width: 50%">구독</button>
         <button class="reactBtn" type="submit" onclick='location.href="save.rc?postNo=${recipe.postNo}";' style="width: 50%">담아두기</button>
     	</c:otherwise>
@@ -299,5 +301,26 @@
             }
         }
     }
+    
+    /* 팔로우 */
+   	$(document).on('click', '#follow', function(){
+				var targetNo = ${ loginUser.memberNo };
+				var memberNo = ${ author.memberNo};
+				var nickName = $(this).val();
+				console.log("memberNo : "+ memberNo);
+				console.log("targetNo : " + targetNo);
+	    		$.ajax({
+					url:'insertFollow.me',
+					data:{targetNo:targetNo, memberNo:memberNo},
+					type:'post',
+					success:function(data){
+						console.log(data);
+						if(data == "success"){	
+							alert("["+ nickName +"]"+ "님을 팔로우 했습니다.");
+							window.location.reload();
+						}
+					}
+				}); 
+	    	});
 </script>
 </html>

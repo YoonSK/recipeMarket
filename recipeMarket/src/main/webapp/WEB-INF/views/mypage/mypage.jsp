@@ -51,7 +51,7 @@
 				<div class="menu_box">
 					<div class="icon_con">
 						<figure>				
-							<img src="resources/images/chef.png" width=100px; height=100px;>
+							<a href="chefNews.mp"><img src="resources/images/chef.png" width=100px; height=100px;></a>
 							<figcaption>쉐프 소식</figcaption>
 						</figure>						
 					</div>
