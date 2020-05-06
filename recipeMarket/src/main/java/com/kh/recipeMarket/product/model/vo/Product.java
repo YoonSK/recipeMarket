@@ -13,7 +13,25 @@ public class Product {
 	private String deleted;
 	private int income;
 	private int export;
+	private String phName;
 	
+	
+	
+	public Product(int productNo, String name, int price, int stock, String category, Date createDate, String deleted,
+			int income, int export, String phName) {
+		super();
+		this.productNo = productNo;
+		this.name = name;
+		this.price = price;
+		this.stock = stock;
+		this.category = category;
+		this.createDate = createDate;
+		this.deleted = deleted;
+		this.income = income;
+		this.export = export;
+		this.phName = phName;
+	}
+
 	public Product() {}
 
 	public int getProductNo() {
@@ -88,15 +106,22 @@ public class Product {
 		this.export = export;
 	}
 
+	
+	public String getPhName() {
+		return phName;
+	}
+
+	public void setPhname(String phName) {
+		this.phName = phName;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [productNo=" + productNo + ", name=" + name + ", price=" + price + ", stock=" + stock
 				+ ", category=" + category + ", createDate=" + createDate + ", deleted=" + deleted + ", income="
-				+ income + ", export=" + export + "]";
+				+ income + ", export=" + export + ", phName=" + phName + "]";
 	}
-	
-	
-	
-	
+
+
 	
 }
