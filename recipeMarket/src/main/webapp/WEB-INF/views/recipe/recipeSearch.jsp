@@ -64,6 +64,19 @@
         #search{
             width: 200px;
         }
+        .linkerBtn{
+            margin: 2px 2px 2px 2px;
+            padding: 3px 3px 3px 3px;
+            border-radius: 5px;
+        }
+        #writeBtn{
+            border: 1px solid darkgreen;
+            background-color: lightgreen;
+        }
+        #myListBtn{
+            border: 1px solid darkblue;
+            background-color: lightblue;
+        }
     </style>
 </head>
 <body>
@@ -157,12 +170,28 @@
                     <div id="tagBox">
                     </div>
             </div>
-            <div class="option">
+            <div class="option" >
                 <span class="option_name">검색</span>
                 <div>
                     <input type="text" id="search" name="keyword">
                 </div>
                 <button type="submit" id="searchBtn" style="background-color: lightgrey; border-radius:10px;margin-left: 10px ">찾기</button>
+            
+            
+	            <div class="linkerBox" style="display: flex; margin-left :30%">
+			            <a href="insertForm.rc">
+			                <button class="linkerBtn" id="writeBtn" type="button">레시피 작성</button>
+			            </a>
+			            <a href="list.rc">
+			                <button class="linkerBtn" id="myListBtn" type="button">나의 레시피</button>
+			            </a>
+			            <a href="chefList.rc">
+			                <button class="linkerBtn" id="myListBtn" type="button">구독 셰프</button>
+			            </a>
+			            <a href="chefRank.rc">
+			                <button class="linkerBtn" id="myListBtn" type="button">셰프 랭킹</button>
+			            </a>
+			    </div>
             </div>
             <div class="option">
                 <span class="option_name">정렬</span>
@@ -170,35 +199,12 @@
                 <button type="button" id="sortBtnHit" onclick="setSorter(2)" style="background-color: rgba(0,191,255,0.72) ">조회순</button>
                 <button type="button" id="sortBtnNew" onclick="setSorter(3)" style="background-color: rgba(156,255,156,0.77)">최신순</button>
                 <input type="hidden" id = "sorter" name="sorter" value="POST_NO"/>
+                
             </div>
         </div>
         </form>
         
         <div class="content" style="display: flex; flex-wrap : wrap;">
-	        <div class="box">
-	            <a href="insertForm.rc">
-	                <img width="150px" height="150px">
-	                <label class="recipeName">레시피</label>
-	            </a>
-	        </div>
-	        <div class="box">
-	            <a href="detail.rc">
-	                <img width="150px" height="150px">
-	                <label class="recipeName">레시피</label>
-	            </a>
-	        </div>
-	        <div class="box" >
-	            <a href="list.rc">
-	                <img width="150px" height="150px">
-	                <label class="recipeName">레시피</label>
-	            </a>
-	        </div>
-	        <div class="box">
-	            <a href="">
-	                <img width="150px" height="150px">
-	                <label class="recipeName">레시피</label>
-	            </a>
-	        </div>
 			
 			<c:forEach items="${rlist}" var="recipe" varStatus="status">
 				<div class="box">

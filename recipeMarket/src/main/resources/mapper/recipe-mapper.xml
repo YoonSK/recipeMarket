@@ -13,7 +13,7 @@
 		<result property="reqTime" column="REQTIME"/>
 		<result property="difficulty" column="DIFFICULTY"/>
 		<result property="hit" column="HIT"/>
-		<result property="deleted" column="DELETED"/>
+		<result property="rating" column="RATE"/>
 	</resultMap>
 	
 	<resultMap id="recipeStepResultSet" type="RecipeStep">
@@ -45,6 +45,17 @@
 		<id property="memberNo" column="MEMBER_NO"/>
 		<result property="nickName" column="NICKNAME"/>
 		<result property="pName" column="CHANGE_NAME"/>
+	</resultMap>
+	
+	<resultMap id="recipeChefResultSet" type="Author">
+		<id property="memberNo" column="MEMBER_NO"/>
+		<result property="nickName" column="NICKNAME"/>
+		<result property="pName" column="CHANGE_NAME"/>
+		
+		<result property="posts" column="POSTS"/>
+		<result property="rating" column="RATE"/>
+		<result property="follows" column="FOLLOWS"/>
+		<result property="hits" column="HITS"/>
 	</resultMap>
 
 	<insert id="insertRecipe" parameterType="Recipe">		
@@ -78,10 +89,12 @@
     </insert>
     
     <select id="selectRecipe" parameterType="Recipe" resultMap="recipeResultSet">
-		SELECT POST_NO, MEMBER_NO, TITLE, CREATE_DATE, MODIFY_DATE, CATEGORY, SERVING, DIFFICULTY, REQTIME, HIT, DELETED
-		FROM R_BOARD
+		SELECT POST_NO, R.MEMBER_NO, TITLE, R.CREATE_DATE, R.MODIFY_DATE, CATEGORY, SERVING, DIFFICULTY, REQTIME, HIT, AVG(L.RATING) AS RATE
+		FROM R_BOARD R
+		LEFT OUTER JOIN REPLY L ON(BOARD_NO = 1 AND TARGET_NO = POST_NO AND L.MEMBER_NO != R.MEMBER_NO)
 		WHERE POST_NO = #{postNo}
-		AND DELETED = 'N'
+		AND R.DELETED = 'N'
+		GROUP BY POST_NO, R.MEMBER_NO, TITLE, R.CREATE_DATE, R.MODIFY_DATE, CATEGORY, SERVING, DIFFICULTY, REQTIME, HIT
 	</select>
     
     <select id="selectTags" parameterType="Tag" resultMap="recipeTagResultSet">
@@ -100,13 +113,14 @@
 		SELECT POST_NO, STEP, CONTENT
 		FROM R_STEP
 		WHERE POST_NO = #{postNo}
+		ORDER BY STEP ASC
 	</select>
 	
 	<select id="selectRecipeAuthor" parameterType="Author" resultMap="recipeAuthorResultSet">
-		SELECT MEMBER_NO, NICKNAME, CHANGE_NAME
-		FROM R_BOARD
-		JOIN MEMBER USING(MEMBER_NO)
-		JOIN PHOTO ON(BOARD_NO = 0 AND TARGET_NO = MEMBER_NO AND FILE_LEVEL = 0)
+		SELECT MEMBER_NO, M.NICKNAME, P.CHANGE_NAME
+		FROM R_BOARD R
+		JOIN MEMBER M USING(MEMBER_NO)
+		JOIN PHOTO P ON(BOARD_NO = 0 AND TARGET_NO = MEMBER_NO AND FILE_LEVEL = 0)
 		WHERE POST_NO = #{postNo}
 	</select>
     
@@ -119,12 +133,26 @@
 		ORDER BY POST_NO DESC
     </select>
     
+    <select id="selectChefLikeList" parameterType="Author" resultMap="recipeChefResultSet">
+		SELECT M.MEMBER_NO, NICKNAME, P.CHANGE_NAME, COUNT(R.POST_NO) AS POSTS, AVG(R.RATE) AS RATE, COUNT(F.MEMBER_NO) AS FOLLOWS, SUM(R.HIT) AS HITS
+		FROM GOOD G
+		JOIN MEMBER M ON(M.MEMBER_NO = G.TARGET_NO)
+		JOIN PHOTO P ON(P.BOARD_NO = 0 AND P.TARGET_NO = G.TARGET_NO AND P.FILE_LEVEL = 0 AND P.DELETED != 'Y')
+		LEFT OUTER JOIN R_PREVIEW R ON(R.MEMBER_NO = G.TARGET_NO)
+		LEFT OUTER JOIN GOOD F ON(F.BOARD_NO = 0 AND F.TARGET_NO = G.TARGET_NO)
+		WHERE G.BOARD_NO = #{boardNo}
+		AND G.TARGET_NO = #{targetNo}
+		AND G.MEMBER_NO = #{memberNo}
+        GROUP BY M.MEMBER_NO, NICKNAME, P.CHANGE_NAME
+        
+    </select>
+    
     <select id="searchRecipeList" parameterType="RecipePreview" resultMap="recipeListMap">
     	SELECT R.POST_NO, R.TITLE, P.CHANGE_NAME, AVG(L.RATING) AS RATE, R.HIT
     	
     	FROM R_BOARD R
     	JOIN PHOTO P ON(P.BOARD_NO = 1 AND P.TARGET_NO = R.POST_NO AND P.FILE_LEVEL = 0)
-    	LEFT OUTER JOIN REPLY L ON(L.BOARD_NO = 1 AND L.TARGET_NO = R.POST_NO)
+    	LEFT OUTER JOIN REPLY L ON(L.BOARD_NO = 1 AND L.TARGET_NO = R.POST_NO AND L.MEMBER_NO != R.MEMBER_NO)
     	JOIN R_INGREDIENT G ON(R.POST_NO = G.POST_NO)
     	JOIN R_TAG T ON(R.POST_NO = T.POST_NO)
 		WHERE R.DELETED = 'N'
@@ -165,21 +193,49 @@
 		</if>
     </select>
     
-    <delete id="clearRecipe">
+    <delete id="clearRecipeStep" parameterType="_int">
     	DELETE
-    	FROM R_STEP R, R_INGREDIENT G, PHOTO P
-    	LEFT JOIN R_INGREDIENT G ON(G.POST_NO = R_POST_NO)
-    	LEFT JOIN R_TAG T ON(T.POST_NO = R.POST_NO)
-    	LEFT JOIN PHOTO ON(BOARD_NO = 1 AND TARGET_NO = R.POST_NO)
-    	WHERE R.POST_NO = #{postNo}
+    	FROM R_STEP
+    	WHERE POST_NO = #{postNo}
     </delete>
     
-    <update id="deleteRecipe" parameterType="Recipe">
-    	UPDATE R_BOARD
+    <delete id="clearRecipeIngredient" parameterType="_int">
+    	DELETE
+    	FROM R_INGREDIENT
+    	WHERE POST_NO = #{postNo}
+    </delete>
+    
+    <delete id="clearRecipeTag" parameterType="_int">
+    	DELETE
+    	FROM R_TAG
+    	WHERE POST_NO = #{postNo}
+    </delete>
+    
+    <update id="deletePhoto" parameterType="_int">
+    	UPDATE PHOTO
     	SET DELETED = 'Y'
-    	WHERE POST_N0 = ${postNo}
+    	WHERE BOARD_NO = 1 
+    	AND TARGET_NO = ${postNo}
     </update>
     
+    <update id="deleteRecipe" parameterType="_int">
+    	UPDATE R_BOARD
+    	SET DELETED = 'Y'
+    	WHERE POST_NO = ${postNo}
+    </update>
+    
+    <update id="updateRecipe" parameterType="Recipe">
+    	UPDATE R_BOARD
+    	SET 
+    	MEMBER_NO = #{memberNo}, 
+    	TITLE = #{title}, 
+    	MODIFY_DATE = SYSDATE, 
+    	CATEGORY = #{category}, 
+    	SERVING = #{serving}, 
+    	DIFFICULTY = #{difficulty}, 
+    	REQTIME = #{reqTime}
+    	WHERE POST_NO = ${postNo}
+    </update>
     
 	
 </mapper>

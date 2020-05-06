@@ -80,62 +80,134 @@
 <body>
 <div class="outer" style="display:flex; justify-content: center;">
     <div class="container" style="width: 1000px; margin: 0 auto; display: flex; flex-direction: column; ">
-        <h1>레시피 등록</h1>
-        <form action="update.rc" method="post" enctype="Multipart/form-data">
+        <h1>레시피 수정</h1>
+        <form action="update.rc?postNo=${recipe.postNo}" method="post" enctype="Multipart/form-data">
         <div class="content" style="display: flex; margin: 30px 10px 30px 10px">
             <div id = "mainImage" style="display: flex; flex-direction: column;">
                 <div>
-                    <img id="output" width="200px" height="200px"/>
+                    <img id="output" width="200px" height="200px" src="resources/upload/${imgList[0].changeName}"/>
                 </div>
                 <div>
                     <input type='file' accept='image/*' onchange='openFile(event)' id="imgInput" name="recipeImg">
+                    <input type="hidden" id="imgPrev" name="recipeImgPrev" value="1">
                 </div>
             </div>
             <div id="optionBox" style="padding-top: 30px">
                 <div>
                     <span class="option_name">제목</span>
-                    <input id="recipeTitle" type="text" name="title"  onkeydown="enterkey(event, 'title');" style="width: 90%"/>
+                    <input id="recipeTitle" type="text" name="title"  onkeydown="enterkey(event, 'title');" style="width: 90%" value="${recipe.title}">
                 </div>
                 <div class="option">
                     <div class="mini_option">
                         <span class="option_name">분량</span>
+                        <c:choose>
+                        	<c:when test="${recipe.serving == 1}">
+                        		<c:set var="serving1" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${recipe.serving == 2}">
+                        		<c:set var="serving2" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${recipe.serving == 3}">
+                        		<c:set var="serving3" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${recipe.serving == 4}">
+                        		<c:set var="serving4" value='selected="selected"'/>
+                        	</c:when>
+                        </c:choose>
                         <select name="serving">
-                            <option value="1" selected="selected">1인</option>
-                            <option value="2">2인</option>
-                            <option value="3">3인</option>
-                            <option value="4">4인</option>
+                            <option value="1" <c:out value="${serving1}"/>>1인</option>
+                            <option value="2" <c:out value="${serving2}"/>>2인</option>
+                            <option value="3" <c:out value="${serving3}"/>>3인</option>
+                            <option value="4" <c:out value="${serving4}"/>>4인</option>
                         </select>
                     </div>
                     <div class="mini_option">
                         <span class="option_name">분류</span>
+                        <c:choose>
+                        	<c:when test="${recipe.category == 'sub'}">
+                        		<c:set var="category1" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${recipe.category == 'main'}">
+                        		<c:set var="category2" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${recipe.category == 'soup'}">
+                        		<c:set var="category3" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${recipe.category == 'meal'}">
+                        		<c:set var="category4" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${recipe.category == 'dessert'}">
+                        		<c:set var="category5" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${recipe.category == 'salad'}">
+                        		<c:set var="category6" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${recipe.category == 'drink'}">
+                        		<c:set var="category7" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${recipe.category == 'sauce'}">
+                        		<c:set var="category8" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${recipe.category == 'etc'}">
+                        		<c:set var="category9" value='selected="selected"'/>
+                        	</c:when>
+                        </c:choose>
                         <select name="category">
-                            <option value="sub">반찬</option>
-                            <option value="main">메인 요리</option>
-                            <option value="soup">국물류</option>
-                            <option value="meal" selected="selected">식사</option>
-                            <option value="dessert">간식/디저트</option>
-                            <option value="salad">샐러드</option>
-                            <option value="drink">음료</option>
-                            <option value="sauce">양념</option>
-                            <option value="etc">기타</option>
+                            <option <c:out value="${category1}"/> value="sub">반찬</option>
+                            <option <c:out value="${category2}"/> value="main">메인 요리</option>
+                            <option <c:out value="${category3}"/> value="soup">국물류</option>
+                            <option <c:out value="${category4}"/> value="meal">식사</option>
+                            <option <c:out value="${category5}"/> value="dessert">간식/디저트</option>
+                            <option <c:out value="${category6}"/> value="salad">샐러드</option>
+                            <option <c:out value="${category7}"/> value="drink">음료</option>
+                            <option <c:out value="${category8}"/> value="sauce">양념</option>
+                            <option <c:out value="${category9}"/> value="etc">기타</option>
                         </select>
                     </div>
                     <div class="mini_option">
                         <span class="option_name">시간</span>
+                        <c:choose>
+                        	<c:when test="${recipe.reqTime == 10}">
+                        		<c:set var="reqTime1" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${recipe.reqTime == 30}">
+                        		<c:set var="reqTime2" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${recipe.reqTime == 60}">
+                        		<c:set var="reqTime3" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${recipe.reqTime == 90}">
+                        		<c:set var="reqTime4" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${recipe.reqTime == 120}">
+                        		<c:set var="reqTime5" value='selected="selected"'/>
+                        	</c:when>
+                        </c:choose>
                         <select name="reqTime">
-                            <option value="10">10분</option>
-                            <option value="30">30분</option>
-                            <option value="60">60분</option>
-                            <option value="90">90분</option>
-                            <option value="120">120분</option>
+                            <option <c:out value="${reqTime1}"/> value="10">10분</option>
+                            <option <c:out value="${reqTime2}"/> value="30">30분</option>
+                            <option <c:out value="${reqTime3}"/> value="60">60분</option>
+                            <option <c:out value="${reqTime4}"/> value="90">90분</option>
+                            <option <c:out value="${reqTime5}"/> value="120">120분</option>
                         </select>
                     </div>
                     <div class="mini_option">
                         <span class="option_name">난이도</span>
+                        <c:choose>
+                        	<c:when test="${recipe.difficulty == 0}">
+                        		<c:set var="difficulty1" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${recipe.difficulty == 1}">
+                        		<c:set var="difficulty2" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${recipe.difficulty == 2}">
+                        		<c:set var="difficulty3" value='selected="selected"'/>
+                        	</c:when>
+                        </c:choose>
                         <select name="diffyculty">
-                            <option value="0">쉬움</option>
-                            <option value="1">보통</option>
-                            <option value="2">어려움</option>
+                            <option <c:out value="${difficulty1}"/> value="0">쉬움</option>
+                            <option <c:out value="${difficulty2}"/> value="1">보통</option>
+                            <option <c:out value="${difficulty3}"/> value="2">어려움</option>
                         </select>
                     </div>
                 </div>
@@ -152,7 +224,24 @@
                         </span>
                     </div>
                     <div id="ingredientBox">
-                    	
+
+                    <c:set var="ingCount" value="0"/>
+                    <c:forEach items="${ingredientList}" var="ing">
+	                    	<c:set var="ingCount" value="${ingCount +1}"/>
+		    				<button class="ingredient" id='ing<c:out value="${ing.name}"/>' value="ing<c:out value="${ingCount}"/>" type="button" 
+		    				onclick="
+		    				this.remove();
+		    		      	document.getElementById(this.value).remove();
+		    	      		document.getElementById(this.value + 'amt').remove();">
+		    					<c:out value="${ing.name}"/>
+		    					-
+		    					<c:out value="${ing.amount}"/>
+		    				</button>
+	    					
+	    					<input id='ing<c:out value="${ingCount}"/>' type="hidden" name="ingredient" value="${ing.name}"/>
+	    					<input id='ing<c:out value="${ingCount}"/>amt' type="hidden" name="amount" value="${ing.amount}"/>
+   					</c:forEach>
+                    
                     </div>
                 </div>
                 <div class="option" style="display: block">
@@ -172,25 +261,41 @@
                     </div>
                     <div id="tagBox">
                     
+                    <c:set var="tagCount" value="0"/>
+                    <c:forEach items="${tagList}" var="tag">
+	                    	<c:set var="tagCount" value="${tagCount +1}"/>
+		    				<button class="tag" id='tag<c:out value="${tag.tag}"/>' value="tag<c:out value="${tagCount}"/>" type="button" 
+		    				onclick="
+		    				this.remove();
+		    		      	document.getElementById(this.value).remove();">
+		    					<c:out value="${tag.tag}"/>
+		    				</button>
+	    					
+	    					<input id='tag<c:out value="${tagCount}"/>' type="hidden" name="tag" value="${tag.tag}"/>
+   					</c:forEach>
                     </div>
                 </div>
             </div>
         </div>
         <div class="content" id="stepContainer" style="display:flex;flex-direction: column; width: 100%; margin: 5px auto;">
-        
-            <div class = "step" id = "step1">
+        <c:set var="stpCount" value="0"/>
+        <c:forEach items="${stepList}" var="step" varStatus="status">
+            <c:set var="stpCount" value="${stpCount +1}"/>
+        	<div class = "step" id = 'step<c:out value="${step.step}"/>'>
                 <div class = "stepNo">
-                    1
+                    <c:out value="${step.step}"/>
                 </div>
                 <div class = "stepContent" >
-                    <textarea class="stepContentArea" id="content1" name = "stepContent"></textarea>
+                    <textarea class="stepContentArea" id="content<c:out value="${step.step}"/>" name = "stepContent"><c:out value="${step.content}"/></textarea>
                 </div>
                 <div class = "stepImage">
-                    <img class="stepThumb" id="step_output1" width="150px" height="150px"/>
-                    <input type='file' accept='image/*' onchange="imagepreview(this);" id="step_imgInput1" name="recipeImg">
+                    <img class="stepThumb" id="step_output<c:out value="${step.step}"/>" width="150px" height="150px" src="resources/upload/${imgList[status.index +1].changeName}"/>
+                    <input type='file' accept='image/*' onchange="imagepreview(this);" id="step_imgInput<c:out value="${step.step}"/>" name="recipeImg">
+                    <input type="hidden" id="step_imgPrev<c:out value="${step.step}"/>" name="recipeImgPrev" value="1">
                 </div>
             </div>
-            
+        </c:forEach>
+        
         </div>
         <div style="display: flex; justify-content: space-between">
         	<div>
@@ -213,7 +318,8 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript">
-var ingNo = 0;
+var ingNo = ${ingCount};
+
 function addIgBtn(){
 	var Name = document.getElementById( 'addIngredient' ).value;
   	var Amount = document.getElementById( 'addAmount' ).value;
@@ -256,7 +362,7 @@ function addIgBtn(){
   	
 }
    
-var tagNo = 0;
+var tagNo = ${tagCount};
 function addTgBtn(){
  	var Name = document.getElementById( 'addTag' ).value;
 	if (Name &&isNew('tag' + Name)){
@@ -312,7 +418,7 @@ function randomColor(){
 	return bgColor;
 }
 
-var count = 1;
+var count = ${stpCount};
    
 function addStBtn(){
 	count += 1;
@@ -360,6 +466,8 @@ function cutStBtn(){
 }
 
 var openFile = function(event) {
+	imgPrev = document.getElementById('imgPrev');
+	imgPrev.value = 0;
    	var input = event.target;
   		var reader = new FileReader();
    	reader.onload = function(){
@@ -371,6 +479,8 @@ reader.readAsDataURL(input.files[0]);
  	};
  	
 var step_openFile = function(event, count) {
+	step_imgPrev = document.getElementById('step_imgPrev' + count);
+	step_imgPrev.value = 0;
    	var input = event.target;
   		var reader = new FileReader();
    	reader.onload = function(){
@@ -390,50 +500,6 @@ function imagepreview(input){
        filerd.readAsDataURL(input.files[0]);
    }
  }
-
-var prevIng = ${ingredientList};
-prevIng.forEach(function (item, index, array) {
-	var Name = ${item.name};
-  	var Amount = ${item.amount};
-  	
-  	if (Name && Amount &&isNew('ing' + Name)){
-  		ingNo += 1;
-      	document.getElementById( 'addIngredient' ).value = '';
-      	document.getElementById( 'addAmount' ).value = '';
-  		
-  		var Btn = document.createElement( 'button' );
-      	Btn.setAttribute('class', 'ingredient');
-      	Btn.setAttribute('id', 'ing' + Name);
-      	Btn.setAttribute('value', 'ing' + ingNo);
-      	Btn.setAttribute('type', 'button');
-      	Btn.addEventListener('click', function(event) {
-      		this.remove();
-      		document.getElementById(this.value).remove();
-      		document.getElementById(this.value + 'amt').remove();
-      	})
-          var BtnText = document.createTextNode( Name + ' - ' + Amount);
-          Btn.appendChild( BtnText );
-          
-          var BtnVal = document.createElement( 'input' );
-      	BtnVal.setAttribute('id', 'ing' + ingNo);
-      	BtnVal.setAttribute('type', 'hidden');
-      	BtnVal.setAttribute('name', 'ingredient');
-      	BtnVal.setAttribute('value', Name);
-
-      	var BtnVal2 = document.createElement( 'input' );
-      	BtnVal2.setAttribute('id', 'ing' + ingNo + 'amt');
-      	BtnVal2.setAttribute('type', 'hidden');
-      	BtnVal2.setAttribute('name', 'amount');
-      	BtnVal2.setAttribute('value', Amount);
-      	
-          Btn.style.background = randomColor();
-          document.getElementById('ingredientBox').appendChild( Btn );
-          document.getElementById('ingredientBox').appendChild( BtnVal );
-          document.getElementById('ingredientBox').appendChild( BtnVal2 );
-  	}
-});
-
-
 
 </script>
 </html>
