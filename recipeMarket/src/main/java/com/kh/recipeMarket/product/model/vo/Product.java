@@ -87,6 +87,13 @@ public class Product {
 	public void setExport(int export) {
 		this.export = export;
 	}
+
+	@Override
+	public String toString() {
+		return "Product [productNo=" + productNo + ", name=" + name + ", price=" + price + ", stock=" + stock
+				+ ", category=" + category + ", createDate=" + createDate + ", deleted=" + deleted + ", income="
+				+ income + ", export=" + export + "]";
+	}
 	
 	
 	

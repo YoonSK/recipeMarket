@@ -1,12 +1,12 @@
 package com.kh.recipeMarket.product.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.recipeMarket.product.model.service.ProductService;
 import com.kh.recipeMarket.product.model.vo.Product;
@@ -18,7 +18,7 @@ public class ProductController {
 	private ProductService pService;
 
 	@RequestMapping("/list.bu")
-	public String getProductList(Model model) {
+	public ModelAndView getProductList(Model model, ModelAndView mv) {
 		
 		ArrayList<Product> pList = pService.getProductList();
 		
@@ -49,19 +49,28 @@ public class ProductController {
 			} 
 		}
 		
-		HashMap<String, ArrayList<Product>> productMap = new HashMap<String, ArrayList<Product>>();
-		productMap.put("곡류", grain);
-		productMap.put("과일류", fruit);
-		productMap.put("채소류", vegitable);
-		productMap.put("어류", fish);
-		productMap.put("육류", meat);
-		productMap.put("음료", beverage);
-		productMap.put("기타", ect);
+//		HashMap<String, ArrayList<Product>> productMap = new HashMap<String, ArrayList<Product>>();
+//		productMap.put("곡류", grain);
+//		productMap.put("과일류", fruit);
+//		productMap.put("채소류", vegitable);
+//		productMap.put("어류", fish);
+//		productMap.put("육류", meat);
+//		productMap.put("음료", beverage);
+//		productMap.put("기타", ect);
+//		
+//		System.out.println(productMap);
+//		
+//		model.addAttribute("productMap", productMap);
 		
-		System.out.println(productMap);
+		mv.addObject("grain", grain);
+		mv.addObject("fruit", fruit);
+		mv.addObject("vegitable", vegitable);
+		mv.addObject("fish", fish);
+		mv.addObject("meat", meat);
+		mv.addObject("beverage", beverage);
+		mv.addObject("ect", ect);
+		mv.setViewName("productmain");
 		
-		model.addAttribute("productMap", productMap);
-		
-		return "productmain";
+		return mv;
 	}
 }
