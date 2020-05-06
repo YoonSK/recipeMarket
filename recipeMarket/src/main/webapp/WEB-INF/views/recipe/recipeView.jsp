@@ -207,6 +207,7 @@
         <button class="reactBtn" type="submit" onclick='location.href="delete.rc?postNo=${recipe.postNo}";' style="width: 50%">삭제</button>
     	</c:when>
     	<c:otherwise>
+
     	<button id="follow"  style="font-size:20px; width:50%;" value="${author.nickName}" >구독하기</button>
         <button class="reactBtn" type="submit" onclick='location.href="follow.rc?targetNo=${recipe.memberNo}";' style="width: 50%">구독</button>
         <button class="reactBtn" type="submit" onclick='location.href="save.rc?postNo=${recipe.postNo}";' style="width: 50%">담아두기</button>

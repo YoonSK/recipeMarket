@@ -10,9 +10,12 @@ import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.Reply;
+import com.kh.recipeMarket.member.model.vo.Follow;
+import com.kh.recipeMarket.member.model.vo.Follow;
 import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
+import com.kh.recipeMarket.recipe.model.vo.RecipePreview;
 
 @Repository("mpDAO")
 public class MyPageDAO {
@@ -93,6 +96,14 @@ public class MyPageDAO {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.searchOrderList", loginUser, rowBounds);
+	}
+
+	public ArrayList<Follow> selectChefNews(SqlSessionTemplate sqlSession, int targetNo) {
+		return  (ArrayList)sqlSession.selectList("memberMapper.selectChefNews",targetNo);
+	}
+
+	public ArrayList<RecipePreview> selectChefUpdate(SqlSessionTemplate sqlSession, Follow follow) {
+		return  (ArrayList)sqlSession.selectList("memberMapper.selectChefUpdate",follow);
 	}
 
 }

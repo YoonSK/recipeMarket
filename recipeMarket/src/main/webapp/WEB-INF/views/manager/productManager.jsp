@@ -262,7 +262,7 @@
 										${ product.createDate }
 									</td>
 									<td id="btnArea${product.productNo}">
-										<button id="moneyBtn" type="button">판매수익</button>
+										<!-- <button id="moneyBtn" type="button">판매수익</button> -->
 										<button id="updateBtn${product.productNo}" style="background: orangered; color: white; height: 30px; border: none; border-radius: 5px; width: 50px;" type="button">수정</button>
 									</td>
 								</tr>

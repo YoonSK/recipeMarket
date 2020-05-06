@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,11 +31,13 @@ import com.kh.recipeMarket.common.Pagination;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.Reply;
 import com.kh.recipeMarket.member.model.exception.MemberException;
+import com.kh.recipeMarket.member.model.vo.Follow;
 import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.mypage.model.exception.MyPageException;
 import com.kh.recipeMarket.mypage.model.service.MyPageService;
 import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
+import com.kh.recipeMarket.recipe.model.vo.RecipePreview;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -340,4 +343,33 @@ public class MyPageController {
 		
 	}
 	
+//	
+//	@RequestMapping("chefNews.mp")
+//	public String goChefNews() {
+//		return "chefNews";
+//	}
+//	
+	
+
+	@RequestMapping("chefNews.mp")
+		public ModelAndView chefNews(HttpSession session, ModelAndView mv, Follow follow){
+		
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			int targetNo = loginUser.getMemberNo();
+			
+			ArrayList<Follow> clist = mps.selectChefNews(targetNo);
+			System.out.println(clist);
+			ArrayList<RecipePreview> rlist = new ArrayList<RecipePreview>();
+			for(int i = 0; i< clist.size(); i++) {
+				
+				follow.setTargetNo(clist.get(i).getMemberNo());
+				System.out.println("follow : " + follow);
+				rlist = mps.selectChefUpdate(follow);
+			}
+			System.out.println("rlist : "+rlist);
+			mv.addObject("clist", clist);
+			mv.addObject("rlist", rlist);
+			mv.setViewName("chefNews");
+			return mv;
+		}
 }
