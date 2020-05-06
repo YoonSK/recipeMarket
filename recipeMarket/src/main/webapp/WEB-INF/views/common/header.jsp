@@ -55,11 +55,11 @@
 	<c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application"/>	
 	<div class="nav">
 		<div class="nav_top">
-		<form id="topSearch">
+		<form id="topSearch" action="search.rc" method="post">
 			<h1>
 				<a href="${ contextPath }"><img src="resources/images/logo.png" width="250px" height="85px" style="position: absolute; left: 1%; top: 35px;"></a>
 			</h1>
-			<input type="search" placeholder="검색" id="search_con">
+			<input type="search" placeholder="검색" id="search_con" name="keyword">
 			<c:if test="${ empty sessionScope.loginUser }">				
 			<ul class="nav_mem">					
 				<li><a href="goLogin.me">로그인</a></li>

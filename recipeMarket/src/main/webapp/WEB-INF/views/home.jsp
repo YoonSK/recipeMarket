@@ -64,17 +64,17 @@
 		<div class="boxOuter">
 			<div class="firstBox" id="slick"  style="margin: 5%;">
 			
-			    <div><a href="#"><img class="icon" src="resources/images/all.png"/></a></div>
-			    <div><a href="#"><img class="icon" src="resources/images/mainmenu.png"/></a></div>
-			    <div><a href="#"><img class="icon" src="resources/images/soup.png"/></a></div>
-			    <div><a href="#"><img class="icon" src="resources/images/diet.png"/></a></div>
-			    <div><a href="#"><img class="icon" src="resources/images/sidemenu.png"/></a></div>
-			    <div><a href="#"><img class="icon" src="resources/images/rice.png"/></a></div>
-			    <div><a href="#"><img class="icon" src="resources/images/drink.png"/></a></div>
-			    <div><a href="#"><img class="icon" src="resources/images/sauce.png"/></a></div>
-			    <div><a href="#"><img class="icon" src="resources/images/dessert.png"/></a></div>
-			    <div><a href="#"><img class="icon" src="resources/images/speed.png"/></a></div>
-			    <div><a href="#"><img class="icon" src="resources/images/etc.png"/></a></div>
+			    <div><a href='search.rc'><img class="icon" src="resources/images/all.png"/></a></div>
+			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/mainmenu.png"/></a></div>
+			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/soup.png"/></a></div>
+			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/diet.png"/></a></div>
+			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/sidemenu.png"/></a></div>
+			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/rice.png"/></a></div>
+			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/drink.png"/></a></div>
+			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/sauce.png"/></a></div>
+			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/dessert.png"/></a></div>
+			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/speed.png"/></a></div>
+			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/etc.png"/></a></div>
 			</div>
 		</div>
 	</div>
