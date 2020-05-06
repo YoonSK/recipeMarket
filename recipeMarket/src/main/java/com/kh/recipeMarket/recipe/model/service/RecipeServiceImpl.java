@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.recipeMarket.common.dao.CommonDAO;
 import com.kh.recipeMarket.common.vo.Author;
+import com.kh.recipeMarket.product.model.vo.Product;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.recipe.model.dao.RecipeDAO;
 import com.kh.recipeMarket.recipe.model.vo.*;
@@ -156,6 +157,11 @@ public class RecipeServiceImpl implements RecipeService {
 	@Override
 	public ArrayList<Photo> selectPhotos(int postNo) {
 		return cDAO.selectPhotos(sqlSession, 1, postNo);
+	}
+
+	@Override
+	public ArrayList<Product> searchProcuctList(ArrayList<Ingredient> ingList) {
+		return cDAO.searchProductList(sqlSession, ingList);
 	}
 
 	
