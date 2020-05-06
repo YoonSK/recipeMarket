@@ -229,6 +229,7 @@ public class ManagerController {
 		p.setIncome(income);
 		System.out.println("수정 : " + p);
 		int result = mas.updateProduct(p);
+		
 		 String referer = request.getHeader("Referer");
 		if(result > 0) {
 			return "redirect:"+referer;

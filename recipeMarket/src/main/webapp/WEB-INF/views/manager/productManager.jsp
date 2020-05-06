@@ -251,7 +251,7 @@
 										<c:if test="${ product.stock eq 0 }">
 											<span class="blinking" style="border-radius:5px;padding: 5px">품절</span>
 										</c:if>
-										<c:if test="${ product.stock le 100 and product.stock gt 0  }">
+										<c:if test="${ product.stock lt 100 and product.stock gt 0  }">
 											부족
 										</c:if>
 										<c:if test="${ product.stock ge 100 }">
@@ -561,7 +561,7 @@
 						
 							<tr>
 								<th  class="head">상품수량</th>
-								<td><input type="number" name="stock" min="1" max="999999" class="insertDate" style="width:70px;" required>개</td>
+								<td><input type="number" name="income" min="1" max="999999" class="insertDate" style="width:70px;" required>개</td>
 							</tr>
 						</table>
 							<button type="submit" class="defaultBtn" id="insertP">등록</button>
@@ -592,6 +592,6 @@
 				
 				</script>
 
-<%-- <c:import url="../common/footer.jsp"/> --%>
+<c:import url="../common/footer.jsp"/>
 </body>
 </html>
