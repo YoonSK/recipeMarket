@@ -10,10 +10,12 @@ import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.Reply;
+import com.kh.recipeMarket.member.model.vo.Follow;
 import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.mypage.model.dao.MyPageDAO;
 import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
+import com.kh.recipeMarket.recipe.model.vo.RecipePreview;
 
 
 @Service("mps")
@@ -123,6 +125,18 @@ public class MPServiceImpl implements MyPageService{
 	@Override
 	public ArrayList<mOrderInfo> searchOrderList(PageInfo pi, Member loginUser) {
 		return mpDAO.searchOrderList(sqlSession, pi, loginUser);
+	}
+
+
+	@Override
+	public ArrayList<Follow> selectChefNews(int targetNo) {
+		return mpDAO.selectChefNews(sqlSession, targetNo);
+	}
+
+
+	@Override
+	public ArrayList<RecipePreview> selectChefUpdate(Follow follow) {
+		return mpDAO.selectChefUpdate(sqlSession, follow);
 	}
 
 

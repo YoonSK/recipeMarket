@@ -30,10 +30,9 @@
 				<c:if test="${ !empty grain }">
 					<div class="book">
 						<a href="${contextPath}/productdetail.bu?prductNo=${gr.productNo}">
-			            <img class="link"  src="images/1px.gif"> 
-			            </a> 
+			         
 			                <img width="121" height="154" 
-			                     src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+			                     src="/resources/upload/${ gr.phName }">   </a> 
 			            <div class="title">${ gr.name }</div>
 			            <div class="price">${ gr.price }</div>
 					</div>
@@ -56,10 +55,9 @@
 				<c:if test="${ !empty fruit }">
 					<div class="book">
 						<a href="${contextPath}/goods/goodsDetail.do?goods_id=${fr.productNo }">
-			            <img class="link"  src="images/1px.gif"> 
-			            </a> 
+			            
 			                <img width="121" height="154" 
-			                     src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+			                     src="/resources/upload/${ fr.phName }"></a> 
 			            <div class="title">${ fr.name }</div>
 			            <div class="price">${ fr.price }</div>
 					</div>
@@ -82,10 +80,9 @@
 				<c:if test="${ !empty vegitable }">
 					<div class="book">
 						<a href="${contextPath}/goods/goodsDetail.do?goods_id=${vg.productNo }">
-			            <img class="link"  src="images/1px.gif"> 
-			            </a> 
+			            
 			                <img width="121" height="154" 
-			                     src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+			                     src="/resources/upload/${ vg.phName }"></a> 
 			            <div class="title">${ vg.name }</div>
 			            <div class="price">${ vg.price }</div>
 					</div>
@@ -108,10 +105,9 @@
 				<c:if test="${ !empty fish }">
 					<div class="book">
 						<a href="${contextPath}/goods/goodsDetail.do?goods_id=${fi.productNo }">
-			            <img class="link"  src="images/1px.gif"> 
-			            </a> 
+			          
 			                <img width="121" height="154" 
-			                     src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+			                     src="/resources/upload/${ fi.phName }">  </a> 
 			            <div class="title">${ fi.name }</div>
 			            <div class="price">${ fi.name }</div>
 					</div>
@@ -134,10 +130,9 @@
 				<c:if test="${ !empty meat }">
 					<div class="book">
 						<a href="${contextPath}/goods/goodsDetail.do?goods_id=${me.productNo }">
-			            <img class="link"  src="images/1px.gif"> 
-			            </a> 
+			            
 			                <img width="121" height="154" 
-			                     src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+			                     src="/resources/upload/${ me.phName }"></a> 
 			            <div class="title">${ me.name }</div>
 			            <div class="price">${ me.price }</div>
 					</div>
@@ -160,10 +155,9 @@
 				<c:if test="${ !empty beverage }">
 					<div class="book">
 						<a href="${contextPath}/goods/goodsDetail.do?goods_id=${bv.productNo }">
-			            <img class="link"  src="images/1px.gif"> 
-			            </a> 
+			            
 			                <img width="121" height="154" 
-			                     src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+			                     src="/resources/upload/${ bv.phName }"></a> 
 			            <div class="title">${ bv.name }</div>
 			            <div class="price">${ bv.price }</div>
 					</div>
@@ -185,11 +179,9 @@
 				</c:if>
 				<c:if test="${ !empty ect }">
 					<div class="book">
-						<a href="${contextPath}/goods/goodsDetail.do?goods_id=${ec.ect }">
-			            <img class="link"  src="images/1px.gif"> 
-			            </a> 
+						<a href="${contextPath}/goods/goodsDetail.do?goods_id=${ec.ect }">			         
 			                <img width="121" height="154" 
-			                     src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+			                     src="/resources/upload/${ ec.phName }"></a> 
 			            <div class="title">${ ec.name }</div>
 			            <div class="price">${ ec.price }원</div>
 					</div>

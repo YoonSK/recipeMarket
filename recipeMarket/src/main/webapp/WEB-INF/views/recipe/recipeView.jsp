@@ -86,7 +86,7 @@
         <div class="flex" style="justify-content: center; text-align: center">
             <div class="recipeInfo">
                 <div>
-                    <img width="50px" height="50px">
+                    <img width="50px" height="50px" src="resources/images/serving.png">
                 </div>
                 <div>
                     <label>${recipe.serving}인분</label>
@@ -94,7 +94,43 @@
             </div>
             <div class="recipeInfo">
                 <div>
-                    <img width="50px" height="50px">
+                    <img width="50px" height="50px" src="resources/images/category.png">
+                </div>
+                <div>
+                	<c:choose>
+                		<c:when test = "${recipe.category eq 'sub'}">
+                			<label>반찬</label>
+                		</c:when>
+                		<c:when test = "${recipe.category eq 'main'}">
+                			<label>메인요리</label>
+                		</c:when>
+                		<c:when test = "${recipe.category eq 'soup'}">
+                			<label>국물류</label>
+                		</c:when>
+                		<c:when test = "${recipe.category eq 'meal'}">
+                			<label>식사</label>
+                		</c:when>
+                		<c:when test = "${recipe.category eq 'dessert'}">
+                			<label>간식/디저트</label>
+                		</c:when>
+                		<c:when test = "${recipe.category eq 'salad'}">
+                			<label>샐러드</label>
+                		</c:when>
+                		<c:when test = "${recipe.category eq 'drink'}">
+                			<label>음료</label>
+                		</c:when>
+                		<c:when test = "${recipe.category eq 'sauce'}">
+                			<label>양념</label>
+                		</c:when>
+                		<c:when test = "${recipe.category eq 'etc'}">
+                			<label>기타</label>
+                		</c:when>
+                	</c:choose>
+                </div>
+            </div>
+            <div class="recipeInfo">
+                <div>
+                    <img width="50px" height="50px" src="resources/images/timer.png">
                 </div>
                 <div>
                     <label>${recipe.reqTime}분 이내</label>
@@ -102,7 +138,7 @@
             </div>
             <div class="recipeInfo">
                 <div>
-                    <img width="50px" height="50px">
+                    <img width="50px" height="50px" src="resources/images/difficulty.png">
                 </div>
                 <div>
                 	<c:choose>
@@ -171,6 +207,8 @@
         <button class="reactBtn" type="submit" onclick='location.href="delete.rc?postNo=${recipe.postNo}";' style="width: 50%">삭제</button>
     	</c:when>
     	<c:otherwise>
+
+    	<button id="follow"  style="font-size:20px; width:50%;" value="${author.nickName}" >구독하기</button>
         <button class="reactBtn" type="submit" onclick='location.href="follow.rc?targetNo=${recipe.memberNo}";' style="width: 50%">구독</button>
         <button class="reactBtn" type="submit" onclick='location.href="save.rc?postNo=${recipe.postNo}";' style="width: 50%">담아두기</button>
     	</c:otherwise>
@@ -183,7 +221,7 @@
             	<div style="width: 142px;text-align: center">
                 	<div>
                     	<div style="margin-top:5px">
-                        	<img width="50px"height="50px" src="resources/upload/${reply.pName}">
+                        	<img width="40px"height="40px" src="resources/upload/${reply.pName}">
                     	</div>
                     	<div>
                         	<label>
@@ -211,10 +249,10 @@
                 	</div>
             	</div>
             	<div style="display: block; min-height: 60px; width:100%; background-color: #e8e5da; padding: 8px">
-                	<div style=" min-height: 60px; width: 75%; text-align: left">
+                	<div style=" min-height: 50px; width: 75%; text-align: left">
     					<c:out value="${reply.content}"/>
     				</div>
-                	<div style="text-align: right;">
+                	<div style="text-align: right; font-size:12px;">
     					<c:out value="${reply.modifyDate}"/>
                 	</div>
             	</div>
@@ -299,5 +337,25 @@
             }
         }
     }
+    /* 팔로우 */
+   	$(document).on('click', '#follow', function(){
+				var targetNo = ${ loginUser.memberNo };
+				var memberNo = ${ author.memberNo};
+				var nickName = $(this).val();
+				console.log("memberNo : "+ memberNo);
+				console.log("targetNo : " + targetNo);
+	    		$.ajax({
+					url:'insertFollow.me',
+					data:{targetNo:targetNo, memberNo:memberNo},
+					type:'post',
+					success:function(data){
+						console.log(data);
+						if(data == "success"){	
+							alert("["+ nickName +"]"+ "님을 팔로우 했습니다.");
+							window.location.reload();
+						}
+					}
+				}); 
+	    	});
 </script>
 </html>
