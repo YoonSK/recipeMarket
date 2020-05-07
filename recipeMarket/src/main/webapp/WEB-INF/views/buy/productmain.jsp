@@ -183,7 +183,7 @@
 			                <img width="121" height="154" 
 			                     src="/resources/upload/${ ec.phName }"></a> 
 			            <div class="title">${ ec.name }</div>
-			            <div class="price">${ ec.price }</div>
+			            <div class="price">${ ec.price }원</div>
 					</div>
 					<div class="book">
 			           <font size=20> <a href="#">more</a></font>
