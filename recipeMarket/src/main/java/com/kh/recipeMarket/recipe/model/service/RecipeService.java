@@ -28,4 +28,8 @@ public interface RecipeService {
 	ArrayList<Photo> selectPhotos(int postNo);
 
 	ArrayList<Product> searchProcuctList(ArrayList<Ingredient> ingList);
+	
+	ArrayList<Ingredient> selectFreqIngredients(int lim);
+	
+	ArrayList<Tag> selectFreqTags(int lim);
 }

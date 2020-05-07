@@ -86,5 +86,14 @@ public class RecipeDAO {
 		return sqlSession.update("recipeMapper.updateRecipe", r);
 		
 	}
+	
+	public ArrayList<Ingredient> selectFreqIngredients(SqlSessionTemplate sqlSession, int lim){
+		return (ArrayList)sqlSession.selectList("recipeMapper.selectFreqIngredients", lim);
+	}
+	
+	public ArrayList<Tag> selectFreqTags(SqlSessionTemplate sqlSession, int lim){
+		return (ArrayList)sqlSession.selectList("recipeMapper.selectFreqTags", lim);
+	}
+	
 
 }

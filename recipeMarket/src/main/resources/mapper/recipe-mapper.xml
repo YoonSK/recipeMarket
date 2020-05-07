@@ -235,7 +235,7 @@
     
     <update id="updateRecipe" parameterType="Recipe">
     	UPDATE R_BOARD
-    	SET 
+    	SET
     	MEMBER_NO = #{memberNo}, 
     	TITLE = #{title}, 
     	MODIFY_DATE = SYSDATE, 
@@ -245,6 +245,26 @@
     	REQTIME = #{reqTime}
     	WHERE POST_NO = ${postNo}
     </update>
+    
+    <select id="selectFreqIngredients" parameterType="_int" resultMap="recipeIngredientResultSet">
+    	SELECT INGREDIENT
+		FROM(
+			SELECT INGREDIENT, COUNT(*) AS PROP
+    		FROM R_INGREDIENT
+        	GROUP BY INGREDIENT
+        	ORDER BY PROP)
+		WHERE ROWNUM <![CDATA[<]]> ${lim}
+    </select>
+    
+    <select id="selectFreqTags" parameterType="_int" resultMap="recipeTagResultSet">
+    	SELECT Tag
+		FROM(
+			SELECT TAG, COUNT(*) AS PROP
+    		FROM R_TAG
+        	GROUP BY TAG
+        	ORDER BY PROP)
+		WHERE ROWNUM <![CDATA[<]]> ${lim}
+    </select>
     
 	
 </mapper>

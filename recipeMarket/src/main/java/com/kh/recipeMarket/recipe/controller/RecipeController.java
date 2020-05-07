@@ -265,8 +265,13 @@ public class RecipeController {
 		
 		ArrayList<RecipePreview> rlist = rService.searchRecipeList(sc);
 		
+		ArrayList<Ingredient> frqIngs = rService.selectFreqIngredients(4);
+		ArrayList<Tag> frqTags = rService.selectFreqTags(4);
 		
+		mv.addObject("searchCon", sc);
 		mv.addObject("rlist", rlist);
+		mv.addObject("frqIngs", frqIngs);
+		mv.addObject("frqTags", frqTags);
 		
 		mv.setViewName("recipeSearch");
 		return mv;
@@ -308,9 +313,13 @@ public class RecipeController {
 	}
 	
 	@RequestMapping("chefRank.rc")
-	public ModelAndView chefList(@RequestParam(value = "csorter", required=false) String sorter, ModelAndView mv) {
-
+	public ModelAndView chef(@RequestParam(value = "sorter", required=false) String sorter, ModelAndView mv) {
 		ArrayList<Author> clist = rService.selectChefRank(sorter);
+		
+		SearchCon sc = new SearchCon();
+		sc.setSorter(sorter);
+		mv.addObject("searchCon", sc);
+		
 		
 		mv.addObject("chefList", clist);
 		mv.setViewName("chefRank");

@@ -164,6 +164,16 @@ public class RecipeServiceImpl implements RecipeService {
 		return cDAO.searchProductList(sqlSession, ingList);
 	}
 
+	@Override
+	public ArrayList<Ingredient> selectFreqIngredients(int lim) {
+		return rDAO.selectFreqIngredients(sqlSession, lim);
+	}
+
+	@Override
+	public ArrayList<Tag> selectFreqTags(int lim) {
+		return rDAO.selectFreqTags(sqlSession, lim);
+	}
+
 	
 	
 
