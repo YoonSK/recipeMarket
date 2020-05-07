@@ -35,6 +35,7 @@
     </style>
 </head>
 <body>
+<c:import url="../common/header.jsp"/>
 <div class="outer" style="display:flex; justify-content: center;">
     <div class="container" style="width: 1000px; margin: 0 auto; display: flex; flex-direction: column">
     <div style="display: block; justify-content: center;">
@@ -165,18 +166,6 @@
     				-
     				<c:out value="${ing.amount}"/>
     			</button>
-			</c:forEach>
-			
-			<c:set var="ingCount" value="0"/>
-            <c:forEach items="${ingredientList}" var="ing">
-	            <c:set var="ingCount" value="${ingCount +1}"/>
-				<button class="ingredient" id='ing<c:out value="${ing.name}"/>' value="ing<c:out value="${ingCount}"/>" type="button">
-						<c:out value="${ing.name}"/>
-						-
-						<c:out value="${ing.amount}"/>
-				</button>
-				
-				<input id='ing<c:out value="${ingCount}"/>' type="hidden" name="ingredient" value="${ing.name}"/>
 			</c:forEach>
         </div>
     </div>
@@ -327,6 +316,7 @@
     </div>
 
 </div>
+<c:import url="../common/footer.jsp"/>
 </body>
 <script>
     function ratingStar(no) {

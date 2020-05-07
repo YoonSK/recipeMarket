@@ -74,8 +74,11 @@ public class RecipeDAO {
 		return sqlSession.update("recipeMapper.deleteRecipe", postNo);
 	}
 	
-	public ArrayList<Author> selectChefRank(SqlSessionTemplate sqlSession, String sorter) {
-		return (ArrayList)sqlSession.selectList("recipeMapper.selectChefRank", sorter);
+	public ArrayList<Author> selectChefRank(SqlSessionTemplate sqlSession, String sorter, int rowlim) {
+		SearchCon sc = new SearchCon();
+		sc.setSorter(sorter);
+		sc.setRowlim(rowlim);
+		return (ArrayList)sqlSession.selectList("recipeMapper.selectChefRank", sc);
 	}
 
 	public ArrayList<Author> selectChefLikeList(SqlSessionTemplate sqlSession, int memberNo) {
@@ -84,7 +87,6 @@ public class RecipeDAO {
 
 	public int updateRecipe(SqlSessionTemplate sqlSession, Recipe r) {
 		return sqlSession.update("recipeMapper.updateRecipe", r);
-		
 	}
 	
 	public ArrayList<Ingredient> selectFreqIngredients(SqlSessionTemplate sqlSession, int lim){
@@ -94,6 +96,17 @@ public class RecipeDAO {
 	public ArrayList<Tag> selectFreqTags(SqlSessionTemplate sqlSession, int lim){
 		return (ArrayList)sqlSession.selectList("recipeMapper.selectFreqTags", lim);
 	}
-	
 
+	public ArrayList<RecipePreview> selectSavedRecipeList(SqlSessionTemplate sqlSession, int memberNo) {
+		return (ArrayList)sqlSession.selectList("recipeMapper.selectSavedRecipeList", memberNo);
+	}
+
+	public ArrayList<RecipePreview> selectFollowedRecipeList(SqlSessionTemplate sqlSession, int memberNo) {
+		return (ArrayList)sqlSession.selectList("recipeMapper.selectFollowedRecipeList", memberNo);
+	}
+
+	public int addRecipeHit(SqlSessionTemplate sqlSession, int postNo) {
+		return sqlSession.update("recipeMapper.addRecipeHit", postNo);
+	}
+		
 }

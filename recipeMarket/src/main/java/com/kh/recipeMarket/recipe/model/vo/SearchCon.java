@@ -16,14 +16,14 @@ public class SearchCon {
 	private ArrayList<String> ingredientList;
 	private ArrayList<String> tagList;
 	
-	private double rating;
-	private int hit;
+	private int rowlim;
 	
 	public SearchCon() {
 		super();
 	}
+	
 	public SearchCon(String keyword, String sorter, String category, int serving, int difficulty, int reqTime,
-			ArrayList<String> ingredientList, ArrayList<String> tagList, double rating, int hit) {
+			ArrayList<String> ingredientList, ArrayList<String> tagList, int rowlim) {
 		super();
 		this.keyword = keyword;
 		this.sorter = sorter;
@@ -33,9 +33,9 @@ public class SearchCon {
 		this.reqTime = reqTime;
 		this.ingredientList = ingredientList;
 		this.tagList = tagList;
-		this.rating = rating;
-		this.hit = hit;
+		this.rowlim = rowlim;
 	}
+	
 	public String getKeyword() {
 		return keyword;
 	}
@@ -84,25 +84,11 @@ public class SearchCon {
 	public void setTagList(ArrayList<String> tagList) {
 		this.tagList = tagList;
 	}
-	public double getRating() {
-		return rating;
+	public int getRowlim() {
+		return rowlim;
 	}
-	public void setRating(double rating) {
-		this.rating = rating;
+	public void setRowlim(int rowlim) {
+		this.rowlim = rowlim;
 	}
-	public int getHit() {
-		return hit;
-	}
-	public void setHit(int hit) {
-		this.hit = hit;
-	}
-	@Override
-	public String toString() {
-		return "SearchCon [keyword=" + keyword + ", sorter=" + sorter + ", category=" + category + ", serving="
-				+ serving + ", difficulty=" + difficulty + ", reqTime=" + reqTime + ", ingredientList=" + ingredientList
-				+ ", tagList=" + tagList + ", rating=" + rating + ", hit=" + hit + "]";
-	}
-	
-	
 	
 }

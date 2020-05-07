@@ -207,6 +207,8 @@ public class RecipeController {
 		
 		System.out.println(rb);
 		
+		rService.addRecipeHit(postNo);
+		
 		ArrayList<Reply> rplist = cService.selectReplies(new Enum().boardNo("recipe"), postNo);
 		mv.addObject("replyList", rplist);
 
@@ -245,6 +247,30 @@ public class RecipeController {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int memberNo = loginUser.getMemberNo();
 		ArrayList<RecipePreview> rlist = rService.selectRecipeList(memberNo);
+		
+		mv.addObject("rlist", rlist);
+		
+		mv.setViewName("recipeList");
+		return mv;
+	}
+	
+	@RequestMapping("savedList.rc")
+	public ModelAndView recipeSavedList(HttpSession session, ModelAndView mv){
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int memberNo = loginUser.getMemberNo();
+		ArrayList<RecipePreview> rlist = rService.selectSavedRecipeList(memberNo);
+		
+		mv.addObject("rlist", rlist);
+		
+		mv.setViewName("recipeList");
+		return mv;
+	}
+	
+	@RequestMapping("followedList.rc")
+	public ModelAndView recipeFollowedList(HttpSession session, ModelAndView mv){
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int memberNo = loginUser.getMemberNo();
+		ArrayList<RecipePreview> rlist = rService.selectFollowedRecipeList(memberNo);
 		
 		mv.addObject("rlist", rlist);
 		
@@ -314,12 +340,15 @@ public class RecipeController {
 	
 	@RequestMapping("chefRank.rc")
 	public ModelAndView chef(@RequestParam(value = "sorter", required=false) String sorter, ModelAndView mv) {
-		ArrayList<Author> clist = rService.selectChefRank(sorter);
+		ArrayList<Author> clist = rService.selectChefRank(sorter, 20);
+		
+		for(Author a :clist) {
+			System.out.println(a);
+		}
 		
 		SearchCon sc = new SearchCon();
 		sc.setSorter(sorter);
 		mv.addObject("searchCon", sc);
-		
 		
 		mv.addObject("chefList", clist);
 		mv.setViewName("chefRank");

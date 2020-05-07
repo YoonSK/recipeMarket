@@ -80,6 +80,7 @@
     </style>
 </head>
 <body>
+<c:import url="../common/header.jsp"/>
 <div class="outer" style="display:flex; justify-content: center;">
     <div class="container" style="width: 1000px; margin: 0 auto; display: flex; flex-direction: column">
         <h1>레시피 검색</h1>
@@ -106,7 +107,7 @@
                     	</c:when>
                     </c:choose>
                     <select name="serving">
-                        <option value="1" <c:out value="${serving0}"/>>무관</option>
+                        <option value="0" <c:out value="${serving0}"/>>무관</option>
                         <option value="1" <c:out value="${serving1}"/>>1인</option>
                         <option value="2" <c:out value="${serving2}"/>>2인</option>
                         <option value="3" <c:out value="${serving3}"/>>3인</option>
@@ -148,7 +149,7 @@
                         	</c:when>
                         </c:choose>
                     <select name="category">
-                        <option <c:out value="${category0}"/> value="sub">무관</option>
+                        <option <c:out value="${category0}"/> value="none">무관</option>
                         <option <c:out value="${category1}"/> value="sub">반찬</option>
                         <option <c:out value="${category2}"/> value="main">메인 요리</option>
                         <option <c:out value="${category3}"/> value="soup">국물류</option>
@@ -278,12 +279,12 @@
             <div class="option" >
                 <span class="option_name">검색</span>
                 <div>
-                    <input type="text" id="search" name="keyword" placeholder="${searchCon.keyword}">
+                    <input type="text" id="search" name="keyword" value="${searchCon.keyword}">
                 </div>
                 <button type="submit" id="searchBtn" style="background-color: lightgrey; border-radius:10px;margin-left: 10px ">찾기</button>
             
             
-	            <div class="linkerBox" style="display: flex; margin-left :30%">
+	            <div class="linkerBox" style="display: flex; margin-left :20%">
 			            <a href="insertForm.rc">
 			                <button class="linkerBtn" id="writeBtn" type="button">레시피 작성</button>
 			            </a>
@@ -295,6 +296,12 @@
 			            </a>
 			            <a href="chefRank.rc">
 			                <button class="linkerBtn" id="myListBtn" type="button">셰프 랭킹</button>
+			            </a>
+			            <a href="savedList.rc">
+			                <button class="linkerBtn" id="myListBtn" type="button">저장한 레시피</button>
+			            </a>
+			            <a href="followedList.rc">
+			                <button class="linkerBtn" id="myListBtn" type="button">구독한 레시피</button>
 			            </a>
 			    </div>
             </div>
@@ -323,6 +330,7 @@
         </div>
     </div>
 </div>
+<c:import url="../common/footer.jsp"/>
 </body>
 <script>
 

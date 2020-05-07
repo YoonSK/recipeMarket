@@ -135,8 +135,9 @@
 	        				<span class="itemVal"><c:out value='${chef.hits}'/></span>
 	        				</div>	
 	        			</td>
-	        			<td><div class="followBox"><button class="followBtn" type="button" onclick='follow.rc?memberNo="${chef.memberNo}"'>구독하기</button>
-	        				</div>
+	        			<td><div class="followBox"><a href='follow.rc?targetNo=${chef.memberNo}'>
+	        				<button class="followBtn" type="button">구독하기</button>
+	        				</a></div>
 	        			</td>
 	        		</tr>
         		</c:forEach>
@@ -144,8 +145,7 @@
         </div>
 	</div>
 </div>
-
-
+<c:import url="../common/footer.jsp"/>
 </body>
 <script>
 

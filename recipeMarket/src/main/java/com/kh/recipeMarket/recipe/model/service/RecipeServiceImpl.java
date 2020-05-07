@@ -145,8 +145,8 @@ public class RecipeServiceImpl implements RecipeService {
 	}
 
 	@Override
-	public ArrayList<Author> selectChefRank(String sorter) {
-		return rDAO.selectChefRank(sqlSession, sorter);
+	public ArrayList<Author> selectChefRank(String sorter, int rowlim) {
+		return rDAO.selectChefRank(sqlSession, sorter, rowlim);
 	}
 
 	@Override
@@ -174,9 +174,19 @@ public class RecipeServiceImpl implements RecipeService {
 		return rDAO.selectFreqTags(sqlSession, lim);
 	}
 
-	
-	
+	@Override
+	public ArrayList<RecipePreview> selectSavedRecipeList(int memberNo) {
+		return rDAO.selectSavedRecipeList(sqlSession, memberNo);
+	}
 
+	@Override
+	public ArrayList<RecipePreview> selectFollowedRecipeList(int memberNo) {
+		return rDAO.selectFollowedRecipeList(sqlSession, memberNo);
+	}
 
+	@Override
+	public int addRecipeHit(int postNo) {
+		return rDAO.addRecipeHit(sqlSession, postNo);
+	}
 	
 }
