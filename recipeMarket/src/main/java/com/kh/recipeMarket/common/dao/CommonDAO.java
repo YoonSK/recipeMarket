@@ -9,6 +9,9 @@ import com.kh.recipeMarket.common.Like;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.vo.Reply;
 import com.kh.recipeMarket.common.vo.Targetter;
+import com.kh.recipeMarket.product.model.vo.Product;
+import com.kh.recipeMarket.recipe.model.vo.Ingredient;
+import com.kh.recipeMarket.recipe.model.vo.Tag;
 
 @Repository("cDAO")
 public class CommonDAO {
@@ -40,5 +43,9 @@ public class CommonDAO {
 
 	public Integer checkLike(SqlSessionTemplate sqlSession, Like lk) {
 		return sqlSession.selectOne("commonMapper.checkLike", lk);
+	}
+
+	public ArrayList<Product> searchProductList(SqlSessionTemplate sqlSession, ArrayList<Ingredient> ingList) {
+		return (ArrayList)sqlSession.selectList("commonMapper.searchProductList", ingList);
 	}
 }

@@ -166,6 +166,18 @@
     				<c:out value="${ing.amount}"/>
     			</button>
 			</c:forEach>
+			
+			<c:set var="ingCount" value="0"/>
+            <c:forEach items="${ingredientList}" var="ing">
+	            <c:set var="ingCount" value="${ingCount +1}"/>
+				<button class="ingredient" id='ing<c:out value="${ing.name}"/>' value="ing<c:out value="${ingCount}"/>" type="button">
+						<c:out value="${ing.name}"/>
+						-
+						<c:out value="${ing.amount}"/>
+				</button>
+				
+				<input id='ing<c:out value="${ingCount}"/>' type="hidden" name="ingredient" value="${ing.name}"/>
+			</c:forEach>
         </div>
     </div>
     <div class="flex" style="justify-content: center; ">
@@ -313,6 +325,7 @@
         </form>
     </div>
     </div>
+
 </div>
 </body>
 <script>

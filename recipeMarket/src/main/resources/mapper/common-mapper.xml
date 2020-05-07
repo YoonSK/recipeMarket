@@ -29,6 +29,14 @@
 		<result property="changeName" column="CHANGE_NAME"/>
 	</resultMap>
 	
+	<resultMap id="productResultSet" type="Product">
+		<id property="productNo" column="PRODUCT_NO"/>
+		<result property="name" column="NAME"/>
+		<result property="price" column="PRICE"/>
+		<result property="stock" column="STOCK"/>
+		<result property="category" column="CATEGORY"/>
+	</resultMap>
+	
 	<select id="selectReplies" parameterType="Reply" resultMap="replyResultSet">
 		select MEMBER_NO, NICKNAME, CHANGE_NAME, CONTENT, CREATE_DATE, MODIFY_DATE, RATING
 		from REPLY R

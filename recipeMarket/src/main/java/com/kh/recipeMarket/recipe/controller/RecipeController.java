@@ -23,6 +23,7 @@ import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.service.CommonService;
 import com.kh.recipeMarket.common.vo.*;
 import com.kh.recipeMarket.member.model.vo.Member;
+import com.kh.recipeMarket.product.model.vo.Product;
 import com.kh.recipeMarket.recipe.model.service.RecipeService;
 import com.kh.recipeMarket.recipe.model.vo.*;
 
@@ -208,7 +209,7 @@ public class RecipeController {
 		
 		ArrayList<Reply> rplist = cService.selectReplies(new Enum().boardNo("recipe"), postNo);
 		mv.addObject("replyList", rplist);
-		
+
 		mv.setViewName("recipeView");
 		return mv;
 	}
@@ -264,8 +265,13 @@ public class RecipeController {
 		
 		ArrayList<RecipePreview> rlist = rService.searchRecipeList(sc);
 		
+		ArrayList<Ingredient> frqIngs = rService.selectFreqIngredients(4);
+		ArrayList<Tag> frqTags = rService.selectFreqTags(4);
 		
+		mv.addObject("searchCon", sc);
 		mv.addObject("rlist", rlist);
+		mv.addObject("frqIngs", frqIngs);
+		mv.addObject("frqTags", frqTags);
 		
 		mv.setViewName("recipeSearch");
 		return mv;
@@ -307,9 +313,13 @@ public class RecipeController {
 	}
 	
 	@RequestMapping("chefRank.rc")
-	public ModelAndView chefList(@RequestParam(value = "csorter", required=false) String sorter, ModelAndView mv) {
-
+	public ModelAndView chef(@RequestParam(value = "sorter", required=false) String sorter, ModelAndView mv) {
 		ArrayList<Author> clist = rService.selectChefRank(sorter);
+		
+		SearchCon sc = new SearchCon();
+		sc.setSorter(sorter);
+		mv.addObject("searchCon", sc);
+		
 		
 		mv.addObject("chefList", clist);
 		mv.setViewName("chefRank");
@@ -327,6 +337,12 @@ public class RecipeController {
 		return mv;
 	}
 	
+	@RequestMapping("link.rc")
+	public ModelAndView linkProduct(ModelAndView mv, @RequestParam("ingredient") ArrayList<String> name) {
+
+		mv.setViewName("productdetail");				
+		return mv;
+	}
 	
 }
 

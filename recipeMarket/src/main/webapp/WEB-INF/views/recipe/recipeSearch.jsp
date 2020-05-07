@@ -45,7 +45,7 @@
             padding: 3px 3px 3px 3px;
             border-radius: 10px;
             border: none;
-            background-color: rgba(246, 176, 134, 0.85);
+            background-color: aliceblue;
         }
         .tag{
             margin: 2px 2px 2px 2px;
@@ -88,46 +88,126 @@
             <div class="option">
                 <div class="mini_option">
                     <span class="option_name">분량</span>
+                    <c:choose>
+                    	<c:when test="${searchCon.serving == 0}">
+                    		<c:set var="serving0" value='selected="selected"'/>
+                    	</c:when>
+                    	<c:when test="${searchCon.serving == 1}">
+                    		<c:set var="serving1" value='selected="selected"'/>
+                    	</c:when>
+                    	<c:when test="${searchCon.serving == 2}">
+                    		<c:set var="serving2" value='selected="selected"'/>
+                    	</c:when>
+                    	<c:when test="${searchCon.serving == 3}">
+                    		<c:set var="serving3" value='selected="selected"'/>
+                    	</c:when>
+                    	<c:when test="${searchCon.serving == 4}">
+                    		<c:set var="serving4" value='selected="selected"'/>
+                    	</c:when>
+                    </c:choose>
                     <select name="serving">
-                        <option value="0" selected="selected">무관</option>
-                        <option value="1">1인</option>
-                        <option value="2">2인</option>
-                        <option value="3">3인</option>
-                        <option value="4">4인</option>
+                        <option value="1" <c:out value="${serving0}"/>>무관</option>
+                        <option value="1" <c:out value="${serving1}"/>>1인</option>
+                        <option value="2" <c:out value="${serving2}"/>>2인</option>
+                        <option value="3" <c:out value="${serving3}"/>>3인</option>
+                        <option value="4" <c:out value="${serving4}"/>>4인</option>
                     </select>
                 </div>
                 <div class="mini_option">
                     <span class="option_name">분류</span>
+                        <c:choose>
+                        	<c:when test="${searchCon.category == 'none'}">
+                        		<c:set var="category0" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${searchCon.category == 'sub'}">
+                        		<c:set var="category1" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${searchCon.category == 'main'}">
+                        		<c:set var="category2" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${searchCon.category == 'soup'}">
+                        		<c:set var="category3" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${searchCon.category == 'meal'}">
+                        		<c:set var="category4" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${searchCon.category == 'dessert'}">
+                        		<c:set var="category5" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${searchCon.category == 'salad'}">
+                        		<c:set var="category6" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${searchCon.category == 'drink'}">
+                        		<c:set var="category7" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${searchCon.category == 'sauce'}">
+                        		<c:set var="category8" value='selected="selected"'/>
+                        	</c:when>
+                        	<c:when test="${searchCon.category == 'etc'}">
+                        		<c:set var="category9" value='selected="selected"'/>
+                        	</c:when>
+                        </c:choose>
                     <select name="category">
-                        <option value="none" selected="selected">무관</option>
-                        <option value="sub">반찬</option>
-                        <option value="main">메인 요리</option>
-                        <option value="soup">국물류</option>
-                        <option value="meal">식사</option>
-                        <option value="dessert">간식/디저트</option>
-                        <option value="salad">샐러드</option>
-                        <option value="drink">음료</option>
-                        <option value="sauce">양념</option>
-                        <option value="etc">기타</option>
+                        <option <c:out value="${category0}"/> value="sub">무관</option>
+                        <option <c:out value="${category1}"/> value="sub">반찬</option>
+                        <option <c:out value="${category2}"/> value="main">메인 요리</option>
+                        <option <c:out value="${category3}"/> value="soup">국물류</option>
+                        <option <c:out value="${category4}"/> value="meal">식사</option>
+                        <option <c:out value="${category5}"/> value="dessert">간식/디저트</option>
+                        <option <c:out value="${category6}"/> value="salad">샐러드</option>
+                        <option <c:out value="${category7}"/> value="drink">음료</option>
+                        <option <c:out value="${category8}"/> value="sauce">양념</option>
+                        <option <c:out value="${category9}"/> value="etc">기타</option>
                     </select>
                 </div>
                 <div class="mini_option">
                     <span class="option_name">시간</span>
+                    <c:choose>
+	                   	<c:when test="${searchCon.reqTime == 0}">
+	                   		<c:set var="reqTime0" value='selected="selected"'/>
+	                   	</c:when>
+	                   	<c:when test="${searchCon.reqTime == 10}">
+	                   		<c:set var="reqTime1" value='selected="selected"'/>
+	                   	</c:when>
+	                   	<c:when test="${searchCon.reqTime == 30}">
+	                   		<c:set var="reqTime2" value='selected="selected"'/>
+	                   	</c:when>
+	                   	<c:when test="${searchCon.reqTime == 60}">
+	                   		<c:set var="reqTime3" value='selected="selected"'/>
+	                   	</c:when>
+	                   	<c:when test="${searchCon.reqTime == 90}">
+	                   		<c:set var="reqTime4" value='selected="selected"'/>
+	                   	</c:when>
+	                   	<c:when test="${searchCon.reqTime == 120}">
+	                   		<c:set var="reqTime5" value='selected="selected"'/>
+	                   	</c:when>
+                    </c:choose>
                     <select name="reqTime">
-                        <option value="0" selected="selected">무관</option>
-                        <option value="10">10분 이내</option>
-                        <option value="30">30분 이내</option>
-                        <option value="60">60분 이내</option>
-                        <option value="90">90분 이내</option>
-                        <option value="120">120분 이내</option>
+                        <option <c:out value="${reqTime0}"/> value="0">무관</option>
+                        <option <c:out value="${reqTime1}"/> value="10">10분</option>
+                        <option <c:out value="${reqTime2}"/> value="30">30분</option>
+                        <option <c:out value="${reqTime3}"/> value="60">60분</option>
+                        <option <c:out value="${reqTime4}"/> value="90">90분</option>
+                        <option <c:out value="${reqTime5}"/> value="120">120분</option>
                     </select>
                 </div>
                 <div class="mini_option">
                     <span class="option_name">난이도</span>
+                    <c:choose>
+                    	<c:when test="${searchCon.difficulty == 0}">
+                    		<c:set var="difficulty1" value='selected="selected"'/>
+                    	</c:when>
+                    	<c:when test="${searchCon.difficulty == 1}">
+                    		<c:set var="difficulty2" value='selected="selected"'/>
+                    	</c:when>
+                    	<c:when test="${searchCon.difficulty == 2}">
+                    		<c:set var="difficulty3" value='selected="selected"'/>
+                    	</c:when>
+                    </c:choose>
                     <select name="difficulty">
-                        <option value="0">쉬움</option>
-                        <option value="1">보통 이하</option>
-                        <option value="2">어려움 이하</option>
+                        <option <c:out value="${difficulty3}"/> value="3">어려움 이하</option>
+                        <option <c:out value="${difficulty2}"/> value="2">보통 이하</option>
+                        <option <c:out value="${difficulty1}"/> value="1">쉬움 이하</option>
                     </select>
                 </div>
             </div>
@@ -141,15 +221,27 @@
 	                        <span style="text-align: right; margin-left: 5px">
 	                            <button type="button" id="addIngBtn" onclick="addIgBtn();" style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
 	                        </span>
-	                        <span class="example">예: </span>
-	                        <span class="example">돼지고기,</span>
-	                        <span class="example">두부,</span>
-	                        <span class="example">김치,</span>
+	                        <span class="example">인기 재료: </span>
+	                        <c:forEach items="${frqIngs}" var="fing">
+	                        <span class="example"><c:out value="${fing.name}"/>,</span>
+	                        </c:forEach>
 	                        <span class="example">...</span>
+	                        
                         </div>
                     </div>
                     <div id="ingredientBox">
-                    
+                    <c:set var="ingCount" value="0"/>
+                    <c:forEach items="${searchCon.ingredientList}" var="ing">
+	                    	<c:set var="ingCount" value="${ingCount +1}"/>
+		    				<button class="ingredient" id='ing<c:out value="${ing}"/>' value="ing<c:out value="${ingCount}"/>" type="button" 
+		    				onclick="
+		    				this.remove();
+		    		      	document.getElementById(this.value).remove();">
+		    					<c:out value="${ing}"/>
+		    				</button>
+	    					
+	    					<input id='ing<c:out value="${ingCount}"/>' type="hidden" name="ingredient" value="${ing}"/>
+   					</c:forEach>
                     </div>
             </div>
             <div class="option" style="display: block">
@@ -160,20 +252,33 @@
                             <span style="text-align: right; margin-left: 5px">
                                 <button type="button" id="addTagBtn" onclick="addTgBtn();" style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
                             </span>
-                            <span class="example">예: </span>
-                            <span class="example">비오는날,</span>
-                            <span class="example">스트레스,</span>
-                            <span class="example">매콤,</span>
+                            <span class="example">인기 태그: </span>
+	                        <c:forEach items="${frqTags}" var="ftag">
+	                        <span class="example"><c:out value="${ftag.tag}"/>,</span>
+	                        </c:forEach>
                             <span class="example">...</span>
                         </div>
                     </div>
                     <div id="tagBox">
+                    <c:set var="tagCount" value="0"/>
+                    <c:forEach items="${searchCon.tagList}" var="tag">
+	                    	<c:set var="tagCount" value="${tagCount +1}"/>
+		    				<button class="tag" id='tag<c:out value="${tag}"/>' value="tag<c:out value="${tagCount}"/>" type="button" 
+		    				onclick="
+		    				this.remove();
+		    		      	document.getElementById(this.value).remove();">
+		    					<c:out value="${tag}"/>
+		    				</button>
+	    					
+	    					<input id='tag<c:out value="${tagCount}"/>' type="hidden" name="tag" value="${tag}"/>
+   					</c:forEach>
+                    
                     </div>
             </div>
             <div class="option" >
                 <span class="option_name">검색</span>
                 <div>
-                    <input type="text" id="search" name="keyword">
+                    <input type="text" id="search" name="keyword" placeholder="${searchCon.keyword}">
                 </div>
                 <button type="submit" id="searchBtn" style="background-color: lightgrey; border-radius:10px;margin-left: 10px ">찾기</button>
             
@@ -221,7 +326,7 @@
 </body>
 <script>
 
-var ingNo = 0;
+var ingNo = ${ingCount};
 function addIgBtn(){
 	var Name = document.getElementById( 'addIngredient' ).value;
 	
@@ -254,7 +359,7 @@ function addIgBtn(){
 	
 }
 
-var tagNo = 0;
+var tagNo = ${tagCount};
 function addTgBtn(){
  	var Name = document.getElementById( 'addTag' ).value;
 	if (Name&&isNew('tag' + Name)){
@@ -309,23 +414,21 @@ function randomColor(){
 }
 
 function setSorter(sort){
+	document.getElementById("sortBtnRate").style.border = "none";
+	document.getElementById("sortBtnHit").style.border = "none";
+	document.getElementById("sortBtnNew").style.border = "none";
 	if (sort == 1){
 		document.getElementById("sortBtnRate").style.border = "1.5px solid #000000";
-		document.getElementById("sortBtnHit").style.border = "none";
-		document.getElementById("sortBtnNew").style.border = "none";
 		document.getElementById("sorter").value = "RATE";
 	}
 	else if (sort == 2){
-		document.getElementById("sortBtnRate").style.border = "none";
 		document.getElementById("sortBtnHit").style.border = "1.5px solid #000000";
-		document.getElementById("sortBtnNew").style.border = "none";
 		document.getElementById("sorter").value = "HIT";
 	}else if (sort == 3){
-		document.getElementById("sortBtnRate").style.border = "none";
-		document.getElementById("sortBtnHit").style.border = "none";
 		document.getElementById("sortBtnNew").style.border = "1.5px solid #000000";
 		document.getElementById("sorter").value = "POST_NO";
 	} 
 }
+
 </script>
 </html>
