@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.recipeMarket.board.model.vo.Board;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.board.model.vo.Qna;
 import com.kh.recipeMarket.common.Like;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.Reply;
@@ -112,6 +113,30 @@ public class BoardDAO {
 
 	public int rDelete(SqlSessionTemplate sqlSession, int replyNo) {
 		return sqlSession.update("boardMapper.rDelete", replyNo);
+	}
+
+
+	public int insertQna(SqlSessionTemplate sqlSession, Qna q) {
+		return sqlSession.insert("boardMapper.insetQna", q);
+	}
+
+
+
+
+	public int qListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("boardMapper.qListCount");
+	}
+
+
+	public ArrayList<Qna> qList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset =(pi.getCurrentPage()-1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.qList", null, rowBounds);
+	}
+
+
+	public ArrayList<Qna> selectQnaList(SqlSessionTemplate sqlSession, int memberNo) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectQnaList", memberNo);
 	}
 
 

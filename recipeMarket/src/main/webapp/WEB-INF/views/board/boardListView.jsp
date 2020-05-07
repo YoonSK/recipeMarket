@@ -57,7 +57,7 @@
 	            <span style="float:right; padding:10px; margin:0 auto;">
 	            	<c:if test="${ !empty loginUser }">
 	                <button id="insertBtn" onclick="location.href='insertView.bo';">등록하기</button>
-	                <button id= "test1" onclick="location.href='test1.bo';">문의하기</button>
+	                <button id= "test1" onclick="location.href='test1.bo';">실시간 채팅 문의</button>
 	            	</c:if>
 	            </span>
 	         </div>
