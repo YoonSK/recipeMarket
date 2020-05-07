@@ -35,6 +35,7 @@
     </style>
 </head>
 <body>
+<c:import url="../common/header.jsp"/>
 <div class="outer" style="display:flex; justify-content: center;">
     <div class="container" style="width: 1000px; margin: 0 auto; display: flex; flex-direction: column">
     <div style="display: block; justify-content: center;">
@@ -315,6 +316,7 @@
     </div>
 
 </div>
+<c:import url="../common/footer.jsp"/>
 </body>
 <script>
     function ratingStar(no) {

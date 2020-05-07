@@ -172,9 +172,14 @@
 		LEFT OUTER JOIN R_PREVIEW R ON(R.MEMBER_NO = M.MEMBER_NO)
 		LEFT OUTER JOIN GOOD F ON(F.BOARD_NO = 0 AND F.TARGET_NO = M.MEMBER_NO)
         GROUP BY M.MEMBER_NO, NICKNAME, P.CHANGE_NAME
-        <if test="sorter != null">
-		ORDER BY ${sorter} DESC
-		</if>
+        <choose>
+	        <when test="sorter != null">
+			ORDER BY ${sorter} DESC
+			</when>
+			<otherwise>
+			ORDER BY FOLLOWS DESC
+			</otherwise>
+        </choose>
 		)
 	WHERE ROWNUM <![CDATA[<=]]> ${rowlim}
     </select>

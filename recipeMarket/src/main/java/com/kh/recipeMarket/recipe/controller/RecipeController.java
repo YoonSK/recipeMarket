@@ -342,10 +342,13 @@ public class RecipeController {
 	public ModelAndView chef(@RequestParam(value = "sorter", required=false) String sorter, ModelAndView mv) {
 		ArrayList<Author> clist = rService.selectChefRank(sorter, 20);
 		
+		for(Author a :clist) {
+			System.out.println(a);
+		}
+		
 		SearchCon sc = new SearchCon();
 		sc.setSorter(sorter);
 		mv.addObject("searchCon", sc);
-		
 		
 		mv.addObject("chefList", clist);
 		mv.setViewName("chefRank");
