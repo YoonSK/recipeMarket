@@ -225,9 +225,15 @@
 		</if>
 		
 		GROUP BY R.POST_NO, R.TITLE, P.CHANGE_NAME, HIT
-		<if test="sorter != null">
+		
+		<choose>
+		<when test="sorter != null">
 		ORDER BY ${sorter} DESC
-		</if>
+		</when>
+		<otherwise>
+		ORDER BY RATE DESC
+		</otherwise>
+		</choose>
     </select>
     
     <delete id="clearRecipeStep" parameterType="_int">
