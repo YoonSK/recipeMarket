@@ -164,7 +164,8 @@
         GROUP BY M.MEMBER_NO, NICKNAME, P.CHANGE_NAME
     </select>
     
-    <select id="selectChefRank" parameterType="String" resultMap="recipeChefResultSet">
+    <select id="selectChefRank" parameterType="SearchCon" resultMap="recipeChefResultSet">
+	SELECT * FROM (
 		SELECT M.MEMBER_NO AS MEMBER_NO, NICKNAME, P.CHANGE_NAME AS CHANGE_NAME, COUNT(R.POST_NO) AS POSTS, AVG(R.RATE) AS RATE, COUNT(F.MEMBER_NO) AS FOLLOWS, SUM(R.HIT) AS HITS
 		FROM MEMBER M
 		JOIN PHOTO P ON(P.BOARD_NO = 0 AND P.TARGET_NO = M.MEMBER_NO AND P.FILE_LEVEL = 0 AND P.DELETED != 'Y')
@@ -174,6 +175,8 @@
         <if test="sorter != null">
 		ORDER BY ${sorter} DESC
 		</if>
+		)
+	WHERE ROWNUM <![CDATA[<=]]> ${rowlim}
     </select>
     
     <select id="searchRecipeList" parameterType="RecipePreview" resultMap="recipeListMap">

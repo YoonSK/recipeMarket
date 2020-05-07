@@ -340,7 +340,7 @@ public class RecipeController {
 	
 	@RequestMapping("chefRank.rc")
 	public ModelAndView chef(@RequestParam(value = "sorter", required=false) String sorter, ModelAndView mv) {
-		ArrayList<Author> clist = rService.selectChefRank(sorter);
+		ArrayList<Author> clist = rService.selectChefRank(sorter, 20);
 		
 		SearchCon sc = new SearchCon();
 		sc.setSorter(sorter);

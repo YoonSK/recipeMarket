@@ -74,8 +74,11 @@ public class RecipeDAO {
 		return sqlSession.update("recipeMapper.deleteRecipe", postNo);
 	}
 	
-	public ArrayList<Author> selectChefRank(SqlSessionTemplate sqlSession, String sorter) {
-		return (ArrayList)sqlSession.selectList("recipeMapper.selectChefRank", sorter);
+	public ArrayList<Author> selectChefRank(SqlSessionTemplate sqlSession, String sorter, int rowlim) {
+		SearchCon sc = new SearchCon();
+		sc.setSorter(sorter);
+		sc.setRowlim(rowlim);
+		return (ArrayList)sqlSession.selectList("recipeMapper.selectChefRank", sc);
 	}
 
 	public ArrayList<Author> selectChefLikeList(SqlSessionTemplate sqlSession, int memberNo) {

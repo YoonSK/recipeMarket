@@ -21,7 +21,7 @@ public interface RecipeService {
 
 	int deleteRecipe(int postNo);
 	
-	ArrayList<Author> selectChefRank(String sorter);
+	ArrayList<Author> selectChefRank(String sorter, int rowlim);
 
 	ArrayList<Author> selectChefLikeList(int memberNo);
 
