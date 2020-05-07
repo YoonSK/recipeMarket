@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.recipeMarket.board.model.vo.Board;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.board.model.vo.Qna;
 import com.kh.recipeMarket.common.Like;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.Reply;
@@ -52,6 +53,14 @@ public interface BoardService {
 	Board selectrCount(int postNo);
 
 	int rDelete(int replyNo);
+
+	int insertQna(Qna q);
+
+	ArrayList<Qna> qList(PageInfo pi);
+
+	int qListCount();
+
+	ArrayList<Qna> selectQnaList(int memberNo);
 
 	
 
