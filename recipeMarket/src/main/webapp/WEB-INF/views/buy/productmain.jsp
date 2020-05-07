@@ -191,7 +191,7 @@
 			                <img width="121" height="154" 
 			                     src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
 			            <div class="title">${ ec.name }</div>
-			            <div class="price">${ ec.price }</div>
+			            <div class="price">${ ec.price }원</div>
 					</div>
 					<div class="book">
 			           <font size=20> <a href="#">more</a></font>
