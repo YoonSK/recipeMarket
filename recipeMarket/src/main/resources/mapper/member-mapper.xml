@@ -210,13 +210,12 @@
 		<result property = "address2" column ="ADDRESS2"/>
 		<result property = "note" column ="NOTE"/>
 		<result property = "phone" column ="PHONE"/>
-		<result property = "coupon" column ="COUPON"/>
 		<result property = "reviewed" column="REVIEWED"/>											
 	</resultMap> 
 		
 	<select id="orderDetail" resultMap="odRS">
 		SELECT P.NAME AS "PNAME", M.NAME AS "MNAME", CHANGE_NAME AS "PHNAME", "DATE", DETAIL_NO, O.ORDER_NO, PR_COUNT, P.PRICE, MEM_NO, STATUS, O.ZIP, O.ADDRESS, O.ADDRESS2, 
-		        O.NOTE, O.PHONE, O.TOTAL, O.COUPON
+		        O.NOTE, O.PHONE, O.TOTAL
 		FROM ORDER_DETAIL OD
 		            JOIN "ORDER" O ON(OD.ORDER_NO = O.ORDER_NO)
 		            JOIN "MEMBER" M ON(MEM_NO = MEMBER_NO)
