@@ -29,7 +29,7 @@
 				</c:if>
 				<c:if test="${ !empty grain }">
 					<div class="book">
-						<a href="${contextPath}/productdetail.bu?prductNo=${gr.productNo}">
+						<a href="${contextPath}/detail.bu?productNo=${productNo}">
 			         
 			                <img width="121" height="154" 
 			                     src="/resources/upload/${ gr.phName }">   </a> 
@@ -109,7 +109,7 @@
 			                <img width="121" height="154" 
 			                     src="/resources/upload/${ fi.phName }">  </a> 
 			            <div class="title">${ fi.name }</div>
-			            <div class="price">${ fi.name }</div>
+			            <div class="price">${ fi.price }</div>
 					</div>
 					<div class="book">
 			           <font size=20> <a href="#">more</a></font>
