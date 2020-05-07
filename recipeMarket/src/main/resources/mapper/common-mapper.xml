@@ -29,7 +29,7 @@
 		<result property="changeName" column="CHANGE_NAME"/>
 	</resultMap>
 	
-	<resultMap id="productResultSet" type="Product">
+	<resultMap id="productResultSet" type="Product2">
 		<id property="productNo" column="PRODUCT_NO"/>
 		<result property="name" column="NAME"/>
 		<result property="price" column="PRICE"/>
@@ -84,5 +84,48 @@
 		and MEMBER_NO = #{memberNo}
     </select>
     
+    <resultMap type="Product2" id="productResultMap">
+    	<id property="productNo" column="PRODUCT_NO"/>
+		<result property="name" column="NAME"/>
+		<result property="price" column="PRICE"/>
+		<result property="stock" column="STOCK"/>
+		<result property="category" column="CATEGORY"/>
+		<result property="phName" column="CHANGE_NAME"/>
+    </resultMap>
+    
+    <select id="searchProductList" parameterType="SearchCon" resultMap="productResultMap">
+    	SELECT PRODUCT_NO, NAME, PRICE, STOCK, CATEGORY, CHANGE_NAME
+    	
+    	FROM PRODUCT D
+    	JOIN PHOTO P ON(P.BOARD_NO = 3 AND P.TARGET_NO = D.PRODUCT_NO AND P.FILE_LEVEL = 0)
+		WHERE D.DELETED = 'N'
+		AND STOCK <![CDATA[>=]]> 1
+		
+		<if test="keyword != ''">
+			and D.NAME like '%${keyword}%'
+			or D.CATEGORY like '%${keyword}%'
+		</if>
+		<if test='category != null and category != "전체" '>
+			and D.CATEGORY = #{category}
+		</if>
+		
+		<if test="ingredientList != null">
+		or
+		<foreach collection="ingredientList" item="ing"  open="(" close=")" separator="or">
+            D.NAME like '%${ing}%'
+        </foreach>
+		</if>
+		
+		GROUP BY PRODUCT_NO, NAME, PRICE, STOCK, CATEGORY, CHANGE_NAME
+		
+		<choose>
+		<when test="sorter != null">
+		ORDER BY ${sorter} DESC
+		</when>
+		<otherwise>
+		ORDER BY PRICE DESC
+		</otherwise>
+		</choose>
+    </select>
 	
 </mapper>

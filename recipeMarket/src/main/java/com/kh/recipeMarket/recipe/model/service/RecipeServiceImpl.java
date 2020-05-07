@@ -160,8 +160,8 @@ public class RecipeServiceImpl implements RecipeService {
 	}
 
 	@Override
-	public ArrayList<Product> searchProcuctList(ArrayList<Ingredient> ingList) {
-		return cDAO.searchProductList(sqlSession, ingList);
+	public ArrayList<Product> searchProcuctList(SearchCon sc) {
+		return cDAO.searchProductList(sqlSession, sc);
 	}
 
 	@Override

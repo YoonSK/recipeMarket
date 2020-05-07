@@ -303,6 +303,9 @@
 			            <a href="followedList.rc">
 			                <button class="linkerBtn" id="myListBtn" type="button">구독한 레시피</button>
 			            </a>
+			            <a href="searchProduct.rc">
+			                <button class="linkerBtn" id="myListBtn" type="button">상품 검색</button>
+			            </a>
 			    </div>
             </div>
             <div class="option">

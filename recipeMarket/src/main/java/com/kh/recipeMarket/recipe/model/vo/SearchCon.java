@@ -90,5 +90,13 @@ public class SearchCon {
 	public void setRowlim(int rowlim) {
 		this.rowlim = rowlim;
 	}
+
+	@Override
+	public String toString() {
+		return "SearchCon [keyword=" + keyword + ", sorter=" + sorter + ", category=" + category + ", serving="
+				+ serving + ", difficulty=" + difficulty + ", reqTime=" + reqTime + ", ingredientList=" + ingredientList
+				+ ", tagList=" + tagList + ", rowlim=" + rowlim + "]";
+	}
+	
 	
 }
