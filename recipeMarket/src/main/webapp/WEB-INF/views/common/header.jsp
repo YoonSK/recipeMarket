@@ -208,13 +208,15 @@ var followingStyle ={
 }
 var noStyle={'background':'#c5db91','margin-left':'20%'}
 var noStyleF={'background':'#c5db91'}
+
 $(document).on('click', '#following', function(){
 	$(this).css(followingStyle);
 	$('#follower').css(noStyle);
-	var targetNo = ${loginUser.memberNo};
+	
+	var memberNo = ${loginUser.memberNo};
 	$.ajax({
-		url:'followList.me',
-		data:{targetNo:targetNo},
+		url:'followingList.me',
+		data:{memberNo:memberNo},
 		dataType:'json',
 		success:function(data){
 			console.log(data);
@@ -228,7 +230,7 @@ $(document).on('click', '#following', function(){
 					var $followerpName = $('<td>').text(decodeURIComponent(data[i].pName));
 					 var $followerpName=$('<td>').html('<img src=' + '"resources/upload/' + data[i].pName + '"' + 'width=40px; height=40px;>');									
                     var $followernickName = $('<td>').text(decodeURIComponent(data[i].nickName));
-                    var $followerdeleteBtn=$('<td>').html('<button type="button" class="deleteBtn" id="deleteFollowing" value="'+data[i].memberNo+'">삭제</button>');				
+                    var $followerdeleteBtn=$('<td>').html('<button type="button" class="deleteBtn" id="deleteFollowing" value="'+data[i].targetNo+'">삭제</button>');				
                     $tr.append($followerpName);									
                     $tr.append($followernickName);
 					$tr.append($followerdeleteBtn);
@@ -245,7 +247,7 @@ $(document).on('click', '#follower', function(){
 	
 	var targetNo = ${loginUser.memberNo};
 	$.ajax({
-		url:'followingList.me',
+		url:'followerList.me',
 		data:{targetNo:targetNo},
 		dataType:'json',
 		success:function(data){
@@ -260,10 +262,13 @@ $(document).on('click', '#follower', function(){
 					
 					var $followermemberNo = $('<td>').text(decodeURIComponent(data[i].memberNo));
 						var $followerpName = $('<td>').text(decodeURIComponent(data[i].pName));
-						 var $followerpName=$('<td>').html('<img src=' + '"resources/upload/' + data[i].pName + '"' + 'width=40px; height=40px;>');									
+						 var $followerpName=$('<td>').html('<img src=' + '"resources/upload/' + data[i].pName + '"' + 'width=40px; height=40px;>');					
+						 var $followerNOpName=$('<td>').html('<img src="resources/images/user.png" width=40px; height=40px;>');									
 	                    var $followerdeleteBtn=$('<td>').html('<button type="button" class="deleteBtn" id="deleteFollower"  value="'+data[i].memberNo+'" onclick="deleteFollow();">삭제</button>');									
 	                    var $followernickName = $('<td>').text(decodeURIComponent(data[i].nickName));
-	                    $tr.append($followerpName);									
+	                    
+	                    	 $tr.append($followerpName);		
+	                   							
 	                    $tr.append($followernickName);
 						$tr.append($followerdeleteBtn);
 					     $tableBody.append($tr);	
@@ -283,12 +288,14 @@ $(document).on('click', '#follower', function(){
 
 $(document).on('click', '#deleteFollowing', function(){
 	var targetNo = $(this).val();
-	console.log(targetNo);
+	var memberNo =${loginUser.memberNo};
+	console.log("targetNO" + targetNo);
+	console.log("memberNo" + memberNo);
 	var nickName = $(this).parent().children().eq(2).val();
 	alert("정말 삭제하시겠습니까?");
 	$.ajax({
 		url:'deleteFollow.me',
-		data:{targetNo:targetNo},
+		data:{targetNo:targetNo,memberNo:memberNo},
 		dataType:'json',
 		success:function(data){
 			window.location.reload();
@@ -297,11 +304,13 @@ $(document).on('click', '#deleteFollowing', function(){
 	});
 $(document).on('click', '#deleteFollower', function(){
 	var targetNo = $(this).val();
-	console.log(targetNo);
+	var memberNo =${loginUser.memberNo};
+	console.log("targetNO" + targetNo);
+	console.log("memberNo" + memberNo);
 	alert("정말 삭제하시겠습니까?");
 	$.ajax({
 		url:'deleteFollower.me',
-		data:{targetNo:targetNo},
+		data:{targetNo:targetNo,memberNo:memberNo},
 		dataType:'json',
 		success:function(data){
 			window.location.reload();
@@ -311,6 +320,7 @@ $(document).on('click', '#deleteFollower', function(){
 </script>
 
 
+		
 		 <!-- The Modal -->
 			    <div id="hmodal" class="hmodal">	 
 
@@ -326,18 +336,6 @@ $(document).on('click', '#deleteFollower', function(){
 						<div id="listArea">
 						 	<table id="listT">
 						 	<tbody></tbody>
-							<!--	<tr>
-									<th colspan="3" style=" border-bottom: 1px solid black;">팔로워</th>
-									<th colspan="3" style=" border-bottom: 1px solid black;">팔로잉</th>
-								</tr>
-								<tr>
-									<td>사진</td>
-									<td>쉐프 닉네임</td>
-									<td><button type="button" id="deleteBtn">삭제</button></td>
-									<td>사진</td>
-									<td>쉐프 닉네임</td>
-									<td><button type="button" id="deleteBtn">삭제</button></td>
-								</tr>-->
 							</table> 
 				     	</div>
 				    </div>
@@ -353,8 +351,6 @@ $(document).on('click', '#deleteFollower', function(){
 					$('#hmodal').attr('style', 'display:none');
 				}
 				</script>
-				
-				
 				
 	<script>
 		function qnaList(){

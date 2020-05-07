@@ -16,6 +16,7 @@ import com.kh.recipeMarket.manager.model.dao.ManagerDAO;
 import com.kh.recipeMarket.manager.model.vo.Product;
 import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
+import com.kh.recipeMarket.recipe.model.vo.RecipePreview;
 
 @Service("mas")
 public class MaServiceImpl implements ManagerService {
@@ -124,6 +125,16 @@ public class MaServiceImpl implements ManagerService {
 	@Override
 	public int productExport(Cart list) {
 		return maDAO.productExport(sqlSession, list);
+	}
+
+	@Override
+	public ArrayList<RecipePreview> topFoodList() {
+		return maDAO.topFoodList(sqlSession);
+	}
+
+	@Override
+	public ArrayList<RecipePreview> weatherFoodList() {
+		return maDAO.weatherFoodList(sqlSession);
 	}
 
 	
