@@ -51,13 +51,6 @@
 			    			<c:if test="${ loginUser.zip != null && loginUser.address !=null && loginUser.address2 != null }">	
 							<span class="input-text">${ loginUser.zip }<br>${ loginUser.address }<br>${ loginUser.address2 }</span>
 			    			</c:if>	
-		    			</p>
-		    			<p class="input-label">회원등급
-		    				<c:choose>
-		    					<c:when test="${ loginUser.grade eq 1 }"><span class="input-text">일반 회원</span></c:when>
-		    					<c:when test="${ loginUser.grade eq 2 }"><span class="input-text">우수 회원</span></c:when>	
-		    					<c:when test="${ loginUser.grade eq 3 }"><span class="input-text">VIP</span></c:when>		    						    					
-		    				</c:choose>
 		    			</p>		    					    			
 			    		<input type="button" id="updateBtn" onclick="location.href='gomupdate.mp'" value="회원정보 수정">
 						<c:url var="mdelete" value="mdelete.me">
