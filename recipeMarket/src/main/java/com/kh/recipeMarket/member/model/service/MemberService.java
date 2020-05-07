@@ -45,8 +45,8 @@ public interface MemberService {
 
 	ArrayList<Follow> selectFollower(Follow follow);
 
-	int deleteFollow(int memberNo);
+	int deleteFollow(Follow follow);
 
-	int deleteFollower(int memberNo);
+	int deleteFollower(Follow follow);
 
 }

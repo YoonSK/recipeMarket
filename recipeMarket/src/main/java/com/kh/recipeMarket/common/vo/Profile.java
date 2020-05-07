@@ -9,6 +9,7 @@ public class Profile {
 	public Profile() {
 		super();
 	}
+	
 
 	public Profile(int memberNo, String nickName, String pName) {
 		super();

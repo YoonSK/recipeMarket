@@ -129,14 +129,20 @@ public class MPServiceImpl implements MyPageService{
 
 
 	@Override
-	public ArrayList<Follow> selectChefNews(int targetNo) {
-		return mpDAO.selectChefNews(sqlSession, targetNo);
+	public ArrayList<Follow> selectChefNews(int memberNo) {
+		return mpDAO.selectChefNews(sqlSession, memberNo);
 	}
 
 
 	@Override
 	public ArrayList<RecipePreview> selectChefUpdate(Follow follow) {
 		return mpDAO.selectChefUpdate(sqlSession, follow);
+	}
+
+
+	@Override
+	public ArrayList<Follow> selectChefUpdateNews(int memberNo) {
+		return mpDAO.selectChefUpdateNews(sqlSession, memberNo);
 	}
 
 

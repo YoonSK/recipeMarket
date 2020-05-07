@@ -15,6 +15,7 @@ import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.manager.model.vo.Product;
 import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
+import com.kh.recipeMarket.recipe.model.vo.RecipePreview;
 
 @Repository("maDAO")
 public class ManagerDAO {
@@ -123,5 +124,16 @@ public class ManagerDAO {
 		return sqlSession.update("managerMapper.productExport", list);
 	}
 
-	
+	public ArrayList<RecipePreview> productExport(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("managerMapper.selectExcelList");
+	}
+
+	public ArrayList<RecipePreview> topFoodList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("managerMapper.topFoodList");
+	}
+
+	public ArrayList<RecipePreview> weatherFoodList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("managerMapper.weatherFoodList");
+
+	}
 }

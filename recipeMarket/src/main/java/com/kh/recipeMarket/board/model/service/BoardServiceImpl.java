@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.recipeMarket.board.model.dao.BoardDAO;
 import com.kh.recipeMarket.board.model.vo.Board;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.board.model.vo.Qna;
 import com.kh.recipeMarket.common.Like;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.Reply;
@@ -142,19 +143,31 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 
-//	@Override
-//	public Like like(int targetNo, int memberNo) {
-//		return bDAO.selectLike(sqlSession, targetNo,memberNo);
-//	}
-
-
-	
+	@Override
+	public int insertQna(Qna q) {
+		return bDAO.insertQna(sqlSession, q);
+	}
 
 
 
 
-	
-	
+
+	@Override
+	public int qListCount() {
+		return bDAO.qListCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Qna> qList(PageInfo pi) {
+		return bDAO.qList(sqlSession,pi);
+	}
+
+
+	@Override
+	public ArrayList<Qna> selectQnaList(int memberNo) {
+		return bDAO.selectQnaList(sqlSession, memberNo);
+	}
+
 
 	
 	

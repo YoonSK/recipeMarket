@@ -355,17 +355,18 @@ public class MyPageController {
 		public ModelAndView chefNews(HttpSession session, ModelAndView mv, Follow follow){
 		
 			Member loginUser = (Member)session.getAttribute("loginUser");
-			int targetNo = loginUser.getMemberNo();
+			int memberNo = loginUser.getMemberNo();
 			
-			ArrayList<Follow> clist = mps.selectChefNews(targetNo);
+			ArrayList<Follow> clist = mps.selectChefNews(memberNo);
+			ArrayList<Follow> rlist = mps.selectChefUpdateNews(memberNo);
 			System.out.println(clist);
-			ArrayList<RecipePreview> rlist = new ArrayList<RecipePreview>();
-			for(int i = 0; i< clist.size(); i++) {
-				
-				follow.setTargetNo(clist.get(i).getMemberNo());
-				System.out.println("follow : " + follow);
-				rlist = mps.selectChefUpdate(follow);
-			}
+//			ArrayList<RecipePreview> rlist = new ArrayList<RecipePreview>();
+//			for(int i = 0; i< clist.size(); i++) {
+//				
+//				follow.setTargetNo(clist.get(i).getMemberNo());
+//				System.out.println("follow : " + follow);
+//				rlist = mps.selectChefUpdate(follow);
+//			}
 			System.out.println("rlist : "+rlist);
 			mv.addObject("clist", clist);
 			mv.addObject("rlist", rlist);

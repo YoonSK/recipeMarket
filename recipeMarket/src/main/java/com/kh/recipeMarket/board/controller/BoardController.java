@@ -28,6 +28,7 @@ import com.kh.recipeMarket.board.model.exception.BoardException;
 import com.kh.recipeMarket.board.model.service.BoardService;
 import com.kh.recipeMarket.board.model.vo.Board;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
+import com.kh.recipeMarket.board.model.vo.Qna;
 import com.kh.recipeMarket.common.Like;
 import com.kh.recipeMarket.common.Pagination;
 import com.kh.recipeMarket.common.Photo;
@@ -357,5 +358,35 @@ public class BoardController {
 			throw new BoardException("댓글삭제에 실패하였습니다.");
 		}
 		//int result = bService.replyDelete(replyNo);
+	}
+	
+	@RequestMapping("test1.bo")
+	public String kkk() {
+		return "chat";
+	}
+	
+	@RequestMapping("qnaList.bo")
+	public ModelAndView qnaList(@ModelAttribute Qna q,@RequestParam(value = "page", required=false) Integer page, ModelAndView mv) {
+		
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int qListCount = bService.qListCount();
+		PageInfo pi = Pagination.getPageInfo(currentPage,qListCount);
+		
+		ArrayList<Qna> qlist = bService.qList(pi);
+		if(qlist != null) {
+			mv.addObject("qlist",qlist);
+			mv.addObject("pi",pi);
+			mv.setViewName("qnaListView");
+			System.out.println(qlist);
+		} else {
+			throw new BoardException("실시간 채팅 조회에 실패하였습니다.");
+		}
+		
+		return mv;
+		
 	}
 }

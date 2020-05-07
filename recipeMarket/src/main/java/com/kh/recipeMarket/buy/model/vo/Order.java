@@ -11,14 +11,12 @@ public class Order {
 	private String address2;
 	private String note;
 	private int phone;
-	private int coupon;
 	private int status;
 	private int total;
 	
 	public Order() {}
 
-	public Order(int orderNo, int memNo, Date date, int zip, String address, String address2, String note, int phone,
-			int coupon, int status, int total) {
+	public Order(int orderNo, int memNo, Date date, int zip, String address, String address2, String note, int phone, int status, int total) {
 		super();
 		this.orderNo = orderNo;
 		this.memNo = memNo;
@@ -28,7 +26,6 @@ public class Order {
 		this.address2 = address2;
 		this.note = note;
 		this.phone = phone;
-		this.coupon = coupon;
 		this.status = status;
 		this.total = total;
 	}
@@ -97,14 +94,6 @@ public class Order {
 		this.phone = phone;
 	}
 
-	public int getCoupon() {
-		return coupon;
-	}
-
-	public void setCoupon(int coupon) {
-		this.coupon = coupon;
-	}
-
 	public int getStatus() {
 		return status;
 	}
@@ -124,7 +113,7 @@ public class Order {
 	@Override
 	public String toString() {
 		return "Order [orderNo=" + orderNo + ", memNo=" + memNo + ", date=" + date + ", zip=" + zip + ", address="
-				+ address + ", address2=" + address2 + ", note=" + note + ", phone=" + phone + ", coupon=" + coupon
+				+ address + ", address2=" + address2 + ", note=" + note + ", phone=" + phone 
 				+ ", status=" + status + ", total=" + total + "]";
 	}
 	

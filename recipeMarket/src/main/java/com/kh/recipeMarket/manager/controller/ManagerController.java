@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.buy.model.vo.Cart;
@@ -41,6 +42,7 @@ import com.kh.recipeMarket.manager.model.vo.ProductPagination;
 import com.kh.recipeMarket.member.model.exception.MemberException;
 import com.kh.recipeMarket.mypage.model.exception.MyPageException;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
+import com.kh.recipeMarket.recipe.model.vo.RecipePreview;
 
 @Controller
 public class ManagerController {
@@ -470,6 +472,33 @@ public class ManagerController {
 	  response.getOutputStream().close();
 	}
 
+	@RequestMapping("topFoodList.ma")
+	public void topFoodList(HttpServletResponse response) throws JsonIOException, IOException {
+		ArrayList<RecipePreview> rlist = mas.topFoodList();
+		
+		for(RecipePreview pr : rlist) {
+			pr.setTitle(URLEncoder.encode(pr.getTitle(),"UTF-8"));
+			pr.setThumb(pr.getThumb());
+		}
+		
+		System.out.println(rlist);
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(rlist, response.getWriter());
+	}
+	
+	@RequestMapping("weatherFood.ma")
+	public void weatherFoodList (HttpServletResponse response) throws JsonIOException, IOException {
+		ArrayList<RecipePreview> rlist = mas.weatherFoodList();
+		
+		for(RecipePreview pr : rlist) {
+			pr.setTitle(URLEncoder.encode(pr.getTitle(),"UTF-8"));
+			pr.setThumb(pr.getThumb());
+		}
+		
+		System.out.println(rlist);
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(rlist, response.getWriter());
+	}
 
 }
 

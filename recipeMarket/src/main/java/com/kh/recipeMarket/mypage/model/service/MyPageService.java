@@ -50,8 +50,10 @@ public interface MyPageService {
 
 	ArrayList<mOrderInfo> searchOrderList(PageInfo pi, Member loginUser);
 
-	ArrayList<Follow> selectChefNews(int targetNo);
+	ArrayList<Follow> selectChefNews(int memberNo);
 
 	ArrayList<RecipePreview> selectChefUpdate(Follow follow);
+
+	ArrayList<Follow> selectChefUpdateNews(int memberNo);
 
 }
