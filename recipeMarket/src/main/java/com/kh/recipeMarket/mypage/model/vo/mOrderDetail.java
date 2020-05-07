@@ -19,14 +19,12 @@ public class mOrderDetail {
 	private String address2;
 	private String note;
 	private int phone;
-	private int coupon;
 	private String reviewed;
 	
 	public mOrderDetail() {}
 
 	public mOrderDetail(String pName, String mName, String phName, Date date, int total, int detailNo, int orderNo, int prCount,
-			int price, int memNo, int status, int zip, String address, String address2, String note, int phone,
-			int coupon, String reviewed) {
+			int price, int memNo, int status, int zip, String address, String address2, String note, int phone, String reviewed) {
 		super();
 		this.pName = pName;
 		this.mName = mName;
@@ -44,7 +42,6 @@ public class mOrderDetail {
 		this.address2 = address2;
 		this.note = note;
 		this.phone = phone;
-		this.coupon = coupon;
 		this.reviewed = reviewed;
 	}
 
@@ -168,14 +165,6 @@ public class mOrderDetail {
 		this.phone = phone;
 	}
 
-	public int getCoupon() {
-		return coupon;
-	}
-
-	public void setCoupon(int coupon) {
-		this.coupon = coupon;
-	}
-
 	public String getPhName() {
 		return phName;
 	}
@@ -197,8 +186,7 @@ public class mOrderDetail {
 		return "mOrderDetail [pName=" + pName + ", mName=" + mName + ", phName=" + phName + ", date=" + date
 				+ ", total=" + total + ", detailNo=" + detailNo + ", orderNo=" + orderNo + ", prCount=" + prCount
 				+ ", price=" + price + ", memNo=" + memNo + ", status=" + status + ", zip=" + zip + ", address="
-				+ address + ", address2=" + address2 + ", note=" + note + ", phone=" + phone + ", coupon=" + coupon
-				+ ", reviewed=" + reviewed + "]";
+				+ address + ", address2=" + address2 + ", note=" + note + ", phone=" + phone + ", reviewed=" + reviewed + "]";
 	}
 
 
