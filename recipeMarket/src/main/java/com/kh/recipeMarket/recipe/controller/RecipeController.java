@@ -207,6 +207,8 @@ public class RecipeController {
 		
 		System.out.println(rb);
 		
+		rService.addRecipeHit(postNo);
+		
 		ArrayList<Reply> rplist = cService.selectReplies(new Enum().boardNo("recipe"), postNo);
 		mv.addObject("replyList", rplist);
 
@@ -245,6 +247,30 @@ public class RecipeController {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int memberNo = loginUser.getMemberNo();
 		ArrayList<RecipePreview> rlist = rService.selectRecipeList(memberNo);
+		
+		mv.addObject("rlist", rlist);
+		
+		mv.setViewName("recipeList");
+		return mv;
+	}
+	
+	@RequestMapping("savedList.rc")
+	public ModelAndView recipeSavedList(HttpSession session, ModelAndView mv){
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int memberNo = loginUser.getMemberNo();
+		ArrayList<RecipePreview> rlist = rService.selectSavedRecipeList(memberNo);
+		
+		mv.addObject("rlist", rlist);
+		
+		mv.setViewName("recipeList");
+		return mv;
+	}
+	
+	@RequestMapping("followedList.rc")
+	public ModelAndView recipeFollowedList(HttpSession session, ModelAndView mv){
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int memberNo = loginUser.getMemberNo();
+		ArrayList<RecipePreview> rlist = rService.selectFollowedRecipeList(memberNo);
 		
 		mv.addObject("rlist", rlist);
 		

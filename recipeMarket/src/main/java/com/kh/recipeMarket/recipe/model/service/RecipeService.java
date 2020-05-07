@@ -32,4 +32,10 @@ public interface RecipeService {
 	ArrayList<Ingredient> selectFreqIngredients(int lim);
 	
 	ArrayList<Tag> selectFreqTags(int lim);
+
+	ArrayList<RecipePreview> selectSavedRecipeList(int memberNo);
+
+	ArrayList<RecipePreview> selectFollowedRecipeList(int memberNo);
+
+	int addRecipeHit(int postNo);
 }

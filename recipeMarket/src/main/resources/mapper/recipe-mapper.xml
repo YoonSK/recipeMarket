@@ -91,19 +91,19 @@
     <select id="selectRecipe" parameterType="Recipe" resultMap="recipeResultSet">
 		SELECT POST_NO, R.MEMBER_NO, TITLE, R.CREATE_DATE, R.MODIFY_DATE, CATEGORY, SERVING, DIFFICULTY, REQTIME, HIT, AVG(L.RATING) AS RATE
 		FROM R_BOARD R
-		LEFT OUTER JOIN REPLY L ON(BOARD_NO = 1 AND TARGET_NO = POST_NO AND L.MEMBER_NO != R.MEMBER_NO)
+		LEFT OUTER JOIN REPLY L ON(BOARD_NO = 1 AND TARGET_NO = POST_NO AND L.MEMBER_NO != R.MEMBER_NO AND L.DELETED = 'N')
 		WHERE POST_NO = #{postNo}
 		AND R.DELETED = 'N'
 		GROUP BY POST_NO, R.MEMBER_NO, TITLE, R.CREATE_DATE, R.MODIFY_DATE, CATEGORY, SERVING, DIFFICULTY, REQTIME, HIT
 	</select>
     
-    <select id="selectTags" parameterType="Tag" resultMap="recipeTagResultSet">
+    <select id="selectTags" parameterType="_int" resultMap="recipeTagResultSet">
 		SELECT POST_NO, TAG
 		FROM R_TAG
 		WHERE POST_NO = #{postNo}
 	</select>
 	
-	<select id="selectIngredients" parameterType="Ingredient" resultMap="recipeIngredientResultSet">
+	<select id="selectIngredients" parameterType="_int" resultMap="recipeIngredientResultSet">
 		SELECT POST_NO, INGREDIENT, AMOUNT
 		FROM R_INGREDIENT
 		WHERE POST_NO = #{postNo}
@@ -120,16 +120,36 @@
 		SELECT MEMBER_NO, M.NICKNAME, P.CHANGE_NAME
 		FROM R_BOARD R
 		JOIN MEMBER M USING(MEMBER_NO)
-		JOIN PHOTO P ON(BOARD_NO = 0 AND TARGET_NO = MEMBER_NO AND FILE_LEVEL = 0)
+		JOIN PHOTO P ON(BOARD_NO = 0 AND TARGET_NO = MEMBER_NO AND FILE_LEVEL = 0 AND P.DELETED = 'N')
 		WHERE POST_NO = #{postNo}
 	</select>
     
     <select id="selectRecipeList" parameterType="RecipePreview" resultMap="recipeListMap">
     	SELECT POST_NO, TITLE, CHANGE_NAME
     	FROM R_BOARD R
-    	JOIN PHOTO P ON(BOARD_NO = 1 AND TARGET_NO = POST_NO AND FILE_LEVEL = 0)
+    	JOIN PHOTO P ON(BOARD_NO = 1 AND TARGET_NO = POST_NO AND FILE_LEVEL = 0 AND P.DELETED = 'N')
 		WHERE MEMBER_NO = #{memberNo}
 		AND R.DELETED = 'N'
+		ORDER BY POST_NO DESC
+    </select>
+    
+    <select id="selectFollowedRecipeList" parameterType="RecipePreview" resultMap="recipeListMap">
+    	SELECT R.POST_NO, R.TITLE, CHANGE_NAME
+    	FROM GOOD G
+    	JOIN R_BOARD R ON(R.MEMBER_NO = G.TARGET_NO AND R.DELETED = 'N')
+    	JOIN PHOTO P ON(P.BOARD_NO = 1 AND P.TARGET_NO = R.POST_NO AND FILE_LEVEL = 0 AND P.DELETED = 'N')
+		WHERE G.BOARD_NO = 0
+		AND G.MEMBER_NO = #{memberNo}
+		ORDER BY POST_NO DESC
+    </select>
+    
+    <select id="selectSavedRecipeList" parameterType="RecipePreview" resultMap="recipeListMap">
+    	SELECT R.POST_NO, TITLE, CHANGE_NAME
+    	FROM GOOD G
+    	JOIN R_BOARD R ON(G.BOARD_NO = 1 AND R.POST_NO = G.TARGET_NO AND R.DELETED = 'N')
+    	JOIN PHOTO P ON(P.BOARD_NO = 1 AND P.TARGET_NO = R.POST_NO AND FILE_LEVEL = 0 AND P.DELETED = 'N')
+		WHERE G.BOARD_NO = 1
+		AND G.MEMBER_NO = #{memberNo}
 		ORDER BY POST_NO DESC
     </select>
     
@@ -244,6 +264,12 @@
     	DIFFICULTY = #{difficulty}, 
     	REQTIME = #{reqTime}
     	WHERE POST_NO = ${postNo}
+    </update>
+    
+    <update id="addRecipeHit" parameterType="_int">
+		UPDATE R_BOARD 
+		SET HIT = HIT + 1
+		WHERE POST_NO = #{postNo}
     </update>
     
     <select id="selectFreqIngredients" parameterType="_int" resultMap="recipeIngredientResultSet">

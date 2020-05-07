@@ -30,7 +30,7 @@
 <div class="outer" style="display:flex; justify-content: center;">
     <div class="container" style="width: 1000px; margin: 0 auto; display: flex; flex-direction: column; ">
         <h1>구독 셰프</h1>
-        <div class="content" style="display: flex; margin: 30px 10px 30px 10px">
+        <div class="content" style="display: flex; flex-wrap : wrap;">
      		<c:forEach items="${chefList}" var="chef">
 				<div class="box">
 	        		<a href="list.rc?memberNo=${chef.memberNo}">

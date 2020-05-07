@@ -283,7 +283,7 @@
                 <button type="submit" id="searchBtn" style="background-color: lightgrey; border-radius:10px;margin-left: 10px ">찾기</button>
             
             
-	            <div class="linkerBox" style="display: flex; margin-left :30%">
+	            <div class="linkerBox" style="display: flex; margin-left :20%">
 			            <a href="insertForm.rc">
 			                <button class="linkerBtn" id="writeBtn" type="button">레시피 작성</button>
 			            </a>
@@ -295,6 +295,12 @@
 			            </a>
 			            <a href="chefRank.rc">
 			                <button class="linkerBtn" id="myListBtn" type="button">셰프 랭킹</button>
+			            </a>
+			            <a href="savedList.rc">
+			                <button class="linkerBtn" id="myListBtn" type="button">저장한 레시피</button>
+			            </a>
+			            <a href="followedList.rc">
+			                <button class="linkerBtn" id="myListBtn" type="button">구독한 레시피</button>
 			            </a>
 			    </div>
             </div>

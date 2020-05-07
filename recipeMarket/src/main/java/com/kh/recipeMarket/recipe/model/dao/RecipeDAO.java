@@ -84,7 +84,6 @@ public class RecipeDAO {
 
 	public int updateRecipe(SqlSessionTemplate sqlSession, Recipe r) {
 		return sqlSession.update("recipeMapper.updateRecipe", r);
-		
 	}
 	
 	public ArrayList<Ingredient> selectFreqIngredients(SqlSessionTemplate sqlSession, int lim){
@@ -94,6 +93,17 @@ public class RecipeDAO {
 	public ArrayList<Tag> selectFreqTags(SqlSessionTemplate sqlSession, int lim){
 		return (ArrayList)sqlSession.selectList("recipeMapper.selectFreqTags", lim);
 	}
-	
 
+	public ArrayList<RecipePreview> selectSavedRecipeList(SqlSessionTemplate sqlSession, int memberNo) {
+		return (ArrayList)sqlSession.selectList("recipeMapper.selectSavedRecipeList", memberNo);
+	}
+
+	public ArrayList<RecipePreview> selectFollowedRecipeList(SqlSessionTemplate sqlSession, int memberNo) {
+		return (ArrayList)sqlSession.selectList("recipeMapper.selectFollowedRecipeList", memberNo);
+	}
+
+	public int addRecipeHit(SqlSessionTemplate sqlSession, int postNo) {
+		return sqlSession.update("recipeMapper.addRecipeHit", postNo);
+	}
+		
 }

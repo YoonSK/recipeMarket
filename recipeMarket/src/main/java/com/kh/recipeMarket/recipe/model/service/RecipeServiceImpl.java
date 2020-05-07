@@ -174,6 +174,21 @@ public class RecipeServiceImpl implements RecipeService {
 		return rDAO.selectFreqTags(sqlSession, lim);
 	}
 
+	@Override
+	public ArrayList<RecipePreview> selectSavedRecipeList(int memberNo) {
+		return rDAO.selectSavedRecipeList(sqlSession, memberNo);
+	}
+
+	@Override
+	public ArrayList<RecipePreview> selectFollowedRecipeList(int memberNo) {
+		return rDAO.selectFollowedRecipeList(sqlSession, memberNo);
+	}
+
+	@Override
+	public int addRecipeHit(int postNo) {
+		return rDAO.addRecipeHit(sqlSession, postNo);
+	}
+
 	
 	
 
