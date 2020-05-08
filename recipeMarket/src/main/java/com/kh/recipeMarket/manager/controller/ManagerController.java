@@ -40,6 +40,7 @@ import com.kh.recipeMarket.manager.model.vo.Pagination;
 import com.kh.recipeMarket.manager.model.vo.Product;
 import com.kh.recipeMarket.manager.model.vo.ProductPagination;
 import com.kh.recipeMarket.member.model.exception.MemberException;
+import com.kh.recipeMarket.member.model.vo.Follow;
 import com.kh.recipeMarket.mypage.model.exception.MyPageException;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 import com.kh.recipeMarket.recipe.model.vo.RecipePreview;
@@ -499,6 +500,19 @@ public class ManagerController {
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(rlist, response.getWriter());
 	}
-
+	
+	@RequestMapping("topChefList.ma")
+	public void topChefList (HttpServletResponse response) throws JsonIOException, IOException {
+		ArrayList<Follow> rlist = mas.topChefList();
+		
+		for(Follow pr : rlist) {
+			pr.setNickName(URLEncoder.encode(pr.getNickName(),"UTF-8"));
+			pr.setpName(pr.getpName());
+		}
+		
+		System.out.println(rlist);
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(rlist, response.getWriter());
+	}
 }
 

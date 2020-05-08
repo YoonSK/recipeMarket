@@ -7,7 +7,7 @@
 <title>레시피 마켓</title>
 <style>
 	/* 푸터 */
-	footer{left:0px; bottom:0px; height: 64px; font-size: 11px; width:100%; background:grey; color: white; text-align: center;}
+	footer{position: absoult; padding: 15px 0;left:0px; bottom:0px; height: 64px; font-size: 11px; width:100%; background:grey; color: white; text-align: center;}
 </style>
 </head>
 <body>

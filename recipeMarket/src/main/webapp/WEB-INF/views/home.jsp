@@ -10,6 +10,8 @@
 <meta charset="UTF-8">
 <title>레시피 마켓</title>
 <style>
+	
+	#popularChef,#popularFood{background: white; height:270px;}
 	body{background:#f9f9f9}
 	.slick-prev{
 		background: blue;
@@ -22,7 +24,7 @@
 	}
 	.outer{
 		width:1200px;
-		height:680px;
+		/* height:680px; */
 		background:#f9f9f9;
 		margin-left: 10%;
 	}
@@ -36,7 +38,7 @@
 .slick-next{
 	right: 0;
 }
-	#timg{width:250px;height:200px }
+	#timg{width:200px;height:150px }
 /* 	.slide{
 		background: lightblue;
 	} */
@@ -67,6 +69,12 @@
     color: black;
     text-align: ceter;
     font-size: 20px;}
+    
+    #profileimg{
+    	    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    }
 </style>
  <!-- Add the slick-theme.css if you want default styling -->
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
@@ -92,16 +100,16 @@
 			<div class="firstBox" id="slick"  style="margin: 5%;">
 			
 			    <div><a href='search.rc'><img class="icon" src="resources/images/all.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/mainmenu.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/soup.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/diet.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/sidemenu.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/rice.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/drink.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/sauce.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/dessert.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/speed.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/etc.png"/></a></div>
+			    <div><a href='search.rc?category=main'><img class="icon" src="resources/images/mainmenu.png"/></a></div>
+			    <div><a href='search.rc?category=soup'><img class="icon" src="resources/images/soup.png"/></a></div>
+			    <div><a href='search.rc?tag=다이어트'><img class="icon" src="resources/images/diet.png"/></a></div>
+			    <div><a href='search.rc?category=sub'><img class="icon" src="resources/images/sidemenu.png"/></a></div>
+			    <div><a href='search.rc?category=meal'><img class="icon" src="resources/images/rice.png"/></a></div>
+			    <div><a href='search.rc?category=drink'><img class="icon" src="resources/images/drink.png"/></a></div>
+			    <div><a href='search.rc?category=sauce'><img class="icon" src="resources/images/sauce.png"/></a></div>
+			    <div><a href='search.rc?category=dessert'><img class="icon" src="resources/images/dessert.png"/></a></div>
+			    <div><a href='search.rc?tag=초스피드'><img class="icon" src="resources/images/speed.png"/></a></div>
+			    <div><a href='search.rc?category=etc'><img class="icon" src="resources/images/etc.png"/></a></div>
 			</div>
 		</div>
 	</div>
@@ -159,8 +167,9 @@
 		</table>
 	</div>
 		
-			<div id="popularFood">
+			
 			<h2 style="border-bottom: 1px solid #d9d9d9;  padding: 4px;">인기있는 레시피 TOP5 <button class="plusBtn" type="button" onclick="location.href='search.rc'">더보기</button></h2>
+		<div id="popularFood">
 		<table id="topFoodT">
 			<thead>
 				<tr>
@@ -172,15 +181,19 @@
 	</div>
 	
 	
-			<div id="popularChef">
+	
 			<h2>인기있는 쉐프 TOP5<button class="plusBtn" type="button">더보기</button></h2>
+			<div id="popularChef">
 		<table id="popularChefT">
 			<thead>
 				<tr>
 					<th colspan=2></th>
 				</tr>
 			</thead>
-				<tbody></tbody>
+				<tbody>
+					<tr>
+					</tr>
+				</tbody>
 		</table>
 	</div>
 	
@@ -248,6 +261,35 @@
 				topList();
 			}, 5000000);
 		});
+		
+		
+		function topChefList(){
+			$.ajax({
+				url:'topChefList.ma',
+				dataType:'json',
+				success: function(data){
+					$tableBody = $('#popularChefT tbody tr');
+					$tableBody.html("");
+					
+					for(var i in data){
+						var $tr = $("<tr>");
+						var $bTitle = $("<td>").text(decodeURIComponent(data[i].nickName.replace(/\+/g,' ')));
+						var $thumb = $("<td>").html('<img id= "profileimg" src="resources/upload/'+data[i].pName+'"/><br>'+decodeURIComponent(data[i].nickName.replace(/\+/g,' ')));
+						$tableBody.append($thumb);
+						
+						console.log($bTitle);
+					}
+					
+				}
+			});
+		}
+		$(function(){
+			topChefList();
+			
+			setInterval(function(){
+				topList();
+			}, 5000000);
+		});
 	</script>
 	
 	
@@ -255,7 +297,7 @@
 	
 	
 	
-	<%-- <c:import url="common/footer.jsp"/> --%>
+	 <c:import url="common/footer.jsp"/> 
 </body>
 
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>

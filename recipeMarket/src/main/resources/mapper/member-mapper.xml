@@ -326,7 +326,6 @@
 		order by "DATE" desc
 	</select>	
 	
-
 	<resultMap type="Follow" id="FollowResultSet">
 		<id property="targetNo" column="TARGET_NO"/>
 		<id property="memberNo" column="MEMBER_NO"/>

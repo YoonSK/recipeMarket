@@ -39,6 +39,7 @@
 				<form id="bForm" method="post" onsubmit="purchase();" >
 				<div class="tableArea">
 					<table id="table">
+					
 						<thead> <!-- 게시판 라벨 부분 -->
 						<tr>
 							<td width="10%"></td>

@@ -251,6 +251,7 @@
 		from qna q
     		join member using(member_no)
 		where member_no =#{memberNo}
+		order by post_no
 	</select>
 	
 </mapper>

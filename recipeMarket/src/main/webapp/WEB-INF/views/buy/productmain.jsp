@@ -29,8 +29,7 @@
 				</c:if>
 				<c:if test="${ !empty grain }">
 					<div class="book">
-						<a href="${contextPath}/detail.bu?productNo=${productNo}">
-			         
+						<a href="detail.by?productNo=${gr.productNo}">			         
 			                <img width="121" height="154" 
 			                     src="resources/upload/${ gr.phName }">   </a> 
 			            <div class="title">${ gr.name }</div>
@@ -51,9 +50,8 @@
 				</c:if>
 				<c:if test="${ !empty fruit }">
 					<div class="book">
-						<a href="${contextPath}/goods/goodsDetail.do?goods_id=${fr.productNo }">
-			            
-			                <img width="121" height="154" 
+						<a href="detail.by?productNo=${fr.productNo}">     
+						<img width="121" height="154" 
 			                     src="resources/upload/${ fr.phName }"></a> 
 			            <div class="title">${ fr.name }</div>
 			            <div class="price">${ fr.price }</div>
@@ -74,8 +72,7 @@
 				</c:if>
 				<c:if test="${ !empty vegitable }">
 					<div class="book">
-						<a href="${contextPath}/goods/goodsDetail.do?goods_id=${vg.productNo }">
-			            
+						<a href="detail.by?productNo=${vg.productNo}">    
 			                <img width="121" height="154" 
 			                     src="resources/upload/${ vg.phName }"></a> 
 			            <div class="title">${ vg.name }</div>
@@ -96,8 +93,7 @@
 				</c:if>
 				<c:if test="${ !empty fish }">
 					<div class="book">
-						<a href="${contextPath}/goods/goodsDetail.do?goods_id=${fi.productNo }">
-			          
+						<a href="detail.by?productNo=${fi.productNo}">    
 			                <img width="121" height="154" 
 			                     src="resources/upload/${ fi.phName }">  </a> 
 			            <div class="title">${ fi.name }</div>
@@ -118,8 +114,7 @@
 				</c:if>
 				<c:if test="${ !empty meat }">
 					<div class="book">
-						<a href="${contextPath}/goods/goodsDetail.do?goods_id=${me.productNo }">
-			            
+						<a href="detail.by?productNo=${me.productNo}">    
 			                <img width="121" height="154" 
 			                     src="resources/upload/${ me.phName }"></a> 
 			            <div class="title">${ me.name }</div>
@@ -140,8 +135,7 @@
 				</c:if>
 				<c:if test="${ !empty beverage }">
 					<div class="book">
-						<a href="${contextPath}/goods/goodsDetail.do?goods_id=${bv.productNo }">
-			            
+						<a href="detail.by?productNo=${bv.productNo}">    
 			                <img width="121" height="154" 
 			                     src="resources/upload/${ bv.phName }"></a> 
 			            <div class="title">${ bv.name }</div>
@@ -162,7 +156,7 @@
 				</c:if>
 				<c:if test="${ !empty ect }">
 					<div class="book">
-						<a href="${contextPath}/goods/goodsDetail.do?goods_id=${ec.ect }">			         
+						<a href="detail.by?productNo=${ec.productNo}">    		         
 			                <img width="121" height="154" 
 			                     src="resources/upload/${ ec.phName }"></a> 
 			            <div class="title">${ ec.name }</div>

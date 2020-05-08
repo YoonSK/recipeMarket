@@ -1,14 +1,22 @@
 package com.kh.recipeMarket.recipe.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -382,6 +390,165 @@ public class RecipeController {
 		
 		mv.setViewName("productSearch");
 		return mv;
+	}
+	
+	@RequestMapping("searchOuterRecipes.rc")
+	public String outerSearch(HttpServletRequest request) throws IOException{
+		Random random = new Random();
+	for(int q = 0; q < 100 ; q++) {
+		int rdv = random.nextInt(1000);
+		int pNo = 6899265 + rdv;
+		Document doc = Jsoup.connect("https://www.10000recipe.com/recipe/"+pNo).get();
+		System.out.println("https://www.10000recipe.com/recipe/"+pNo);
+	if(doc != null) {
+
+		Recipe r = new Recipe();
+		random.nextInt(20);
+		r.setMemberNo(41);
+		String tempTitle = (doc.title().length() < 40) ? doc.title() : doc.title().substring(0, 40);
+		
+		r.setTitle(tempTitle);
+		
+		int cseed = random.nextInt(8);
+		String category = "";
+		switch(cseed) {
+		case 0: category ="sub"; break;
+		case 1: category ="main"; break;
+		case 2: category ="soup"; break;
+		case 3: category ="meal"; break;
+		case 4: category ="dessert"; break;
+		case 5: category ="salad"; break;
+		case 6: category ="drink"; break;
+		case 7: category ="sauce"; break;
+		case 8: category ="etc"; break;
+		}
+		r.setCategory(category);
+		
+		String sseed = doc.select(".view2_summary_info1").text().replace("인분", "").replace(" 이상", "");
+		if(sseed.equals("")) {sseed = "1";}
+		r.setServing(Integer.parseInt(sseed));
+		
+		String rseed = doc.select(".view2_summary_info2").text().replace("분 이내", "").replace("2시간 이상", "120");
+		if(rseed.equals("")) {sseed = "10";}
+		r.setReqTime(Integer.parseInt(rseed));
+		
+		
+		String dseed = doc.select(".view2_summary_info3").text();
+		int difficulty = 1;
+		switch(dseed) {
+		case "": difficulty = 1; break;
+		case "아무나": difficulty = 1; break;
+		case "초급": difficulty = 1; break;
+		case "중급": difficulty = 2; break;
+		case "고급": difficulty = 3; break;
+		case "신의경지": difficulty =3; break;
+		}
+		r.setDifficulty(difficulty);
+		System.out.println(r);
+		
+		ArrayList<String> ingList = new ArrayList<String>();
+		/*
+		for(int i = 0; i <5; i++) {
+			ingList.add("ting"+ i);
+		}
+		*/
+		ArrayList<String> amtList = new ArrayList<String>();
+		/*
+		for(int i = 0; i <5; i++) {
+			amtList.add("tamt"+ i);
+		}
+		*/
+		
+		if (doc.select(".cont_ingre > dl > dd").text().split(", ").equals("")) {
+			Elements els = doc.select(".cont_ingre > dl > dd");
+			for (Element tempEl: els) {
+				String[] ings = tempEl.text().split(", ");
+				for(String temp: ings) {
+					if (temp.contains(" ")) {
+						String[] split = temp.split(" ");
+						if(!ingList.contains(split[0])) {
+							ingList.add(split[0]);
+							amtList.add(split[1]);
+						}
+					}
+					else {
+						if(!ingList.contains(temp)) {
+						ingList.add(temp);
+						amtList.add("적당량");
+						}
+					}	
+				}
+			}
+		}
+		else {
+			Elements eln= doc.select("#divConfirmedMaterialArea > ul > a");
+			for(Element e : eln) {
+				String tmp = e.attr("onclick");
+				System.out.println(tmp);
+				String t = tmp.replace("ga('send', 'event', '레시피본문', '재료정보버튼클릭', '", "").replace("');", "");
+				System.out.println(t);
+				if(t != "" && !ingList.contains(t)) {
+					ingList.add(t);
+				}
+			}
+		
+			Elements elz= doc.select("#divConfirmedMaterialArea > ul > a > li > span");
+			for(Element e : elz) {
+				String t = e.text();
+				if(t != "" && ingList.contains(t)) {
+					amtList.add(t);
+				}
+				else{amtList.add("적당량");}
+			}
+			
+		}
+			
+		ArrayList<String> tagList = new ArrayList<String>();
+		Elements tags = doc.select(".view_tag > a");
+		for(Element temp : tags) {
+			if(temp.text() != "") {
+				if(temp.text().length() < 20) {
+					tagList.add(temp.text().replace("#", "").replace(" ", ""));
+				}
+				else{
+					String[] tgs = temp.text().split(" ");
+					for(String tg : tgs) {
+						tagList.add(tg);
+					}
+				}
+			}
+		}
+		if(tagList.size() == 0) {tagList.add("강추");}
+		
+		ArrayList<String> stepList = new ArrayList<String>();
+		for(int i = 1; i < 5; i++) {
+			String seeker = "#stepdescr" + (i);
+			String stp = doc.select(seeker).text();
+			if(stp.length() < 300) {
+				stepList.add(stp);
+			}
+			else{
+				String[] xstp = stp.split(".");
+				stepList.add(xstp[0]);
+			}
+		}
+        
+		ArrayList<Photo> images = new ArrayList<Photo>();
+		for(int i=0; i <= stepList.size(); i++) {
+			Photo p = new Photo();
+			p.setBoardNo(1);
+			p.setTargetNo(0);
+			p.setFileLevel(i);
+			p.setOriginName("sample.jpg");
+			p.setChangeName("sample"+ i +".jpg");
+			images.add(p);
+		}
+        
+		rService.insertRecipe(r, stepList, ingList, amtList, tagList, images);
+	}
+	}
+		String referer = request.getHeader("Referer");
+	    return "redirect:"+ referer;
 	}
 	
 }
