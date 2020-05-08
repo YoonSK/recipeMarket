@@ -195,20 +195,23 @@
                 <div class="mini_option">
                     <span class="option_name">난이도</span>
                     <c:choose>
-                    	<c:when test="${searchCon.difficulty == 0}">
-                    		<c:set var="difficulty1" value='selected="selected"'/>
-                    	</c:when>
-                    	<c:when test="${searchCon.difficulty == 1}">
-                    		<c:set var="difficulty2" value='selected="selected"'/>
+                    	<c:when test="${searchCon.difficulty == null}">
+                    		<c:set var="difficulty3" value='selected="selected"'/>
                     	</c:when>
                     	<c:when test="${searchCon.difficulty == 2}">
                     		<c:set var="difficulty3" value='selected="selected"'/>
                     	</c:when>
+                    	<c:when test="${searchCon.difficulty == 1}">
+                    		<c:set var="difficulty2" value='selected="selected"'/>
+                    	</c:when>
+                    	<c:when test="${searchCon.difficulty == 0}">
+                    		<c:set var="difficulty1" value='selected="selected"'/>
+                    	</c:when>
                     </c:choose>
                     <select name="difficulty">
-                        <option <c:out value="${difficulty3}"/> value="3">어려움 이하</option>
-                        <option <c:out value="${difficulty2}"/> value="2">보통 이하</option>
-                        <option <c:out value="${difficulty1}"/> value="1">쉬움 이하</option>
+                        <option <c:out value="${difficulty3}"/> value="2">어려움 이하</option>
+                        <option <c:out value="${difficulty2}"/> value="1">보통 이하</option>
+                        <option <c:out value="${difficulty1}"/> value="0">쉬움 이하</option>
                     </select>
                 </div>
             </div>
@@ -305,6 +308,9 @@
 			            </a>
 			            <a href="searchProduct.rc">
 			                <button class="linkerBtn" id="myListBtn" type="button">상품 검색</button>
+			            </a>
+			            <a href="searchOuterRecipes.rc">
+			                <button class="linkerBtn" id="myListBtn" type="button">레시피 들여오기</button>
 			            </a>
 			    </div>
             </div>
