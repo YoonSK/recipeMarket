@@ -129,11 +129,10 @@
 	<%@ include file="../common/header.jsp" %>
 	
 	<div class="s_contents">
-		<h1 style="margin-left:220px;">상품명</h1>
+		<h1 style="margin-left:220px;">${ name }</h1>
 	<div id="goods_image">
 		<figure>
-			<img alt="HTML5 &amp; CSS3"
-				src="images/selmon.jpg">
+			<img src="/resources/upload/${ gr.phName }">
 		</figure>
 	</div>
 	<div id="detail_table">
@@ -141,9 +140,7 @@
 			<tbody>
 				<tr class="dot_line">
 					<td class="fixed">판매가</td>
-					<td class="active"><span>
-					   <fmt:formatNumber  value="${goods.goods_price*0.9}" type="number" var="discounted_price"/>
-				         원</span></td>
+					<td class="active"><span>${ price }원</span></td>
 				</tr>
 				<tr class="dot_line">
 					<td class="fixed">배송료</td>
@@ -173,7 +170,7 @@
 		</table>
 		<ul>
 			<li><a class="buy" href="javascript:fn_order_each_goods('${goods.goods_id }','${goods.goods_title }','${goods.goods_sales_price}','${goods.goods_fileName}');">구매하기 </a></li>
-			<li><a class="cart" href="javascript:add_cart('${goods.goods_id }')">장바구니</a></li>
+			<li><a class="cart" href="cart.bu">장바구니</a></li>
 		</ul>
 	</div>
 	<div class="clear"></div>

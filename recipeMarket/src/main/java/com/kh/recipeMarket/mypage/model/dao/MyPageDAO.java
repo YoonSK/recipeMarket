@@ -109,5 +109,4 @@ public class MyPageDAO {
 	public ArrayList<Follow> selectChefUpdateNews(SqlSessionTemplate sqlSession, int memberNo) {
 		return  (ArrayList)sqlSession.selectList("memberMapper.selectChefUpdateNews",memberNo);
 	}
-
 }
