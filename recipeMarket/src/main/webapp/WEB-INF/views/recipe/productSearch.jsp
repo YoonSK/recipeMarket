@@ -159,7 +159,7 @@
         <div class="content" style="display: flex; flex-wrap : wrap;">
         <c:forEach items="${productList}" var="product" varStatus="status">
 				<div class="box">
-	        		<a href="detail.bu?productNo=${product.productNo}">
+	        		<a href="detail.by?productNo=${product.productNo}">
 	            	<img width="150px" height="150px" src="resources/upload/${product.phName}">
 	       			<label class="recipeName"><c:out value="${product.name}"/></label>
 	    			</a>
