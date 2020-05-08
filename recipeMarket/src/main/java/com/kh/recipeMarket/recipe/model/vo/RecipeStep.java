@@ -41,4 +41,10 @@ public class RecipeStep {
 		this.content = string;
 	}
 
+	@Override
+	public String toString() {
+		return "RecipeStep [step=" + step + ", postNo=" + postNo + ", content=" + content + "]";
+	}
+
+	
 }
