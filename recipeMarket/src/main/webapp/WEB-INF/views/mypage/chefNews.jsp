@@ -73,9 +73,7 @@
 							<img id="profileImg" width="100px;" src="resources/upload/${ c.pName }"/>
 						</td>
 						</c:if>
-						<td  colspan=4 width="75%" style="font-size:30px">${ c.nickName }
-						</td>
-							
+						<td  colspan=4 width="75%" style="font-size:30px">${ c.nickName }</td>
 		        	</tr>
 		         		
  	         		
@@ -87,34 +85,19 @@
 		        			<c:if test="${rlist[status.index].pName != null }">
 		        			<img  src="resources/upload/${rlist[status.index].pName }" id="thumImg"/>
 		        			</c:if>
-		        			</c:if>
-		        		</td>
-	         		</tr> 
-	         		<tr class="contentTR">
-		        		<td  id="thumImgTd">
-		        		<c:if test="${rlist[status.index].memberNo == c.targetNo }">
 		        			<c:if test="${rlist[status.index+1].pName != null }">
 		        			<img  src="resources/upload/${rlist[status.index+1].pName }" id="thumImg"/>
 		        			</c:if>
-		        			</c:if>	
-		        		</td>
-	         		</tr> 
-	         		<tr class="contentTR">
-		        		<td  id="thumImgTd">
 		        			<c:if test="${rlist[status.index+2].pName != null }">
-		        			<img  src="resources/upload/${rlist[status.index+2].pName }" id="thumImg"/>
+		        			<img  src="resources/upload/${rlist[status.index+1].pName }" id="thumImg"/>
 		        			</c:if>
-		        			
-		        		</td>
-	         		</tr> 
-	         		<tr class="contentTR">
-		        		<td  id="thumImgTd">
 		        			<c:if test="${rlist[status.index+3].pName != null }">
-		        			<img  src="resources/upload/${rlist[status.index+3].pName }" id="thumImg"/>
+		        			<img  src="resources/upload/${rlist[status.index+1].pName }" id="thumImg"/>
 		        			</c:if>
-		        			
+		        			</c:if>
 		        		</td>
 	         		</tr> 
+	         	
 	         		<%-- <tr class="contentTR">
 		        		<td style="font-size:20px">
 			        		${ rlist[status.index].title }
