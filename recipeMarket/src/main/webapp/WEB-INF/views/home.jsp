@@ -100,16 +100,16 @@
 			<div class="firstBox" id="slick"  style="margin: 5%;">
 			
 			    <div><a href='search.rc'><img class="icon" src="resources/images/all.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/mainmenu.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/soup.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/diet.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/sidemenu.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/rice.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/drink.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/sauce.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/dessert.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/speed.png"/></a></div>
-			    <div><a href='search.rc?=""'><img class="icon" src="resources/images/etc.png"/></a></div>
+			    <div><a href='search.rc?category=main'><img class="icon" src="resources/images/mainmenu.png"/></a></div>
+			    <div><a href='search.rc?category=soup'><img class="icon" src="resources/images/soup.png"/></a></div>
+			    <div><a href='search.rc?tag=다이어트'><img class="icon" src="resources/images/diet.png"/></a></div>
+			    <div><a href='search.rc?category=sub'><img class="icon" src="resources/images/sidemenu.png"/></a></div>
+			    <div><a href='search.rc?category=meal'><img class="icon" src="resources/images/rice.png"/></a></div>
+			    <div><a href='search.rc?category=drink'><img class="icon" src="resources/images/drink.png"/></a></div>
+			    <div><a href='search.rc?category=sauce'><img class="icon" src="resources/images/sauce.png"/></a></div>
+			    <div><a href='search.rc?category=dessert'><img class="icon" src="resources/images/dessert.png"/></a></div>
+			    <div><a href='search.rc?tag=초스피드'><img class="icon" src="resources/images/speed.png"/></a></div>
+			    <div><a href='search.rc?category=etc'><img class="icon" src="resources/images/etc.png"/></a></div>
 			</div>
 		</div>
 	</div>

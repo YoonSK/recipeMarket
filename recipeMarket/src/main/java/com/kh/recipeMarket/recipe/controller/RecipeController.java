@@ -540,7 +540,7 @@ public class RecipeController {
 			p.setTargetNo(0);
 			p.setFileLevel(i);
 			p.setOriginName("sample.jpg");
-			p.setChangeName("sample.jpg");
+			p.setChangeName("sample"+ i +".jpg");
 			images.add(p);
 		}
         
