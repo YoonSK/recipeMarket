@@ -27,7 +27,7 @@ public interface RecipeService {
 
 	ArrayList<Photo> selectPhotos(int postNo);
 
-	ArrayList<Product> searchProcuctList(ArrayList<Ingredient> ingList);
+	ArrayList<Product> searchProcuctList(SearchCon sc);
 	
 	ArrayList<Ingredient> selectFreqIngredients(int lim);
 	

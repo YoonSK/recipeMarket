@@ -366,10 +366,21 @@ public class RecipeController {
 		return mv;
 	}
 	
-	@RequestMapping("link.rc")
-	public ModelAndView linkProduct(ModelAndView mv, @RequestParam("ingredient") ArrayList<String> name) {
-
-		mv.setViewName("productdetail");				
+	@RequestMapping("searchProduct.rc")
+	public ModelAndView productSearch(
+			@RequestParam(value = "ingredient", required=false) ArrayList<String> ingredients,
+			@ModelAttribute SearchCon sc, 
+			ModelAndView mv){
+		
+		sc.setIngredientList(ingredients);
+		System.out.println(sc);
+		
+		ArrayList<Product> pdlist = rService.searchProcuctList(sc);
+		
+		mv.addObject("searchCon", sc);
+		mv.addObject("productList", pdlist);
+		
+		mv.setViewName("productSearch");
 		return mv;
 	}
 	
