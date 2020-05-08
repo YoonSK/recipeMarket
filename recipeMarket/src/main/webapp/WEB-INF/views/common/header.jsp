@@ -59,8 +59,59 @@
     button{cursor:pointer;}
     /* 모달창 스크롤 */
     #listArea{overflow-y: scroll; overflow-x: hidden; height: 70%;}
+    
+    #qnaDiv{
+    	position:fixed;
+    	right:100px;
+    	bottom:0px;
+    	width:120px;
+    	height:100px;
+    	
+    }
+    #qnaBtn{
+    	border-radius: 100px;
+    	font-size: 18px;
+    	background: greenyellow;
+    }
+    
+    #titleName{
+		width: 705px;
+		heght:100px;
+		text-align:center;
+		color:white;
+		background:black;
+		font-size:25px;
+	}
+	#messageArea{
+		width: 700px;
+		height: 500px;
+		font-size:20px;
+		overflow-y: scroll;
+	}
+	
+	#message{
+		width: 595px;
+    	height: 60px;
+    	font-size:20px;
+	}
+	
+	#sendBtn{
+		width:100px;
+		height:65px;
+		margin-left: -5px;
+	}
+	
+	 /* 모달창 */
+    .kmodal {display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
+    .kmodal-content { margin: 15% auto;  border: 1px solid #888; width: 700px; height: 400px;}
+    .close {color: #aaa; float: right; font-size: 28px; font-weight: bold;}
+    .close:hover, .close:focus {color: black; text-decoration: none; cursor: pointer;}	
 </style>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script> 
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 </head>
 <body>
 	<header>
@@ -157,13 +208,15 @@ var followingStyle ={
 }
 var noStyle={'background':'#c5db91','margin-left':'20%'}
 var noStyleF={'background':'#c5db91'}
+
 $(document).on('click', '#following', function(){
 	$(this).css(followingStyle);
 	$('#follower').css(noStyle);
-	var targetNo = ${loginUser.memberNo};
+	
+	var memberNo = ${loginUser.memberNo};
 	$.ajax({
-		url:'followList.me',
-		data:{targetNo:targetNo},
+		url:'followingList.me',
+		data:{memberNo:memberNo},
 		dataType:'json',
 		success:function(data){
 			console.log(data);
@@ -177,7 +230,7 @@ $(document).on('click', '#following', function(){
 					var $followerpName = $('<td>').text(decodeURIComponent(data[i].pName));
 					 var $followerpName=$('<td>').html('<img src=' + '"resources/upload/' + data[i].pName + '"' + 'width=40px; height=40px;>');									
                     var $followernickName = $('<td>').text(decodeURIComponent(data[i].nickName));
-                    var $followerdeleteBtn=$('<td>').html('<button type="button" class="deleteBtn" id="deleteFollowing" value="'+data[i].memberNo+'">삭제</button>');				
+                    var $followerdeleteBtn=$('<td>').html('<button type="button" class="deleteBtn" id="deleteFollowing" value="'+data[i].targetNo+'">삭제</button>');				
                     $tr.append($followerpName);									
                     $tr.append($followernickName);
 					$tr.append($followerdeleteBtn);
@@ -194,7 +247,7 @@ $(document).on('click', '#follower', function(){
 	
 	var targetNo = ${loginUser.memberNo};
 	$.ajax({
-		url:'followingList.me',
+		url:'followerList.me',
 		data:{targetNo:targetNo},
 		dataType:'json',
 		success:function(data){
@@ -209,10 +262,13 @@ $(document).on('click', '#follower', function(){
 					
 					var $followermemberNo = $('<td>').text(decodeURIComponent(data[i].memberNo));
 						var $followerpName = $('<td>').text(decodeURIComponent(data[i].pName));
-						 var $followerpName=$('<td>').html('<img src=' + '"resources/upload/' + data[i].pName + '"' + 'width=40px; height=40px;>');									
+						 var $followerpName=$('<td>').html('<img src=' + '"resources/upload/' + data[i].pName + '"' + 'width=40px; height=40px;>');					
+						 var $followerNOpName=$('<td>').html('<img src="resources/images/user.png" width=40px; height=40px;>');									
 	                    var $followerdeleteBtn=$('<td>').html('<button type="button" class="deleteBtn" id="deleteFollower"  value="'+data[i].memberNo+'" onclick="deleteFollow();">삭제</button>');									
 	                    var $followernickName = $('<td>').text(decodeURIComponent(data[i].nickName));
-	                    $tr.append($followerpName);									
+	                    
+	                    	 $tr.append($followerpName);		
+	                   							
 	                    $tr.append($followernickName);
 						$tr.append($followerdeleteBtn);
 					     $tableBody.append($tr);	
@@ -232,12 +288,14 @@ $(document).on('click', '#follower', function(){
 
 $(document).on('click', '#deleteFollowing', function(){
 	var targetNo = $(this).val();
-	console.log(targetNo);
+	var memberNo =${loginUser.memberNo};
+	console.log("targetNO" + targetNo);
+	console.log("memberNo" + memberNo);
 	var nickName = $(this).parent().children().eq(2).val();
 	alert("정말 삭제하시겠습니까?");
 	$.ajax({
 		url:'deleteFollow.me',
-		data:{targetNo:targetNo},
+		data:{targetNo:targetNo,memberNo:memberNo},
 		dataType:'json',
 		success:function(data){
 			window.location.reload();
@@ -246,11 +304,13 @@ $(document).on('click', '#deleteFollowing', function(){
 	});
 $(document).on('click', '#deleteFollower', function(){
 	var targetNo = $(this).val();
-	console.log(targetNo);
+	var memberNo =${loginUser.memberNo};
+	console.log("targetNO" + targetNo);
+	console.log("memberNo" + memberNo);
 	alert("정말 삭제하시겠습니까?");
 	$.ajax({
 		url:'deleteFollower.me',
-		data:{targetNo:targetNo},
+		data:{targetNo:targetNo,memberNo:memberNo},
 		dataType:'json',
 		success:function(data){
 			window.location.reload();
@@ -260,6 +320,7 @@ $(document).on('click', '#deleteFollower', function(){
 </script>
 
 
+		
 		 <!-- The Modal -->
 			    <div id="hmodal" class="hmodal">	 
 
@@ -275,18 +336,6 @@ $(document).on('click', '#deleteFollower', function(){
 						<div id="listArea">
 						 	<table id="listT">
 						 	<tbody></tbody>
-							<!--	<tr>
-									<th colspan="3" style=" border-bottom: 1px solid black;">팔로워</th>
-									<th colspan="3" style=" border-bottom: 1px solid black;">팔로잉</th>
-								</tr>
-								<tr>
-									<td>사진</td>
-									<td>쉐프 닉네임</td>
-									<td><button type="button" id="deleteBtn">삭제</button></td>
-									<td>사진</td>
-									<td>쉐프 닉네임</td>
-									<td><button type="button" id="deleteBtn">삭제</button></td>
-								</tr>-->
 							</table> 
 				     	</div>
 				    </div>
@@ -302,5 +351,74 @@ $(document).on('click', '#deleteFollower', function(){
 					$('#hmodal').attr('style', 'display:none');
 				}
 				</script>
+				
+	<script>
+		function qnaList(){
+			$('#kmodal').attr('style', 'display:block');
+			//$('#listT tbody').css("overflow", "scroll");
+		}
+	</script>			
+				
+				<!-- The Modal -->
+			    <div id="kmodal" class="kmodal">
+				 <!-- Modal content -->
+					<div class="kmodal-content">
+						<span class="close">&times;</span>
+				        <div id="titleName">관리자와 1:1 채팅</div>
+						<textarea id="messageArea" readonly style="resize:none;"></textarea> <br>
+						<input type="text" id="message"/>
+						<input type="button" id="sendBtn" value="보내기"/>
+			    	</div>
+			    </div>
+			    
+			    <script type="text/javascript">
+					$("#sendBtn").click(function() {
+						sendMessage();
+						$('#message').val('')
+					});
+
+					let sock = new SockJS("http://localhost:9780/recipeMarket/echo");
+					sock.onmessage = onMessage;
+					sock.onclose = onClose;
+					// 메시지 전송
+					function sendMessage() {
+						
+						sock.send($("#message").val());
+					}
+					// 서버로부터 메시지를 받았을 때
+					function onMessage(msg) {
+						var data = msg.data;
+						$("#messageArea").append(data + "\n");
+					}
+					// 서버와 연결을 끊었을 때
+					function onClose(evt) {
+						$("#messageArea").append("연결 끊김");
+				
+					}
+				</script>
+				
+				
+				 <script>	
+				$('span.close').click(function(){
+					$('#kmodal').attr('style', 'display:none');
+				});		
+				
+				
+				function cancelBtn(){
+					$('#kmodal').attr('style', 'display:none');
+				}
+				</script>
+				
+				
+				
+				<c:if test="${ loginUser != null  && loginUser.id != 'ADMIN' }">
+					<div id = "qnaDiv">
+						<!-- <button id= "qnaBtn" onclick="location.href='test1.bo';">실시간 채팅 문의</button> -->
+						<button id= "qnaBtn" onclick="qnaList();">실시간 채팅 문의</button>					
+					</div>
+			 	</c:if>
+			 	
+			 	
+				
 </body>
 </html>

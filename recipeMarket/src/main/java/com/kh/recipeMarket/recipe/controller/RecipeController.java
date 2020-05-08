@@ -23,6 +23,7 @@ import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.service.CommonService;
 import com.kh.recipeMarket.common.vo.*;
 import com.kh.recipeMarket.member.model.vo.Member;
+import com.kh.recipeMarket.product.model.vo.Product;
 import com.kh.recipeMarket.recipe.model.service.RecipeService;
 import com.kh.recipeMarket.recipe.model.vo.*;
 
@@ -206,9 +207,11 @@ public class RecipeController {
 		
 		System.out.println(rb);
 		
+		rService.addRecipeHit(postNo);
+		
 		ArrayList<Reply> rplist = cService.selectReplies(new Enum().boardNo("recipe"), postNo);
 		mv.addObject("replyList", rplist);
-		
+
 		mv.setViewName("recipeView");
 		return mv;
 	}
@@ -251,6 +254,30 @@ public class RecipeController {
 		return mv;
 	}
 	
+	@RequestMapping("savedList.rc")
+	public ModelAndView recipeSavedList(HttpSession session, ModelAndView mv){
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int memberNo = loginUser.getMemberNo();
+		ArrayList<RecipePreview> rlist = rService.selectSavedRecipeList(memberNo);
+		
+		mv.addObject("rlist", rlist);
+		
+		mv.setViewName("recipeList");
+		return mv;
+	}
+	
+	@RequestMapping("followedList.rc")
+	public ModelAndView recipeFollowedList(HttpSession session, ModelAndView mv){
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int memberNo = loginUser.getMemberNo();
+		ArrayList<RecipePreview> rlist = rService.selectFollowedRecipeList(memberNo);
+		
+		mv.addObject("rlist", rlist);
+		
+		mv.setViewName("recipeList");
+		return mv;
+	}
+	
 	@RequestMapping("search.rc")
 	public ModelAndView recipeSearch(
 			@RequestParam(value = "tag", required=false) ArrayList<String> tags,
@@ -264,8 +291,13 @@ public class RecipeController {
 		
 		ArrayList<RecipePreview> rlist = rService.searchRecipeList(sc);
 		
+		ArrayList<Ingredient> frqIngs = rService.selectFreqIngredients(4);
+		ArrayList<Tag> frqTags = rService.selectFreqTags(4);
 		
+		mv.addObject("searchCon", sc);
 		mv.addObject("rlist", rlist);
+		mv.addObject("frqIngs", frqIngs);
+		mv.addObject("frqTags", frqTags);
 		
 		mv.setViewName("recipeSearch");
 		return mv;
@@ -307,9 +339,16 @@ public class RecipeController {
 	}
 	
 	@RequestMapping("chefRank.rc")
-	public ModelAndView chefList(@RequestParam(value = "csorter", required=false) String sorter, ModelAndView mv) {
-
-		ArrayList<Author> clist = rService.selectChefRank(sorter);
+	public ModelAndView chef(@RequestParam(value = "sorter", required=false) String sorter, ModelAndView mv) {
+		ArrayList<Author> clist = rService.selectChefRank(sorter, 20);
+		
+		for(Author a :clist) {
+			System.out.println(a);
+		}
+		
+		SearchCon sc = new SearchCon();
+		sc.setSorter(sorter);
+		mv.addObject("searchCon", sc);
 		
 		mv.addObject("chefList", clist);
 		mv.setViewName("chefRank");
@@ -327,6 +366,23 @@ public class RecipeController {
 		return mv;
 	}
 	
+	@RequestMapping("searchProduct.rc")
+	public ModelAndView productSearch(
+			@RequestParam(value = "ingredient", required=false) ArrayList<String> ingredients,
+			@ModelAttribute SearchCon sc, 
+			ModelAndView mv){
+		
+		sc.setIngredientList(ingredients);
+		System.out.println(sc);
+		
+		ArrayList<Product> pdlist = rService.searchProcuctList(sc);
+		
+		mv.addObject("searchCon", sc);
+		mv.addObject("productList", pdlist);
+		
+		mv.setViewName("productSearch");
+		return mv;
+	}
 	
 }
 

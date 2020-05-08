@@ -23,7 +23,7 @@
 				  from product p
                 LEFT OUTER JOIN PHOTO ph ON(p.PRODUCT_NO = ph.TARGET_NO AND BOARD_NO = 3)  
 				  where category = '곡류' and p.deleted = 'N' and stock > 0               
-				  order by product_no desc)
+				  order by price)
 			where rnum <= 5
 			union 
 			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export, phname
@@ -31,7 +31,7 @@
 				  from product p
                 LEFT OUTER JOIN PHOTO ph ON(p.PRODUCT_NO = ph.TARGET_NO AND BOARD_NO = 3)  
 				  where category = '과일류' and p.deleted = 'N' and stock > 0               
-				  order by product_no desc)
+				  order by price)
 			where rnum <= 5
 			union 
 			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export, phname
@@ -39,7 +39,7 @@
 				  from product p
                 LEFT OUTER JOIN PHOTO ph ON(p.PRODUCT_NO = ph.TARGET_NO AND BOARD_NO = 3)  
 				  where category = '채소류' and p.deleted = 'N' and stock > 0               
-				  order by product_no desc)
+				  order by price)
 			where rnum <= 5
 			union 
 			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export, phname
@@ -47,7 +47,7 @@
 				  from product p
                 LEFT OUTER JOIN PHOTO ph ON(p.PRODUCT_NO = ph.TARGET_NO AND BOARD_NO = 3)  
 				  where category = '어류' and p.deleted = 'N' and stock > 0               
-				  order by product_no desc)
+				  order by price)
 			where rnum <= 5
 			union 
 			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export, phname
@@ -55,7 +55,7 @@
 				  from product p
                 LEFT OUTER JOIN PHOTO ph ON(p.PRODUCT_NO = ph.TARGET_NO AND BOARD_NO = 3)  
 				  where category = '육류' and p.deleted = 'N' and stock > 0               
-				  order by product_no desc)
+				  order by price)
 			where rnum <= 5
 			union 
 			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export, phname
@@ -63,7 +63,7 @@
 				  from product p
                 LEFT OUTER JOIN PHOTO ph ON(p.PRODUCT_NO = ph.TARGET_NO AND BOARD_NO = 3)  
 				  where category = '음료' and p.deleted = 'N' and stock > 0               
-				  order by product_no desc)
+				  order by price)
 			where rnum <= 5
 			union
 			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export, phname
@@ -71,7 +71,7 @@
 				  from product p
                 LEFT OUTER JOIN PHOTO ph ON(p.PRODUCT_NO = ph.TARGET_NO AND BOARD_NO = 3)  
 				  where category = '기타' and p.deleted = 'N' and stock > 0               
-				  order by product_no desc)
+				  order by price)
 			where rnum <= 5
 		]]>
 	</select>

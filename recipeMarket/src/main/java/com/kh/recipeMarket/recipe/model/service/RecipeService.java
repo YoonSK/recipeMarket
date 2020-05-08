@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.vo.Author;
+import com.kh.recipeMarket.product.model.vo.Product;
 import com.kh.recipeMarket.recipe.model.vo.*;
 
 public interface RecipeService {
@@ -20,9 +21,21 @@ public interface RecipeService {
 
 	int deleteRecipe(int postNo);
 	
-	ArrayList<Author> selectChefRank(String sorter);
+	ArrayList<Author> selectChefRank(String sorter, int rowlim);
 
 	ArrayList<Author> selectChefLikeList(int memberNo);
 
 	ArrayList<Photo> selectPhotos(int postNo);
+
+	ArrayList<Product> searchProcuctList(SearchCon sc);
+	
+	ArrayList<Ingredient> selectFreqIngredients(int lim);
+	
+	ArrayList<Tag> selectFreqTags(int lim);
+
+	ArrayList<RecipePreview> selectSavedRecipeList(int memberNo);
+
+	ArrayList<RecipePreview> selectFollowedRecipeList(int memberNo);
+
+	int addRecipeHit(int postNo);
 }

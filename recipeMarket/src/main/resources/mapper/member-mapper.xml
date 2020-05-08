@@ -210,13 +210,12 @@
 		<result property = "address2" column ="ADDRESS2"/>
 		<result property = "note" column ="NOTE"/>
 		<result property = "phone" column ="PHONE"/>
-		<result property = "coupon" column ="COUPON"/>
 		<result property = "reviewed" column="REVIEWED"/>											
 	</resultMap> 
 		
 	<select id="orderDetail" resultMap="odRS">
 		SELECT P.NAME AS "PNAME", M.NAME AS "MNAME", CHANGE_NAME AS "PHNAME", "DATE", DETAIL_NO, O.ORDER_NO, PR_COUNT, P.PRICE, MEM_NO, STATUS, O.ZIP, O.ADDRESS, O.ADDRESS2, 
-		        O.NOTE, O.PHONE, O.TOTAL, O.COUPON
+		        O.NOTE, O.PHONE, O.TOTAL
 		FROM ORDER_DETAIL OD
 		            JOIN "ORDER" O ON(OD.ORDER_NO = O.ORDER_NO)
 		            JOIN "MEMBER" M ON(MEM_NO = MEMBER_NO)
@@ -327,11 +326,13 @@
 		order by "DATE" desc
 	</select>	
 	
+
 	<resultMap type="Follow" id="FollowResultSet">
 		<id property="targetNo" column="TARGET_NO"/>
 		<id property="memberNo" column="MEMBER_NO"/>
 		<result property="nickName" column="NICKNAME"/>
 		<result property="pName" column="CHANGE_NAME"/>
+		<result property="title" column="TITLE"/>
 	</resultMap>
 	
 	<insert id="insertFollow" parameterType="Follow">
@@ -347,38 +348,49 @@
 			where f.target_no = #{targetNo} and p.board_no = 0
 	</select> -->
 	
-	<select id="selectFollow" resultMap="FollowResultSet">
-			 select m.member_no, m.nickname, change_name
-        from follow f
-            join member m on(f.member_no = m.member_no)
-            left outer join photo p on(m.member_no = p.target_no)
-        where f.target_no = #{targetNo}
+	<select id="selectFollowing" resultMap="FollowResultSet">
+			 select g.target_no, m.nickname, change_name
+        from good g
+            join member m on(g.target_no = m.member_no)
+            left outer join photo p on(g.target_no = p.target_no)
+        where g.member_no = #{memberNo} and g.board_no =0
 	</select>
 	
 	<select id="selectFollower" resultMap="FollowResultSet">
-		select m.member_no, m.nickname, p.change_name
-		from member m
-		    join follow f on (m.member_no = f.target_no)
-		   left outer join photo p on(f.target_no = p.target_no)
-		where f.member_no =#{targetNo}
+		 select g.member_no, m.nickname, change_name
+        from good g
+            join member m on(g.member_no = m.member_no)
+            left outer join photo p on(g.member_no = p.target_no)
+        where g.target_no = #{targetNo} and g.board_no =0
 	</select>
 	
-	<delete id="deleteFollow">
-		delete from follow
-		where member_no = #{memberNo}
+	<delete id="deleteFollow"  parameterType="Follow" >
+		delete from good
+		where target_no = #{targetNo} and member_no=#{memberNo}
 	</delete>
-	<delete id="deleteFollower">
-		delete from follow
-		where target_no = #{memberNo}
+	<delete id="deleteFollower"  parameterType="Follow">
+		delete from good
+		where member_no = #{targetNo} and target_no=#{memberNo}
 	</delete>
 	
 	<select id="selectChefNews" resultMap="FollowResultSet">
-		 select m.member_no, m.nickname, change_name
-        from follow f
-            join member m on(f.member_no = m.member_no)
-            left outer join photo p on(m.member_no = p.target_no)
-        where f.target_no = #{targetNo}
-	</select>
+		select g.target_no, m.nickname, change_name
+        from good g
+            join member m on(g.target_no = m.member_no)
+            left outer join photo p on(g.target_no = p.target_no)
+             left outer join r_board r on(r.member_no = m.member_no)
+        where g.member_no = #{memberNo} and g.board_no =0
+        order by r.create_date desc
+	</select> 
+<!-- 	<select id="selectChefNews" resultMap="FollowResultSet">
+		select m.member_no, m.nickname, change_name,r.title
+        from good g
+           join member m on(g.target_no = m.member_no)    
+            left outer join r_board r on(r.member_no = m.member_no)
+           left outer join photo p on(r.post_no = p.target_no)
+        where g.member_no =#{memberNo}  and p.file_level=0 and p.board_no=1 and g.board_no=0
+        order by create_date desc
+	</select> -->
 	
 		<resultMap id="recipeListMap" type="RecipePreView">
 		<id property="postNo" column="POST_NO"/>
@@ -402,4 +414,16 @@
             join r_board r on(f.member_no = r.member_no )
         where f.target_no =#{targetNo}
      </select>
+     
+     <select id="selectChefUpdateNews" resultMap="FollowResultSet">
+     	    select m.member_no, change_name,r.title
+        from good g
+           join member m on(g.target_no = m.member_no)    
+            left outer join r_board r on(r.member_no = m.member_no)
+           left outer join photo p on(r.post_no = p.target_no)
+        where g.member_no =#{memberNo}  and p.file_level=0 and p.board_no=1 and g.board_no=0
+        order by create_date desc
+     </select>
+
+
 </mapper>

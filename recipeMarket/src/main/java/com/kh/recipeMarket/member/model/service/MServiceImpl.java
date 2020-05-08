@@ -107,12 +107,12 @@ public class MServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int deleteFollow(int memberNo) {
-		return mDAO.deleteFollow(sqlSession, memberNo);
+	public int deleteFollow(Follow follow) {
+		return mDAO.deleteFollow(sqlSession, follow);
 	}
 
 	@Override
-	public int deleteFollower(int memberNo) {
-		return mDAO.deleteFollwer(sqlSession,memberNo);
+	public int deleteFollower(Follow follow) {
+		return mDAO.deleteFollwer(sqlSession,follow);
 	}
 }

@@ -5,15 +5,17 @@ public class Follow {
 	private int memberNo;
 	private String nickName;
 	private String pName;
+	private String title;
 	
 	public Follow() {}
 
-	public Follow(int targetNo, int memberNo, String nickName, String pName) {
+	public Follow(int targetNo, int memberNo, String nickName, String pName, String title) {
 		super();
 		this.targetNo = targetNo;
 		this.memberNo = memberNo;
 		this.nickName = nickName;
 		this.pName = pName;
+		this.title = title;
 	}
 
 	public int getTargetNo() {
@@ -49,11 +51,21 @@ public class Follow {
 		this.pName = pName;
 	}
 
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	@Override
 	public String toString() {
 		return "Follow [targetNo=" + targetNo + ", memberNo=" + memberNo + ", nickName=" + nickName + ", pName=" + pName
-				+ "]";
+				+ ", title=" + title + "]";
 	}
+
 
 	
 	

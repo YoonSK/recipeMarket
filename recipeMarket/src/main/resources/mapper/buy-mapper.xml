@@ -39,7 +39,7 @@
   	
   	<insert id="insertOrder" parameterType="Order">
   		INSERT INTO "ORDER"
-  		VALUES(SEQ_ORN.NEXTVAL, #{memNo}, SYSDATE, #{zip}, #{address}, #{address2}, #{note}, #{phone}, NULL, 0, #{total})
+  		VALUES(SEQ_ORN.NEXTVAL, #{memNo}, SYSDATE, #{zip}, #{address}, #{address2}, #{note}, #{phone}, 0, #{total})
 		<selectKey keyProperty="orderNo" resultType="_int" order="AFTER">
 		 	SELECT SEQ_ORN.CURRVAL FROM dual
 		</selectKey>

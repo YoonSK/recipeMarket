@@ -35,6 +35,7 @@
     </style>
 </head>
 <body>
+<c:import url="../common/header.jsp"/>
 <div class="outer" style="display:flex; justify-content: center;">
     <div class="container" style="width: 1000px; margin: 0 auto; display: flex; flex-direction: column">
     <div style="display: block; justify-content: center;">
@@ -160,7 +161,7 @@
         <div style="width: 5%">재료</div>
         <div style="text-align: left; width: 70%; height: 100px; background-color: rgba(199,241,122,0.49); border-radius: 10px">
         	<c:forEach items="${ingredientList}" var="ing">
-    			<button class="ingredient">
+    			<button class="ingredient" type="button" onclick='location.href="searchProduct.rc?keyword=<c:out value="${ing.name}"/>"'>
     				<c:out value="${ing.name}"/>
     				-
     				<c:out value="${ing.amount}"/>
@@ -313,7 +314,9 @@
         </form>
     </div>
     </div>
+
 </div>
+<c:import url="../common/footer.jsp"/>
 </body>
 <script>
     function ratingStar(no) {
