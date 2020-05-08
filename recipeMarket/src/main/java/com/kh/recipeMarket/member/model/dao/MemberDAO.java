@@ -74,18 +74,19 @@ public class MemberDAO {
 	}
 
 	public ArrayList<Follow> selectFollowing(SqlSessionTemplate sqlSession, Follow follow) {
-		return (ArrayList)sqlSession.selectList("memberMapper.selectFollow", follow);
+
+		return (ArrayList)sqlSession.selectList("memberMapper.selectFollowing", follow);
 	}
 
 	public ArrayList<Follow> selectFollower(SqlSessionTemplate sqlSession, Follow follow) {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectFollower", follow);
 	}
 	
-	public int deleteFollow(SqlSessionTemplate sqlSession, int memberNo) {
-		return sqlSession.delete("memberMapper.deleteFollow", memberNo);
+	public int deleteFollow(SqlSessionTemplate sqlSession, Follow follow) {
+		return sqlSession.delete("memberMapper.deleteFollow", follow);
 	}
 
-	public int deleteFollwer(SqlSessionTemplate sqlSession, int memberNo) {
-		return sqlSession.delete("memberMapper.deleteFollower", memberNo);
+	public int deleteFollwer(SqlSessionTemplate sqlSession, Follow follow) {
+		return sqlSession.delete("memberMapper.deleteFollower", follow);
 	}
 }

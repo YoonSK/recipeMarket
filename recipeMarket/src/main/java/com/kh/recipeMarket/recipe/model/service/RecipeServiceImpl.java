@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.recipeMarket.common.dao.CommonDAO;
 import com.kh.recipeMarket.common.vo.Author;
+import com.kh.recipeMarket.product.model.vo.Product;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.recipe.model.dao.RecipeDAO;
 import com.kh.recipeMarket.recipe.model.vo.*;
@@ -144,8 +145,8 @@ public class RecipeServiceImpl implements RecipeService {
 	}
 
 	@Override
-	public ArrayList<Author> selectChefRank(String sorter) {
-		return rDAO.selectChefRank(sqlSession, sorter);
+	public ArrayList<Author> selectChefRank(String sorter, int rowlim) {
+		return rDAO.selectChefRank(sqlSession, sorter, rowlim);
 	}
 
 	@Override
@@ -158,9 +159,34 @@ public class RecipeServiceImpl implements RecipeService {
 		return cDAO.selectPhotos(sqlSession, 1, postNo);
 	}
 
-	
-	
+	@Override
+	public ArrayList<Product> searchProcuctList(SearchCon sc) {
+		return cDAO.searchProductList(sqlSession, sc);
+	}
 
+	@Override
+	public ArrayList<Ingredient> selectFreqIngredients(int lim) {
+		return rDAO.selectFreqIngredients(sqlSession, lim);
+	}
 
+	@Override
+	public ArrayList<Tag> selectFreqTags(int lim) {
+		return rDAO.selectFreqTags(sqlSession, lim);
+	}
+
+	@Override
+	public ArrayList<RecipePreview> selectSavedRecipeList(int memberNo) {
+		return rDAO.selectSavedRecipeList(sqlSession, memberNo);
+	}
+
+	@Override
+	public ArrayList<RecipePreview> selectFollowedRecipeList(int memberNo) {
+		return rDAO.selectFollowedRecipeList(sqlSession, memberNo);
+	}
+
+	@Override
+	public int addRecipeHit(int postNo) {
+		return rDAO.addRecipeHit(sqlSession, postNo);
+	}
 	
 }

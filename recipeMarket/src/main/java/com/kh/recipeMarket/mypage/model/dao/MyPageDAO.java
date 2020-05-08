@@ -98,12 +98,15 @@ public class MyPageDAO {
 		return (ArrayList)sqlSession.selectList("memberMapper.searchOrderList", loginUser, rowBounds);
 	}
 
-	public ArrayList<Follow> selectChefNews(SqlSessionTemplate sqlSession, int targetNo) {
-		return  (ArrayList)sqlSession.selectList("memberMapper.selectChefNews",targetNo);
+	public ArrayList<Follow> selectChefNews(SqlSessionTemplate sqlSession, int memberNo) {
+		return  (ArrayList)sqlSession.selectList("memberMapper.selectChefNews",memberNo);
 	}
 
 	public ArrayList<RecipePreview> selectChefUpdate(SqlSessionTemplate sqlSession, Follow follow) {
 		return  (ArrayList)sqlSession.selectList("memberMapper.selectChefUpdate",follow);
 	}
 
+	public ArrayList<Follow> selectChefUpdateNews(SqlSessionTemplate sqlSession, int memberNo) {
+		return  (ArrayList)sqlSession.selectList("memberMapper.selectChefUpdateNews",memberNo);
+	}
 }

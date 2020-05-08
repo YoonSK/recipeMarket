@@ -51,8 +51,8 @@
 				<div class="menu_box">
 					<div class="icon_con">
 						<figure>				
-							<img src="resources/images/chef.png" width=100px; height=100px;>
-							<figcaption>쉐프 소식</figcaption>
+							<a href="qnaList.bo"><img src="resources/images/qna.png" width=100px; height=100px;></a>
+							<figcaption>채팅 문의</figcaption>
 						</figure>						
 					</div>
 				</div>

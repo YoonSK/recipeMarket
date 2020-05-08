@@ -11,6 +11,7 @@ import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.manager.model.vo.Product;
 import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
+import com.kh.recipeMarket.recipe.model.vo.RecipePreview;
 
 public interface ManagerService {
 
@@ -53,5 +54,10 @@ public interface ManagerService {
 	ArrayList<Cart> getProduct(Order o);
 
 	int productExport(Cart cart);
+
+	ArrayList<RecipePreview> topFoodList();
+
+	ArrayList<RecipePreview> weatherFoodList();
+
 
 }

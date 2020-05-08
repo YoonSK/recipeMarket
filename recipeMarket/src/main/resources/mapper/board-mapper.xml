@@ -214,4 +214,43 @@
 		where reply_no = #{replyNo}
 	</update> -->
 	
+	
+	
+	<resultMap type="QNA" id="qnaRS">
+		<id property="postNo"  column="POST_NO"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="content" column="CONTENT"/>
+		<result property="nickName" column="nickname"/>
+	</resultMap>
+	
+	
+	<insert id="insetQna" parameterType="QNA">
+		insert into qna
+		values(seq_qno.nextval,#{memberNo}, #{content})
+	</insert>
+	
+	<select id="qListCount" resultType="_int">
+		select count(*)
+		from (select nickname
+      		from qna q
+            join member using(member_no)
+        where member_no != 0
+        group by nickname)
+	</select>
+	
+	<select id="qList" resultMap="qnaRS">
+		select nickname, member_no
+		from qna q
+     		join member using(member_no)
+		where member_no != 0
+		group by nickname,member_no
+	</select>
+	
+	<select id="selectQnaList" resultMap="qnaRS">
+		select nickname, q.content
+		from qna q
+    		join member using(member_no)
+		where member_no =#{memberNo}
+	</select>
+	
 </mapper>

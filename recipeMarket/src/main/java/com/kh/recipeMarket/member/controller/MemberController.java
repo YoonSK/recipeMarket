@@ -457,10 +457,12 @@ public class MemberController {
 //		return mv;
 //	}
 	
-	@RequestMapping("followList.me")
-	public void followList(ModelAndView mv,HttpServletResponse response, @RequestParam("targetNo") int targetNo, Follow follow) throws IOException {
+
+	@RequestMapping("followingList.me")
+	public void followList(ModelAndView mv,HttpServletResponse response, @RequestParam("memberNo") int memberNo, Follow follow) throws IOException {
 		
-		follow.setTargetNo(targetNo);
+		follow.setMemberNo(memberNo);
+
 		
 		ArrayList<Follow> list = ms.selectFollowing(follow);
 		System.out.println(list);
@@ -469,44 +471,16 @@ public class MemberController {
 			f.setNickName(URLEncoder.encode(f.getNickName(), "UTF-8"));
 		}
 		
-		
-//		  follow.setTargetNo(targetNo);
-//		 ArrayList<Follow> flist =  ms.selectFollower(follow);
-//		  System.out.println(flist);
-//		  
-//		  for(Follow f:flist) {
-//				f.setNickName(URLEncoder.encode(f.getNickName(), "UTF-8"));
-//			}
-//		 
-		
+
 		Gson gson = new Gson();
 		gson.toJson(list, response.getWriter());
-//		gson.toJson(flist, response.getWriter());
-//		if(list != null) {
-//			mv.addObject("list", list);
-//			mv.addObject("flist",flist);
-//			System.out.println("보내는 list : "+ list);
-//			System.out.println("보내는 flist : "+ flist);
-//			mv.setViewName("redirect:views/header.jsp");
-//			
-//		}	
-//		return mv;
 	}
 	
 	
-	@RequestMapping("followingList.me")
+	@RequestMapping("followerList.me")
 	public void followingList(HttpServletResponse response, @RequestParam("targetNo") int targetNo, Follow follow) throws IOException {
 		
-//		follow.setTargetNo(targetNo);
-		
-//		ArrayList<Follow> list = ms.selectFollowing(follow);
-//		System.out.println(list);
-//		
-//		for(Follow f:list) {
-//			f.setNickName(URLEncoder.encode(f.getNickName(), "UTF-8"));
-//		}
-		
-		
+
 		  follow.setTargetNo(targetNo);
 		 ArrayList<Follow> list =  ms.selectFollower(follow);
 		  System.out.println(list);
@@ -521,10 +495,15 @@ public class MemberController {
 }
 
 	@RequestMapping("deleteFollow.me")
-	public String deleteFollow(HttpServletRequest request, @RequestParam("targetNo") int memberNo) {
+
+	public String deleteFollow(HttpServletRequest request, Follow follow ,@RequestParam("targetNo") int targetNo,@RequestParam("memberNo") int memberNo) {
 		
-		System.out.println(memberNo);
-		int result = ms.deleteFollow(memberNo);
+		System.out.println(targetNo);
+		
+		follow.setTargetNo(targetNo);
+		follow.setMemberNo(memberNo);
+		int result = ms.deleteFollow(follow);
+
 		 String referer = request.getHeader("Referer");
 		if(result > 0) {
 			return "redirect:"+referer;
@@ -533,15 +512,23 @@ public class MemberController {
 		}
 	}
 	@RequestMapping("deleteFollower.me")
-	public String deleteFollower(HttpServletRequest request, @RequestParam("targetNo") int memberNo) {
+
+	public String deleteFollower(HttpServletRequest request,Follow follow , @RequestParam("targetNo") int targetNo,@RequestParam("memberNo") int memberNo) {
 		
-		System.out.println(memberNo);
-		int result = ms.deleteFollower(memberNo);
+		System.out.println(targetNo);
+		
+		follow.setTargetNo(targetNo);
+		follow.setMemberNo(memberNo);
+		
+		int result = ms.deleteFollower(follow);
+
 		 String referer = request.getHeader("Referer");
 		if(result > 0) {
 			return "redirect:"+referer;
 		} else {
-			throw new MemberException("팔로잉 삭제에 실패하였습니다.");
+
+			throw new MemberException("팔로워 삭제에 실패하였습니다.");
+
 		}
 	}
 

@@ -255,5 +255,38 @@
 			WHERE PRODUCT_NO = ${productNo}
 	</update>
 	
+	<resultMap id="recipeListMap" type="RecipePreView">
+		<id property="postNo" column="POST_NO"/>
+		<result property="title" column="TITLE"/>
+		<result property="thumb" column="CHANGE_NAME"/>
+		<result property="rating" column="RATE"/>
+		<result property="hit" column="HIT"/>
+	</resultMap>
+	
+	<select id="topFoodList" resultMap="recipeListMap">
+		<![CDATA[
+	   		 SELECT * from (select POST_NO, TITLE, CHANGE_NAME
+    	FROM R_BOARD R
+    	JOIN PHOTO P ON(BOARD_NO = 1 AND TARGET_NO = POST_NO AND FILE_LEVEL = 0)
+        join reply r on(p.board_no=1 and r.board_no=1 and r.target_no = p.target_no )
+		WHERE  R.DELETED = 'N'
+		ORDER BY rating DESC)
+        where rownum <=5
+   		]]>
+	</select>
+	
+	<select id="weatherFoodList" resultMap="recipeListMap">
+		<![CDATA[
+	   		 SELECT * from (select r.POST_NO, TITLE, CHANGE_NAME
+    	FROM R_BOARD R
+    	JOIN PHOTO P ON(BOARD_NO = 1 AND TARGET_NO = POST_NO AND FILE_LEVEL = 0)
+        join reply r on(p.board_no=1 and r.board_no=1 and r.target_no = p.target_no )
+        join r_tag t on(r.target_no = t.post_no) 
+		WHERE  R.DELETED = 'N' and tag like '%비%'
+		ORDER BY post_no DESC)
+        where rownum <=5
+   		]]>
+	</select>
+	
 	
 </mapper>

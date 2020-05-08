@@ -30,6 +30,8 @@
 		<typeAlias type="com.kh.recipeMarket.common.Like" alias="Like"/>					
 		<typeAlias type="com.kh.recipeMarket.product.model.vo.Product" alias="Product2"/>
 		<typeAlias type="com.kh.recipeMarket.member.model.vo.Follow" alias="Follow"/>
+		
+		<typeAlias type="com.kh.recipeMarket.board.model.vo.Qna" alias="QNA"/>
 
 	</typeAliases>
 	

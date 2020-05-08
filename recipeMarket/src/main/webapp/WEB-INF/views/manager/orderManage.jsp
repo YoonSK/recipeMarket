@@ -224,7 +224,7 @@
 				    <!-- The Modal -->
 				    <div id="cmodal" class="modal">	 
 				      <!-- Modal content -->
-				      <form action="<%= request.getContextPath() %>/coupon.pt" id="cForm" method="post">
+				      <form id="cForm" method="post">
 					      <div class="modal-content2">
 					        <span class="close">&times;</span>                                                               
 					        <p><font style="font-size:25px; font-weight:500;">주문 상세</font></p>
