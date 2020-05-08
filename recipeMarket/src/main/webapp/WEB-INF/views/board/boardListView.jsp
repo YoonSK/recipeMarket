@@ -57,7 +57,7 @@
 	            <span style="float:right; padding:10px; margin:0 auto;">
 	            	<c:if test="${ !empty loginUser }">
 	                <button id="insertBtn" onclick="location.href='insertView.bo';">등록하기</button>
-	                <button id= "test1" onclick="location.href='test1.bo';">실시간 채팅 문의</button>
+	               <!--  <button id= "test1" onclick="location.href='test1.bo';">실시간 채팅 문의</button> -->
 	            	</c:if>
 	            </span>
 	         </div>
@@ -129,7 +129,7 @@
 		         		
 	        	</c:forEach>
 	        	
-	        	<!-- 페이징 처리 -->
+	        <%-- 	<!-- 페이징 처리 -->
 		      	<tr align="center" height="20" id="buttonTab">
 		        	<td colspan="6">
 		         
@@ -170,8 +170,50 @@
 		               <a href="${ after }">[다음]</a>
 		            </c:if>
 		         </td>
-		      </tr>
-			</table>
+		      </tr> --%>
+		      
+		      
+		      <!-- 페이징 처리 -->
+			<tr align="center" height="20" id="buttonTab" class="pagingArea">
+				<td colspan="10">
+			<!-- [이전] -->
+			<c:if test="${ pi.currentPage <= 1 }">
+				<button disabled>&laquo;</button>
+			</c:if>
+			<c:if test="${ pi.currentPage > 1 }">
+				<c:url var="before" value="blist.bo">
+		    		<c:param name="page" value="${ pi.currentPage - 1 }"/>
+		    	</c:url>
+				<button onclick="location.href='${ before }'">&laquo;</button>
+			</c:if>
+						            
+			<!-- 페이지 -->
+			<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+				<c:if test="${ p eq pi.currentPage }">
+					<button disabled>${ p }</button>
+				</c:if>
+						               
+				<c:if test="${ p ne pi.currentPage }">
+					<c:url var="pagination" value="blist.bo">
+		        		<c:param name="page" value="${ p }"/>
+		        	</c:url>
+				<a href="${ pagination }">${ p }</a> &nbsp;
+				</c:if>
+			</c:forEach>
+						            
+			<!-- [다음] -->
+			<c:if test="${ pi.currentPage >= pi.maxPage }">
+			<button disabled>&raquo;</button>
+			</c:if>
+			<c:if test="${ pi.currentPage < pi.maxPage }">
+				<c:url var="after" value="blist.bo">
+		    		<c:param name="page" value="${ pi.currentPage + 1 }"/>
+		   		</c:url> 
+				<button onclick="location.href='${ after }'">&raquo;</button>								
+				</c:if>
+			</td>
+		</tr>
+	</table>
 			
 			
 			
