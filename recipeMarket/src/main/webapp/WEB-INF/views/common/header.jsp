@@ -375,7 +375,7 @@ $(document).on('click', '#deleteFollower', function(){
 						$('#message').val('')
 					});
 
-					let sock = new SockJS("http://localhost:9780/recipeMarket/echo");
+					let sock = new SockJS("http://192.168.10.230:9780/recipeMarket/echo");
 					sock.onmessage = onMessage;
 					sock.onclose = onClose;
 					// 메시지 전송

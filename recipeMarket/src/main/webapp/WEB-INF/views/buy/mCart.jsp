@@ -19,8 +19,8 @@
 	#summary{margin-left: 70%;}
 	.sHead{font-weight: bold; font-size: 18px;}
 	.sBody{margin-left: 30%}
-	input[type="button"].deleteBtn{border: none; background: white;}
-	input[type="button"].deleteBtn:hover{border: none; background: white; cursor: pointer;}
+	tr.orderT > td > input[type="button"].deleteBtn{border: none; background: white; color: black;}
+	tr.orderT > td > input[type="button"].deleteBtn:hover{border: none; background: white; cursor: pointer;}
 	
 	div#button {margin-left: 40%; margin-top: 10%;}
 	div#button > input[type="button"]{width: 80px; height: 30px; font-size: 14px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
