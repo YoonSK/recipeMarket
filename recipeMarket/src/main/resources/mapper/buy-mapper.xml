@@ -70,5 +70,50 @@
  				PRODUCT_NO = #{cart.productNo} and MEMBER_NO = #{cart.memberNo}
 			</foreach>  
   	</select>  
+  	
+  	<insert id="insertCart" parameterType="Cart">
+  		INSERT INTO CART
+  		VALUES(#{productNo}, #{memberNo}, #{prCount})
+  	</insert>
+  
+  	<resultMap type="Product2" id="productRS">
+		<result property = "productNo" column="PRODUCT_NO"/>		
+		<result property = "name" column ="NAME"/>		
+		<result property = "price" column ="PRICE"/>
+		<result property = "stock" column ="STOCK"/>
+		<result property = "category" column ="CATEGORY"/>
+		<result property = "createDate" column ="CREATE_DATE"/>
+		<result property = "deleted" column ="DELETED"/>
+		<result property = "income" column ="INCOME"/>
+		<result property = "export" column ="EXPORT"/>
+		<result property = "phname" column ="PHNAME"/>
+	</resultMap>
+  
+	 <select id="getPrDetail" parameterType="_int" resultMap="productRS">
+		select p.product_no as product_no, p.name as name, price, stock, category, CHANGE_NAME AS "PHNAME"
+		from product p
+        LEFT OUTER JOIN PHOTO ph ON(p.PRODUCT_NO = ph.TARGET_NO AND BOARD_NO = 3)
+        WHERE p.product_no = #{productNo}  
+	 </select> 
+
+  	<resultMap type="Reply" id="ReplyRS">
+		<result property = "replyNo" column="REPLY_NO"/>		
+		<result property = "memberNo" column ="MEMBER_NO"/>		
+		<result property = "boardNo" column ="BOARD_NO"/>
+		<result property = "targetNo" column ="TARGET_NO"/>
+		<result property = "content" column ="CONTENT"/>
+		<result property = "createDate" column ="CREATE_DATE"/>
+		<result property = "deleted" column ="DELETED"/>
+		<result property = "modifyDate" column ="MODIFY_DATE"/>
+		<result property = "rating" column ="RATING"/>
+		<result property = "nickName" column ="NICKNAME"/>		
+	</resultMap>
+	 
+	 <select id="getReview" resultMap="ReplyRS">
+	    SELECT reply_no, nickname, content, rating
+        FROM REPLY R
+        JOIN "MEMBER" M ON(R.MEMBER_NO = M.MEMBER_NO)
+        WHERE TARGET_NO = #{productNo} AND BOARD_NO = 3 AND R.DELETED = 'N'
+	 </select>
   
 </mapper>

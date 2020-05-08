@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 import com.kh.recipeMarket.buy.model.vo.Cart;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.buy.model.vo.OrderDetail;
+import com.kh.recipeMarket.common.Reply;
+import com.kh.recipeMarket.product.model.vo.Product;
 
 @Repository("buyDAO")
 public class BuyDAO {
@@ -47,6 +49,18 @@ public class BuyDAO {
 
 	public int cartDeleteAfter(SqlSessionTemplate sqlSession, ArrayList<Cart> delList) {
 		return sqlSession.delete("buyMapper.cartDeleteAfter", delList);
+	}
+
+	public int insertCart(SqlSessionTemplate sqlSession, Cart c) {
+		return sqlSession.insert("buyMapper.insertCart", c);
+	}
+
+	public Product getPrDetail(SqlSessionTemplate sqlSession, int productNo) {
+		return sqlSession.selectOne("buyMapper.getPrDetail", productNo);
+	}
+
+	public ArrayList<Reply> getReview(SqlSessionTemplate sqlSession, int productNo) {
+		return (ArrayList)sqlSession.selectList("buyMapper.getReview", productNo);
 	}
 
 }

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -21,9 +22,11 @@ import com.google.gson.JsonIOException;
 import com.kh.recipeMarket.buy.model.exception.BuyException;
 import com.kh.recipeMarket.buy.model.service.BuyService;
 import com.kh.recipeMarket.buy.model.vo.Cart;
-import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.buy.model.vo.OrderDetail;
+import com.kh.recipeMarket.common.Reply;
+import com.kh.recipeMarket.member.model.vo.Member;
+import com.kh.recipeMarket.product.model.vo.Product;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -31,6 +34,23 @@ public class BuyController {
 	
 	@Autowired
 	private BuyService bs;
+	
+	
+	@RequestMapping("detail.by")
+	public ModelAndView prDetail(@RequestParam("productNo") int productNo, ModelAndView mv) {
+		Product pr = new Product();
+		pr = bs.getPrDetail(productNo);
+		ArrayList<Reply> list = bs.getReview(productNo);
+		
+		if(pr != null) {
+			mv.addObject("pr", pr);
+			mv.addObject("list", list);
+			mv.setViewName("prDetail");
+		}else {
+			throw new BuyException("상세 조회에 실패하였습니다.");
+		}
+		return mv;
+	}
 
 	@RequestMapping("goCart.by")
 	public ModelAndView goCart(ModelAndView mv, Model model) {
@@ -89,6 +109,33 @@ public class BuyController {
 		}
 		
 		return mv;
+	}
+	
+	// 바로 구매
+	@RequestMapping("goToBuy.by")
+	public ModelAndView goToBuy(@ModelAttribute Cart c, Model model, ModelAndView mv) {
+		ArrayList<Cart> list = new ArrayList<Cart>();
+		Member loginUser = (Member)model.getAttribute("loginUser");		
+		list.add(c);
+		mv.addObject("list", list);			
+		mv.setViewName("mBuy");			
+		
+		return mv;		
+	}
+	
+	// 장바구니 담기
+	@RequestMapping("insertCart.by")
+	public void goToCart(HttpServletResponse response, @ModelAttribute Cart c, Model model) throws JsonIOException, IOException {
+		Member loginUser = (Member)model.getAttribute("loginUser");		
+		c.setMemberNo(loginUser.getMemberNo());
+		int result = bs.insertCart(c);
+		Gson gson = new Gson();
+
+		if(result > 0) {
+			gson.toJson(result, response.getWriter());
+		}else {
+			gson.toJson(result, response.getWriter());
+		}
 	}
 	
 	// 구매완료
