@@ -400,11 +400,14 @@ public class RecipeController {
 		int pNo = 6899265 + rdv;
 		Document doc = Jsoup.connect("https://www.10000recipe.com/recipe/"+pNo).get();
 		System.out.println("https://www.10000recipe.com/recipe/"+pNo);
+	if(doc != null) {
 
 		Recipe r = new Recipe();
 		random.nextInt(20);
 		r.setMemberNo(41);
-		r.setTitle(doc.title());
+		String tempTitle = (doc.title().length() < 40) ? doc.title() : doc.title().substring(0, 40);
+		
+		r.setTitle(tempTitle);
 		
 		int cseed = random.nextInt(8);
 		String category = "";
@@ -503,13 +506,31 @@ public class RecipeController {
 		ArrayList<String> tagList = new ArrayList<String>();
 		Elements tags = doc.select(".view_tag > a");
 		for(Element temp : tags) {
-			tagList.add(temp.text().replace("#", "").replace(" ", ""));
+			if(temp.text() != "") {
+				if(temp.text().length() < 20) {
+					tagList.add(temp.text().replace("#", "").replace(" ", ""));
+				}
+				else{
+					String[] tgs = temp.text().split(" ");
+					for(String tg : tgs) {
+						tagList.add(tg);
+					}
+				}
+			}
 		}
+		if(tagList.size() == 0) {tagList.add("강추");}
 		
 		ArrayList<String> stepList = new ArrayList<String>();
 		for(int i = 1; i < 5; i++) {
 			String seeker = "#stepdescr" + (i);
-			stepList.add((doc.select(seeker).text()));
+			String stp = doc.select(seeker).text();
+			if(stp.length() < 300) {
+				stepList.add(stp);
+			}
+			else{
+				String[] xstp = stp.split(".");
+				stepList.add(xstp[0]);
+			}
 		}
         
 		ArrayList<Photo> images = new ArrayList<Photo>();
@@ -524,6 +545,7 @@ public class RecipeController {
 		}
         
 		rService.insertRecipe(r, stepList, ingList, amtList, tagList, images);
+	}
 	}
 		String referer = request.getHeader("Referer");
 	    return "redirect:"+ referer;
