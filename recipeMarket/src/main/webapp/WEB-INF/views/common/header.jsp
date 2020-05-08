@@ -177,7 +177,7 @@
 					<a href="blist.bo">자유게시판</a>
 				</li>
 				<li>
-					<a href="#">쉐프 소개</a>
+					<a href="chefRank.rc">쉐프 소개</a>
 				</li>																
 			</ul>				
 		</div>

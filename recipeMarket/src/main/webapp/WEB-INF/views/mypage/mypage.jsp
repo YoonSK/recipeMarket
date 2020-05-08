@@ -43,7 +43,7 @@
 				<div class="menu_box">
 					<div class="icon_con">
 						<figure>				
-							<img src="resources/images/recipe.png" width=100px; height=100px;>
+							<a href="list.rc"><img src="resources/images/recipe.png" width=100px; height=100px;></a>
 							<figcaption> 레시피</figcaption>
 						</figure>						
 					</div>
@@ -51,7 +51,7 @@
 				<div class="menu_box">
 					<div class="icon_con">
 						<figure>				
-							<a href="chefNews.mp"><img src="resources/images/chef.png" width=100px; height=100px;></a>
+							<a href="followedList.rc"><img src="resources/images/chef.png" width=100px; height=100px;></a>
 							<figcaption>쉐프 소식</figcaption>
 						</figure>						
 					</div>

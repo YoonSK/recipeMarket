@@ -532,16 +532,36 @@ public class RecipeController {
 				stepList.add(xstp[0]);
 			}
 		}
-        
+		/*
+		ArrayList<String> plist = new ArrayList<String>();
+		String mainUrl = doc.select("#main_thumbs").attr("src");
+		plist.add(mainUrl);
+		
+		for(int i = 1; i < stepList.size(); i++) {
+			Element elm = doc.select("#stepimg" + i + "> img").get(0);
+			String st = elm.attr("src");
+				plist.add(st);
+		}
+
+		for(int i=0; i < stepList.size(); i++) {
+			File outputFile = new File("resources/images/sample" + i + ".png");
+			URL url = null;
+			BufferedImage bi = null;
+			
+			url = new URL(plist.get(i));
+		    bi = ImageIO.read(url);
+		    ImageIO.write(bi, "png", outputFile);
+		}
+		*/
 		ArrayList<Photo> images = new ArrayList<Photo>();
 		for(int i=0; i <= stepList.size(); i++) {
 			Photo p = new Photo();
 			p.setBoardNo(1);
-			p.setTargetNo(0);
 			p.setFileLevel(i);
-			p.setOriginName("sample.jpg");
-			p.setChangeName("sample"+ i +".jpg");
+			p.setOriginName("sample.png");
+			p.setChangeName("sample" + rdv + i +".png");
 			images.add(p);
+			System.out.println(p);
 		}
         
 		rService.insertRecipe(r, stepList, ingList, amtList, tagList, images);
