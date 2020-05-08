@@ -101,36 +101,7 @@
 		         			</th>
 		         		</tr>
 		         		
-		         		<%-- <tr height="300px">
-		         			<!-- <td colspan=2> <button id="picBtn">+</button></td> -->
-		         			<td colspan=2 style="padding:50px;">
-		         				<!-- <img src="https://recipe1.ezmember.co.kr/img/pic_none3.gif"> -->
-		         				<label for="ex_file"><img src="https://recipe1.ezmember.co.kr/img/pic_none3.gif" id="contentImg1"></label>
-  								<input type="file" id="ex_file"  style="display:none">
-		         			</td>
-		         			
-		         			<c:if test="${ ex_file eq null }">
-				         		<td colspan=3 >
-				         			사진을 넣으시려면 +를 눌러주세요.
-				         		</td>
-							</c:if>
-							
-							<c:if test="${ ex_file ne null }">
-				         		<td colspan=3 >
-				         			55.
-				         		</td>
-							</c:if>
-		         			
-		       
-		         		</tr> --%>
-		         		
-		         		
-		         		<!-- <tr>
-		         			<td rowspan="2" colspan="5" align="center">
-		         				<input type="submit" value="등록하기"  id="insertBtn"> &nbsp; &nbsp;
-		         				<button onclick="location.href='blist.bo'" id="backBtn">목록으로</button>
-		         			</td>
-		         		</tr> -->
+		        
 		         		
 		         	</table>
 		         	
@@ -175,6 +146,8 @@
 
 				</form>
 			</div>
-		</div>			
+		</div>		
+		
+		<%@ include file="../common/footer.jsp" %>	
 </body>
 </html>

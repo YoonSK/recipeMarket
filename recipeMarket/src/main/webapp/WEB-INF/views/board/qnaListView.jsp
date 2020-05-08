@@ -29,7 +29,7 @@
 		        	<!-- <div > -->
 		        	<tr class="contentTR">
 		        		<td width="75%" style="font-size:30px">
-			        		${ b.nickName }님의 질문방 <span style="color:red">[NEW]</span>
+			        		${ b.nickName }님의 질문<span style="color:red">[NEW]</span>
 			        		<input type="hidden" id="postNo" value="${ b.postNo }" name = "postNo">
 		        		</td>	
 		        		
