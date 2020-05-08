@@ -11,7 +11,9 @@ import com.kh.recipeMarket.buy.model.dao.BuyDAO;
 import com.kh.recipeMarket.buy.model.vo.Cart;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.buy.model.vo.OrderDetail;
+import com.kh.recipeMarket.common.Reply;
 import com.kh.recipeMarket.member.model.vo.Member;
+import com.kh.recipeMarket.product.model.vo.Product;
 
 @Service("bs")
 public class BuyServiceImpl implements BuyService{
@@ -60,6 +62,21 @@ public class BuyServiceImpl implements BuyService{
 	@Override
 	public int cartDeleteAfter(ArrayList<Cart> delList) {
 		return buyDAO.cartDeleteAfter(sqlSession, delList);
+	}
+
+	@Override
+	public int insertCart(Cart c) {
+		return buyDAO.insertCart(sqlSession, c);
+	}
+
+	@Override
+	public Product getPrDetail(int productNo) {
+		return buyDAO.getPrDetail(sqlSession, productNo);
+	}
+
+	@Override
+	public ArrayList<Reply> getReview(int productNo) {
+		return buyDAO.getReview(sqlSession, productNo);
 	}
 
 }
