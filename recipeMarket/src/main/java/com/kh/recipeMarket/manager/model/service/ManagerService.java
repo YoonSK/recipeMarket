@@ -59,4 +59,5 @@ public interface ManagerService {
 
 	ArrayList<RecipePreview> weatherFoodList();
 
+
 }

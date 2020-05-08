@@ -74,6 +74,7 @@ public class MemberDAO {
 	}
 
 	public ArrayList<Follow> selectFollowing(SqlSessionTemplate sqlSession, Follow follow) {
+
 		return (ArrayList)sqlSession.selectList("memberMapper.selectFollowing", follow);
 	}
 

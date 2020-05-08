@@ -86,8 +86,10 @@
 		<result property = "deleted" column ="DELETED"/>
 	</resultMap>
 	
-	<select id="">
-	
+	<select id="productDetail" resultMap="productRS">
+		<![CDATA[
+			select * 
+		]]>
 	</select>
 	
 </mapper>

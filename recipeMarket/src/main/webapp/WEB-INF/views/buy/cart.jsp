@@ -20,6 +20,7 @@
 <body>
 	<%@ include file="../common/header.jsp" %>
 	
+	<div class="s_contents">
 	<table class="list_view">
 		<tbody align=center >
 			<tr style="background:#33ff00" >
@@ -166,9 +167,9 @@
 		 <a href="#">
 		 	<img width="75" alt="" src="${contextPath}/resources/image/btn_shoping_continue.jpg">
 		 </a>
-	<center>
-</form>	
-
+	</center>
+</form>
+</div>
 	<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

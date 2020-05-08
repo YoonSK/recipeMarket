@@ -319,8 +319,6 @@ $(document).on('click', '#deleteFollower', function(){
 	});
 </script>
 
-
-		
 		 <!-- The Modal -->
 			    <div id="hmodal" class="hmodal">	 
 
