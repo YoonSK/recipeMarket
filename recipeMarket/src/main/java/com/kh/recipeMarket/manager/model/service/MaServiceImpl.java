@@ -1,6 +1,5 @@
 package com.kh.recipeMarket.manager.model.service;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.manager.model.dao.ManagerDAO;
 import com.kh.recipeMarket.manager.model.vo.Product;
-import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
+import com.kh.recipeMarket.member.model.vo.Follow;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 import com.kh.recipeMarket.recipe.model.vo.RecipePreview;
 
@@ -135,6 +134,11 @@ public class MaServiceImpl implements ManagerService {
 	@Override
 	public ArrayList<RecipePreview> weatherFoodList() {
 		return maDAO.weatherFoodList(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Follow> topChefList() {
+		return maDAO.topChefList(sqlSession);
 	}
 
 	

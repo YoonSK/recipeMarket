@@ -359,7 +359,14 @@ public class MyPageController {
 			
 			ArrayList<Follow> clist = mps.selectChefNews(memberNo);
 			ArrayList<Follow> rlist = mps.selectChefUpdateNews(memberNo);
-			System.out.println(clist);
+			System.out.println("clist : " + clist);
+//			ArrayList<RecipePreview> rlist = new ArrayList<RecipePreview>();
+//			for(int i = 0; i< clist.size(); i++) {
+//				
+//				follow.setTargetNo(clist.get(i).getMemberNo());
+//				System.out.println("follow : " + follow);
+//				rlist = mps.selectChefUpdate(follow);
+//			}
 			System.out.println("rlist : "+rlist);
 			mv.addObject("clist", clist);
 			mv.addObject("rlist", rlist);

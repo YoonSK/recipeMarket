@@ -275,7 +275,7 @@
    		]]>
 	</select>
 	
-	<select id="weatherFoodList" resultMap="recipeListMap">
+	<!-- <select id="weatherFoodList" resultMap="recipeListMap">
 		<![CDATA[
 	   		 SELECT * from (select r.POST_NO, TITLE, CHANGE_NAME
     	FROM R_BOARD R
@@ -286,7 +286,39 @@
 		ORDER BY post_no DESC)
         where rownum <=5
    		]]>
+	</select> -->
+	
+	<select id="weatherFoodList" resultMap="recipeListMap">
+		<![CDATA[
+	 		select * from (select r.post_no, r.title, change_name
+                        from r_board r join r_tag t on(r.post_no = t.post_no)
+                                        join photo p on(t.post_no = p.target_no and p.board_no=1 and file_level=0)
+                        where tag like '%비%' and r.deleted='N'
+                        order by r.hit desc)
+       		 where rownum <= 5
+        ]]>
 	</select>
 	
+	<resultMap type="Follow" id="FollowResultSet">
+		<id property="targetNo" column="TARGET_NO"/>
+		<id property="memberNo" column="MEMBER_NO"/>
+		<result property="nickName" column="NICKNAME"/>
+		<result property="pName" column="CHANGE_NAME"/>
+		<result property="title" column="TITLE"/>
+	</resultMap>
+	
+	<select id="topChefList" resultMap="FollowResultSet">
+	<![CDATA[
+	select * from(
+		SELECT M.MEMBER_NO, NICKNAME, P.CHANGE_NAME,COUNT(m.MEMBER_NO) AS hit
+		FROM MEMBER M
+		JOIN PHOTO P ON(P.BOARD_NO = 0 AND P.TARGET_NO = M.MEMBER_NO AND P.FILE_LEVEL = 0 AND P.DELETED != 'Y')
+		LEFT OUTER JOIN R_PREVIEW R ON(R.MEMBER_NO = M.MEMBER_NO)
+		WHERE M.DELETED = 'N'
+        GROUP BY M.MEMBER_NO, NICKNAME, P.CHANGE_NAME
+        order by hit desc)
+        where rownum <=8
+        ]]>
+	</select>
 	
 </mapper>
