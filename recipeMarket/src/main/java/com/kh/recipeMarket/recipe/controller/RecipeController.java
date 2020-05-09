@@ -30,10 +30,13 @@ import com.kh.recipeMarket.common.Like;
 import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.service.CommonService;
 import com.kh.recipeMarket.common.vo.*;
+import com.kh.recipeMarket.manager.model.service.ManagerService;
+import com.kh.recipeMarket.manager.model.vo.Product;
 import com.kh.recipeMarket.member.model.vo.Member;
-import com.kh.recipeMarket.product.model.vo.Product;
 import com.kh.recipeMarket.recipe.model.service.RecipeService;
 import com.kh.recipeMarket.recipe.model.vo.*;
+
+import ch.qos.logback.core.net.SyslogOutputStream;
 
 @Controller
 public class RecipeController {
@@ -43,6 +46,9 @@ public class RecipeController {
 	
 	@Autowired
 	CommonService cService;
+	
+	@Autowired
+	ManagerService mas;
 	
 	@RequestMapping("insertForm.rc")
 	public String recipeInsertForm(HttpSession session) {
@@ -392,202 +398,477 @@ public class RecipeController {
 		return mv;
 	}
 	
-	@RequestMapping("searchOuterRecipes.rc")
-	public String outerSearch(HttpSession session, HttpServletRequest request) throws IOException{
+	public String importRecipe(@RequestParam("pNo") int pNo, HttpSession session, HttpServletRequest request) throws IOException{
 		Random random = new Random();
-	for(int q = 0; q < 15 ; q++) {
-		int rdv = random.nextInt(1000);
-		int pNo = 6899265 + rdv;
-		
-		//pNo = 6899341;
-		
-		Document doc = Jsoup.connect("https://www.10000recipe.com/recipe/"+pNo).get();
-		System.out.println("https://www.10000recipe.com/recipe/"+pNo);
-	if(doc != null) {
-
-		Recipe r = new Recipe();
-		random.nextInt(20);
-		
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		int memberNo = loginUser.getMemberNo();
-		
-		r.setMemberNo(memberNo);
-		String tempTitle = (doc.title().length() < 38) ? doc.title() : doc.title().substring(0, 38);
-		
-		r.setTitle(tempTitle);
-		
-		int cseed = random.nextInt(8);
-		String category = "";
-		switch(cseed) {
-		case 0: category ="sub"; break;
-		case 1: category ="main"; break;
-		case 2: category ="soup"; break;
-		case 3: category ="meal"; break;
-		case 4: category ="dessert"; break;
-		case 5: category ="salad"; break;
-		case 6: category ="drink"; break;
-		case 7: category ="sauce"; break;
-		case 8: category ="etc"; break;
-		}
-		r.setCategory(category);
-		
-		String sseed = doc.select(".view2_summary_info1").text().replace("인분", "").replace(" 이상", "");
-		if(sseed.equals("")) {sseed = "1";}
-		r.setServing(Integer.parseInt(sseed));
-		
-		String rseed = doc.select(".view2_summary_info2").text().replace("분 이내", "").replace("2시간 이상", "120");
-		if(rseed.equals("")) {rseed = "10";}
-		r.setReqTime(Integer.parseInt(rseed));
-		
-		
-		String dseed = doc.select(".view2_summary_info3").text();
-		int difficulty = 0;
-		switch(dseed) {
-		case "": difficulty = 0; break;
-		case "아무나": difficulty = 0; break;
-		case "초급": difficulty = 0; break;
-		case "중급": difficulty = 1; break;
-		case "고급": difficulty = 2; break;
-		case "신의경지": difficulty =2; break;
-		}
-		r.setDifficulty(difficulty);
-		
-		ArrayList<String> ingList = new ArrayList<String>();
-		/*
-		for(int i = 0; i <5; i++) {
-			ingList.add("ting"+ i);
-		}
-		*/
-		ArrayList<String> amtList = new ArrayList<String>();
-		/*
-		for(int i = 0; i <5; i++) {
-			amtList.add("tamt"+ i);
-		}
-		*/
-		
-		if (doc.select(".cont_ingre > dl > dd").text().split(", ").equals("")) {
-			Elements els = doc.select(".cont_ingre > dl > dd");
-			for (Element tempEl: els) {
-				String[] ings = tempEl.text().split(", ");
-				for(String temp: ings) {
-					if (temp.contains(" ")) {
-						String[] split = temp.split(" ");
-						if(!ingList.contains(split[0])) {
-							ingList.add(split[0]);
-							amtList.add(split[1]);
+	try {
+			Document doc = Jsoup.connect("https://www.10000recipe.com/recipe/"+pNo).get();
+			System.out.println("https://www.10000recipe.com/recipe/"+pNo);
+			System.out.println(doc.html());
+		if(doc != null) {
+	
+			Recipe r = new Recipe();
+			random.nextInt(20);
+			
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			int memberNo = loginUser.getMemberNo();
+			
+			r.setMemberNo(memberNo);
+			String tempTitle = (doc.title().length() < 38) ? doc.title() : doc.title().substring(0, 38);
+			
+			r.setTitle(tempTitle);
+			
+			int cseed = random.nextInt(8);
+			String category = "";
+			switch(cseed) {
+			case 0: category ="sub"; break;
+			case 1: category ="main"; break;
+			case 2: category ="soup"; break;
+			case 3: category ="meal"; break;
+			case 4: category ="dessert"; break;
+			case 5: category ="salad"; break;
+			case 6: category ="drink"; break;
+			case 7: category ="sauce"; break;
+			case 8: category ="etc"; break;
+			}
+			r.setCategory(category);
+			
+			String sseed = doc.select(".view2_summary_info1").text().replace("인분", "").replace(" 이상", "");
+			if(sseed.equals("")) {sseed = "1";}
+			r.setServing(Integer.parseInt(sseed));
+			
+			String rseed = doc.select(".view2_summary_info2").text().replace("분 이내", "").replace("2시간 이상", "120");
+			if(rseed.equals("")) {rseed = "10";}
+			r.setReqTime(Integer.parseInt(rseed));
+			
+			
+			String dseed = doc.select(".view2_summary_info3").text();
+			int difficulty = 0;
+			switch(dseed) {
+			case "": difficulty = 0; break;
+			case "아무나": difficulty = 0; break;
+			case "초급": difficulty = 0; break;
+			case "중급": difficulty = 1; break;
+			case "고급": difficulty = 2; break;
+			case "신의경지": difficulty =2; break;
+			}
+			r.setDifficulty(difficulty);
+			
+			ArrayList<String> ingList = new ArrayList<String>();
+			/*
+			for(int i = 0; i <5; i++) {
+				ingList.add("ting"+ i);
+			}
+			*/
+			ArrayList<String> amtList = new ArrayList<String>();
+			/*
+			for(int i = 0; i <5; i++) {
+				amtList.add("tamt"+ i);
+			}
+			*/
+			
+			if (doc.select(".cont_ingre > dl > dd").text().split(", ").equals("")) {
+				Elements els = doc.select(".cont_ingre > dl > dd");
+				for (Element tempEl: els) {
+					String[] ings = tempEl.text().split(", ");
+					for(String temp: ings) {
+						if (temp.contains(" ")) {
+							String[] split = temp.split(" ");
+							if(!ingList.contains(split[0])) {
+								ingList.add(split[0]);
+								amtList.add(split[1]);
+							}
 						}
+						else if(!ingList.contains(temp)) {
+							ingList.add(temp);
+							amtList.add("적당량");
+						}
+						
 					}
-					else if(!ingList.contains(temp)) {
-						ingList.add(temp);
-						amtList.add("적당량");
+				}
+			}
+			else {
+				Elements eln= doc.select("#divConfirmedMaterialArea > ul > a");
+				for(Element e : eln) {
+					String tmp = e.attr("onclick");
+					String t = tmp.replace("ga('send', 'event', '레시피본문', '재료정보버튼클릭', '", "").replace("');", "");
+					if(!t.equals("") && !ingList.contains(t)) {
+						ingList.add(t);
 					}
 					
 				}
-			}
-		}
-		else {
-			Elements eln= doc.select("#divConfirmedMaterialArea > ul > a");
-			for(Element e : eln) {
-				String tmp = e.attr("onclick");
-				String t = tmp.replace("ga('send', 'event', '레시피본문', '재료정보버튼클릭', '", "").replace("');", "");
-				if(!t.equals("") && !ingList.contains(t)) {
-					ingList.add(t);
+			
+				Elements elz= doc.select("#divConfirmedMaterialArea > ul > a > li > span");
+				for(Element e : elz) {
+					String t = e.text();
+					if(t.equals("") || ingList.contains(t)) {
+						amtList.add("적당량");
+					}
+					else{amtList.add(t);}
 				}
-				
 			}
-		
-			Elements elz= doc.select("#divConfirmedMaterialArea > ul > a > li > span");
-			for(Element e : elz) {
-				String t = e.text();
-				if(t.equals("") || ingList.contains(t)) {
-					amtList.add("적당량");
-				}
-				else{amtList.add(t);}
-			}
-		}
-		ArrayList<String> tagList = new ArrayList<String>();
-		Elements tags = doc.select(".view_tag > a");
-		for(Element temp : tags) {
-			if(temp.text() != "") {
-				String[] t = temp.text().split(" #");
-				for(String tmp : t) {
-					String h = tmp.replace(" ", "").replace("#", "");
-					if(h != "" && h.length() < 20 && !tagList.contains(h)) {
-						tagList.add(h);
+			ArrayList<String> tagList = new ArrayList<String>();
+			Elements tags = doc.select(".view_tag > a");
+			for(Element temp : tags) {
+				if(temp.text() != "") {
+					String[] t = temp.text().split(" #");
+					for(String tmp : t) {
+						String h = tmp.replace(" ", "").replace("#", "");
+						if(h != "" && h.length() < 20 && !tagList.contains(h)) {
+							tagList.add(h);
+						}
 					}
 				}
 			}
-		}
-
-		if(tagList.size() == 0) {tagList.add("강추");}
-		
-		ArrayList<String> stepList = new ArrayList<String>();
-		for(int i = 1; i < 10; i++) {
-			String seeker = "#stepdescr" + (i);
-			String stp = doc.select(seeker).text();
-			if(stp.length() != 0) {
-				if(stp.length() < 300) {
-					stepList.add(stp);
-				}
-				else{
-					String[] xstp = stp.split(".");
-					stepList.add(xstp[0]);
-				}
-			}
-		}
-
-		ArrayList<String> plist = new ArrayList<String>();
-		String mainUrl = doc.select("#main_thumbs").attr("src");
-				plist.add(mainUrl);
-		
-		for(int i = 1; i <= stepList.size(); i++) {
-			Elements telm = doc.select("#stepimg" + i + "> img");
-			if(telm.size() != 0) {
-				Element elm = doc.select("#stepimg" + i + "> img").get(0);
-				String st = elm.attr("src");
-					plist.add(st);
-			}
-			else {plist.add("skip");}
-		}
-		
-		String path = request.getSession().getServletContext().getRealPath("/").replace("target\\m2e-wtp\\web-resources\\", "")
-				+ "src\\main\\webapp\\resources\\upload\\";
-		
-		for(int i=0; i <= stepList.size(); i++) {
-			File outputFile = new File(path + pNo  + "img" + i + ".png");
-			URL url = null;
-			BufferedImage bi = null;
-
-			if(!plist.get(i).equals("skip")) {
-			url = new URL(plist.get(i));
-		    bi = ImageIO.read(url);
-		    ImageIO.write(bi, "png", outputFile);
-			}
-		}
-		
-		ArrayList<Photo> images = new ArrayList<Photo>();
-		for(int i=0; i <= stepList.size(); i++) {
-			Photo p = new Photo();
-			p.setBoardNo(1);
-			p.setFileLevel(i);
-			p.setOriginName(pNo + "img" + i + ".png");
+	
+			if(tagList.size() == 0) {tagList.add("강추");}
 			
-			if(plist.get(i).equals("skip")) {
-				p.setChangeName("skip");
+			ArrayList<String> stepList = new ArrayList<String>();
+			for(int i = 1; i < 10; i++) {
+				String seeker = "#stepdescr" + (i);
+				String stp = doc.select(seeker).text();
+				if(stp.length() != 0) {
+					if(stp.length() < 300) {
+						stepList.add(stp);
+					}
+					else{
+						String[] xstp = stp.split(".");
+						stepList.add(xstp[0]);
+					}
+				}
 			}
-			else {p.setChangeName(pNo + "img" + i + ".png");}
-			images.add(p);
+	
+			ArrayList<String> plist = new ArrayList<String>();
+			String mainUrl = doc.select("#main_thumbs").attr("src");
+					plist.add(mainUrl);
+			
+			for(int i = 1; i <= stepList.size(); i++) {
+				Elements telm = doc.select("#stepimg" + i + "> img");
+				if(telm.size() != 0) {
+					Element elm = doc.select("#stepimg" + i + "> img").get(0);
+					String st = elm.attr("src");
+						plist.add(st);
+				}
+				else {plist.add("skip");}
+			}
+			
+			String path = request.getSession().getServletContext().getRealPath("/").replace("target\\m2e-wtp\\web-resources\\", "")
+					+ "src\\main\\webapp\\resources\\upload\\";
+			
+			for(int i=0; i <= stepList.size(); i++) {
+				File outputFile = new File(path + pNo  + "img" + i + ".png");
+				URL url = null;
+				BufferedImage bi = null;
+	
+				if(!plist.get(i).equals("skip")) {
+				url = new URL(plist.get(i));
+			    bi = ImageIO.read(url);
+			    ImageIO.write(bi, "png", outputFile);
+				}
+			}
+			
+			ArrayList<Photo> images = new ArrayList<Photo>();
+			for(int i=0; i <= stepList.size(); i++) {
+				Photo p = new Photo();
+				p.setBoardNo(1);
+				p.setFileLevel(i);
+				p.setOriginName(pNo + "img" + i + ".png");
+				
+				if(plist.get(i).equals("skip")) {
+					p.setChangeName("skip");
+				}
+				else {p.setChangeName(pNo + "img" + i + ".png");}
+				images.add(p);
+			}
+	        System.out.println(r);
+	        System.out.println(stepList);
+	        System.out.println(ingList);
+	        System.out.println(amtList);
+	        System.out.println(tagList);
+			
+			rService.insertRecipe(r, stepList, ingList, amtList, tagList, images);
+			}
+		}catch (Exception e){
+			
 		}
-        System.out.println(r);
-        System.out.println(stepList);
-        System.out.println(ingList);
-        System.out.println(amtList);
-        System.out.println(tagList);
-		
-		rService.insertRecipe(r, stepList, ingList, amtList, tagList, images);
+	    return "recipeSearch";
 	}
+	
+	@RequestMapping("searchOuterRecipes.rc")
+	public String outerSearch(HttpSession session, HttpServletRequest request) throws IOException{
+		Random random = new Random();
+	for(int q = 0; q < 20 ; q++) {
+	try {
+			int rdv = random.nextInt(1000);
+			int pNo = 6899265 + rdv;
+			
+			//pNo = 6899341;
+			
+			Document doc = Jsoup.connect("https://www.10000recipe.com/recipe/"+pNo).get();
+			System.out.println("https://www.10000recipe.com/recipe/"+pNo);
+		if(doc != null) {
+	
+			Recipe r = new Recipe();
+			random.nextInt(20);
+			
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			int memberNo = loginUser.getMemberNo();
+			
+			r.setMemberNo(memberNo);
+			String tempTitle = (doc.title().length() < 38) ? doc.title() : doc.title().substring(0, 38);
+			
+			r.setTitle(tempTitle);
+			
+			int cseed = random.nextInt(8);
+			String category = "";
+			switch(cseed) {
+			case 0: category ="sub"; break;
+			case 1: category ="main"; break;
+			case 2: category ="soup"; break;
+			case 3: category ="meal"; break;
+			case 4: category ="dessert"; break;
+			case 5: category ="salad"; break;
+			case 6: category ="drink"; break;
+			case 7: category ="sauce"; break;
+			case 8: category ="etc"; break;
+			}
+			r.setCategory(category);
+			
+			String sseed = doc.select(".view2_summary_info1").text().replace("인분", "").replace(" 이상", "");
+			if(sseed.equals("")) {sseed = "1";}
+			r.setServing(Integer.parseInt(sseed));
+			
+			String rseed = doc.select(".view2_summary_info2").text().replace("분 이내", "").replace("2시간 이상", "120");
+			if(rseed.equals("")) {rseed = "10";}
+			r.setReqTime(Integer.parseInt(rseed));
+			
+			
+			String dseed = doc.select(".view2_summary_info3").text();
+			int difficulty = 0;
+			switch(dseed) {
+			case "": difficulty = 0; break;
+			case "아무나": difficulty = 0; break;
+			case "초급": difficulty = 0; break;
+			case "중급": difficulty = 1; break;
+			case "고급": difficulty = 2; break;
+			case "신의경지": difficulty =2; break;
+			}
+			r.setDifficulty(difficulty);
+			
+			ArrayList<String> ingList = new ArrayList<String>();
+			/*
+			for(int i = 0; i <5; i++) {
+				ingList.add("ting"+ i);
+			}
+			*/
+			ArrayList<String> amtList = new ArrayList<String>();
+			/*
+			for(int i = 0; i <5; i++) {
+				amtList.add("tamt"+ i);
+			}
+			*/
+			
+			if (doc.select(".cont_ingre > dl > dd").text().split(", ").equals("")) {
+				Elements els = doc.select(".cont_ingre > dl > dd");
+				for (Element tempEl: els) {
+					String[] ings = tempEl.text().split(", ");
+					for(String temp: ings) {
+						if (temp.contains(" ")) {
+							String[] split = temp.split(" ");
+							if(!ingList.contains(split[0])) {
+								ingList.add(split[0]);
+								amtList.add(split[1]);
+							}
+						}
+						else if(!ingList.contains(temp)) {
+							ingList.add(temp);
+							amtList.add("적당량");
+						}
+						
+					}
+				}
+			}
+			else {
+				Elements eln= doc.select("#divConfirmedMaterialArea > ul > a");
+				for(Element e : eln) {
+					String tmp = e.attr("onclick");
+					String t = tmp.replace("ga('send', 'event', '레시피본문', '재료정보버튼클릭', '", "").replace("');", "");
+					if(!t.equals("") && !ingList.contains(t)) {
+						ingList.add(t);
+					}
+					
+				}
+			
+				Elements elz= doc.select("#divConfirmedMaterialArea > ul > a > li > span");
+				for(Element e : elz) {
+					String t = e.text();
+					if(t.equals("") || ingList.contains(t)) {
+						amtList.add("적당량");
+					}
+					else{amtList.add(t);}
+				}
+			}
+			ArrayList<String> tagList = new ArrayList<String>();
+			Elements tags = doc.select(".view_tag > a");
+			for(Element temp : tags) {
+				if(temp.text() != "") {
+					String[] t = temp.text().split(" #");
+					for(String tmp : t) {
+						String h = tmp.replace(" ", "").replace("#", "");
+						if(h != "" && h.length() < 20 && !tagList.contains(h)) {
+							tagList.add(h);
+						}
+					}
+				}
+			}
+	
+			if(tagList.size() == 0) {tagList.add("강추");}
+			
+			ArrayList<String> stepList = new ArrayList<String>();
+			for(int i = 1; i < 10; i++) {
+				String seeker = "#stepdescr" + (i);
+				String stp = doc.select(seeker).text();
+				if(stp.length() != 0) {
+					if(stp.length() < 300) {
+						stepList.add(stp);
+					}
+					else{
+						String[] xstp = stp.split(".");
+						stepList.add(xstp[0]);
+					}
+				}
+			}
+	
+			ArrayList<String> plist = new ArrayList<String>();
+			String mainUrl = doc.select("#main_thumbs").attr("src");
+					plist.add(mainUrl);
+			
+			for(int i = 1; i <= stepList.size(); i++) {
+				Elements telm = doc.select("#stepimg" + i + "> img");
+				if(telm.size() != 0) {
+					Element elm = doc.select("#stepimg" + i + "> img").get(0);
+					String st = elm.attr("src");
+						plist.add(st);
+				}
+				else {plist.add("skip");}
+			}
+			
+			String path = request.getSession().getServletContext().getRealPath("/").replace("target\\m2e-wtp\\web-resources\\", "")
+					+ "src\\main\\webapp\\resources\\upload\\";
+			
+			for(int i=0; i <= stepList.size(); i++) {
+				File outputFile = new File(path + pNo  + "img" + i + ".png");
+				URL url = null;
+				BufferedImage bi = null;
+	
+				if(!plist.get(i).equals("skip")) {
+				url = new URL(plist.get(i));
+			    bi = ImageIO.read(url);
+			    ImageIO.write(bi, "png", outputFile);
+				}
+			}
+			
+			ArrayList<Photo> images = new ArrayList<Photo>();
+			for(int i=0; i <= stepList.size(); i++) {
+				Photo p = new Photo();
+				p.setBoardNo(1);
+				p.setFileLevel(i);
+				p.setOriginName(pNo + "img" + i + ".png");
+				
+				if(plist.get(i).equals("skip")) {
+					p.setChangeName("skip");
+				}
+				else {p.setChangeName(pNo + "img" + i + ".png");}
+				images.add(p);
+			}
+	        System.out.println(r);
+	        System.out.println(stepList);
+	        System.out.println(ingList);
+	        System.out.println(amtList);
+	        System.out.println(tagList);
+			
+			rService.insertRecipe(r, stepList, ingList, amtList, tagList, images);
+			}
+		}catch (Exception e){
+			
+		}
 	}
 	    return "recipeSearch";
+	}
+	
+	@RequestMapping("searchOuterProducts.rc")
+	public String outerProductSearch(HttpSession session, HttpServletRequest request) throws IOException{
+/*
+	int pNo = 907;
+	for(int n =0; n<5; n++) {
+		switch(n) {
+		case 0: pNo=907; break;
+		case 1: pNo=908; break;
+		case 2: pNo=909; break;
+		case 3: pNo=910; break;
+		case 4: pNo=914; break;
+		default : break;
+		}
+*/
+		int pNo = 907;
+		Document doc = Jsoup.connect("https://www.kurly.com/shop/goods/goods_list.php?category=" + pNo).get();
+		if(doc.text().equals("")) {
+			System.out.println("접속 불가");
+			
+		}
+		
+		Elements pImgs = doc.select(".inner_listgoods > ul > li > div > div > a > img");
+		Elements pNames = doc.select(".inner_listgoods > ul > li > div > a > .name");
+		Elements pCosts = doc.select(".inner_listgoods > ul > li > div > a > .cost > span");
+		
+		String path = request.getSession().getServletContext().getRealPath("/").replace("target\\m2e-wtp\\web-resources\\", "")
+		+ "src\\main\\webapp\\resources\\upload\\";
+		
+		for(int i=0; i< pNames.size() ; i++) {
+			
+			Product pd = new Product();
+			String name = pNames.get(i).text();
+			pd.setName(name);
+			
+			int price = Integer.parseInt(pCosts.get(i).text().replace(",", "").replace("원", ""));
+			pd.setPrice(price);
+			pd.setStock(100);
+	
+			String category = "";
+			switch(pNo) {
+			case 907: category = "채소류"; break;
+			case 908: category = "과일류"; break;
+			case 909: category = "어류"; break;
+			case 910: category = "육류"; break;
+			case 914: category = "음료"; break;
+			default : category = "기타"; break;
+			}
+			pd.setCategory(category);
+			
+			System.out.println(pd);
+			
+			String pPath = pImgs.get(i).attr("src");
+			File outputFile = new File(path + "product" + pNo  + "img" + i + ".png");
+			URL url = null;
+			BufferedImage bi = null;
+			url = new URL(pPath);
+		    bi = ImageIO.read(url);
+		    ImageIO.write(bi, "png", outputFile);
+			
+			Photo p = new Photo();
+			p.setBoardNo(3);
+			p.setFileLevel(0);
+			p.setOriginName("product" + pNo + "img" + ".png");
+			p.setChangeName("product" + pNo + "img" + ".png");
+			
+			System.out.println(p);
+			
+			mas.insertProduct(pd);
+			mas.uploadImage(p);
+
+			}
+		
+	//}
+		return "recipeSearch";
 	}
 	
 }

@@ -34,7 +34,7 @@
             flex-direction: column;
             text-align: center;
             width: 150px;
-            height: 200px;
+            min-height: 200px;
             margin: 15px 15px auto;
         }
         .example{
@@ -294,24 +294,17 @@
 			            <a href="list.rc">
 			                <button class="linkerBtn" id="myListBtn" type="button">나의 레시피</button>
 			            </a>
-			            <a href="chefLikeList.rc">
-			                <button class="linkerBtn" id="myListBtn" type="button">구독 셰프</button>
-			            </a>
-			            <a href="chefRank.rc">
-			                <button class="linkerBtn" id="myListBtn" type="button">셰프 랭킹</button>
-			            </a>
 			            <a href="savedList.rc">
 			                <button class="linkerBtn" id="myListBtn" type="button">저장한 레시피</button>
-			            </a>
-			            <a href="followedList.rc">
-			                <button class="linkerBtn" id="myListBtn" type="button">구독한 레시피</button>
-			            </a>
-			            <a href="searchProduct.rc">
-			                <button class="linkerBtn" id="myListBtn" type="button">상품 검색</button>
 			            </a>
 			            <a href="searchOuterRecipes.rc">
 			                <button class="linkerBtn" id="myListBtn" type="button">레시피 들여오기</button>
 			            </a>
+			            <a href="searchOuterProducts.rc">
+			                <button class="linkerBtn" id="myListBtn" type="button">상품 들여오기</button>
+			            </a>
+			            
+			            
 			    </div>
             </div>
             <div class="option">

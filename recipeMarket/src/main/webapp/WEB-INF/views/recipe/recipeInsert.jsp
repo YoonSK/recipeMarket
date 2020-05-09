@@ -83,6 +83,7 @@
     <div class="container" style="width: 1000px; margin: 0 auto; display: flex; flex-direction: column; ">
         <h1>레시피 등록</h1>
         <form action="insert.rc" method="post" enctype="Multipart/form-data">
+        
         <div class="content" style="display: flex; margin: 30px 10px 30px 10px">
             <div id = "mainImage" style="display: flex; flex-direction: column;">
                 <div>
