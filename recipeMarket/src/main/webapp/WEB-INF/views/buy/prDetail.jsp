@@ -7,9 +7,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script> 
-<script type="text/javascript" src="resources/js/jquery.raty.js"></script>
 <title>상품 상세보기</title>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="resources/js/jquery.raty.js"></script>
 <style>
 	
 	#layer {
@@ -36,6 +36,8 @@
 	z-index: 4;
 	float: right;
 }
+	span#star img{padding: 0; margin: 0;}
+	div.reply{font-size: 15px;}
 </style>
 <link rel="stylesheet" type="text/css" href="<c:url value='resources/css/list.css'/>">
 <!-- <script type="text/javascript">
@@ -128,7 +130,7 @@
 </head>
 <body>
 	<%@ include file="../common/header.jsp" %>
-	
+
 	<div class="s_contents">
 		<h1 style="margin-left:220px;">${ pr.name }</h1>
 	<div id="goods_image">
@@ -147,14 +149,6 @@
 					<td class="fixed">배송료</td>
 					<td class="fixed"><strong>2500원</strong></td>
 				</tr>
-				<tr class="dot_line">
-					<td class="fixed">배송안내</td>
-					<td class="fixed"><strong>[당일배송]</strong> 당일배송 서비스 시작!<br></td>
-				</tr>
-				<tr class="dot_line">
-					<td class="fixed">도착예정일</td>
-					<td class="fixed">지금 주문 시 내일 도착 예정</td>
-				</tr>
 				<tr>
 					<td class="fixed">수량</td>
 					<td class="fixed">
@@ -164,14 +158,19 @@
 						<option>3</option>
 						<option>4</option>
 						<option>5</option>
+						<option>6</option>
+						<option>7</option>
+						<option>8</option>
+						<option>9</option>
+						<option>10</option>
 			     	</select>
 			     </td>
 				</tr>
 			</tbody>
 		</table>
 		<ul>
-			<li><a class="buy" href="#" onClick="goToBuy();"> 구매하기 </a></li>
-			<li><a class="cart" href="#" onClick="goCart();"> 장바구니</a></li>
+			<li><a class="buy" onClick="goToBuy();"> 구매하기 </a></li>
+			<li><a class="cart" onClick="goCart();"> 장바구니</a></li>
 		</ul>
 	</div>
 	<div class="clear"></div>
@@ -184,21 +183,22 @@
 			<div class="tab_content" id="tab1">
 				<c:forEach var="rv" items="${ list }">
 				<div class="reply">
-					<span>${ rv.nickName }</span>
-					<span>${ rv.content }</span>
 					<span id="star"></span>
+					<span>${ rv.content } | </span>
+					<span>${ rv.nickName }</span>
 					<script>
 						var score = '${rv.rating}';
-						var i = jQuery.noConflict();
-						i(document).ready(function(){
+						$(document).ready(function(){
 					        $('span#star').raty({
 					            path : "resources/images",
 					            width : 100,
+					            score: score,
 					            half: false,
 					            halfShow: true,
 					            readOnly : true
 					        });            
 					     });	
+
 					</script>
 				</div>
 				</c:forEach>
@@ -227,8 +227,11 @@
 				data: {productNo:productNo, prCount:prCount, price:price, pName:pName, phName:phName},
 				dataType: 'json',
 				success: function(data){
-					alert('해당 상품이 장바구니에 담겼습니다');
-				}							
+						alert('해당 상품이 장바구니에 담겼습니다');
+				},
+				error:function(request, status, error){
+					alert('이미 해당 상품을 장바구니에 담았습니다');
+				}
 			});
 		}
 		
