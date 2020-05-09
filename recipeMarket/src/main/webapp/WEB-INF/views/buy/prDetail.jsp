@@ -169,8 +169,10 @@
 			</tbody>
 		</table>
 		<ul>
-			<li><a class="buy" onClick="goToBuy();"> 구매하기 </a></li>
-			<li><a class="cart" onClick="goCart();"> 장바구니</a></li>
+
+			<li><a class="buy" href="#" onClick="goToBuy();" style="border: none; border-radius: 5px;"> 구매하기 </a></li>
+			<li><a class="cart" href="#" onClick="goCart();" style="border: none; border-radius: 5px;"> 장바구니</a></li>
+
 		</ul>
 	</div>
 	<div class="clear"></div>

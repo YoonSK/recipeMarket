@@ -257,7 +257,7 @@ article h4 {
 	padding: 0px 10px; float: left;
 }
 #detail_table ul li a {
-	border-radius: 5px; border: 2px solid rgb(153, 153, 153); border-image: none; width: 150px; height: 25px; text-align: center; padding-top: 7px; font-size: 1.2em; font-weight: bold; display: block;
+	border-radius: 5px; border: none; border-image: none; width: 150px; height: 25px; text-align: center; padding-top: 7px; font-size: 1.2em; font-weight: bold; display: block;
 }
 #detail_table ul li a.buy {
 	background-position: 15px; background-repeat: no-repeat;
@@ -440,7 +440,7 @@ ul.tabs li.active a:hover {
 	padding: 0px 10px; float: left;
 }
 .detail_table ul li a {
-	border-radius: 5px; border: 2px solid rgb(153, 153, 153); border-image: none; width: 150px; height: 25px; text-align: center; padding-top: 7px; font-size: 1.2em; font-weight: bold; display: block;
+	border-radius: 5px; border: none; border-image: none; width: 150px; height: 25px; text-align: center; padding-top: 7px; font-size: 1.2em; font-weight: bold; display: block;
 }
 .detail_table ul li a.buy {
 	background-position: 15px; background-repeat: no-repeat;
