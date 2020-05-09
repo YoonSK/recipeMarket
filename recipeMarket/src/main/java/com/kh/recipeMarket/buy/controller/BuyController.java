@@ -134,7 +134,6 @@ public class BuyController {
 		if(result > 0) {
 			gson.toJson(result, response.getWriter());
 		}else {
-			result = 1;
 			gson.toJson(result, response.getWriter());
 		}
 	}
