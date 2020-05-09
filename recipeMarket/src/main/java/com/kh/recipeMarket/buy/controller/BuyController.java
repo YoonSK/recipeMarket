@@ -130,7 +130,7 @@ public class BuyController {
 		c.setMemberNo(loginUser.getMemberNo());
 		int result = bs.insertCart(c);
 		Gson gson = new Gson();
-
+		
 		if(result > 0) {
 			gson.toJson(result, response.getWriter());
 		}else {

@@ -17,7 +17,7 @@
             flex-direction: column;
             text-align: center;
             width: 150px;
-            height: 175px;
+            min-height: 175px;
             margin: 15px 15px auto;
         }
     </style>
