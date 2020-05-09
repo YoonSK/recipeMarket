@@ -26,21 +26,24 @@
     	line-height: 180%;
 	}
 	
+
+	
 	#updateBtn{
-		font-size: 25px;
-    	background: #74b243;
-    	color: #fff;
-    	padding: 10px 30px;
-    	border-radius: 10px;
-    	border: 1px solid #497725;
-    	cursor:pointer;
+		    font-size: 25px;
+    background: #6cb77e;
+    color: #fff;
+    padding: 10px 30px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
 	}
 	
 	#backBtn{
-		font-size: 25px;
-		padding: 10px 30px; 
-    	border-radius: 10px;
-    	cursor:pointer;
+	font-size: 25px;
+    padding: 10px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
 	}
 	#boardUpdateTable{
 		width:100%;
@@ -54,6 +57,7 @@
 		border-radius: 0px;
 		border-radius: 10px;
 		cursor:pointer;
+		outline:none;
 	}
 
 	select::-ms-expand {
