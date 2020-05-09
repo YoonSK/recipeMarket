@@ -15,6 +15,7 @@
 	p#welcome {position: absolute; right: 60px; top: -5px;}
 	ul.nav_mem {display:inline; padding:0 10px; display: inline; padding: 0 10px; position: absolute; right: 1%; top: 7%;}
 	ul.nav_mem li{list-style: none; padding: 0 3px; display: inline-block; font-size: 14px;}
+	ul.nav_mem li a{list-style: none; padding: 0 3px; display: inline-block; font-size: 14px;}
 	ul.nav_mem li a:link {text-decoration: none; color: grey;}
 	#search_con{position: absolute; left: 30%; top: 40px;}
 	#topSearch{height: 100px;}
@@ -108,9 +109,6 @@
     .close {color: #aaa; float: right; font-size: 28px; font-weight: bold;}
     .close:hover, .close:focus {color: black; text-decoration: none; cursor: pointer;}	
 </style>
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script> 
-
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 </head>
