@@ -411,7 +411,7 @@ $(document).on('click', '#deleteFollower', function(){
 				<c:if test="${ loginUser != null  && loginUser.id != 'ADMIN' }">
 					<div id = "qnaDiv">
 						<!-- <button id= "qnaBtn" onclick="location.href='test1.bo';">실시간 채팅 문의</button> -->
-						<img src="resources/images/chat1.png" onclick="qnaList();" style="width:100px">
+						<img src="resources/images/chat1.png" onclick="qnaList();" style="width:100px; cursor:pointer;">
 						<!-- <button id= "qnaBtn" onclick="qnaList();">실시간 채팅 문의</button>					 -->
 					</div>
 			 	</c:if>

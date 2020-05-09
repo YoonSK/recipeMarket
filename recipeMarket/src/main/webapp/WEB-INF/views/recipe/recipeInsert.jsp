@@ -25,11 +25,12 @@
             margin-right: 10px;
         }
         select{
-            min-width: 50px;
-            min-height: 25px;
-            background-color: whitesmoke;
-            text-align: center;
-
+                background-color: white;
+			    text-align: center;
+			    border-radius: 5px;
+			    height: 30px;
+			    font-size: 15px;
+				outline: none;
         }
         .step{
             display: flex;
@@ -47,7 +48,7 @@
             font-size: 18px;
         }
         .example{
-            font-size: 10px;
+            font-size: 15px;
         }
         .ingredient{
             margin: 2px 2px 2px 2px;
@@ -67,19 +68,22 @@
             border: none;
         }
         #addIngredient, #addAmount, #addTag,#recipeTitle{
-            width: 125px;
-            background-color: whitesmoke;
+           background-color: white;
+		    border: 1px solid #d9d9d9;
+		    border-radius: 5px;
+		    height: 30px;
         }
         
         .stepNo{min-width: 50px; text-align: center; font-size: 30px}
         .stepContent{min-width: 75%; padding: 10px 10px 10px 10px; }
         .stepThumb{width:150px; height:150px;}
         
+        input{outline:none;}
     </style>
 </head>
 <body>
 <c:import url="../common/header.jsp"/>
-<div class="outer" style="display:flex; justify-content: center;">
+<div class="outer" style="display:flex; justify-content: center;min-height: 800px;">
     <div class="container" style="width: 1000px; margin: 0 auto; display: flex; flex-direction: column; ">
         <h1>레시피 등록</h1>
         <form action="insert.rc" method="post" enctype="Multipart/form-data">
@@ -90,13 +94,13 @@
                     <img id="output" width="200px" height="200px"/>
                 </div>
                 <div>
-                    <input type='file' accept='image/*' onchange='openFile(event)' id="imgInput" name="recipeImg">
+                    <input type='file' accept='image/*' onchange='openFile(event)' id="imgInput" name="recipeImg" required>
                 </div>
             </div>
             <div id="optionBox" style="padding-top: 30px">
                 <div>
                     <span class="option_name">제목</span>
-                    <input id="recipeTitle" type="text" name="title"  onkeydown="enterkey(event, 'title');" style="width: 90%">
+                    <input id="recipeTitle" type="text" name="title"  onkeydown="enterkey(event, 'title');" style="width: 90%" required>
                 </div>
                 <div class="option">
                     <div class="mini_option">
@@ -145,9 +149,9 @@
                     <div style="display: flex">
                         <span class="option_name">재료</span>
                         <span>
-                            <input type="text" id="addIngredient" onkeydown="enterkey(event, 'ing');">
+                            <input type="text" id="addIngredient" onkeydown="enterkey(event, 'ing');" required>
                             <span>양</span>
-                            <input type="text" id="addAmount" onkeydown="enterkey(event, 'amt');">
+                            <input type="text" id="addAmount" onkeydown="enterkey(event, 'amt');" required>
                         </span>
                         <span style="text-align: right; margin-left: 5px">
                             <button type="button" id="addIngBtn" onclick="addIgBtn();" style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
@@ -161,7 +165,7 @@
                     <div style="display: flex">
                         <span class="option_name">태그</span>
                         <div>
-                            <input type="text" id="addTag" onkeydown="enterkey(event, 'tag');">
+                            <input type="text" id="addTag" onkeydown="enterkey(event, 'tag');" required>
                             <span style="text-align: right; margin-left: 5px">
                                 <button type="button" id="addTagBtn" onclick="addTgBtn();" style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
                             </span>
@@ -183,11 +187,11 @@
                     1
                 </div>
                 <div class = "stepContent" >
-                    <textarea class="stepContentArea" id="content1" name = "stepContent"></textarea>
+                    <textarea class="stepContentArea" id="content1" name = "stepContent" required></textarea>
                 </div>
                 <div class = "stepImage">
                     <img class="stepThumb" id="step_output1" width="150px" height="150px"/>
-                    <input type='file' accept='image/*' onchange="imagepreview(this);" id="step_imgInput1" name="recipeImg">
+                    <input type='file' accept='image/*' onchange="imagepreview(this);" id="step_imgInput1" name="recipeImg" required>
                 </div>
             </div>
         </div>
@@ -195,8 +199,7 @@
         	<div>
         	</div>
 	        <div>
-	        	<button type="submit" id= "submitBtn" style="width: 100px; height: 40px; font-size: 18px; border-radius: 15px;
-	        	background-color:lightgreen;">작성 완료</button>
+	        	<button type="submit" id= "submitBtn" style="width: 100px; height: 40px; font-size: 18px; border-radius: 5px; background-color:orangered;color:white;">작성 완료</button>
 	        </div>
 	        <div style="text-align: right">
 	        	<input type="text" id="stepCount" hidden="hidden" value = "2">	

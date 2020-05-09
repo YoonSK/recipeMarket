@@ -20,14 +20,16 @@
             margin-right: 20px;
         }
         .option_name{
-            margin-right: 10px;
+           margin-right: 10px;
+		    font-size: 20px;
+		    vertical-align: baseline;
         }
         select{
-            min-width: 50px;
-            min-height: 25px;
-            background-color: whitesmoke;
-            text-align: center;
-
+           text-align: center;
+		    border: 1px solid #d9d9d9;
+		    height: 30px;
+		    border-radius: 5px;
+		    font-size: 15px;
         }
         .box{
             display: flex;
@@ -38,7 +40,8 @@
             margin: 15px 15px auto;
         }
         .example{
-            font-size: 10px;
+           font-size: 15px;
+    vertical-align: baseline;
         }
         .ingredient{
             margin: 2px 2px 2px 2px;
@@ -59,7 +62,10 @@
         }
         #addIngredient, #addTag, #search{
             width: 150px;
-            background-color: whitesmoke;
+		    border: 1px solid #d9d9d9;
+		    height: 30px;
+		    border-radius: 5px;
+		    vertical-align: baseline;
         }
         #search{
             width: 200px;
@@ -70,13 +76,35 @@
             border-radius: 5px;
         }
         #writeBtn{
-            border: 1px solid darkgreen;
-            background-color: lightgreen;
+            border: none;
+		    background-color: #add1c3;
+		    color: white;
+		    height: 40px;
+		    width: 100px;
         }
+         #writeBtn:hover{background: white; color:black; border:1px solid #add1c3}
         #myListBtn{
             border: 1px solid darkblue;
             background-color: lightblue;
         }
+        
+        #sortBtnRate,#sortBtnHit,#sortBtnNew{
+        	height: 30px;
+		    float: left;
+		    list-style: none;
+		    background-color: #add1c3;
+		    color: white;
+		    cursor: pointer;
+		}
+		
+		input:focus{outline: none;}
+		button{outline: none;}
+		
+     /* 기간별 조회 */
+   #sortBtnRate:hover{background-color: white; color: black; border:1px solid #add1c3; cursor: pointer;}
+    #sortBtnHit:hover{background-color: white; color: black; border:1px solid #add1c3; cursor: pointer;}
+    #sortBtnNew:hover{background-color: white; color: black; border:1px solid #add1c3; cursor: pointer;}
+
     </style>
 </head>
 <body>
@@ -284,13 +312,18 @@
                 <div>
                     <input type="text" id="search" name="keyword" value="${searchCon.keyword}">
                 </div>
-                <button type="submit" id="searchBtn" style="background-color: lightgrey; border-radius:10px;margin-left: 10px ">찾기</button>
+                <button type="submit" id="searchBtn" style="background-color: #d9d9d9; border-radius:5px;margin-left: 10px;width: 50px; height: 35px; color: white;  font-size: 15px; ">검색</button>
             
             
 	            <div class="linkerBox" style="display: flex; margin-left :20%">
+	            	<c:if test="${loginUser != null }">
 			            <a href="insertForm.rc">
 			                <button class="linkerBtn" id="writeBtn" type="button">레시피 작성</button>
 			            </a>
+			         </c:if>
+			         <c:if test="${loginUser == null }">
+			                <button class="linkerBtn" onclick="login();" id="writeBtn" type="button">레시피 작성</button>
+			         </c:if>
 			            <a href="list.rc">
 			                <button class="linkerBtn" id="myListBtn" type="button">나의 레시피</button>
 			            </a>
@@ -303,15 +336,21 @@
 			            <a href="searchOuterProducts.rc">
 			                <button class="linkerBtn" id="myListBtn" type="button">상품 들여오기</button>
 			            </a>
-			            
-			            
 			    </div>
+			    
+			    <script>
+			   function login(){
+				   alert('로그인을 해주세요.');
+				   location.href="goLogin.me";
+			   }
+			    	
+			    </script>
             </div>
             <div class="option">
                 <span class="option_name">정렬</span>
-                <button type="button" id="sortBtnRate" onclick="setSorter(1)" style="background-color: rgba(254,44,19,0.51)">평점순</button>
-                <button type="button" id="sortBtnHit" onclick="setSorter(2)" style="background-color: rgba(0,191,255,0.72) ">조회순</button>
-                <button type="button" id="sortBtnNew" onclick="setSorter(3)" style="background-color: rgba(156,255,156,0.77)">최신순</button>
+                <button type="button" id="sortBtnRate" onclick="setSorter(1)" >평점순</button>
+                <button type="button" id="sortBtnHit" onclick="setSorter(2)" >조회순</button>
+                <button type="button" id="sortBtnNew" onclick="setSorter(3)">최신순</button>
                 <input type="hidden" id = "sorter" name="sorter" value="POST_NO"/>
                 <input type="hidden" id = "csorter" name="csorter" value="RATE"/>
             </div>

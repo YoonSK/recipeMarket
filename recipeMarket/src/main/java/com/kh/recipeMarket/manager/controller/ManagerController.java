@@ -494,13 +494,10 @@ public class ManagerController {
 		int weather = 0;
 		if(sky.equals("light rain")) {
 			weather = 1;
-		//	ArrayList<RecipePreview> rlist = mas.weatherFoodList(weather);
 		} else if(sky.equals("clear sky")) {
 			weather = 2;
-		//	ArrayList<RecipePreview> rlist = mas.weatherFoodList(weather);
 		} else {
 			weather = 3;
-		//	ArrayList<RecipePreview> rlist = mas.weatherFoodList(weather);
 		}
 		
 		f.setMemberNo(weather);

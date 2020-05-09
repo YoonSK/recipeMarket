@@ -14,6 +14,7 @@
     a:hover{ color : silver;}
 	table{
 		border-collapse: collapse;
+		    width: 100%;
 	}
 	button{
     	border: none;
@@ -79,7 +80,7 @@
 <body>
 <c:import url="../common/header.jsp"/>
 
-<div class="outer" style="display:flex; justify-content: center;">
+<div class="outer" style="display:flex; justify-content: center;min-height:800px;">
     <div class="container" style="width: 1000px; margin: 0 auto; display: flex; flex-direction: column; ">
         <h1>인기 셰프</h1>
         <div class="content" style="display: flex; margin: 30px 10px 30px 10px">

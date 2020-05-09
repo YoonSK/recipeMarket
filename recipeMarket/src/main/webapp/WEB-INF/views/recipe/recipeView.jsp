@@ -207,8 +207,17 @@
     <div class="flex" style="height: 30px; width: 100%">
     <c:choose>
     	<c:when test="${loginUser.memberNo == recipe.memberNo}">
-        <button class="reactBtn" type="submit" onclick='location.href="updateForm.rc?postNo=${recipe.postNo}";' style="width: 50%">수정</button>
-        <button class="reactBtn" type="submit" onclick='location.href="delete.rc?postNo=${recipe.postNo}";' style="width: 50%">삭제</button>
+        <button class="reactBtn" type="submit" onclick='location.href="updateForm.rc?postNo=${recipe.postNo}";' style="width: 100px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 40%;
+    background: lightgoldenrodyellow;">수정</button>
+        <button class="reactBtn" type="submit" onclick='location.href="delete.rc?postNo=${recipe.postNo}";' style="width: 100px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 2%;
+    background: orangered;
+    color: white;">삭제</button>
     	</c:when>
     	<c:otherwise>
 
@@ -312,7 +321,7 @@
                 <textarea name="content" style="min-height: 100px; min-width:98%; background-color: #e8e5da; border: antiquewhite"></textarea>
             </div>
             <div>
-                <button type="submit">작성 완료</button>
+                <button type="submit" style="width: 80px;  height: 30px; border: none; border-radius: 5px;">등록</button>
                 <input type="hidden" name="postNo" value="${recipe.postNo}"/>
             </div>
         </div>
