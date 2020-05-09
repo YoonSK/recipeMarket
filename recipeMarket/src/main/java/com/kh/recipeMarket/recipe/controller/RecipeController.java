@@ -393,9 +393,9 @@ public class RecipeController {
 	}
 	
 	@RequestMapping("searchOuterRecipes.rc")
-	public String outerSearch(HttpServletRequest request) throws IOException{
+	public String outerSearch(HttpSession session, HttpServletRequest request) throws IOException{
 		Random random = new Random();
-	for(int q = 0; q < 30 ; q++) {
+	for(int q = 0; q < 15 ; q++) {
 		int rdv = random.nextInt(1000);
 		int pNo = 6899265 + rdv;
 		
@@ -407,7 +407,11 @@ public class RecipeController {
 
 		Recipe r = new Recipe();
 		random.nextInt(20);
-		r.setMemberNo(41);
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int memberNo = loginUser.getMemberNo();
+		
+		r.setMemberNo(memberNo);
 		String tempTitle = (doc.title().length() < 38) ? doc.title() : doc.title().substring(0, 38);
 		
 		r.setTitle(tempTitle);
@@ -447,7 +451,6 @@ public class RecipeController {
 		case "신의경지": difficulty =2; break;
 		}
 		r.setDifficulty(difficulty);
-		System.out.println(r);
 		
 		ArrayList<String> ingList = new ArrayList<String>();
 		/*
@@ -486,9 +489,7 @@ public class RecipeController {
 			Elements eln= doc.select("#divConfirmedMaterialArea > ul > a");
 			for(Element e : eln) {
 				String tmp = e.attr("onclick");
-				System.out.println(tmp);
 				String t = tmp.replace("ga('send', 'event', '레시피본문', '재료정보버튼클릭', '", "").replace("');", "");
-				System.out.println(t);
 				if(!t.equals("") && !ingList.contains(t)) {
 					ingList.add(t);
 				}
@@ -586,8 +587,7 @@ public class RecipeController {
 		rService.insertRecipe(r, stepList, ingList, amtList, tagList, images);
 	}
 	}
-		String referer = request.getHeader("Referer");
-	    return "redirect:"+ referer;
+	    return "recipeSearch";
 	}
 	
 }

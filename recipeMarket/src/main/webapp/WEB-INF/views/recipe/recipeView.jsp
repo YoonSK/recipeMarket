@@ -173,7 +173,7 @@
         <div style="width: 5%">태그</div>
         <div style="text-align: left; width: 70%; min-height: 70px; background-color: rgba(199,241,122,0.49); border-radius: 10px">
         	<c:forEach items="${tagList}" var="Tag">
-    			<button class="rtag">
+    			<button class="rtag" type="button" onclick='location.href="search.rc?tag=<c:out value="${Tag.tag}"/>"'>
     				<c:out value="${Tag.tag}"/>
     			</button>
 			</c:forEach>
