@@ -7,11 +7,20 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+
+.rDeleteBtn{
+	    background: orangered;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    height: 30px;
+    margin-left: 15px;
+}
 	.wrapper{
 		
-		height:1800;
+		/* height:1800; */
 		background:#EAEAEA;
-		
+		min-height: 1300px;
 	}
 	
 	.content{
@@ -40,43 +49,75 @@
 	}
 	
 	#insertBtn{
-		font-size: 25px;
-    	background: #74b243;
-    	color: #fff;
-    	padding: 10px 30px;
-    	border-radius: 10px;
-    	border: 1px solid #497725;
-    	cursor:pointer;
+		    font-size: 25px;
+    background: #6cb77e;
+    color: #fff;
+    padding: 10px 30px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
 	}
 	
 	#backBtn{
-		font-size: 25px;
-		padding: 10px 30px; 
-    	border-radius: 10px;
-    	cursor:pointer;
+	font-size: 25px;
+    padding: 10px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
 	}
 	
 	#removeBtn{
-		font-size: 25px;
-		background: tomato;
-    	color: white;
-    	border: 1px solid red;
-		padding: 10px 30px; 
-    	border-radius: 10px;
-    	cursor:pointer;
+		    font-size: 25px;
+    background: tomato;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 5px;
+    cursor: pointer;
 	}
 	
+	#likeBtn{
+	width: 150px;
+    height: 100px;
+    float: left;
+    background: white;
+    border: none;
+    margin-top: 2%;}
 	#rtb{
 		width:100%;
 	}
 
+	#rContent{
+		width: 770px;
+    height: 135px;
+    font-size: 25px;
+    float: left;
+    /* padding: 15px; */
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    resize: none;
+        margin-left: 20px;
+	}
 	
-	
+	 
+	#rSubmit {  
+    text-align: center;
+    border: 1px solid #fee0a1;
+    border-radius: 4px;
+    background: white;    width: 150px;
+    height: 70px;
+    font-size: 30px;
+    vertical-align: sub;
+    float: right;
+    margin-top: 40px;
+    margin-left: 30px;}
+	#rSubmit:hover {cursor: pointer; background: #fee0a1; color: white;} 
 </style>
 </head>
 <body>
 	<%@ include file="../common/header.jsp" %>
 	<!-- <form> -->
+	<div class="outer">
 		<div class="wrapper">
 			<br>
 			<div class="content" style="background: white;">
@@ -171,28 +212,28 @@
 	         	
 	         	<br>
 	         	
-	         	<div>
+	         	<div style="background: white;  height: 170px;">
 	         	
 	         		<c:if test="${likeCheck == null }">
-	         		<button type="button" style="width:200px; height:150px; float:left;" onclick="insertLike();">
+	         		<button type="button" id="likeBtn" onclick="insertLike();">
 		         		<img style="width:70%; height:70%;" src="resources/images/like.png">
 		         	</button>
 		         	</c:if>
 		         	
 		         	<c:if test="${likeCheck != null }">
-		         	<button type="button" style="width:200px; height:150px; float:left;" onclick="deleteLike();">
+		         	<button type="button" id="likeBtn" onclick="deleteLike();">
 		         		<img style="width:70%; height:70%;" src="resources/images/unlike.png">
 		         	</button>
 		         	</c:if>
-	         	</div>
+	         	
 	         	
 	         	<div style=" height:135px; float:left;">
 	         		<!-- <input type="text" id="rContent" placeholder="댓글을 입력해주세요." style="width:800px; height:150px; font-size:25px; float:left;"> -->
-	         		<textarea id="rContent"  style="width:770px; height:135px; font-size:25px; float:left; padding:15px;" placeholder="댓글을 입력해주세요."></textarea>
-	         		<button type="button" style="width:200px; height:150px; font-size:30px; vertical-align: sub;  float:left;" id="rSubmit">등록</button>
+	         		<textarea id="rContent" placeholder="댓글을 입력해주세요."></textarea>
+	         		<button type="button" id="rSubmit">등록</button>
 	         	</div>
 	         </div>
-	         
+	         </div>
 	         
 		</div>
 		
@@ -383,8 +424,9 @@
 			})
 		
 	</script>
-	
+	</div>
 	<%@ include file="../common/footer.jsp" %>
 	
 </body>
+
 </html>

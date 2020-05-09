@@ -335,8 +335,8 @@
 	</resultMap>
 	
 	<insert id="insertFollow" parameterType="Follow">
-		insert into Follow
-		values(#{targetNo},#{memberNo})
+		insert into good
+		values(0,#{memberNo},#{targetNo})
 	</insert>
 	
 	<!-- <select id="selectFollow" resultMap="FollowResultSet">

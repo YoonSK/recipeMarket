@@ -151,8 +151,8 @@
 		select reply_no,nickname, r.board_no, r.target_no, r.content, r.create_date, r.modify_date, rating, r.deleted, p.change_name  
 		from reply r
 			JOIN MEMBER M USING(MEMBER_NO)
-			LEFT OUTER JOIN PHOTO p on(MEMBER_NO = p .target_no)
-		where r.target_no = #{postNo} and r.deleted='N'
+			LEFT OUTER JOIN PHOTO p on(MEMBER_NO = p .target_no AND p.BOARD_NO = 0)
+		where r.target_no = #{postNo} and r.deleted='N' and r.board_no = 2
 		order by reply_no desc
 	</select>
 	

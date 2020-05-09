@@ -59,7 +59,7 @@ public interface ManagerService {
 
 	ArrayList<RecipePreview> topFoodList();
 
-	ArrayList<RecipePreview> weatherFoodList();
+	ArrayList<RecipePreview> weatherFoodList(int weather);
 
 	ArrayList<Follow> topChefList();
 

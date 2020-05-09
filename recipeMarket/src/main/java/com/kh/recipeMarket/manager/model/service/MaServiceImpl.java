@@ -132,8 +132,8 @@ public class MaServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public ArrayList<RecipePreview> weatherFoodList() {
-		return maDAO.weatherFoodList(sqlSession);
+	public ArrayList<RecipePreview> weatherFoodList(int weather) {
+		return maDAO.weatherFoodList(sqlSession,weather);
 	}
 
 	@Override

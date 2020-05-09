@@ -159,7 +159,7 @@
     </div>
     <div class="flex" style="justify-content: center; ">
         <div style="width: 5%">재료</div>
-        <div style="text-align: left; width: 70%; height: 100px; background-color: rgba(199,241,122,0.49); border-radius: 10px">
+        <div style="text-align: left; width: 70%; min-height: 70px; background-color: rgba(199,241,122,0.49); border-radius: 10px">
         	<c:forEach items="${ingredientList}" var="ing">
     			<button class="ingredient" type="button" onclick='location.href="searchProduct.rc?keyword=<c:out value="${ing.name}"/>"'>
     				<c:out value="${ing.name}"/>
@@ -171,9 +171,9 @@
     </div>
     <div class="flex" style="justify-content: center; ">
         <div style="width: 5%">태그</div>
-        <div style="text-align: left; width: 70%; height: 100px; background-color: rgba(199,241,122,0.49); border-radius: 10px">
+        <div style="text-align: left; width: 70%; min-height: 70px; background-color: rgba(199,241,122,0.49); border-radius: 10px">
         	<c:forEach items="${tagList}" var="Tag">
-    			<button class="rtag">
+    			<button class="rtag" type="button" onclick='location.href="search.rc?tag=<c:out value="${Tag.tag}"/>"'>
     				<c:out value="${Tag.tag}"/>
     			</button>
 			</c:forEach>
@@ -193,7 +193,10 @@
                 <p><c:out value="${step.content}"/></p>
             </div>
             <div>
-                <img width="300px" height="300px" src="resources/upload/${imgList[status.index +1].changeName}"/>
+            <c:if test='${imgList[status.index +1].changeName ne "skip"}'>
+                <img width="200px" height="200px" src="resources/upload/${imgList[status.index +1].changeName}"/>
+            </c:if>
+
             </div>
         </div>
         
@@ -210,7 +213,9 @@
     	<c:otherwise>
 
     	<button id="follow"  style="font-size:20px; width:50%;" value="${author.nickName}" >구독하기</button>
+        <%-- 
         <button class="reactBtn" type="submit" onclick='location.href="follow.rc?targetNo=${recipe.memberNo}";' style="width: 50%">구독</button>
+        --%>
         <button class="reactBtn" type="submit" onclick='location.href="save.rc?postNo=${recipe.postNo}";' style="width: 50%">담아두기</button>
     	</c:otherwise>
     </c:choose>
