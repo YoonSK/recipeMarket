@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>레시피 마켓 RECIPE MARKET</title>
 <style>
+
 	/* 로고 */
 	div.nav h1{margin: 0 30px 0 0; display: inline-block; vertical-align: top; margin-left: 150px; }
 	/* 네비 상단 */
@@ -65,7 +66,7 @@
     	right:100px;
     	bottom:0px;
     	width:120px;
-    	height:100px;
+    	height:150px;
     	
     }
     #qnaBtn{
@@ -361,11 +362,11 @@ $(document).on('click', '#deleteFollower', function(){
 			    <div id="kmodal" class="kmodal">
 				 <!-- Modal content -->
 					<div class="kmodal-content">
-						<span class="close">&times;</span>
+						<span class="close"style="margin-top: -8px;">&times;</span>
 				        <div id="titleName">관리자와 1:1 채팅</div>
 						<textarea id="messageArea" readonly style="resize:none;"></textarea> <br>
-						<input type="text" id="message"/>
-						<input type="button" id="sendBtn" value="보내기"/>
+						<input type="text" id="message" style="margin-top: -5px;"/>
+						<input type="button" id="sendBtn" value="보내기" style="margin-top: -5px;"/>
 			    	</div>
 			    </div>
 			    
@@ -375,7 +376,7 @@ $(document).on('click', '#deleteFollower', function(){
 						$('#message').val('')
 					});
 
-					let sock = new SockJS("http://192.168.10.230:9780/recipeMarket/echo");
+					let sock = new SockJS("http://localhost:9780/recipeMarket/echo");
 					sock.onmessage = onMessage;
 					sock.onclose = onClose;
 					// 메시지 전송
@@ -412,7 +413,8 @@ $(document).on('click', '#deleteFollower', function(){
 				<c:if test="${ loginUser != null  && loginUser.id != 'ADMIN' }">
 					<div id = "qnaDiv">
 						<!-- <button id= "qnaBtn" onclick="location.href='test1.bo';">실시간 채팅 문의</button> -->
-						<button id= "qnaBtn" onclick="qnaList();">실시간 채팅 문의</button>					
+						<img src="resources/images/chat1.png" onclick="qnaList();" style="width:100px">
+						<!-- <button id= "qnaBtn" onclick="qnaList();">실시간 채팅 문의</button>					 -->
 					</div>
 			 	</c:if>
 			 	

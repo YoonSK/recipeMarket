@@ -488,8 +488,24 @@ public class ManagerController {
 	}
 	
 	@RequestMapping("weatherFood.ma")
-	public void weatherFoodList (HttpServletResponse response) throws JsonIOException, IOException {
-		ArrayList<RecipePreview> rlist = mas.weatherFoodList();
+	public void weatherFoodList (HttpServletResponse response, @RequestParam("sky") String sky) throws JsonIOException, IOException {
+		System.out.println("sky : "+ sky);
+		Follow f = new Follow();
+		int weather = 0;
+		if(sky.equals("light rain")) {
+			weather = 1;
+		//	ArrayList<RecipePreview> rlist = mas.weatherFoodList(weather);
+		} else if(sky.equals("clear sky")) {
+			weather = 2;
+		//	ArrayList<RecipePreview> rlist = mas.weatherFoodList(weather);
+		} else {
+			weather = 3;
+		//	ArrayList<RecipePreview> rlist = mas.weatherFoodList(weather);
+		}
+		
+		f.setMemberNo(weather);
+		System.out.println(f);
+		ArrayList<RecipePreview> rlist = mas.weatherFoodList(weather);
 		
 		for(RecipePreview pr : rlist) {
 			pr.setTitle(URLEncoder.encode(pr.getTitle(),"UTF-8"));

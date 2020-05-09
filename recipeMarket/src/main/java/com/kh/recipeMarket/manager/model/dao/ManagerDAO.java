@@ -131,9 +131,14 @@ public class ManagerDAO {
 		return (ArrayList)sqlSession.selectList("managerMapper.topFoodList");
 	}
 
-	public ArrayList<RecipePreview> weatherFoodList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("managerMapper.weatherFoodList");
-
+	public ArrayList<RecipePreview> weatherFoodList(SqlSessionTemplate sqlSession,int weather) {
+		if(weather == 1) {
+			return (ArrayList)sqlSession.selectList("managerMapper.rainWeatherFoodList");
+		} else if(weather == 2) {
+			return (ArrayList)sqlSession.selectList("managerMapper.weatherGoodFoodList");
+		} else {
+			return (ArrayList)sqlSession.selectList("managerMapper.weatherFoodList");
+		}
 	}
 
 	public ArrayList<Follow> topChefList(SqlSessionTemplate sqlSession) {

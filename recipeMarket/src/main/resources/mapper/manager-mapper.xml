@@ -265,7 +265,7 @@
 	
 	<select id="topFoodList" resultMap="recipeListMap">
 		<![CDATA[
-	   		 SELECT * from (select POST_NO, TITLE, CHANGE_NAME
+	   		 SELECT distinct * from (select POST_NO, TITLE, CHANGE_NAME
     	FROM R_BOARD R
     	JOIN PHOTO P ON(BOARD_NO = 1 AND TARGET_NO = POST_NO AND FILE_LEVEL = 0)
         join reply r on(p.board_no=1 and r.board_no=1 and r.target_no = p.target_no )
@@ -288,12 +288,38 @@
    		]]>
 	</select> -->
 	
-	<select id="weatherFoodList" resultMap="recipeListMap">
+	<select id="rainWeatherFoodList" resultMap="recipeListMap">
 		<![CDATA[
-	 		select * from (select r.post_no, r.title, change_name
+	 		select distinct  * from (select r.post_no, r.title, change_name
                         from r_board r join r_tag t on(r.post_no = t.post_no)
                                         join photo p on(t.post_no = p.target_no and p.board_no=1 and file_level=0)
-                        where tag like '%비%' and r.deleted='N'
+                                        
+                        where r.deleted='N'
+								 and tag like '%비%'
+                        order by r.hit desc)
+       		 where rownum <= 5
+        ]]>
+	</select>
+	
+	<select id="weatherGoodFoodList" resultMap="recipeListMap">
+		<![CDATA[
+	 		select distinct  * from (select r.post_no, r.title, change_name
+                        from r_board r join r_tag t on(r.post_no = t.post_no)
+                                        join photo p on(t.post_no = p.target_no and p.board_no=1 and file_level=0)
+                                        
+                        where r.deleted='N'
+								 and tag like '%맑은%' or tag like '%밝은%' or tag like '%햇빛'
+                        order by r.hit desc)
+       		 where rownum <= 5
+        ]]>
+	</select>
+	<select id="weatherFoodList" resultMap="recipeListMap">
+		<![CDATA[
+	 		select distinct * from (select r.post_no, r.title, change_name
+                        from r_board r join r_tag t on(r.post_no = t.post_no)
+                                        join photo p on(t.post_no = p.target_no and p.board_no=1 and file_level=0)
+                                        
+                        where r.deleted='N'
                         order by r.hit desc)
        		 where rownum <= 5
         ]]>

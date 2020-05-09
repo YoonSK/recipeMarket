@@ -11,7 +11,10 @@
 <title>레시피 마켓</title>
 <style>
 	
-	#popularChef,#popularFood{background: white; height:270px;}
+	#popularChef,#popularFood{background: white;height: 220px;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;}
 	body{background:#f9f9f9}
 	.slick-prev{
 		background: blue;
@@ -24,9 +27,9 @@
 	}
 	.outer{
 		width:1200px;
-		/* height:680px; */
+		    min-height: 1340px;
 		background:#f9f9f9;
-		margin-left: 10%;
+		margin-left: 20%;
 	}
 	.slick-prev:before{
 		color: black;
@@ -53,7 +56,8 @@
     border-radius: 5px;}
     
     #topFoodT td, #weatherT td{
-    padding: 4px;
+    padding: 15px;
+    text-align: center;
     margin-bottom: 20px;
     line-height: 1.42857143;
     background-color: #fff;
@@ -113,11 +117,22 @@
 			</div>
 		</div>
 	</div>
-		<div id="weather">
+		<div id="weather" style="border: 1px solid #d9d9d9; text-align: center; background: white;">
 			<h2>오늘의 날씨 </h2>
-			<div class="ctemp" style="font-size:40px"><span class="feels">체감온도는</span>  <img class="icon"  style="width:30px;" src="resources/images/celsius.png"/>,</div>
-			<div class="sky" style="font-size:40px"></div>
-			<div class="cicon" style="background:lightblue;width: 10%; "></div>
+				<!-- <span class="cicon" style="width: 10%; "></span>
+			<span>체감온도</span> <span class="feels"  style="font-size: 30px;"></span>  <img class="icon"  style="width:30px;" src="resources/images/celsius.png"/></span>
+			<div class="sky" style="font-size:15px"></div> -->
+		<table style="margin-left: 38%;">
+			<tr>
+				<td rowspan="2" class="cicon" style="vertical-align: top;"></td>
+				<td style="vertical-align: bottom;">체감온도</td>
+				<td class="feels" style="vertical-align: bottom; font-size:30px;"></td>
+				<td style="vertical-align: bottom;"><img class="icon"  style="width:20px; height:20px" style="vertical-align: top;" src="resources/images/celsius.png"/></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="sky" style="vertical-align: top;"></td>
+			</tr>
+		</table>
 		</div>
 		<script>
 		navigator.geolocation.getCurrentPosition(function(pos) {
@@ -151,12 +166,53 @@
 					$('.sky').append('흐린날이네요');
 				} else if($sky == 'few clouds'){
 					$('.sky').append('구름이 조금 있군요!');
+				} else if($sky == 'light rain'){
+					$('.sky').append('흐리고 가끔 비');
+				} else if($sky == 'mist'){
+					$('.sky').append('안개가 있네요');
+				} else if($sky =='light intensity drizzle'){
+					$('.sky').append('흐리고 가끔 비');
 				}
+				 
+					function weatherList(){
+						
+						var sky = data.weather[0].description;
+						$.ajax({
+							url:'weatherFood.ma',
+							dataType:'json',
+							data:{sky:sky},
+							success: function(data){
+								$tableBody = $('#weatherT tbody tr');
+								$tableBody.html("");
+								console.log(sky);
+								for(var i in data){
+									var $tr = $("<tr>");
+									var $bTitle = $("<td>").text(decodeURIComponent(data[i].title.replace(/\+/g,' ')));
+									var $thumb = $("<td>").html('<a href="detail.rc?postNo='+data[i].postNo+'"><img id= "timg" src="resources/upload/'+data[i].thumb+'"/><br>'+decodeURIComponent(data[i].title.replace(/\+/g,' '))+'</a>');
+									$tableBody.append($thumb);
+									
+									console.log($bTitle);
+								}
+								
+							}
+						});
+					}
+					
+					$(function(){
+						weatherList();
+						
+						setInterval(function(){
+							topList();
+						}, 5000);
+					});
 			});
 		});	
+		
+		
+	
 		</script> 
 			<div id="weatherFood">
-			<h2>이 요리들을 추천합니다</h2>
+			<h2 style="border-bottom: 1px solid #d9d9d9; padding: 4px;">쉐프들의 날씨 요리 추천</h2>
 		<table id="weatherT">
 			<thead>
 				<tr>
@@ -182,7 +238,7 @@
 	
 	
 	
-			<h2>인기있는 쉐프 TOP5<button class="plusBtn" type="button">더보기</button></h2>
+			<h2 style="border-bottom: 1px solid #d9d9d9; padding: 4px;">인기있는 쉐프 TOP5<button class="plusBtn" type="button" onclick="location.href='chefRank.rc'">더보기</button></h2>
 			<div id="popularChef">
 		<table id="popularChefT">
 			<thead>
@@ -201,14 +257,17 @@
 	</div>
 
 	<script>
-	function weatherList(){
+/* 	function weatherList(){
+		
+		var sky =$('.sky');
 		$.ajax({
 			url:'weatherFood.ma',
 			dataType:'json',
+			data:{sky:sky},
 			success: function(data){
 				$tableBody = $('#weatherT tbody tr');
 				$tableBody.html("");
-				
+				console.log(sky);
 				for(var i in data){
 					var $tr = $("<tr>");
 					var $bTitle = $("<td>").text(decodeURIComponent(data[i].title.replace(/\+/g,' ')));
@@ -228,7 +287,7 @@
 		setInterval(function(){
 			topList();
 		}, 5000000);
-	});
+	}); */
 		function topList(){
 			$.ajax({
 				url: 'topFoodList.ma',
@@ -259,7 +318,7 @@
 			
 			setInterval(function(){
 				topList();
-			}, 5000000);
+			}, 5000);
 		});
 		
 		
@@ -288,7 +347,7 @@
 			
 			setInterval(function(){
 				topList();
-			}, 5000000);
+			}, 5000);
 		});
 	</script>
 	
