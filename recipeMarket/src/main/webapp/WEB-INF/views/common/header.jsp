@@ -362,7 +362,7 @@ $(document).on('click', '#deleteFollower', function(){
 				 <!-- Modal content -->
 					<div class="kmodal-content">
 						<span class="close"style="margin-top: -8px;">&times;</span>
-				        <div id="titleName">관리자와 1:1 채팅</div>
+				        <div id="titleName">관리자와 1:1 채팅 문의</div>
 						<textarea id="messageArea" readonly style="resize:none;"></textarea> <br>
 						<input type="text" id="message" style="margin-top: -5px;"/>
 						<input type="button" id="sendBtn" value="보내기" style="margin-top: -5px;"/>
