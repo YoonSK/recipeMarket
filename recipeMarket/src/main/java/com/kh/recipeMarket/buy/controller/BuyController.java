@@ -87,8 +87,7 @@ public class BuyController {
 	public ModelAndView goBuy(ModelAndView mv, Model model, @RequestParam("prArray") ArrayList<Integer> prArray) {
 		Member loginUser = (Member)model.getAttribute("loginUser");		
 		int memberNo = loginUser.getMemberNo();
-		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		List<Integer> prnArray = new ArrayList();
 		for(int i = 0; i < prArray.size(); i++) {
 			if(prArray.get(i) != 0) {
@@ -97,10 +96,11 @@ public class BuyController {
 			}
 		}
 		ArrayList<Cart> list = new ArrayList<Cart>();
-		for(int i = 0; i < prnArray.size(); i++) {
-			list = bs.goBuy(prnArray);
-		}		
 
+		for(int i = 0; i < prnArray.size(); i++) {
+			list = bs.goBuy(prnArray, memberNo);
+		}		
+		
 		if(list != null) {
 			mv.addObject("list", list);			
 			mv.setViewName("mBuy");			

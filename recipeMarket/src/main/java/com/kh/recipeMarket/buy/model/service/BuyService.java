@@ -16,7 +16,7 @@ public interface BuyService {
 
 	int cartDelete(Cart cart);
 
-	ArrayList<Cart> goBuy(List<Integer> prnArray);
+	ArrayList<Cart> goBuy(List<Integer> prnArray, int memberNo);
 
 	int insertOrder(Order o);
 
