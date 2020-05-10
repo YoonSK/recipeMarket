@@ -383,13 +383,14 @@ public class RecipeController {
 		mv.setViewName("productSearch");
 		return mv;
 	}
-	
+
+	@RequestMapping("importRecipe.rc")
 	public String importRecipe(@RequestParam("pNo") int pNo, HttpSession session, HttpServletRequest request) throws IOException{
 		Random random = new Random();
+		int postNo = 0;
 	try {
 			Document doc = Jsoup.connect("https://www.10000recipe.com/recipe/"+pNo).get();
 			System.out.println("https://www.10000recipe.com/recipe/"+pNo);
-			System.out.println(doc.html());
 		if(doc != null) {
 			Recipe r = new Recipe();
 			random.nextInt(20);
@@ -564,12 +565,12 @@ public class RecipeController {
 	        System.out.println(amtList);
 	        System.out.println(tagList);
 			
-			rService.insertRecipe(r, stepList, ingList, amtList, tagList, images);
+			postNo = rService.insertRecipe(r, stepList, ingList, amtList, tagList, images);
 			}
 		}catch (Exception e){
 			
 		}
-	    return "recipeSearch";
+	    return "redirect:detail.rc?postNo=" + postNo;
 	}
 	
 	@RequestMapping("searchOuterRecipes.rc")
