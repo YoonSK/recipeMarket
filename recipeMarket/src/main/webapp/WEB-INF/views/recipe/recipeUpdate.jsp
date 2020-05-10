@@ -417,6 +417,7 @@ function randomColor(){
     var y = Math.floor(Math.random() * 192 + 64);
     var z = Math.floor(Math.random() * 192 + 64);
     var bgColor = "rgb(" + x + "," + y + "," + z + ")";
+    bgColor = "aliceblue";
 	return bgColor;
 }
 

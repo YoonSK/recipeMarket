@@ -223,6 +223,7 @@ function randomColor(){
     var y = Math.floor(Math.random() * 160 + 96);
     var z = Math.floor(Math.random() * 160 + 96);
     var bgColor = "rgb(" + x + "," + y + "," + z + ")";
+    bgColor = "aliceblue";
 	return bgColor;
 }
 
