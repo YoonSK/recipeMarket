@@ -204,9 +204,9 @@
        
     </div>
 
-    <div class="flex" style="height: 30px; width: 100%">
     <c:choose>
     	<c:when test="${loginUser.memberNo == recipe.memberNo}">
+    <div class="flex" style="height: 30px; width: 100%">	
         <button class="reactBtn" type="submit" onclick='location.href="updateForm.rc?postNo=${recipe.postNo}";' style="width: 100px;
     border: none;
     border-radius: 5px;
@@ -218,17 +218,18 @@
     margin-left: 2%;
     background: orangered;
     color: white;">삭제</button>
+    </div>
     	</c:when>
-    	<c:otherwise>
-
-    	<button id="follow"  style="font-size:20px; width:50%;" value="${author.nickName}" >구독하기</button>
+    	<c:when test="${loginUser.memberNo != null}">
+	<div class="flex" style="height: 30px; width: 100%">
+    	<button class="reactBtn" id="follow"  style="width:50%;" value="${author.nickName}" >구독하기</button>
         <%-- 
         <button class="reactBtn" type="submit" onclick='location.href="follow.rc?targetNo=${recipe.memberNo}";' style="width: 50%">구독</button>
         --%>
         <button class="reactBtn" type="submit" onclick='location.href="save.rc?postNo=${recipe.postNo}";' style="width: 50%">담아두기</button>
-    	</c:otherwise>
-    </c:choose>
     </div>
+    	</c:when>
+    </c:choose>
 
     <div style="min-height: 60px">
         <c:forEach items="${replyList}" var="reply">
@@ -321,9 +322,21 @@
                 <textarea name="content" style="min-height: 100px; min-width:98%; background-color: #e8e5da; border: antiquewhite"></textarea>
             </div>
             <div>
-                <button type="submit" style="width: 80px;  height: 30px; border: none; border-radius: 5px;">등록</button>
+                <c:if test="${loginUser == null }">
+                	<button type="button" onclick="login();" style="width: 80px;  height: 30px; border: none; border-radius: 5px;">등록</button>
+		        </c:if>
+                <c:if test="${loginUser != null }">
+                	<button type="submit" style="width: 80px;  height: 30px; border: none; border-radius: 5px;">등록</button>
+		        </c:if>
                 <input type="hidden" name="postNo" value="${recipe.postNo}"/>
             </div>
+            <script>
+			   function login(){
+				   alert('로그인을 해주세요.');
+				   location.href="goLogin.me";
+			   }
+			    	
+			</script>
         </div>
         </form>
     </div>
