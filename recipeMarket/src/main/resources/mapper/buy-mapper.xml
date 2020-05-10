@@ -35,6 +35,7 @@
 			<foreach collection="list" item="prN" open="(" close=")" separator=",">
 				#{prN}
 			</foreach>  
+			AND MEMBER_NO = #{memberNo}
   	</select>
   	
   	<insert id="insertOrder" parameterType="Order">

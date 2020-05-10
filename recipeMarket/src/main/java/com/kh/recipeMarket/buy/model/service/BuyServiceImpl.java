@@ -35,8 +35,8 @@ public class BuyServiceImpl implements BuyService{
 	}
 
 	@Override
-	public ArrayList<Cart> goBuy(List<Integer> prnArray) {
-		return buyDAO.goBuy(sqlSession, prnArray);
+	public ArrayList<Cart> goBuy(List<Integer> prnArray, int memberNo) {
+		return buyDAO.goBuy(sqlSession, prnArray, memberNo);
 	}
 
 	@Override

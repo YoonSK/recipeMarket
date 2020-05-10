@@ -25,9 +25,10 @@ public class BuyDAO {
 		return sqlSession.delete("buyMapper.cartDelete", cart);
 	}
 
-	public ArrayList<Cart> goBuy(SqlSessionTemplate sqlSession, List<Integer> prnArray) {
+	public ArrayList<Cart> goBuy(SqlSessionTemplate sqlSession, List<Integer> prnArray, int memberNo) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", prnArray);
+		map.put("memberNo", memberNo);
 		return (ArrayList)sqlSession.selectList("buyMapper.goBuy", map);
 	}
 
