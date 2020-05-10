@@ -12,7 +12,7 @@ a {
 	color: rgb(102, 102, 102); text-decoration: none;
 }
 a:hover {
-	color: rgb(255, 102, 0); text-decoration: none;
+	color: rgb(255, 255, 255); text-decoration: none;
 }
 .clear {
 	clear: both;
@@ -269,16 +269,16 @@ article h4 {
 	background-position: 15px; background-repeat: no-repeat;
 }
 #detail_table ul li a.buy {
-	background-image: url("../imgs/check.png"); margin-left: 100px;
+	background-color: rgb(255, 204, 0); margin-left: 100px;
 }
 #detail_table ul li a.cart {
-	background-image: url("../imgs/cart.png");
+	background-color: rgb(255, 204, 0);
 }
 #detail_table ul li a.buy:hover {
-	color: rgb(0, 0, 0); background-color: rgb(255, 204, 0);
+	color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);
 }
 #detail_table ul li a.cart:hover {
-	color: rgb(0, 0, 0); background-color: rgb(255, 204, 0);
+	color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);
 }
 #container {
 	margin: 40px auto; width: 100%;
@@ -449,19 +449,19 @@ ul.tabs li.active a:hover {
 	background-position: 15px; background-repeat: no-repeat;
 }
 .detail_table ul li a.buy {
-	border-color: rgb(255, 0, 0); color: rgb(255, 0, 0); background-image: url("../imgs/check.png");
+	border-color: rgb(255, 0, 0); color: rgb(255, 0, 0); background-color: rgb(255, 204, 0);
 }
 .detail_table ul li a.cart {
-	background-image: url("../imgs/cart.png");
+	background-color: rgb(255, 204, 0);
 }
 .detail_table ul li a.wish {
-	background-image: url("../imgs/wish.png");
+	background-color: rgb(255, 204, 0);
 }
 .detail_table ul li a.buy:hover {
-	color: rgb(0, 0, 0); background-color: rgb(255, 204, 0);
+	color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);
 }
 .detail_table ul li a.cart:hover {
-	color: rgb(0, 0, 0); background-color: rgb(255, 204, 0);
+	color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);
 }
 
 article h1_TITLE {
