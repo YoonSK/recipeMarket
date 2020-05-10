@@ -210,7 +210,6 @@ public class RecipeController {
 	
 	@RequestMapping("detail.rc")
 	public ModelAndView recipeDetail(@RequestParam("postNo") int postNo, ModelAndView mv){
-		
 		Recipe rb = rService.selectRecipe(postNo);
 		mv.addObject("recipe", rb);
 		mv.addObject("ingredientList", rb.getIngredientList());
@@ -218,14 +217,10 @@ public class RecipeController {
 		mv.addObject("stepList", rb.getStepList());
 		mv.addObject("imgList", rb.getImgList());
 		mv.addObject("author", rb.getAuthor());
-		
 		System.out.println(rb);
-		
 		rService.addRecipeHit(postNo);
-		
 		ArrayList<Reply> rplist = cService.selectReplies(new Enum().boardNo("recipe"), postNo);
 		mv.addObject("replyList", rplist);
-
 		mv.setViewName("recipeView");
 		return mv;
 	}
@@ -244,15 +239,11 @@ public class RecipeController {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int memberNo = loginUser.getMemberNo();
 		int boardNo = new Enum().boardNo("recipe");
-		
 		rp.setMemberNo(memberNo);
 		rp.setBoardNo(boardNo);
 		rp.setTargetNo(postNo);
-		
 		System.out.println(rp);
-		
 		cService.insertReply(rp);
-		
 		return "redirect:detail.rc?postNo=" + postNo;
 	}
 
@@ -299,20 +290,15 @@ public class RecipeController {
 			@ModelAttribute SearchCon sc, 
 			ModelAndView mv){
 		System.out.println(sc);
-		
 		sc.setIngredientList(ingredients);
 		sc.setTagList(tags);
-		
 		ArrayList<RecipePreview> rlist = rService.searchRecipeList(sc);
-		
 		ArrayList<Ingredient> frqIngs = rService.selectFreqIngredients(4);
 		ArrayList<Tag> frqTags = rService.selectFreqTags(4);
-		
 		mv.addObject("searchCon", sc);
 		mv.addObject("rlist", rlist);
 		mv.addObject("frqIngs", frqIngs);
 		mv.addObject("frqTags", frqTags);
-		
 		mv.setViewName("recipeSearch");
 		return mv;
 	}
@@ -405,18 +391,13 @@ public class RecipeController {
 			System.out.println("https://www.10000recipe.com/recipe/"+pNo);
 			System.out.println(doc.html());
 		if(doc != null) {
-	
 			Recipe r = new Recipe();
 			random.nextInt(20);
-			
 			Member loginUser = (Member)session.getAttribute("loginUser");
 			int memberNo = loginUser.getMemberNo();
-			
 			r.setMemberNo(memberNo);
 			String tempTitle = (doc.title().length() < 38) ? doc.title() : doc.title().substring(0, 38);
-			
 			r.setTitle(tempTitle);
-			
 			int cseed = random.nextInt(8);
 			String category = "";
 			switch(cseed) {
@@ -431,7 +412,6 @@ public class RecipeController {
 			case 8: category ="etc"; break;
 			}
 			r.setCategory(category);
-			
 			String sseed = doc.select(".view2_summary_info1").text().replace("인분", "").replace(" 이상", "");
 			if(sseed.equals("")) {sseed = "1";}
 			r.setServing(Integer.parseInt(sseed));
@@ -439,7 +419,6 @@ public class RecipeController {
 			String rseed = doc.select(".view2_summary_info2").text().replace("분 이내", "").replace("2시간 이상", "120");
 			if(rseed.equals("")) {rseed = "10";}
 			r.setReqTime(Integer.parseInt(rseed));
-			
 			
 			String dseed = doc.select(".view2_summary_info3").text();
 			int difficulty = 0;
@@ -600,9 +579,6 @@ public class RecipeController {
 	try {
 			int rdv = random.nextInt(1000);
 			int pNo = 6899265 + rdv;
-			
-			//pNo = 6899341;
-			
 			Document doc = Jsoup.connect("https://www.10000recipe.com/recipe/"+pNo).get();
 			System.out.println("https://www.10000recipe.com/recipe/"+pNo);
 		if(doc != null) {

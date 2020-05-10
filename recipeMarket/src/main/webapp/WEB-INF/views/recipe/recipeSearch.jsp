@@ -72,6 +72,7 @@
         }
         .linkerBtn{
             margin: 2px 2px 2px 2px;
+            margin-left:auto;
             padding: 3px 3px 3px 3px;
             border-radius: 5px;
         }
@@ -82,8 +83,15 @@
 		    height: 40px;
 		    width: 100px;
         }
-         #writeBtn:hover{background: white; color:black; border:1px solid #add1c3}
-        #myListBtn{
+        .linkerBtn:hover{background: white; color:black; border:1px solid #add1c3}
+        #listBtn{
+            border: none;
+		    background-color: #adc1d3;
+		    color: white;
+		    height: 40px;
+		    width: 100px;
+        }s
+        #listBtn{
             border: 1px solid darkblue;
             background-color: lightblue;
         }
@@ -101,7 +109,7 @@
 		button{outline: none;}
 		
      /* 기간별 조회 */
-   #sortBtnRate:hover{background-color: white; color: black; border:1px solid #add1c3; cursor: pointer;}
+   	#sortBtnRate:hover{background-color: white; color: black; border:1px solid #add1c3; cursor: pointer;}
     #sortBtnHit:hover{background-color: white; color: black; border:1px solid #add1c3; cursor: pointer;}
     #sortBtnNew:hover{background-color: white; color: black; border:1px solid #add1c3; cursor: pointer;}
 
@@ -110,7 +118,7 @@
 <body>
 <c:import url="../common/header.jsp"/>
 <div class="outer" style="display:flex; justify-content: center;">
-    <div class="container" style="width: 1000px; margin: 0 auto; display: flex; flex-direction: column">
+    <div class="container" style="width: 1080px; margin: 0 auto; display: flex; flex-direction: column">
         <h1>레시피 검색</h1>
         <form action="search.rc" method="post">
         <div class="content">
@@ -315,27 +323,30 @@
                 <button type="submit" id="searchBtn" style="background-color: #d9d9d9; border-radius:5px;margin-left: 10px;width: 50px; height: 35px; color: white;  font-size: 15px; ">검색</button>
             
             
-	            <div class="linkerBox" style="display: flex; margin-left :20%">
+	            <div class="linkerBox" style="display: flex; margin-left :40%">
 	            	<c:if test="${loginUser != null }">
 			            <a href="insertForm.rc">
 			                <button class="linkerBtn" id="writeBtn" type="button">레시피 작성</button>
 			            </a>
-			         </c:if>
-			         <c:if test="${loginUser == null }">
-			                <button class="linkerBtn" onclick="login();" id="writeBtn" type="button">레시피 작성</button>
-			         </c:if>
 			            <a href="list.rc">
-			                <button class="linkerBtn" id="myListBtn" type="button">나의 레시피</button>
+			                <button class="linkerBtn" id="listBtn" type="button">나의 레시피</button>
 			            </a>
 			            <a href="savedList.rc">
-			                <button class="linkerBtn" id="myListBtn" type="button">저장한 레시피</button>
+			                <button class="linkerBtn" id="listBtn" type="button">저장한 레시피</button>
 			            </a>
+			         </c:if>
+			         <c:if test="${loginUser == null }">
+			            <button class="linkerBtn" onclick="login();" id="writeBtn" type="button">레시피 작성</button>
+			            <button class="linkerBtn" onclick="login();" id="listBtn" type="button">나의 레시피</button>
+			            <button class="linkerBtn" onclick="login();" id="listBtn" type="button">저장한 레시피</button>
+			         </c:if>
+			            
+			            <%--
 			            <a href="searchOuterRecipes.rc">
-			                <button class="linkerBtn" id="myListBtn" type="button">레시피 들여오기</button>
+			                <button class="linkerBtn" id="listBtn" type="button">레시피 들여오기</button>
 			            </a>
-			            <a href="searchOuterProducts.rc">
-			                <button class="linkerBtn" id="myListBtn" type="button">상품 들여오기</button>
-			            </a>
+			       		--%>
+			            
 			    </div>
 			    
 			    <script>
@@ -463,18 +474,18 @@ function randomColor(){
 }
 
 function setSorter(sort){
-	document.getElementById("sortBtnRate").style.border = "none";
-	document.getElementById("sortBtnHit").style.border = "none";
-	document.getElementById("sortBtnNew").style.border = "none";
+	document.getElementById("sortBtnRate").style.border = "1.5px solid #add1c3";
+	document.getElementById("sortBtnHit").style.border = "1.5px solid #add1c3";
+	document.getElementById("sortBtnNew").style.border = "1.5px solid #add1c3";
 	if (sort == 1){
-		document.getElementById("sortBtnRate").style.border = "1.5px solid #000000";
+		document.getElementById("sortBtnRate").style.border = "1.5px solid gray";
 		document.getElementById("sorter").value = "RATE";
 	}
 	else if (sort == 2){
-		document.getElementById("sortBtnHit").style.border = "1.5px solid #000000";
+		document.getElementById("sortBtnHit").style.border = "1.5px solid gray";
 		document.getElementById("sorter").value = "HIT";
 	}else if (sort == 3){
-		document.getElementById("sortBtnNew").style.border = "1.5px solid #000000";
+		document.getElementById("sortBtnNew").style.border = "1.5px solid gray";
 		document.getElementById("sorter").value = "POST_NO";
 	} 
 }
