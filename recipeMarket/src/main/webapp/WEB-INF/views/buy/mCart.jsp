@@ -53,7 +53,7 @@
 						<c:forEach var="order" items="${ list }">	
 						<tr class="orderT">
 							<td><input type='checkbox' name='checkP' onclick="selectOne(this.form);" value="${ order.price }"/><input type="hidden" name="prN" value="${ order.productNo }"></td>
-							<td><img src="/resources/upload/${ order.phName }"></td>
+							<td><img src="resources/upload/${ order.phName }" width= 50px; height = 50px;></td>
 							<td>${ order.pName }</td>
 							<td>${ order.prCount }<input type="hidden" name="prC" value="${ order.prCount }"></td>
 							<td class="order_D"><span><fmt:formatNumber maxFractionDigits="3" value="${ order.price }"/></span>원</td>		
