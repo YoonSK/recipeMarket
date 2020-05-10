@@ -503,13 +503,13 @@ public class ManagerController {
 		f.setMemberNo(weather);
 		System.out.println(f);
 		ArrayList<RecipePreview> rlist = mas.weatherFoodList(weather);
-		
+		System.out.println("rlist : " + rlist);
 		for(RecipePreview pr : rlist) {
 			pr.setTitle(URLEncoder.encode(pr.getTitle(),"UTF-8"));
 			pr.setThumb(pr.getThumb());
 		}
 		
-		System.out.println(rlist);
+		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(rlist, response.getWriter());
 	}
