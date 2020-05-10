@@ -33,6 +33,7 @@
 		
 		<typeAlias type="com.kh.recipeMarket.board.model.vo.Qna" alias="QNA"/>
 
+		<typeAlias type="com.kh.recipeMarket.mypage.model.vo.ReplyPr" alias="ReplyPr"/>
 	</typeAliases>
 	
 	<mappers>

@@ -8,6 +8,7 @@ import com.kh.recipeMarket.common.Photo;
 import com.kh.recipeMarket.common.Reply;
 import com.kh.recipeMarket.member.model.vo.Follow;
 import com.kh.recipeMarket.member.model.vo.Member;
+import com.kh.recipeMarket.mypage.model.vo.ReplyPr;
 import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 import com.kh.recipeMarket.recipe.model.vo.RecipePreview;
@@ -38,7 +39,7 @@ public interface MyPageService {
 
 	int rvCount(int targetNo);
 
-	int insertRv(Reply r);
+	int insertRv(ReplyPr r);
 
 	int rvResult(int targetNo);
 
@@ -55,5 +56,7 @@ public interface MyPageService {
 	ArrayList<RecipePreview> selectChefUpdate(Follow follow);
 
 	ArrayList<Follow> selectChefUpdateNews(int memberNo);
+
+
 
 }

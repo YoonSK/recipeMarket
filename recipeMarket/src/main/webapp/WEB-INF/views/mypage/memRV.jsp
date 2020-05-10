@@ -27,7 +27,8 @@
 					<th width="10%"><img src="resources/upload/${ order.phName }"></th>							
 					<th width="30%" class="title">${ order.pName }</th>
 					<td width="30%"><div id="star"></div></td>
-					<td colspan="2"><textarea rows=3 cols=80 required></textarea></td>
+					<td><input type="hidden" class="productNo" value="${ order.productNo }"></td>
+					<td colspan="2"><textarea class="content" rows=3 cols=80 required></textarea></td>
 					<td><input type="button" class="writeBtn" value="작성"></td>
 				</tr>
 				<input type="hidden" id="orderNo" value="${ order.orderNo }">
@@ -44,26 +45,27 @@
 				            half: false,
 				            halfShow: true,
 				            click: function(score, evt) {
+				            	rating = score;
 				            }            
 				        });			 	        
 				        
 						// 후기 데이터 전송
 						$('.writeBtn').click(function(){
 							var targetNo = $(this).parent().parent().children().eq(0).text();
-							var content = $('textarea').val();
-							var rating = $('#star').raty('score');
+							var content = $(this).parent().parent().children('td').children('textarea').val();
 							var orderNo = $('#orderNo').val();
-					
-							$.ajax({
+							var etcNo = $(this).parent().parent().children('td').children('input').val();
+
+ 							$.ajax({
 								url: 'insertRv.mp',
-								data: {targetNo:targetNo, orderNo:orderNo, content:content, rating:rating},
+								data: {targetNo:targetNo, orderNo:orderNo, content:content, rating:rating, etcNo:etcNo},
 								dataType: 'json',
 								success: function(data){	
 									if(data != null){
 										alert(decodeURIComponent(data).replace(/\+/g,' '));}
 									opener.parent.location.reload();  
 								}
-							}); 
+							});  
 						});					        
 				        
 				    });

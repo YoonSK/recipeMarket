@@ -13,6 +13,7 @@ import com.kh.recipeMarket.common.Reply;
 import com.kh.recipeMarket.member.model.vo.Follow;
 import com.kh.recipeMarket.member.model.vo.Follow;
 import com.kh.recipeMarket.member.model.vo.Member;
+import com.kh.recipeMarket.mypage.model.vo.ReplyPr;
 import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 import com.kh.recipeMarket.recipe.model.vo.RecipePreview;
@@ -72,7 +73,7 @@ public class MyPageDAO {
 		return sqlSession.selectOne("memberMapper.rvCount", targetNo);
 	}
 
-	public int insertRv(SqlSessionTemplate sqlSession, Reply r) {
+	public int insertRv(SqlSessionTemplate sqlSession, ReplyPr r) {
 		return sqlSession.insert("memberMapper.insertRv", r);
 	}
 

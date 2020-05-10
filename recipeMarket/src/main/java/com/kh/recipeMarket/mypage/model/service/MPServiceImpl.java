@@ -13,6 +13,7 @@ import com.kh.recipeMarket.common.Reply;
 import com.kh.recipeMarket.member.model.vo.Follow;
 import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.mypage.model.dao.MyPageDAO;
+import com.kh.recipeMarket.mypage.model.vo.ReplyPr;
 import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
 import com.kh.recipeMarket.recipe.model.vo.RecipePreview;
@@ -93,7 +94,7 @@ public class MPServiceImpl implements MyPageService{
 
 
 	@Override
-	public int insertRv(Reply r) {
+	public int insertRv(ReplyPr r) {
 		return mpDAO.insertRv(sqlSession, r);
 	}
 
@@ -144,7 +145,6 @@ public class MPServiceImpl implements MyPageService{
 	public ArrayList<Follow> selectChefUpdateNews(int memberNo) {
 		return mpDAO.selectChefUpdateNews(sqlSession, memberNo);
 	}
-
 
 
 }

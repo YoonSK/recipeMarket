@@ -202,6 +202,7 @@
 		<result property = "phName" column ="PHNAME"/>		
 		<result property = "detailNo" column ="DETAIL_NO"/>
 		<result property = "prCount" column ="PR_COUNT"/>
+		<result property = "productNo" column ="PRODUCT_NO"/>
 		<result property = "price" column ="PRICE"/>
 		<result property = "memNo" column ="MEM_NO"/>
 		<result property = "status" column ="STATUS"/>
@@ -215,7 +216,7 @@
 		
 	<select id="orderDetail" resultMap="odRS">
 		SELECT P.NAME AS "PNAME", M.NAME AS "MNAME", CHANGE_NAME AS "PHNAME", "DATE", DETAIL_NO, O.ORDER_NO, PR_COUNT, P.PRICE, MEM_NO, STATUS, O.ZIP, O.ADDRESS, O.ADDRESS2, 
-		        O.NOTE, O.PHONE, O.TOTAL
+		        O.NOTE, O.PHONE, O.TOTAL, OD.PRODUCT_NO
 		FROM ORDER_DETAIL OD
 		            JOIN "ORDER" O ON(OD.ORDER_NO = O.ORDER_NO)
 		            JOIN "MEMBER" M ON(MEM_NO = MEMBER_NO)
@@ -226,7 +227,7 @@
 	</select>
 
 	<select id="goWriteRv" resultMap="odRS">
-		SELECT P.NAME AS "PNAME", CHANGE_NAME AS "PHNAME", "DATE", DETAIL_NO, O.ORDER_NO, PR_COUNT, P.PRICE, STATUS, REVIEWED
+		SELECT P.NAME AS "PNAME", CHANGE_NAME AS "PHNAME", "DATE", DETAIL_NO, O.ORDER_NO, PR_COUNT, P.PRICE, STATUS, REVIEWED, OD.PRODUCT_NO
 		FROM ORDER_DETAIL OD
 		            JOIN "ORDER" O ON(OD.ORDER_NO = O.ORDER_NO)
 		            JOIN PRODUCT P ON(P.PRODUCT_NO = OD.PRODUCT_NO)
@@ -273,9 +274,9 @@
 		where target_no=#{targetNo}				
 	</select>
 	
-	<insert id="insertRv" parameterType="Reply">
+	<insert id="insertRv" parameterType="ReplyPr">
 		insert into reply
-		values(seq_reply_no.nextval, #{memberNo}, 3, #{targetNo}, #{content}, default, default, #{rating}, default)
+		values(seq_reply_no.nextval, #{memberNo}, 3, #{targetNo}, #{content}, default, default, #{rating}, default, #{etcNo})
 	</insert>
 	
 	<update id="updateRv" parameterType="orderDetail">
