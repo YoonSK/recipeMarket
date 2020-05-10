@@ -434,17 +434,7 @@ public class RecipeController {
 			r.setDifficulty(difficulty);
 			
 			ArrayList<String> ingList = new ArrayList<String>();
-			/*
-			for(int i = 0; i <5; i++) {
-				ingList.add("ting"+ i);
-			}
-			*/
 			ArrayList<String> amtList = new ArrayList<String>();
-			/*
-			for(int i = 0; i <5; i++) {
-				amtList.add("tamt"+ i);
-			}
-			*/
 			
 			if (doc.select(".cont_ingre > dl > dd").text().split(", ").equals("")) {
 				Elements els = doc.select(".cont_ingre > dl > dd");
@@ -457,12 +447,10 @@ public class RecipeController {
 								ingList.add(split[0]);
 								amtList.add(split[1]);
 							}
-						}
-						else if(!ingList.contains(temp)) {
+						}else if(!ingList.contains(temp)) {
 							ingList.add(temp);
 							amtList.add("적당량");
 						}
-						
 					}
 				}
 			}
@@ -474,9 +462,7 @@ public class RecipeController {
 					if(!t.equals("") && !ingList.contains(t)) {
 						ingList.add(t);
 					}
-					
 				}
-			
 				Elements elz= doc.select("#divConfirmedMaterialArea > ul > a > li > span");
 				for(Element e : elz) {
 					String t = e.text();
