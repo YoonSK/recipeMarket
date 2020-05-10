@@ -19,7 +19,6 @@
 	left: 0px;
 	width: 100%;
 }
-
 	#popup {
 	z-index: 3;
 	position: fixed;
@@ -31,7 +30,6 @@
 	background-color: #ccffff;
 	border: 3px solid #87cb42;
 }
-
 	#close {
 	z-index: 4;
 	float: right;
@@ -68,17 +66,13 @@
 			}
 		}); //end ajax	
 	}
-
 	function imagePopup(type) {
 		if (type == 'open') {
 			// 팝업창을 연다.
 			jQuery('#layer').attr('style', 'visibility:visible');
-
 			jQuery('#layer').height(jQuery(document).height());
 		}
-
 		else if (type == 'close') {
-
 			// 팝업창을 닫는다.
 			jQuery('#layer').attr('style', 'visibility:hidden');
 		}
@@ -190,7 +184,8 @@
 					<span>${ rv.nickName }</span>
 					<script>
 						var score = '${rv.rating}';
-						$(document).ready(function(){
+						var i = jQuery.noConflict();
+						i(document).ready(function(){
 					        $('span#star').raty({
 					            path : "resources/images",
 					            width : 100,
@@ -200,7 +195,6 @@
 					            readOnly : true
 					        });            
 					     });	
-
 					</script>
 				</div>
 				</c:forEach>
