@@ -261,21 +261,20 @@
 		<result property="thumb" column="CHANGE_NAME"/>
 		<result property="rating" column="RATE"/>
 		<result property="hit" column="HIT"/>
+		<result property="thumb" column="MAINPHOTO"/>
 	</resultMap>
 	
 	<select id="topFoodList" resultMap="recipeListMap">
 		<![CDATA[
-	   		 SELECT distinct * from (select POST_NO, TITLE, CHANGE_NAME
-    	FROM R_BOARD R
-    	JOIN PHOTO P ON(BOARD_NO = 1 AND TARGET_NO = POST_NO AND FILE_LEVEL = 0)
-        join reply r on(p.board_no=1 and r.board_no=1 and r.target_no = p.target_no )
-		WHERE  R.DELETED = 'N'
-		ORDER BY rating DESC)
-        where rownum <=5
+		 select * from (select POST_NO, TITLE, mainphoto, nvl(rate,0)as rate from r_preview  order by rate desc) where rownum <= 5
    		]]>
 	</select>
 	
-	<!-- <select id="weatherFoodList" resultMap="recipeListMap">
+	<!-- 
+	
+	
+	
+	<select id="weatherFoodList" resultMap="recipeListMap">
 		<![CDATA[
 	   		 SELECT * from (select r.POST_NO, TITLE, CHANGE_NAME
     	FROM R_BOARD R
@@ -315,13 +314,7 @@
 	</select>
 	<select id="weatherFoodList" resultMap="recipeListMap">
 		<![CDATA[
-	 		select distinct * from (select r.post_no, r.title, change_name
-                        from r_board r join r_tag t on(r.post_no = t.post_no)
-                                        join photo p on(t.post_no = p.target_no and p.board_no=1 and file_level=0)
-                                        
-                        where r.deleted='N'
-                        order by r.hit desc)
-       		 where rownum <= 5
+	 	 select * from (  select POST_NO, TITLE, mainphoto,HIT from r_preview  order by hit desc) where rownum <= 5
         ]]>
 	</select>
 	

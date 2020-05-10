@@ -349,10 +349,10 @@
 	</select> -->
 	
 	<select id="selectFollowing" resultMap="FollowResultSet">
-			 select g.target_no, m.nickname, change_name
-        from good g
-            join member m on(g.target_no = m.member_no)
-            left outer join photo p on(g.target_no = p.target_no)
+			select g.target_no, m.nickname, change_name
+		        from good g
+		            join member m on(g.target_no = m.member_no)
+		            left outer join photo p on(g.target_no = p.target_no and p.board_no=0 and p.file_level = 0)
         where g.member_no = #{memberNo} and g.board_no =0
 	</select>
 	
@@ -360,7 +360,7 @@
 		 select g.member_no, m.nickname, change_name
         from good g
             join member m on(g.member_no = m.member_no)
-            left outer join photo p on(g.member_no = p.target_no)
+            left outer join photo p on(g.member_no = p.target_no and p.board_no=0 and p.file_level = 0)
         where g.target_no = #{targetNo} and g.board_no =0
 	</select>
 	
