@@ -227,7 +227,7 @@
 	    			 var postNo= $(this).children('td').children('input').val();
 	    			 
 	    			 console.log(postNo);
-	    			 	if(${ loginUser eq null } ){
+	    			 	if(${ loginUser eq null }){
 	    			 		alert("로그인후 이용해 주세요.");
 	    			 		location.href='goLogin.me';
 	    			 	}  else{

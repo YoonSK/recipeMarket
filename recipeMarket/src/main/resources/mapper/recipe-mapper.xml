@@ -220,7 +220,7 @@
 		<if test="tagList != null">
 		and
         <foreach collection="tagList" item="tag"  open="(" close=")" separator="or">
-            T.TAG = #{tag}
+            T.TAG LIKE '%'|| #{tag} ||'%'
         </foreach>
 		</if>
 		
