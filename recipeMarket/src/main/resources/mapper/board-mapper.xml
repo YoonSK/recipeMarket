@@ -124,7 +124,7 @@
 	
 	<insert id="addReply" parameterType="Reply">
 		insert into reply
-		values(seq_reply_no.nextval, #{memberNo}, 2, #{targetNo}, #{content}, default, default, 0, default)
+		values(seq_reply_no.nextval, #{memberNo}, 2, #{targetNo}, #{content}, default, default, 0, default, null)
 	</insert>
 	
 	<resultMap type="Reply" id="replyResultSet">

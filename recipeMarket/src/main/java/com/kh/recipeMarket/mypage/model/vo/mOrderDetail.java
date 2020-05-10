@@ -1,4 +1,4 @@
-package com.kh.recipeMarket.mypage.model.vo;
+ package com.kh.recipeMarket.mypage.model.vo;
 
 import java.sql.Date;
 
@@ -15,6 +15,7 @@ public class mOrderDetail {
 	private int memNo;
 	private int status;
 	private int zip;
+	private int productNo;
 	private String address;
 	private String address2;
 	private String note;
@@ -24,8 +25,9 @@ public class mOrderDetail {
 	public mOrderDetail() {}
 
 	public mOrderDetail(String pName, String mName, String phName, Date date, int total, int detailNo, int orderNo, int prCount,
-			int price, int memNo, int status, int zip, String address, String address2, String note, int phone, String reviewed) {
+			int price, int memNo, int status, int zip, int productNo, String address, String address2, String note, int phone, String reviewed) {
 		super();
+		this.productNo = productNo;
 		this.pName = pName;
 		this.mName = mName;
 		this.phName = phName;
@@ -43,6 +45,14 @@ public class mOrderDetail {
 		this.note = note;
 		this.phone = phone;
 		this.reviewed = reviewed;
+	}
+
+	public int getProductNo() {
+		return productNo;
+	}
+
+	public void setProductNo(int productNo) {
+		this.productNo = productNo;
 	}
 
 	public String getpName() {
@@ -185,9 +195,12 @@ public class mOrderDetail {
 	public String toString() {
 		return "mOrderDetail [pName=" + pName + ", mName=" + mName + ", phName=" + phName + ", date=" + date
 				+ ", total=" + total + ", detailNo=" + detailNo + ", orderNo=" + orderNo + ", prCount=" + prCount
-				+ ", price=" + price + ", memNo=" + memNo + ", status=" + status + ", zip=" + zip + ", address="
-				+ address + ", address2=" + address2 + ", note=" + note + ", phone=" + phone + ", reviewed=" + reviewed + "]";
+				+ ", price=" + price + ", memNo=" + memNo + ", status=" + status + ", zip=" + zip + ", productNo="
+				+ productNo + ", address=" + address + ", address2=" + address2 + ", note=" + note + ", phone=" + phone
+				+ ", reviewed=" + reviewed + "]";
 	}
+
+
 
 
 }

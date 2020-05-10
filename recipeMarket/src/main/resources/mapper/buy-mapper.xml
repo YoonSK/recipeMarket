@@ -114,7 +114,7 @@
 	    SELECT reply_no, nickname, content, rating
         FROM REPLY R
         JOIN "MEMBER" M ON(R.MEMBER_NO = M.MEMBER_NO)
-        WHERE TARGET_NO = #{productNo} AND BOARD_NO = 3 AND R.DELETED = 'N'
+        WHERE ETC_NO = #{productNo} AND BOARD_NO = 3 AND R.DELETED = 'N'
 	 </select>
   
 </mapper>

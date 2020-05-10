@@ -63,7 +63,7 @@
    		</selectKey>
 	
 		insert into Reply
-		values(${replyNo}, #{memberNo}, #{boardNo}, #{targetNo}, #{content}, sysdate, sysdate, #{rating}, default)
+		values(${replyNo}, #{memberNo}, #{boardNo}, #{targetNo}, #{content}, sysdate, sysdate, #{rating}, default, null)
 	</insert>
 
 	<insert id="insertPhotos" parameterType="Photo">

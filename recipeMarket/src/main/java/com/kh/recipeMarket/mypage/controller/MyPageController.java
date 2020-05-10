@@ -29,15 +29,14 @@ import com.kh.recipeMarket.board.model.vo.PageInfo;
 import com.kh.recipeMarket.buy.model.vo.Order;
 import com.kh.recipeMarket.common.Pagination;
 import com.kh.recipeMarket.common.Photo;
-import com.kh.recipeMarket.common.Reply;
 import com.kh.recipeMarket.member.model.exception.MemberException;
 import com.kh.recipeMarket.member.model.vo.Follow;
 import com.kh.recipeMarket.member.model.vo.Member;
 import com.kh.recipeMarket.mypage.model.exception.MyPageException;
 import com.kh.recipeMarket.mypage.model.service.MyPageService;
+import com.kh.recipeMarket.mypage.model.vo.ReplyPr;
 import com.kh.recipeMarket.mypage.model.vo.mOrderDetail;
 import com.kh.recipeMarket.mypage.model.vo.mOrderInfo;
-import com.kh.recipeMarket.recipe.model.vo.RecipePreview;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -232,7 +231,9 @@ public class MyPageController {
 			mrd.setmName(URLEncoder.encode(mrd.getmName(), "UTF-8"));
 			mrd.setAddress(URLEncoder.encode(mrd.getAddress(), "UTF-8"));
 			mrd.setAddress2(URLEncoder.encode(mrd.getAddress2(), "UTF-8"));
-			mrd.setNote(URLEncoder.encode(mrd.getNote(), "UTF-8"));
+			if(mrd.getNote() != null) {
+				mrd.setNote(URLEncoder.encode(mrd.getNote(), "UTF-8"));
+			}
 		}
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -264,7 +265,7 @@ public class MyPageController {
 	
 	// 후기 작성
 	@RequestMapping(value="insertRv.mp")
-	public void insertRv(HttpServletResponse response, @ModelAttribute Reply r, Model model, @RequestParam("orderNo") int orderNo) throws JsonIOException, IOException {
+	public void insertRv(HttpServletResponse response, @ModelAttribute ReplyPr r, Model model, @RequestParam("orderNo") int orderNo) throws JsonIOException, IOException {
 		Member loginUser = (Member)model.getAttribute("loginUser");	
 		r.setMemberNo(loginUser.getMemberNo());
 		
@@ -273,6 +274,7 @@ public class MyPageController {
 	
 		// 후기 안 썼으면 후기 입력	
 		if(rvcResult < 1) {
+			System.out.println(r);
 			int insertResult = mps.insertRv(r);
 	
 			// 후기 작성 후 ORDER_DETAIL REVIEWED 항목 Y로 수정
