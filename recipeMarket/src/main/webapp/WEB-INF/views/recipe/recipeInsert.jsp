@@ -87,7 +87,14 @@
     <div class="container" style="width: 1000px; margin: 0 auto; display: flex; flex-direction: column; ">
         <h1>레시피 등록</h1>
         <form action="insert.rc" method="post" enctype="Multipart/form-data">
-        
+        <input type="number" id="pNo" name="pNo"><button type="button" onclick="importer()">만개의 레시피 들여오기</button>
+        <script>
+        function importer(){
+        		var pNo = document.getElementById("pNo").value;
+				location.href="importRecipe.rc?pNo=" + pNo;
+			   }
+        </script>
+			   
         <div class="content" style="display: flex; margin: 30px 10px 30px 10px">
             <div id = "mainImage" style="display: flex; flex-direction: column;">
                 <div>
