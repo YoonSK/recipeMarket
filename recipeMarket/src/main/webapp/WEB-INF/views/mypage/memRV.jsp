@@ -24,7 +24,7 @@
 				<c:forEach var="order" items="${ list }">
 				<tr>
 					<th width="5%">${ order.detailNo }</th>
-					<th width="10%"><img src="resources/upload/${ order.phName }"></th>							
+					<th width="10%"><img src="resources/upload/${ order.phName }" width= 50px; height= 50px;></th>							
 					<th width="30%" class="title">${ order.pName }</th>
 					<td width="30%"><div id="star"></div></td>
 					<td><input type="hidden" class="productNo" value="${ order.productNo }"></td>
