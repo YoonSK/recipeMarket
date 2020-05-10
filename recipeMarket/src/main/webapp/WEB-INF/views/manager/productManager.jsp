@@ -66,7 +66,7 @@
     
     /* 모달창 */
     .cmodal {display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);}
-    .cmodal-content {background-color: #fefefe; margin: 20% auto; padding: 20px; border: 1px solid #888; width: 50%; height: auto;}
+    .cmodal-content {background-color: #fefefe; margin: 20% auto; padding: 20px; border: 1px solid #888; width: 30%; height: auto;}
     .close {color: #aaa; float: right; font-size: 28px; font-weight: bold;}
     .close:hover, .close:focus {color: black; text-decoration: none; cursor: pointer;}	
     
@@ -490,10 +490,10 @@
 
 	
 		 <!-- The Modal -->
-			    <div id="cmodal" class="modal">	 
+			    <div id="cmodal" class="cmodal">	 
 			      <!-- Modal content -->
 			      <form action="<%= request.getContextPath() %>/insertProduct.ma" id="cForm" method="post" enctype="Multipart/form-data">
-				      <div class="modal-content">
+				      <div class="cmodal-content">
 				        <span class="close">&times;</span>                                                               
 				        <p><font style="font-size:25px; font-weight:500;">상품 등록</font></p>
 				        <br>

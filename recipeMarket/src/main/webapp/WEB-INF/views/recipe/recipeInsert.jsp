@@ -149,9 +149,9 @@
                     <div style="display: flex">
                         <span class="option_name">재료</span>
                         <span>
-                            <input type="text" id="addIngredient" onkeydown="enterkey(event, 'ing');" required>
+                            <input type="text" id="addIngredient" onkeydown="enterkey(event, 'ing');">
                             <span>양</span>
-                            <input type="text" id="addAmount" onkeydown="enterkey(event, 'amt');" required>
+                            <input type="text" id="addAmount" onkeydown="enterkey(event, 'amt');">
                         </span>
                         <span style="text-align: right; margin-left: 5px">
                             <button type="button" id="addIngBtn" onclick="addIgBtn();" style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
@@ -165,7 +165,7 @@
                     <div style="display: flex">
                         <span class="option_name">태그</span>
                         <div>
-                            <input type="text" id="addTag" onkeydown="enterkey(event, 'tag');" required>
+                            <input type="text" id="addTag" onkeydown="enterkey(event, 'tag');">
                             <span style="text-align: right; margin-left: 5px">
                                 <button type="button" id="addTagBtn" onclick="addTgBtn();" style="width: 25px; height: 25px; font-size: 12px; border-radius: 5px">+</button>
                             </span>
@@ -187,7 +187,7 @@
                     1
                 </div>
                 <div class = "stepContent" >
-                    <textarea class="stepContentArea" id="content1" name = "stepContent" required></textarea>
+                    <textarea class="stepContentArea" id="content1" name = "stepContent"></textarea>
                 </div>
                 <div class = "stepImage">
                     <img class="stepThumb" id="step_output1" width="150px" height="150px"/>
