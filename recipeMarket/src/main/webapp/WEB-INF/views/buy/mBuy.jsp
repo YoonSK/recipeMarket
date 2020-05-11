@@ -51,7 +51,7 @@
 						<tbody>				
 						<c:forEach var="order" items="${ list }">	
 						<tr class="orderT">
-							<td><img src="/resources/upload/${ order.phName }"></td>
+							<td><img src="resources/upload/${ order.phName }"></td>
 							<td>${ order.pName }<input type="hidden" name="prN" value="${order.productNo }"><input type="hidden" name="pName" value="${ order.pName }"></td>
 							<td>${ order.prCount }<input type="hidden" name="prC" value="${ order.prCount }"></td>
 							<td class="order_D"><span><fmt:formatNumber maxFractionDigits="3" value="${ order.price }"/><input type="hidden" name="pPr" value="${ order.price}"></span>원</td>	
