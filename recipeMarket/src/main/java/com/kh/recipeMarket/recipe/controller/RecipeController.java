@@ -833,6 +833,64 @@ public class RecipeController {
 	//}
 		return "recipeSearch";
 	}
+	@RequestMapping("createReplies.rc")
+	public String createReplies(HttpSession session, HttpServletRequest request) {
+		Random random = new Random();
+		
+	for(int i = 0; i < 50; i++) {
+		int postNo = random.nextInt(50) +1;
+		Recipe recipe = rService.selectRecipe(postNo);
+		
+		Reply r = new Reply();
+		r.setBoardNo(1);
+		r.setTargetNo(postNo);
+		
+		int memberNo = random.nextInt(10)+1;
+		r.setMemberNo(memberNo);
+
+		int rating = random.nextInt(9) + 1;
+		r.setRating(rating);
+		
+		String content = "맛있어요";
+		int seed = random.nextInt(3);
+		switch(seed) {
+		case 0: content = "최악이다"; break;
+		case 1: content = "장난치나"; break;
+		case 2: content = "별로에요"; break;
+		case 3: content = "이거 하지 마세요"; break;
+		case 4: content = "무난한 한끼"; break;
+		case 5: content = "괜찮네요"; break;
+		case 6: content = "오늘은 이거다"; break;
+		case 7: content = "맛있어요"; break;
+		case 8: content = "최고에요"; break;
+		case 9: content = "식객민웈ㅋㅋ"; break;
+		case 10: content = "작성자 그는 요리의 신인가"; break;
+		}
+		
+		r.setContent(content);
+		
+		cService.insertReply(r);
+		
+		if(rating > 5) {
+			Like l = new Like();
+			l.setBoardNo(1);
+			l.setTargetNo(postNo);
+			l.setMemberNo(memberNo);
+			cService.insertLike(l);
+		}
+		if(rating > 7) {
+			int authorNo = recipe.getMemberNo();
+			
+			Like l = new Like();
+			l.setBoardNo(0);
+			l.setTargetNo(authorNo);
+			l.setMemberNo(memberNo);
+			cService.insertLike(l);
+			
+		}
+	}
+		return "recipeSearch";
+	}
 	
 }
 
