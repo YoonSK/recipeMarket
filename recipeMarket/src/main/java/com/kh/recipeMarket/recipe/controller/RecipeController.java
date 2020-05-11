@@ -888,6 +888,7 @@ public class RecipeController {
 			cService.insertLike(l);
 			
 		}
+
 	}
 		return "recipeSearch";
 	}
