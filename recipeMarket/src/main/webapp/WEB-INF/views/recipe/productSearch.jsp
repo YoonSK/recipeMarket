@@ -18,6 +18,7 @@
         }
         .option_name{
             margin-right: 10px;
+            ba
         }
         select{
             min-width: 50px;
@@ -49,7 +50,10 @@
         }
         #addIngredient, #search{
             width: 150px;
-            background-color: whitesmoke;
+		    border: 1px solid #d9d9d9;
+		    height: 30px;
+		    border-radius: 5px;
+		    vertical-align: whitesmoke;
         }
         #search{
             width: 200px;

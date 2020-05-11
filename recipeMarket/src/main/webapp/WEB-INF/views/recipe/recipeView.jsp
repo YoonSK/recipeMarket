@@ -358,7 +358,7 @@
                 document.getElementById('star' + i).src = "resources/images/star_right_on.png";
             }
         }
-        for (let j = 10; j > num; j--){
+        for (let j = 10; j > no; j--){
             if ( j%2 == 1){
                 document.getElementById('star' + j).src = "resources/images/star_left.png";
             }
