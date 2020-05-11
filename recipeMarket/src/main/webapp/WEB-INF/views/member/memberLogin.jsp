@@ -36,7 +36,7 @@
 					<input class="pwd" type="password" name="pwd" placeholder="비밀번호">
 					<input type="submit" id="submit" value="로그인">
 					<br>
-					<a href="https://kauth.kakao.com/oauth/authorize?client_id=0b151f12fe036a78488460475dc48dfb&redirect_uri=http://192.168.10.224:9780/recipeMarket/kLogin.me&response_type=code">
+					<a href="https://kauth.kakao.com/oauth/authorize?client_id=0b151f12fe036a78488460475dc48dfb&redirect_uri=http://localhost:9780/recipeMarket&response_type=code">
 					<img src="resources/images/kakao_login_btn.png" style="width: 160px; margin-left: 28%; padding: 2%;"></a>
 					<p class="forgot" align="center"><a href="findIdView.me">아이디 찾기</a>&nbsp;&nbsp;<a href="findPwdView.me">비밀번호 찾기</a></p>		      
 			      </form>                    
