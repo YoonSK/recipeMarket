@@ -1,10 +1,7 @@
-* {
-	margin: 0px; padding: 0px; vertical-align: middle;
-}
-body {
+/* body {
 	background-position: top; margin: 0px; padding: 0px; color: rgb(102, 102, 102); font-size: 1em; 
 	background-repeat: repeat-x; background-color: rgb(255, 255, 255);
-}
+} */
 img {
 	border: currentColor; border-image: none;
 }
