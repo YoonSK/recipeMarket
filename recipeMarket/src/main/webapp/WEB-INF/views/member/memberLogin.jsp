@@ -22,8 +22,10 @@
 	input[type=submit]#submit:hover {cursor: pointer; background: #fee0a1; color: white;}   
 	.forgot{color: #263238; padding-top: 20px;}    
 	a{color: #263238; text-decoration: none;}
+	a#kakao-login-btn{margin-left: 100px;}
     
 </style>
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 </head>
 <body>
 	<c:import url="../common/header.jsp"/>	
@@ -35,9 +37,34 @@
 					<input class="id" type="text" name="id" placeholder="아이디">
 					<input class="pwd" type="password" name="pwd" placeholder="비밀번호">
 					<input type="submit" id="submit" value="로그인">
-					<br>
-					<a href="https://kauth.kakao.com/oauth/authorize?client_id=0b151f12fe036a78488460475dc48dfb&redirect_uri=http://localhost:9780/recipeMarket/kLogin.me&response_type=code">
-					<img src="resources/images/kakao_login_btn.png" style="width: 160px; margin-left: 28%; padding: 2%;"></a>
+					<br><br>
+					<a id="kakao-login-btn"></a>
+					
+					<script type="text/javascript">
+						Kakao.init('92cf389f43df107fed17c5a1e2cdc865');	
+						Kakao.Auth.createLoginButton({ 
+						    container: '#kakao-login-btn', 
+						    success: function(authObj) { 
+						           Kakao.API.request({
+						 
+						               url: "/v2/user/me",
+						               success: function(res) {
+						            	   
+						          		var nickname=res.properties.nickname;
+						                var email=res.kakao_account.email;
+						                console.log(nickname);
+						                console.log(email);
+						                
+						                     
+						          		location.href="http://192.168.10.224:9780/recipeMarket/kLogin.me?nickname="+nickname+"&email="+email;
+						                   }
+						                 })
+						               },
+						               fail: function(error) {
+						                 alert(JSON.stringify(error));
+						               }
+						             });						 
+					</script>
 					<p class="forgot" align="center"><a href="findIdView.me">아이디 찾기</a>&nbsp;&nbsp;<a href="findPwdView.me">비밀번호 찾기</a></p>		      
 			      </form>                    
     			</div>

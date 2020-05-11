@@ -47,7 +47,7 @@ import com.kh.recipeMarket.member.model.service.MemberService;
 import com.kh.recipeMarket.member.model.vo.Follow;
 import com.kh.recipeMarket.member.model.vo.Member;
 
-@SessionAttributes({"loginUser", "access_Token"})
+@SessionAttributes("loginUser")
 @Controller
 public class MemberController {
 	
@@ -67,9 +67,12 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/kLogin.me")
-	public String kLogin(@RequestParam("code") String code, HttpSession session, Model model) {
-        String access_Token = kakao.getAccessToken(code);
-        HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
+	public String kLogin(@RequestParam("nickname") String nickname, @RequestParam("email") String email, HttpSession session, Model model) {
+/*        String access_Token = kakao.getAccessToken(code);
+        HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);*/
+        HashMap<String, Object> userInfo = new HashMap<String, Object>();
+        userInfo.put("nickname", nickname);
+        userInfo.put("email", email);
         
         // 가입한 회원인지 확인
         Member loginUser = ms.checkKaKao(userInfo);
@@ -80,7 +83,6 @@ public class MemberController {
 				loginUser.setpName(mPhoto);
 			}
 			model.addAttribute("loginUser", loginUser);
-			model.addAttribute("access_Token", access_Token);
 			return "redirect:/";	
         }else {
         	model.addAttribute("userInfo", userInfo);
