@@ -58,7 +58,11 @@
 	table#tableD > thead th{border-bottom: 2px solid #e8e5da; background-color: #e8e5da; height: 20px; font-weight: 600; text-align: center;}    
 	table#tableD {width: 100%;}
 	table#tableD > th, td{word-spacing: 5px; padding: 5px; height: 20px;}  
-	  
+
+	a:link { color: red; text-decoration: none;}
+	a:visited { color: black; text-decoration: none;}
+	a:hover { color: blue; text-decoration: underline;}
+
 </style>
 </head>
 <body>
@@ -232,7 +236,7 @@
 				               
 								for(var i in data){
 				                    var $tr = $('<tr>');
-									var $pName = $('<td>').text(decodeURIComponent(data[i].pName));
+									var $pName = $('<td>').html('<a href=' + '"detail.by?productNo='+data[i].productNo + '">' + decodeURIComponent(data[i].pName) + '</a>');
 				                    var $phName=$('<td>').html('<img src=' + '"resources/upload/' + data[i].phName + '"' + 'width=40px; height=40px;>');									
 									var $prCount = $("<td>").text(data[i].prCount);
 									var $price = $("<td>").text(data[i].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
@@ -279,7 +283,7 @@
 					/* 후기 작성 버튼 */
 					$('.rvBtn').click(function(){
 						var orderNo = $(this).parent().parent().children().eq(0).text();
-						  window.open("writeRv.mp?orderNo="+orderNo,"_blank","toolbar=no, menubar=no, width=1040, height=500").focus();
+						  window.open("writeRv.mp?orderNo="+orderNo,"_blank","toolbar=no, menubar=no, width=1200, height=500").focus();
 					});
 					
 					

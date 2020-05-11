@@ -244,9 +244,6 @@ public class MemberController {
 	// 로그아웃
 	@RequestMapping("logout.me")
 	public String logout(SessionStatus status, HttpSession session, Model model) {
-		String access_Token = (String)model.getAttribute("access_Token");
-		kakao.kakaoLogout((String)session.getAttribute(access_Token));
-	    session.removeAttribute("access_Token");
 	    session.removeAttribute("userId");
 		status.setComplete();
 		return "redirect:/";		
