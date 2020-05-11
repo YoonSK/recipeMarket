@@ -42,7 +42,7 @@
 				        $('div#star').raty({
 				            path : "resources/images",
 				            width : 100,
-				            half: true,
+				            half: false,
 				            halfShow: true,
 				            click: function(score, evt) {
 				            	rating = score;
