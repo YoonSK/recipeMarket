@@ -340,8 +340,6 @@
 			            <button class="linkerBtn" onclick="login();" id="listBtn" type="button">나의 레시피</button>
 			            <button class="linkerBtn" onclick="login();" id="listBtn" type="button">저장한 레시피</button>
 			         </c:if>
-			            
-			            
 			            <a href="searchOuterRecipes.rc">
 			                <button class="linkerBtn" id="listBtn" type="button">레시피 들여오기</button>
 			            </a>

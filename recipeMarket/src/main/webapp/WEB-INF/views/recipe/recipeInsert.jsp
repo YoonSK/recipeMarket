@@ -87,10 +87,10 @@
     <div class="container" style="width: 1000px; margin: 0 auto; display: flex; flex-direction: column; ">
         <h1>레시피 등록</h1>
         <form action="insert.rc" method="post" enctype="Multipart/form-data">
-        <input type="number" name="pNo"><button type="button" onclick="importer()">만개의 레시피 들여오기</button>
+        <input type="number" id="pNo" name="pNo"><button type="button" onclick="importer();">만개의 레시피 들여오기</button>
         <script>
         function importer(){
-        		var pNo = document.getElementByName("pNo").value;
+        		var pNo = document.getElementById("pNo").value;
 				location.href="importRecipe.rc?pNo=" + pNo;
 			   }
         </script>
