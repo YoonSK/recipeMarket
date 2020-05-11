@@ -45,25 +45,22 @@
 						Kakao.Auth.createLoginButton({ 
 						    container: '#kakao-login-btn', 
 						    success: function(authObj) { 
-						           Kakao.API.request({
-						 
-						               url: "/v2/user/me",
-						               success: function(res) {
-						            	   
-						          		var nickname=res.properties.nickname;
-						                var email=res.kakao_account.email;
-						                console.log(nickname);
-						                console.log(email);
-						                
-						                     
-						          		location.href="http://192.168.10.224:9780/recipeMarket/kLogin.me?nickname="+nickname+"&email="+email;
-						                   }
-						                 })
-						               },
-						               fail: function(error) {
-						                 alert(JSON.stringify(error));
-						               }
-						             });						 
+					           Kakao.API.request({
+					 
+					               url: "/v2/user/me",
+					               success: function(res) {
+					            	   
+					          		var nickname=res.properties.nickname;
+					                var email=res.kakao_account.email;
+
+					          		location.href="http://192.168.10.224:9780/recipeMarket/kLogin.me?nickname="+nickname+"&email="+email;
+					                   }
+					                 })
+					               },
+					               fail: function(error) {
+					                 alert(JSON.stringify(error));
+					               }
+					            });						 
 					</script>
 					<p class="forgot" align="center"><a href="findIdView.me">아이디 찾기</a>&nbsp;&nbsp;<a href="findPwdView.me">비밀번호 찾기</a></p>		      
 			      </form>                    
