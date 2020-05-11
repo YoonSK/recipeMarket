@@ -36,7 +36,7 @@ public class KaKaoLogin {
 	            StringBuilder sb = new StringBuilder();
 	            sb.append("grant_type=authorization_code");
 	            sb.append("&client_id=0b151f12fe036a78488460475dc48dfb");
-	            sb.append("&redirect_uri=http://localhost:9780/recipeMarket/kLogin.me");
+	            sb.append("&redirect_uri=http://192.168.10.224:9780/recipeMarket/kLogin.me");
 	            sb.append("&code=" + authorize_code);
 	            bw.write(sb.toString());
 	            bw.flush();
