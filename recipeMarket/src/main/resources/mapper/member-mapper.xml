@@ -271,7 +271,8 @@
 	<select id="rvCount" resultType="_int">
 		select count(*)
 		from "REPLY"
-		where target_no=#{targetNo}				
+		where target_no=#{targetNo}	
+		and board_no=3			
 	</select>
 	
 	<insert id="insertRv" parameterType="ReplyPr">
