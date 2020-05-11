@@ -11,7 +11,7 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <style>
-	div.content{height: 800px;}
+	div.content{height: 900px;}
 	h2{margin-left: 135px;}
 	.tableArea{width: 80%; height: auto; margin: 0 auto; margin-top: 80px;}
 	table {width: 100%; border-collapse: collapse;}
@@ -21,12 +21,22 @@
 	#summary{margin-left: 70%;}
 	.sHead{font-weight: bold; font-size: 18px;}
 	.sBody{margin-left: 30%}
-	div#button {margin-left: 40%; margin-top: 5%;}
+	div#button {margin-left: 40%; margin-top: 1%;}
 	div#button > input[type="button"]{width: 80px; height: 30px; font-size: 14px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
 	div#button > input[type="button"]:hover{cursor: pointer; background: #fee0a1; color: white;}
 	span > input[type="button"]{width: 80px; height: 30px; font-size: 14px; font-weight: 600; text-align: center; border:1px solid #fee0a1; border-radius: 4px; background: white;}
 	span > input[type="button"]:hover{cursor: pointer; background: #fee0a1; color: white;}	
-	div#orderInfo{margin-left: 10%;}
+	div#orderInfo{width: 500px;
+				    height: 400px;
+				    border: 2px solid #d9d9d9;
+				    padding: 10px;
+				    margin-left: 10%;}
+	input	{border-radius: 5px;
+    border: 1px solid #d9d9d9;
+    height: 30px;
+    width : 200px;}	
+		 	    
+
 	
 </style>
 </head>
