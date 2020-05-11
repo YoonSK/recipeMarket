@@ -17,8 +17,8 @@
 	
 	<select id="productList" resultMap="productRS">
 		<![CDATA[
-		
-			select rnum, product_no, name, price, stock, category, deleted, create_date, income, export, phname
+		    SELECT * FROM
+            (select rnum, product_no, name, price, stock, category, deleted, create_date, income, export, phname
 			from (select rownum rnum, p.product_no, p.name, price, stock, category, p.deleted, create_date, income, export, CHANGE_NAME AS "PHNAME"
 				  from product p
                 LEFT OUTER JOIN PHOTO ph ON(p.PRODUCT_NO = ph.TARGET_NO AND BOARD_NO = 3)  
@@ -72,7 +72,8 @@
                 LEFT OUTER JOIN PHOTO ph ON(p.PRODUCT_NO = ph.TARGET_NO AND BOARD_NO = 3)  
 				  where category = '기타' and p.deleted = 'N' and stock > 0               
 				  order by price)
-			where rnum <= 5
+			where rnum <= 5)
+            ORDER BY price
 		]]>
 	</select>
 	
